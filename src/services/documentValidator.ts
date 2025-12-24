@@ -202,3 +202,8 @@ export function getDocumentMaxLength(type: DocumentType): number {
         default: return 20;
     }
 }
+
+// Alias para getDocumentPlaceholder (compatibilidade)
+export function getDocumentMask(type: DocumentType): string {
+    return getDocumentPlaceholder(type);
+}
