@@ -82,12 +82,12 @@ const CourseModulesManagement = () => {
   const [loading, setLoading] = useState(true);
   const [course, setCourse] = useState<Course | null>(null);
   const [modules, setModules] = useState<Module[]>([]);
-  
+
   // Module dialog
   const [moduleDialogOpen, setModuleDialogOpen] = useState(false);
   const [editingModule, setEditingModule] = useState<Module | null>(null);
   const [moduleForm, setModuleForm] = useState({ title: "", description: "" });
-  
+
   // Material dialog
   const [materialDialogOpen, setMaterialDialogOpen] = useState(false);
   const [selectedModuleId, setSelectedModuleId] = useState<string | null>(null);
@@ -133,21 +133,49 @@ const CourseModulesManagement = () => {
       }
       setCourse(courseData);
 
-      // Carregar módulos
-      const { data: modulesData, error: modulesError } = await supabase
+      // Primeiro, buscar subjects do curso
+      const { data: subjectsData } = await supabase
+        .from("subjects")
+        .select("id")
+        .eq("course_id", courseId);
+
+      const subjectIds = (subjectsData || []).map(s => s.id);
+
+      // Buscar módulos por course_id OU por subject_id  
+      let modulesData: any[] = [];
+
+      if (subjectIds.length > 0) {
+        // Buscar módulos que pertencem aos subjects deste curso
+        const { data: subjectModules } = await supabase
+          .from("modules")
+          .select("*")
+          .in("subject_id", subjectIds)
+          .order("order_index");
+
+        modulesData = subjectModules || [];
+      }
+
+      // Também buscar módulos que têm course_id direto
+      const { data: courseModules } = await supabase
         .from("modules")
         .select("*")
         .eq("course_id", courseId)
         .order("order_index");
 
-      if (modulesError) throw modulesError;
+      // Combinar ambos (evitando duplicatas por ID)
+      const allModules = [...modulesData];
+      (courseModules || []).forEach(cm => {
+        if (!allModules.find(m => m.id === cm.id)) {
+          allModules.push(cm);
+        }
+      });
 
       // Carregar materiais de cada módulo
-      const moduleIds = (modulesData || []).map(m => m.id);
-      
+      const moduleIds = allModules.map(m => m.id);
+
       let materials: any[] = [];
       let exams: any[] = [];
-      
+
       if (moduleIds.length > 0) {
         const { data: materialsData } = await supabase
           .from("module_materials")
@@ -164,7 +192,7 @@ const CourseModulesManagement = () => {
       }
 
       // Agrupar materiais e exams por módulo
-      const enrichedModules = (modulesData || []).map(m => ({
+      const enrichedModules = allModules.map(m => ({
         ...m,
         materials: materials.filter(mat => mat.module_id === m.id),
         exam: exams.find(e => e.module_id === m.id)
@@ -226,8 +254,8 @@ const CourseModulesManagement = () => {
         if (error) throw error;
         toast.success("Módulo atualizado!");
       } else {
-        const nextOrder = modules.length > 0 
-          ? Math.max(...modules.map(m => m.order_index)) + 1 
+        const nextOrder = modules.length > 0
+          ? Math.max(...modules.map(m => m.order_index)) + 1
           : 1;
 
         const { error } = await supabase
@@ -279,7 +307,7 @@ const CourseModulesManagement = () => {
         return;
       }
       setMaterialFile(file);
-      
+
       // Auto-detect type
       const ext = file.name.split('.').pop()?.toLowerCase();
       if (ext === 'pdf') setMaterialForm(f => ({ ...f, material_type: 'pdf' }));
@@ -329,8 +357,8 @@ const CourseModulesManagement = () => {
 
       // Get next order
       const currentModule = modules.find(m => m.id === selectedModuleId);
-      const nextOrder = currentModule?.materials?.length 
-        ? Math.max(...currentModule.materials.map(m => m.order_index)) + 1 
+      const nextOrder = currentModule?.materials?.length
+        ? Math.max(...currentModule.materials.map(m => m.order_index)) + 1
         : 1;
 
       const { error } = await supabase
@@ -511,7 +539,7 @@ const CourseModulesManagement = () => {
                     <div className="text-left flex-1">
                       <h3 className="font-semibold">{module.title}</h3>
                       <p className="text-sm text-muted-foreground">
-                        {module.materials?.length || 0} materiais • 
+                        {module.materials?.length || 0} materiais •
                         {module.exam ? (
                           <span className="text-success ml-1">Prova configurada</span>
                         ) : (
@@ -671,8 +699,8 @@ const CourseModulesManagement = () => {
                           <div>
                             <p className="text-muted-foreground">Taxa retry</p>
                             <p className="font-semibold">
-                              {module.exam.retry_fee > 0 
-                                ? `R$ ${module.exam.retry_fee.toFixed(2)}` 
+                              {module.exam.retry_fee > 0
+                                ? `R$ ${module.exam.retry_fee.toFixed(2)}`
                                 : 'Grátis'}
                             </p>
                           </div>
