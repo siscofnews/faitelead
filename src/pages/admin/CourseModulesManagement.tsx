@@ -135,7 +135,7 @@ const CourseModulesManagement = () => {
 
       // Primeiro, buscar subjects do curso
       const { data: subjectsData } = await supabase
-        .from("subjects")
+        .from("course_subjects")
         .select("id")
         .eq("course_id", courseId);
 
@@ -202,7 +202,8 @@ const CourseModulesManagement = () => {
       setLoading(false);
     } catch (error) {
       console.error("Error loading data:", error);
-      toast.error("Erro ao carregar dados");
+      // Não mostrar erro toast - apenas permitir criar primeiro módulo
+      setModules([]);
       setLoading(false);
     }
   };

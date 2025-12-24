@@ -151,7 +151,7 @@ export const api = {
     // Se course_id não foi fornecido, buscar da subject
     if (!course_id && payload.subject_id) {
       const { data: subjectData } = await supabase
-        .from('subjects')
+        .from('course_subjects')
         .select('course_id')
         .eq('id', payload.subject_id)
         .single()
