@@ -146,11 +146,24 @@ export const api = {
   },
 
   async createModule(payload: { subject_id: string; course_id?: string; title: string; description?: string; order_index?: number }) {
+    let course_id = payload.course_id
+
+    // Se course_id não foi fornecido, buscar da subject
+    if (!course_id && payload.subject_id) {
+      const { data: subjectData } = await supabase
+        .from('subjects')
+        .select('course_id')
+        .eq('id', payload.subject_id)
+        .single()
+
+      course_id = subjectData?.course_id
+    }
+
     const { data, error } = await supabase
       .from('modules')
       .insert({
         subject_id: payload.subject_id,
-        course_id: payload.course_id,
+        course_id: course_id,
         title: payload.title,
         description: payload.description,
         order_index: payload.order_index || 1
