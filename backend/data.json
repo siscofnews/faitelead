@@ -1,0 +1,154 @@
+{
+  "tenants": [
+    {
+      "id": "tenant-1",
+      "name": "FAITEL",
+      "domain": "faitel.local"
+    }
+  ],
+  "courses": [
+    {
+      "id": "75912bdd-776e-4a0b-98fa-dd8c09d19908",
+      "tenant_id": "tenant-1",
+      "title": "BÁSICO EM TEOLOGIA",
+      "description": "CURSO BÁSICO EM TEOLOGIA – FAITEL\nFaculdade Internacional Teológica de Líderes (100% EAD)\n\nA FAITEL – Faculdade Internacional Teológica de Líderes oferece o melhor Curso Básico em Teologia do Brasil, desenvolvido para proporcionar formação bíblica, teológica e ministerial sólida, com qualidade, flexibilidade e alcance nacional e internacional, totalmente na modalidade EAD.\n\n📘 Apresentação do Curso\n\nO Curso Básico em Teologia tem como objetivo capacitar o aluno no conhecimento sistemático das Escrituras Sagradas, das doutrinas cristãs fundamentais e da prática ministerial, preparando líderes para o exercício consciente, responsável e eficaz do ministério cristão.\n\nO aluno pode matricular-se e iniciar os estudos em qualquer época do ano, sem necessidade de aguardar turmas específicas, garantindo total autonomia e flexibilidade de aprendizado.\n\n🎯 Público-Alvo\n\nO curso é destinado a:\n\nPastores e líderes religiosos\n\nObreiros e auxiliares de trabalho cristão\n\nProfessores da Escola Bíblica Dominical\n\nDiáconos e Presbíteros\n\nMissionários\n\nMembros da igreja em geral\n\nHomens e mulheres que desejam aprofundar seus conhecimentos teológicos\n\n📚 Metodologia de Estudo\n\nCurso 100% a distância (EAD)\n\nAs matérias e avaliações são disponibilizadas ao aluno como instrumentos de estudo e aferição do aprendizado\n\nO aluno estuda no seu ritmo, com organização e acompanhamento acadêmico\n\n📝 Avaliação e Aprovação\n\nA avaliação é realizada por meio de provas\n\nPara aprovação em cada disciplina, exige-se nota mínima de 7,0 (sete)\n\n📦 Material e Documentação\n\nApós a conclusão, os documentos oficiais são enviados diretamente à residência do aluno\n\nEnvio realizado em capa plástica, por carta registrada, garantindo segurança e evitando extravios\n\n📑 Grade Curricular\n\nO curso é composto por 33 disciplinas, abrangendo áreas fundamentais da Teologia Bíblica, Sistemática, Pastoral e Ministerial:\n\nTeologia Sistemática\n\nDoutrina de Deus\n\nCristologia\n\nHamartiologia\n\nSoteriologia\n\nA Trindade\n\nAngelologia\n\nBatalha Espiritual\n\nEscatologia\n\nBibliologia\n\nPneumatologia\n\nEclesiologia\n\nFamília Cristã\n\nLíngua Portuguesa\n\nLíngua Inglesa\n\nOs Evangelhos\n\nMétodos de Estudos Bíblicos\n\nImplantação de Novas Igrejas\n\nSeitas e Heresias\n\nAntropologia Teológica\n\nGeografia Bíblica\n\nÉtica Cristã\n\nHermenêutica\n\nHomilética\n\nMissões Urbanas\n\nLiderança Cristã\n\nApologética\n\nO Pentateuco\n\nLivros Históricos\n\nLivros Poéticos\n\nProfetas Maiores\n\nProfetas Menores\n\nRelações Humanas\n\n🎓 Documentos de Conclusão\n\nApós a aprovação em todas as disciplinas, o aluno estará apto a receber:\n\nCertificado de Conclusão do Curso\n\nCarteirinha Teológica\n\nHistórico Escolar\n\n📌 FAITEL – Faculdade Internacional Teológica de Líderes\nFormando líderes, edificando vidas e fortalecendo o Reino de Deus por meio do ensino teológico de excelência.",
+      "duration_months": 14,
+      "total_hours": 1860,
+      "monthly_price": 40,
+      "modality": "ead",
+      "thumbnail_url": "/course-materials/courses/75912bdd-776e-4a0b-98fa-dd8c09d19908/thumbnail.webp",
+      "is_active": true
+    },
+    {
+      "id": "bf702751-b93b-4b0a-9c1f-e7fc849fa1bc",
+      "tenant_id": "tenant-1",
+      "title": "BÁSICO EM TEOLOGIA",
+      "description": "CURSO BÁSICO EM TEOLOGIA – FAITEL\nFaculdade Internacional Teológica de Líderes (100% EAD)\n\nA FAITEL – Faculdade Internacional Teológica de Líderes oferece o melhor Curso Básico em Teologia do Brasil, desenvolvido para proporcionar formação bíblica, teológica e ministerial sólida, com qualidade, flexibilidade e alcance nacional e internacional, totalmente na modalidade EAD.\n\n📘 Apresentação do Curso\n\nO Curso Básico em Teologia tem como objetivo capacitar o aluno no conhecimento sistemático das Escrituras Sagradas, das doutrinas cristãs fundamentais e da prática ministerial, preparando líderes para o exercício consciente, responsável e eficaz do ministério cristão.\n\nO aluno pode matricular-se e iniciar os estudos em qualquer época do ano, sem necessidade de aguardar turmas específicas, garantindo total autonomia e flexibilidade de aprendizado.\n\n🎯 Público-Alvo\n\nO curso é destinado a:\n\nPastores e líderes religiosos\n\nObreiros e auxiliares de trabalho cristão\n\nProfessores da Escola Bíblica Dominical\n\nDiáconos e Presbíteros\n\nMissionários\n\nMembros da igreja em geral\n\nHomens e mulheres que desejam aprofundar seus conhecimentos teológicos\n\n📚 Metodologia de Estudo\n\nCurso 100% a distância (EAD)\n\nAs matérias e avaliações são disponibilizadas ao aluno como instrumentos de estudo e aferição do aprendizado\n\nO aluno estuda no seu ritmo, com organização e acompanhamento acadêmico\n\n📝 Avaliação e Aprovação\n\nA avaliação é realizada por meio de provas\n\nPara aprovação em cada disciplina, exige-se nota mínima de 7,0 (sete)\n\n📦 Material e Documentação\n\nApós a conclusão, os documentos oficiais são enviados diretamente à residência do aluno\n\nEnvio realizado em capa plástica, por carta registrada, garantindo segurança e evitando extravios\n\n📑 Grade Curricular\n\nO curso é composto por 33 disciplinas, abrangendo áreas fundamentais da Teologia Bíblica, Sistemática, Pastoral e Ministerial:\n\nTeologia Sistemática\n\nDoutrina de Deus\n\nCristologia\n\nHamartiologia\n\nSoteriologia\n\nA Trindade\n\nAngelologia\n\nBatalha Espiritual\n\nEscatologia\n\nBibliologia\n\nPneumatologia\n\nEclesiologia\n\nFamília Cristã\n\nLíngua Portuguesa\n\nLíngua Inglesa\n\nOs Evangelhos\n\nMétodos de Estudos Bíblicos\n\nImplantação de Novas Igrejas\n\nSeitas e Heresias\n\nAntropologia Teológica\n\nGeografia Bíblica\n\nÉtica Cristã\n\nHermenêutica\n\nHomilética\n\nMissões Urbanas\n\nLiderança Cristã\n\nApologética\n\nO Pentateuco\n\nLivros Históricos\n\nLivros Poéticos\n\nProfetas Maiores\n\nProfetas Menores\n\nRelações Humanas\n\n🎓 Documentos de Conclusão\n\nApós a aprovação em todas as disciplinas, o aluno estará apto a receber:\n\nCertificado de Conclusão do Curso\n\nCarteirinha Teológica\n\nHistórico Escolar\n\n📌 FAITEL – Faculdade Internacional Teológica de Líderes\nFormando líderes, edificando vidas e fortalecendo o Reino de Deus por meio do ensino teológico de excelência.",
+      "duration_months": 14,
+      "total_hours": 1860,
+      "monthly_price": 40,
+      "modality": "ead",
+      "thumbnail_url": "/course-materials/courses/bf702751-b93b-4b0a-9c1f-e7fc849fa1bc/thumbnail.webp",
+      "is_active": true
+    },
+    {
+      "id": "194b8dea-be21-49f4-8bf0-f05d9ee2537b",
+      "tenant_id": "tenant-1",
+      "title": "BÁSICO EM TEOLOGIA ",
+      "description": "CURSO BÁSICO EM TEOLOGIA – FAITEL\nFaculdade Internacional Teológica de Líderes (100% EAD)\n\nA FAITEL – Faculdade Internacional Teológica de Líderes oferece o melhor Curso Básico em Teologia do Brasil, desenvolvido para proporcionar formação bíblica, teológica e ministerial sólida, com qualidade, flexibilidade e alcance nacional e internacional, totalmente na modalidade EAD.\n\n📘 Apresentação do Curso\n\nO Curso Básico em Teologia tem como objetivo capacitar o aluno no conhecimento sistemático das Escrituras Sagradas, das doutrinas cristãs fundamentais e da prática ministerial, preparando líderes para o exercício consciente, responsável e eficaz do ministério cristão.\n\nO aluno pode matricular-se e iniciar os estudos em qualquer época do ano, sem necessidade de aguardar turmas específicas, garantindo total autonomia e flexibilidade de aprendizado.\n\n🎯 Público-Alvo\n\nO curso é destinado a:\n\nPastores e líderes religiosos\n\nObreiros e auxiliares de trabalho cristão\n\nProfessores da Escola Bíblica Dominical\n\nDiáconos e Presbíteros\n\nMissionários\n\nMembros da igreja em geral\n\nHomens e mulheres que desejam aprofundar seus conhecimentos teológicos\n\n📚 Metodologia de Estudo\n\nCurso 100% a distância (EAD)\n\nAs matérias e avaliações são disponibilizadas ao aluno como instrumentos de estudo e aferição do aprendizado\n\nO aluno estuda no seu ritmo, com organização e acompanhamento acadêmico\n\n📝 Avaliação e Aprovação\n\nA avaliação é realizada por meio de provas\n\nPara aprovação em cada disciplina, exige-se nota mínima de 7,0 (sete)\n\n📦 Material e Documentação\n\nApós a conclusão, os documentos oficiais são enviados diretamente à residência do aluno\n\nEnvio realizado em capa plástica, por carta registrada, garantindo segurança e evitando extravios\n\n📑 Grade Curricular\n\nO curso é composto por 33 disciplinas, abrangendo áreas fundamentais da Teologia Bíblica, Sistemática, Pastoral e Ministerial:\n\nTeologia Sistemática\n\nDoutrina de Deus\n\nCristologia\n\nHamartiologia\n\nSoteriologia\n\nA Trindade\n\nAngelologia\n\nBatalha Espiritual\n\nEscatologia\n\nBibliologia\n\nPneumatologia\n\nEclesiologia\n\nFamília Cristã\n\nLíngua Portuguesa\n\nLíngua Inglesa\n\nOs Evangelhos\n\nMétodos de Estudos Bíblicos\n\nImplantação de Novas Igrejas\n\nSeitas e Heresias\n\nAntropologia Teológica\n\nGeografia Bíblica\n\nÉtica Cristã\n\nHermenêutica\n\nHomilética\n\nMissões Urbanas\n\nLiderança Cristã\n\nApologética\n\nO Pentateuco\n\nLivros Históricos\n\nLivros Poéticos\n\nProfetas Maiores\n\nProfetas Menores\n\nRelações Humanas\n\n🎓 Documentos de Conclusão\n\nApós a aprovação em todas as disciplinas, o aluno estará apto a receber:\n\nCertificado de Conclusão do Curso\n\nCarteirinha Teológica\n\nHistórico Escolar\n\n📌 FAITEL – Faculdade Internacional Teológica de Líderes\nFormando líderes, edificando vidas e fortalecendo o Reino de Deus por meio do ensino teológico de excelência.",
+      "duration_months": 14,
+      "total_hours": 1860,
+      "monthly_price": 40,
+      "modality": "ead",
+      "thumbnail_url": "/course-materials/courses/194b8dea-be21-49f4-8bf0-f05d9ee2537b/thumbnail.webp",
+      "is_active": true
+    },
+    {
+      "id": "2504a677-7b20-4d7a-81b6-ea28441b16c2",
+      "tenant_id": "tenant-1",
+      "title": "BÁSICO EM TEOLOGIA",
+      "description": "CURSO BÁSICO EM TEOLOGIA – FAITEL\nFaculdade Internacional Teológica de Líderes (100% EAD)\n\nA FAITEL – Faculdade Internacional Teológica de Líderes oferece o melhor Curso Básico em Teologia do Brasil, desenvolvido para proporcionar formação bíblica, teológica e ministerial sólida, com qualidade, flexibilidade e alcance nacional e internacional, totalmente na modalidade EAD.\n\n📘 Apresentação do Curso\n\nO Curso Básico em Teologia tem como objetivo capacitar o aluno no conhecimento sistemático das Escrituras Sagradas, das doutrinas cristãs fundamentais e da prática ministerial, preparando líderes para o exercício consciente, responsável e eficaz do ministério cristão.\n\nO aluno pode matricular-se e iniciar os estudos em qualquer época do ano, sem necessidade de aguardar turmas específicas, garantindo total autonomia e flexibilidade de aprendizado.\n\n🎯 Público-Alvo\n\nO curso é destinado a:\n\nPastores e líderes religiosos\n\nObreiros e auxiliares de trabalho cristão\n\nProfessores da Escola Bíblica Dominical\n\nDiáconos e Presbíteros\n\nMissionários\n\nMembros da igreja em geral\n\nHomens e mulheres que desejam aprofundar seus conhecimentos teológicos\n\n📚 Metodologia de Estudo\n\nCurso 100% a distância (EAD)\n\nAs matérias e avaliações são disponibilizadas ao aluno como instrumentos de estudo e aferição do aprendizado\n\nO aluno estuda no seu ritmo, com organização e acompanhamento acadêmico\n\n📝 Avaliação e Aprovação\n\nA avaliação é realizada por meio de provas\n\nPara aprovação em cada disciplina, exige-se nota mínima de 7,0 (sete)\n\n📦 Material e Documentação\n\nApós a conclusão, os documentos oficiais são enviados diretamente à residência do aluno\n\nEnvio realizado em capa plástica, por carta registrada, garantindo segurança e evitando extravios\n\n📑 Grade Curricular\n\nO curso é composto por 33 disciplinas, abrangendo áreas fundamentais da Teologia Bíblica, Sistemática, Pastoral e Ministerial:\n\nTeologia Sistemática\n\nDoutrina de Deus\n\nCristologia\n\nHamartiologia\n\nSoteriologia\n\nA Trindade\n\nAngelologia\n\nBatalha Espiritual\n\nEscatologia\n\nBibliologia\n\nPneumatologia\n\nEclesiologia\n\nFamília Cristã\n\nLíngua Portuguesa\n\nLíngua Inglesa\n\nOs Evangelhos\n\nMétodos de Estudos Bíblicos\n\nImplantação de Novas Igrejas\n\nSeitas e Heresias\n\nAntropologia Teológica\n\nGeografia Bíblica\n\nÉtica Cristã\n\nHermenêutica\n\nHomilética\n\nMissões Urbanas\n\nLiderança Cristã\n\nApologética\n\nO Pentateuco\n\nLivros Históricos\n\nLivros Poéticos\n\nProfetas Maiores\n\nProfetas Menores\n\nRelações Humanas\n\n🎓 Documentos de Conclusão\n\nApós a aprovação em todas as disciplinas, o aluno estará apto a receber:\n\nCertificado de Conclusão do Curso\n\nCarteirinha Teológica\n\nHistórico Escolar\n\n📌 FAITEL – Faculdade Internacional Teológica de Líderes\nFormando líderes, edificando vidas e fortalecendo o Reino de Deus por meio do ensino teológico de excelência.",
+      "duration_months": 12,
+      "total_hours": 540,
+      "monthly_price": 299,
+      "modality": "ead",
+      "thumbnail_url": "/course-materials/courses/2504a677-7b20-4d7a-81b6-ea28441b16c2/thumbnail.webp",
+      "is_active": true
+    },
+    {
+      "id": "afc714c3-9843-4296-9863-ea83f10efec9",
+      "tenant_id": "tenant-1",
+      "title": "BÁSICO EM TEOLOGIA",
+      "description": "CURSO BÁSICO EM TEOLOGIA – FAITEL\nFaculdade Internacional Teológica de Líderes (100% EAD)\n\nA FAITEL – Faculdade Internacional Teológica de Líderes oferece o melhor Curso Básico em Teologia do Brasil, desenvolvido para proporcionar formação bíblica, teológica e ministerial sólida, com qualidade, flexibilidade e alcance nacional e internacional, totalmente na modalidade EAD.\n\n📘 Apresentação do Curso\n\nO Curso Básico em Teologia tem como objetivo capacitar o aluno no conhecimento sistemático das Escrituras Sagradas, das doutrinas cristãs fundamentais e da prática ministerial, preparando líderes para o exercício consciente, responsável e eficaz do ministério cristão.\n\nO aluno pode matricular-se e iniciar os estudos em qualquer época do ano, sem necessidade de aguardar turmas específicas, garantindo total autonomia e flexibilidade de aprendizado.\n\n🎯 Público-Alvo\n\nO curso é destinado a:\n\nPastores e líderes religiosos\n\nObreiros e auxiliares de trabalho cristão\n\nProfessores da Escola Bíblica Dominical\n\nDiáconos e Presbíteros\n\nMissionários\n\nMembros da igreja em geral\n\nHomens e mulheres que desejam aprofundar seus conhecimentos teológicos\n\n📚 Metodologia de Estudo\n\nCurso 100% a distância (EAD)\n\nAs matérias e avaliações são disponibilizadas ao aluno como instrumentos de estudo e aferição do aprendizado\n\nO aluno estuda no seu ritmo, com organização e acompanhamento acadêmico\n\n📝 Avaliação e Aprovação\n\nA avaliação é realizada por meio de provas\n\nPara aprovação em cada disciplina, exige-se nota mínima de 7,0 (sete)\n\n📦 Material e Documentação\n\nApós a conclusão, os documentos oficiais são enviados diretamente à residência do aluno\n\nEnvio realizado em capa plástica, por carta registrada, garantindo segurança e evitando extravios\n\n📑 Grade Curricular\n\nO curso é composto por 33 disciplinas, abrangendo áreas fundamentais da Teologia Bíblica, Sistemática, Pastoral e Ministerial:\n\nTeologia Sistemática\n\nDoutrina de Deus\n\nCristologia\n\nHamartiologia\n\nSoteriologia\n\nA Trindade\n\nAngelologia\n\nBatalha Espiritual\n\nEscatologia\n\nBibliologia\n\nPneumatologia\n\nEclesiologia\n\nFamília Cristã\n\nLíngua Portuguesa\n\nLíngua Inglesa\n\nOs Evangelhos\n\nMétodos de Estudos Bíblicos\n\nImplantação de Novas Igrejas\n\nSeitas e Heresias\n\nAntropologia Teológica\n\nGeografia Bíblica\n\nÉtica Cristã\n\nHermenêutica\n\nHomilética\n\nMissões Urbanas\n\nLiderança Cristã\n\nApologética\n\nO Pentateuco\n\nLivros Históricos\n\nLivros Poéticos\n\nProfetas Maiores\n\nProfetas Menores\n\nRelações Humanas\n\n🎓 Documentos de Conclusão\n\nApós a aprovação em todas as disciplinas, o aluno estará apto a receber:\n\nCertificado de Conclusão do Curso\n\nCarteirinha Teológica\n\nHistórico Escolar\n\n📌 FAITEL – Faculdade Internacional Teológica de Líderes\nFormando líderes, edificando vidas e fortalecendo o Reino de Deus por meio do ensino teológico de excelência.",
+      "duration_months": 14,
+      "total_hours": 1860,
+      "monthly_price": 40,
+      "modality": "ead",
+      "thumbnail_url": "/course-materials/courses/afc714c3-9843-4296-9863-ea83f10efec9/thumbnail.webp",
+      "is_active": true
+    },
+    {
+      "id": "f455274c-e24d-47ca-8c39-91c863a08d6d",
+      "tenant_id": "tenant-1",
+      "title": "BÁSICO EM TEOLOGIA",
+      "description": "CURSO BÁSICO EM TEOLOGIA – FAITEL\nFaculdade Internacional Teológica de Líderes (100% EAD)\n\nA FAITEL – Faculdade Internacional Teológica de Líderes oferece o melhor Curso Básico em Teologia do Brasil, desenvolvido para proporcionar formação bíblica, teológica e ministerial sólida, com qualidade, flexibilidade e alcance nacional e internacional, totalmente na modalidade EAD.\n\n📘 Apresentação do Curso\n\nO Curso Básico em Teologia tem como objetivo capacitar o aluno no conhecimento sistemático das Escrituras Sagradas, das doutrinas cristãs fundamentais e da prática ministerial, preparando líderes para o exercício consciente, responsável e eficaz do ministério cristão.\n\nO aluno pode matricular-se e iniciar os estudos em qualquer época do ano, sem necessidade de aguardar turmas específicas, garantindo total autonomia e flexibilidade de aprendizado.\n\n🎯 Público-Alvo\n\nO curso é destinado a:\n\nPastores e líderes religiosos\n\nObreiros e auxiliares de trabalho cristão\n\nProfessores da Escola Bíblica Dominical\n\nDiáconos e Presbíteros\n\nMissionários\n\nMembros da igreja em geral\n\nHomens e mulheres que desejam aprofundar seus conhecimentos teológicos\n\n📚 Metodologia de Estudo\n\nCurso 100% a distância (EAD)\n\nAs matérias e avaliações são disponibilizadas ao aluno como instrumentos de estudo e aferição do aprendizado\n\nO aluno estuda no seu ritmo, com organização e acompanhamento acadêmico\n\n📝 Avaliação e Aprovação\n\nA avaliação é realizada por meio de provas\n\nPara aprovação em cada disciplina, exige-se nota mínima de 7,0 (sete)\n\n📦 Material e Documentação\n\nApós a conclusão, os documentos oficiais são enviados diretamente à residência do aluno\n\nEnvio realizado em capa plástica, por carta registrada, garantindo segurança e evitando extravios\n\n📑 Grade Curricular\n\nO curso é composto por 33 disciplinas, abrangendo áreas fundamentais da Teologia Bíblica, Sistemática, Pastoral e Ministerial:\n\nTeologia Sistemática\n\nDoutrina de Deus\n\nCristologia\n\nHamartiologia\n\nSoteriologia\n\nA Trindade\n\nAngelologia\n\nBatalha Espiritual\n\nEscatologia\n\nBibliologia\n\nPneumatologia\n\nEclesiologia\n\nFamília Cristã\n\nLíngua Portuguesa\n\nLíngua Inglesa\n\nOs Evangelhos\n\nMétodos de Estudos Bíblicos\n\nImplantação de Novas Igrejas\n\nSeitas e Heresias\n\nAntropologia Teológica\n\nGeografia Bíblica\n\nÉtica Cristã\n\nHermenêutica\n\nHomilética\n\nMissões Urbanas\n\nLiderança Cristã\n\nApologética\n\nO Pentateuco\n\nLivros Históricos\n\nLivros Poéticos\n\nProfetas Maiores\n\nProfetas Menores\n\nRelações Humanas\n\n🎓 Documentos de Conclusão\n\nApós a aprovação em todas as disciplinas, o aluno estará apto a receber:\n\nCertificado de Conclusão do Curso\n\nCarteirinha Teológica\n\nHistórico Escolar\n\n📌 FAITEL – Faculdade Internacional Teológica de Líderes\nFormando líderes, edificando vidas e fortalecendo o Reino de Deus por meio do ensino teológico de excelência.",
+      "duration_months": 14,
+      "total_hours": 1860,
+      "monthly_price": 40,
+      "modality": "ead",
+      "thumbnail_url": "/course-materials/courses/f455274c-e24d-47ca-8c39-91c863a08d6d/thumbnail.webp",
+      "is_active": true
+    },
+    {
+      "id": "a5c04995-b319-429e-8a87-cd8d02fe70c7",
+      "tenant_id": "tenant-1",
+      "title": "BÁSICO EM TEOLOGIA",
+      "description": "CURSO BÁSICO EM TEOLOGIA – FAITEL\nFaculdade Internacional Teológica de Líderes (100% EAD)\n\nA FAITEL – Faculdade Internacional Teológica de Líderes oferece o melhor Curso Básico em Teologia do Brasil, desenvolvido para proporcionar formação bíblica, teológica e ministerial sólida, com qualidade, flexibilidade e alcance nacional e internacional, totalmente na modalidade EAD.\n\n📘 Apresentação do Curso\n\nO Curso Básico em Teologia tem como objetivo capacitar o aluno no conhecimento sistemático das Escrituras Sagradas, das doutrinas cristãs fundamentais e da prática ministerial, preparando líderes para o exercício consciente, responsável e eficaz do ministério cristão.\n\nO aluno pode matricular-se e iniciar os estudos em qualquer época do ano, sem necessidade de aguardar turmas específicas, garantindo total autonomia e flexibilidade de aprendizado.\n\n🎯 Público-Alvo\n\nO curso é destinado a:\n\nPastores e líderes religiosos\n\nObreiros e auxiliares de trabalho cristão\n\nProfessores da Escola Bíblica Dominical\n\nDiáconos e Presbíteros\n\nMissionários\n\nMembros da igreja em geral\n\nHomens e mulheres que desejam aprofundar seus conhecimentos teológicos\n\n📚 Metodologia de Estudo\n\nCurso 100% a distância (EAD)\n\nAs matérias e avaliações são disponibilizadas ao aluno como instrumentos de estudo e aferição do aprendizado\n\nO aluno estuda no seu ritmo, com organização e acompanhamento acadêmico\n\n📝 Avaliação e Aprovação\n\nA avaliação é realizada por meio de provas\n\nPara aprovação em cada disciplina, exige-se nota mínima de 7,0 (sete)\n\n📦 Material e Documentação\n\nApós a conclusão, os documentos oficiais são enviados diretamente à residência do aluno\n\nEnvio realizado em capa plástica, por carta registrada, garantindo segurança e evitando extravios\n\n📑 Grade Curricular\n\nO curso é composto por 33 disciplinas, abrangendo áreas fundamentais da Teologia Bíblica, Sistemática, Pastoral e Ministerial:\n\nTeologia Sistemática\n\nDoutrina de Deus\n\nCristologia\n\nHamartiologia\n\nSoteriologia\n\nA Trindade\n\nAngelologia\n\nBatalha Espiritual\n\nEscatologia\n\nBibliologia\n\nPneumatologia\n\nEclesiologia\n\nFamília Cristã\n\nLíngua Portuguesa\n\nLíngua Inglesa\n\nOs Evangelhos\n\nMétodos de Estudos Bíblicos\n\nImplantação de Novas Igrejas\n\nSeitas e Heresias\n\nAntropologia Teológica\n\nGeografia Bíblica\n\nÉtica Cristã\n\nHermenêutica\n\nHomilética\n\nMissões Urbanas\n\nLiderança Cristã\n\nApologética\n\nO Pentateuco\n\nLivros Históricos\n\nLivros Poéticos\n\nProfetas Maiores\n\nProfetas Menores\n\nRelações Humanas\n\n🎓 Documentos de Conclusão\n\nApós a aprovação em todas as disciplinas, o aluno estará apto a receber:\n\nCertificado de Conclusão do Curso\n\nCarteirinha Teológica\n\nHistórico Escolar\n\n📌 FAITEL – Faculdade Internacional Teológica de Líderes\nFormando líderes, edificando vidas e fortalecendo o Reino de Deus por meio do ensino teológico de excelência.",
+      "duration_months": 14,
+      "total_hours": 1860,
+      "monthly_price": 40,
+      "modality": "basico",
+      "thumbnail_url": "/course-materials/courses/a5c04995-b319-429e-8a87-cd8d02fe70c7/thumbnail.webp",
+      "is_active": true
+    },
+    {
+      "id": "35512b55-83ef-4ef8-af25-695041f280db",
+      "tenant_id": "tenant-1",
+      "title": "F",
+      "description": null,
+      "duration_months": 12,
+      "total_hours": 540,
+      "monthly_price": 299,
+      "modality": "ead",
+      "thumbnail_url": "/course-materials/courses/35512b55-83ef-4ef8-af25-695041f280db/thumbnail.webp",
+      "is_active": true
+    },
+    {
+      "id": "f1a99c68-ef44-4ac5-af9b-d4051eabd5d9",
+      "tenant_id": "tenant-1",
+      "title": "RRR",
+      "description": "FFF",
+      "duration_months": 12,
+      "total_hours": 540,
+      "monthly_price": 299,
+      "modality": "ead",
+      "thumbnail_url": "/course-materials/courses/f1a99c68-ef44-4ac5-af9b-d4051eabd5d9/thumbnail.webp",
+      "is_active": true
+    }
+  ],
+  "modules": [
+    {
+      "id": "module-1",
+      "course_id": "course-1",
+      "subject_id": null,
+      "title": "Introdução",
+      "order_index": 1,
+      "description": ""
+    }
+  ],
+  "subjects": [
+    {
+      "id": "subject-1",
+      "course_id": "course-1",
+      "title": "Fundamentos",
+      "order": 1
+    }
+  ],
+  "contents": [
+    {
+      "id": "content-1",
+      "module_id": "module-1",
+      "content_type": "pdf",
+      "title": "Apostila Inicial",
+      "url": "/media/intro.pdf",
+      "order": 1,
+      "is_required": true,
+      "duration_minutes": 10
+    }
+  ],
+  "enrollments": [],
+  "content_progress": [],
+  "exams": [],
+  "exam_results": [],
+  "gallery": []
+}

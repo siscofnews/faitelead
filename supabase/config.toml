@@ -1,0 +1,4 @@
+project_id = "uszsrwjainnqunuuykxr"
+
+[functions.auto-certificate]
+verify_jwt = false

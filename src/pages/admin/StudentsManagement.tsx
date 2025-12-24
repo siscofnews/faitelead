@@ -1,0 +1,1154 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { 
+  Search, Plus, MoreVertical, Eye, Edit, 
+  Download, Mail, UserCheck, UserX, Home, ChevronLeft,
+  User, Phone, FileText, GraduationCap, Calendar, MapPin, Trash2, TrendingUp
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
+import { Link } from "react-router-dom";
+
+interface Student {
+  id: string;
+  full_name: string;
+  email: string;
+  phone: string;
+  cpf: string;
+  education_level: string;
+  is_active: boolean;
+  created_at: string;
+  enrollments_count?: number;
+}
+
+interface Course {
+  id: string;
+  title: string;
+  monthly_price: number;
+}
+
+const StudentsManagement = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [students, setStudents] = useState<Student[]>([]);
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
+  const [stats, setStats] = useState({
+    total: 0,
+    active: 0,
+    inactive: 0,
+    newThisMonth: 0
+  });
+
+  const [formData, setFormData] = useState({
+    // Dados Pessoais
+    full_name: "",
+    email: "",
+    phone: "",
+    birth_date: "",
+    gender: "",
+    // Documentos
+    cpf: "",
+    rg: "",
+    rg_issuer: "",
+    doc_type_1: "cpf",
+    doc_number_1: "",
+    doc_country_1: "Brasil",
+    doc_type_2: "",
+    doc_number_2: "",
+    doc_country_2: "",
+    doc_type_3: "",
+    doc_number_3: "",
+    doc_country_3: "",
+    // Endereço
+    address: "",
+    address_number: "",
+    complement: "",
+    neighborhood: "",
+    city: "",
+    state: "",
+    zip_code: "",
+    country: "Brasil",
+    // Acadêmico
+    education_level: "medio",
+    institution: "",
+    // Acesso
+    password: "",
+    confirm_password: "",
+    send_credentials: true
+  });
+
+  useEffect(() => {
+    loadStudents();
+    loadCourses();
+  }, []);
+
+  const loadCourses = async () => {
+    const { data } = await supabase
+      .from("courses")
+      .select("id, title, monthly_price")
+      .eq("is_active", true)
+      .order("title");
+    
+    setCourses(data || []);
+  };
+
+  const loadStudents = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("user_roles")
+        .select(`
+          user_id,
+          profiles!inner (
+            id,
+            full_name,
+            email,
+            phone,
+            cpf,
+            education_level,
+            is_active,
+            created_at
+          )
+        `)
+        .eq("role", "student");
+
+      if (error) throw error;
+
+      const studentsList: Student[] = (data || []).map((item: any) => ({
+        id: item.profiles.id,
+        full_name: item.profiles.full_name,
+        email: item.profiles.email,
+        phone: item.profiles.phone || "",
+        cpf: item.profiles.cpf || "",
+        education_level: item.profiles.education_level || "medio",
+        is_active: !!item.profiles.is_active,
+        created_at: item.profiles.created_at,
+        enrollments_count: 0,
+      }));
+
+      const studentIds = studentsList.map(s => s.id);
+      let enrollmentCounts: Record<string, number> = {};
+      if (studentIds.length > 0) {
+        const { data: enrollments } = await supabase
+          .from("student_enrollments")
+          .select("student_id");
+        enrollmentCounts = (enrollments || []).reduce((acc: Record<string, number>, e) => {
+          acc[e.student_id] = (acc[e.student_id] || 0) + 1;
+          return acc;
+        }, {});
+      }
+
+      setStudents(studentsList.map(s => ({
+        ...s,
+        enrollments_count: enrollmentCounts[s.id] || 0,
+      })));
+
+      const now = new Date();
+      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+      
+      setStats({
+        total: studentsList.length,
+        active: studentsList.filter(s => s.is_active).length,
+        inactive: studentsList.filter(s => !s.is_active).length,
+        newThisMonth: studentsList.filter(s => new Date(s.created_at) >= startOfMonth).length
+      });
+
+      setLoading(false);
+    } catch (error) {
+      console.error("Error loading students:", error);
+      toast.error("Erro ao carregar alunos");
+      setLoading(false);
+    }
+  };
+
+  const generateEnrollmentNumber = () => {
+    const year = new Date().getFullYear();
+    const random = Math.floor(Math.random() * 100000).toString().padStart(5, "0");
+    return `${year}${random}`;
+  };
+
+  const handleCreateStudent = async () => {
+    if (!formData.full_name || !formData.email || !formData.cpf || !formData.password) {
+      toast.error("Preencha todos os campos obrigatórios");
+      return;
+    }
+
+    if (formData.password !== formData.confirm_password) {
+      toast.error("As senhas não coincidem");
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      toast.error("A senha deve ter pelo menos 6 caracteres");
+      return;
+    }
+
+    try {
+      // 1. Criar usuário no Auth
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            full_name: formData.full_name,
+            cpf: formData.cpf,
+            phone: formData.phone,
+            education_level: formData.education_level
+          }
+        }
+      });
+
+      if (authError) throw authError;
+
+      if (authData.user) {
+        // 2. Adicionar role de student
+        const { error: roleError } = await supabase
+          .from("user_roles")
+          .insert({ user_id: authData.user.id, role: "student" });
+
+        if (roleError) throw roleError;
+
+        // 3. Criar matrículas nos cursos selecionados
+        if (selectedCourses.length > 0) {
+          const enrollments = selectedCourses.map(courseId => ({
+            student_id: authData.user!.id,
+            course_id: courseId,
+            is_active: true
+          }));
+
+          const { error: enrollError } = await supabase
+            .from("student_enrollments")
+            .insert(enrollments);
+
+          if (enrollError) throw enrollError;
+
+          // 4. Criar pagamentos iniciais
+          const selectedCoursesData = courses.filter(c => selectedCourses.includes(c.id));
+          const payments = selectedCoursesData.map(course => ({
+            student_id: authData.user!.id,
+            course_id: course.id,
+            amount: course.monthly_price,
+            due_date: new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().split("T")[0],
+            status: "pending" as const
+          }));
+
+          if (payments.length > 0) {
+            await supabase.from("payments").insert(payments);
+          }
+        }
+
+        // 5. Gerar credencial do aluno
+        const enrollmentNumber = generateEnrollmentNumber();
+        const { error: credError } = await supabase
+          .from("student_credentials")
+          .insert({
+            student_id: authData.user.id,
+            enrollment_number: enrollmentNumber,
+            qr_code_data: `FAITEL-${enrollmentNumber}-${authData.user.id}`,
+            valid_until: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString()
+          });
+
+        if (credError) console.error("Error creating credential:", credError);
+
+        toast.success(`Aluno cadastrado com sucesso! Matrícula: ${enrollmentNumber}`);
+        setIsDialogOpen(false);
+        resetForm();
+        loadStudents();
+      }
+    } catch (error: any) {
+      console.error("Error creating student:", error);
+      toast.error(error.message || "Erro ao cadastrar aluno");
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      full_name: "",
+      email: "",
+      phone: "",
+      birth_date: "",
+      gender: "",
+      cpf: "",
+      rg: "",
+      rg_issuer: "",
+      doc_type_1: "cpf",
+      doc_number_1: "",
+      doc_country_1: "Brasil",
+      doc_type_2: "",
+      doc_number_2: "",
+      doc_country_2: "",
+      doc_type_3: "",
+      doc_number_3: "",
+      doc_country_3: "",
+      address: "",
+      address_number: "",
+      complement: "",
+      neighborhood: "",
+      city: "",
+      state: "",
+      zip_code: "",
+      country: "Brasil",
+      education_level: "medio",
+      institution: "",
+      password: "",
+      confirm_password: "",
+      send_credentials: true
+    });
+    setSelectedCourses([]);
+    setCurrentStep(1);
+  };
+
+  const toggleStudentStatus = async (studentId: string, currentStatus: boolean) => {
+    try {
+      const { error } = await supabase
+        .from("profiles")
+        .update({ is_active: !currentStatus })
+        .eq("id", studentId);
+
+      if (error) throw error;
+
+      toast.success(`Aluno ${!currentStatus ? "ativado" : "desativado"} com sucesso`);
+      loadStudents();
+    } catch (error: any) {
+      console.error("Error toggling status:", error);
+      toast.error(`Erro ao alterar status: ${error.message || "Erro desconhecido"}`);
+    }
+  };
+
+  const handleDeleteStudent = async (studentId: string) => {
+    if (!confirm("Tem certeza que deseja excluir este aluno? Esta ação não pode ser desfeita e removerá todos os dados associados (matrículas, notas, etc).")) {
+      return;
+    }
+
+    try {
+      // Delete from profiles (auth user deletion requires admin API, usually we just delete profile/data)
+      // Note: If foreign keys are set to CASCADE, this will delete related data.
+      // If not, we might need to delete related data first.
+      // Assuming CASCADE or that we just want to try deleting the profile row.
+      
+      const { error } = await supabase
+        .from("profiles")
+        .delete()
+        .eq("id", studentId);
+
+      if (error) throw error;
+
+      toast.success("Aluno excluído com sucesso!");
+      loadStudents();
+    } catch (error: any) {
+      console.error("Error deleting student:", error);
+      toast.error(`Erro ao excluir aluno: ${error.message || "Erro desconhecido"}`);
+    }
+  };
+
+  const handleExportCSV = () => {
+    let csvContent = "Nome,Email,CPF,Telefone,Escolaridade,Status,Matrículas,Data Cadastro\n";
+    filteredStudents.forEach(s => {
+      csvContent += `"${s.full_name}","${s.email}","${s.cpf}","${s.phone}","${getEducationLabel(s.education_level)}","${s.is_active ? "Ativo" : "Inativo"}",${s.enrollments_count},"${formatDate(s.created_at)}"\n`;
+    });
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "alunos_faitel.csv";
+    link.click();
+    toast.success("Lista exportada com sucesso!");
+  };
+
+  const filteredStudents = students.filter(student => {
+    const matchesSearch = 
+      student.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.cpf.includes(searchTerm);
+    
+    const matchesStatus = 
+      statusFilter === "all" ||
+      (statusFilter === "active" && student.is_active) ||
+      (statusFilter === "inactive" && !student.is_active);
+
+    return matchesSearch && matchesStatus;
+  });
+
+  const formatDate = (date: string) => {
+    return new Date(date).toLocaleDateString("pt-BR");
+  };
+
+  const getEducationLabel = (level: string) => {
+    const labels: Record<string, string> = {
+      fundamental: "Ensino Fundamental",
+      medio: "Ensino Médio",
+      superior: "Ensino Superior",
+      pos_graduacao: "Pós-Graduação",
+      mestrado: "Mestrado",
+      doutorado: "Doutorado"
+    };
+    return labels[level] || level;
+  };
+
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value);
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-card border-b border-border">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Home className="h-5 w-5" />
+              </Link>
+              <Button variant="ghost" size="sm" onClick={() => navigate("/admin")}>
+                <ChevronLeft className="h-4 w-4 mr-1" />
+                Voltar
+              </Button>
+              <h1 className="text-xl font-display font-bold">Gestão de Alunos</h1>
+            </div>
+            <Button className="gap-2" onClick={() => setIsDialogOpen(true)}>
+              <Plus className="h-4 w-4" />
+              Novo Aluno
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      <main className="container mx-auto px-4 py-8 space-y-6">
+        {/* Stats Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <Card>
+            <CardContent className="p-4">
+              <p className="text-sm text-muted-foreground">Total de Alunos</p>
+              <p className="text-3xl font-display font-bold text-primary">{stats.total}</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4">
+              <p className="text-sm text-muted-foreground">Ativos</p>
+              <p className="text-3xl font-display font-bold text-green-600">{stats.active}</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4">
+              <p className="text-sm text-muted-foreground">Inativos</p>
+              <p className="text-3xl font-display font-bold text-red-600">{stats.inactive}</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4">
+              <p className="text-sm text-muted-foreground">Novos (Mês)</p>
+              <p className="text-3xl font-display font-bold text-amber-600">{stats.newThisMonth}</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Filters */}
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Buscar por nome, email ou CPF..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-full md:w-48">
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todos</SelectItem>
+                  <SelectItem value="active">Ativos</SelectItem>
+                  <SelectItem value="inactive">Inativos</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button variant="outline" className="gap-2" onClick={handleExportCSV}>
+                <Download className="h-4 w-4" />
+                Exportar
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Students Table */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Lista de Alunos ({filteredStudents.length})</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Nome</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead className="hidden md:table-cell">CPF</TableHead>
+                    <TableHead className="hidden lg:table-cell">Escolaridade</TableHead>
+                    <TableHead className="hidden md:table-cell">Matrículas</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="hidden lg:table-cell">Cadastro</TableHead>
+                    <TableHead className="text-right">Ações</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredStudents.map((student) => (
+                    <TableRow key={student.id}>
+                      <TableCell className="font-medium">{student.full_name}</TableCell>
+                      <TableCell>{student.email}</TableCell>
+                      <TableCell className="hidden md:table-cell">{student.cpf}</TableCell>
+                      <TableCell className="hidden lg:table-cell">
+                        <Badge variant="outline">{getEducationLabel(student.education_level)}</Badge>
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell">{student.enrollments_count || 0}</TableCell>
+                      <TableCell>
+                        <Badge variant={student.is_active ? "default" : "secondary"}>
+                          {student.is_active ? "Ativo" : "Inativo"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="hidden lg:table-cell">{formatDate(student.created_at)}</TableCell>
+                      <TableCell className="text-right">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                              <MoreVertical className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => { setSelectedStudent(student); setIsViewDialogOpen(true); }}>
+                              <Eye className="h-4 w-4 mr-2" />
+                              Ver Detalhes
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => navigate(`/admin/alunos/${student.id}/desempenho`)}>
+                              <TrendingUp className="h-4 w-4 mr-2" />
+                              Desempenho
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                              <Edit className="h-4 w-4 mr-2" />
+                              Editar
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                              <Mail className="h-4 w-4 mr-2" />
+                              Enviar Email
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => toggleStudentStatus(student.id, student.is_active)}>
+                              {student.is_active ? (
+                                <>
+                                  <UserX className="h-4 w-4 mr-2" />
+                                  Desativar
+                                </>
+                              ) : (
+                                <>
+                                  <UserCheck className="h-4 w-4 mr-2" />
+                                  Ativar
+                                </>
+                              )}
+                            </DropdownMenuItem>
+                            <DropdownMenuItem 
+                              onClick={() => handleDeleteStudent(student.id)}
+                              className="text-destructive focus:text-destructive"
+                            >
+                              <Trash2 className="h-4 w-4 mr-2" />
+                              Excluir
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              {filteredStudents.length === 0 && (
+                <div className="text-center py-8 text-muted-foreground">
+                  Nenhum aluno encontrado
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </main>
+
+      {/* Dialog de Cadastro Completo */}
+      <Dialog open={isDialogOpen} onOpenChange={(open) => { setIsDialogOpen(open); if (!open) resetForm(); }}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <GraduationCap className="h-6 w-6" />
+              Cadastro de Novo Aluno
+            </DialogTitle>
+            <DialogDescription>
+              Preencha todos os dados do aluno para realizar o cadastro e matrícula.
+            </DialogDescription>
+          </DialogHeader>
+
+          {/* Progress Steps */}
+          <div className="flex items-center justify-center gap-2 py-4">
+            {[1, 2, 3, 4].map((step) => (
+              <div key={step} className="flex items-center">
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
+                    currentStep >= step
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground"
+                  }`}
+                >
+                  {step}
+                </div>
+                {step < 4 && (
+                  <div className={`w-12 h-1 mx-1 ${currentStep > step ? "bg-primary" : "bg-muted"}`} />
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-center text-sm text-muted-foreground mb-4">
+            {currentStep === 1 && "Dados Pessoais"}
+            {currentStep === 2 && "Documentos"}
+            {currentStep === 3 && "Endereço e Acadêmico"}
+            {currentStep === 4 && "Cursos e Acesso"}
+          </div>
+
+          {/* Step 1: Dados Pessoais */}
+          {currentStep === 1 && (
+            <div className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="md:col-span-2">
+                  <Label>Nome Completo *</Label>
+                  <Input
+                    value={formData.full_name}
+                    onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
+                    placeholder="Nome completo do aluno"
+                  />
+                </div>
+                <div>
+                  <Label>Email *</Label>
+                  <Input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="email@exemplo.com"
+                  />
+                </div>
+                <div>
+                  <Label>Telefone / WhatsApp</Label>
+                  <Input
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    placeholder="(00) 00000-0000"
+                  />
+                </div>
+                <div>
+                  <Label>Data de Nascimento</Label>
+                  <Input
+                    type="date"
+                    value={formData.birth_date}
+                    onChange={(e) => setFormData({ ...formData, birth_date: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label>Gênero</Label>
+                  <Select
+                    value={formData.gender}
+                    onValueChange={(value) => setFormData({ ...formData, gender: value })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="masculino">Masculino</SelectItem>
+                      <SelectItem value="feminino">Feminino</SelectItem>
+                      <SelectItem value="outro">Outro</SelectItem>
+                      <SelectItem value="nao_informar">Prefiro não informar</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Step 2: Documentos */}
+          {currentStep === 2 && (
+            <div className="space-y-6">
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <FileText className="h-4 w-4" />
+                    Documento Principal *
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div>
+                      <Label>Tipo de Documento</Label>
+                      <Select
+                        value={formData.doc_type_1}
+                        onValueChange={(value) => setFormData({ ...formData, doc_type_1: value })}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="cpf">CPF</SelectItem>
+                          <SelectItem value="passaporte">Passaporte</SelectItem>
+                          <SelectItem value="nif">NIF</SelectItem>
+                          <SelectItem value="dni">DNI</SelectItem>
+                          <SelectItem value="ssn">SSN</SelectItem>
+                          <SelectItem value="outro">Outro</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label>Número *</Label>
+                      <Input
+                        value={formData.cpf}
+                        onChange={(e) => setFormData({ ...formData, cpf: e.target.value })}
+                        placeholder="000.000.000-00"
+                      />
+                    </div>
+                    <div>
+                      <Label>País Emissor</Label>
+                      <Input
+                        value={formData.doc_country_1}
+                        onChange={(e) => setFormData({ ...formData, doc_country_1: e.target.value })}
+                        placeholder="Brasil"
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base">RG / Identidade</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <Label>Número do RG</Label>
+                      <Input
+                        value={formData.rg}
+                        onChange={(e) => setFormData({ ...formData, rg: e.target.value })}
+                        placeholder="00.000.000-0"
+                      />
+                    </div>
+                    <div>
+                      <Label>Órgão Emissor</Label>
+                      <Input
+                        value={formData.rg_issuer}
+                        onChange={(e) => setFormData({ ...formData, rg_issuer: e.target.value })}
+                        placeholder="SSP/SP"
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base">Documento Adicional (Opcional)</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div>
+                      <Label>Tipo</Label>
+                      <Select
+                        value={formData.doc_type_2}
+                        onValueChange={(value) => setFormData({ ...formData, doc_type_2: value })}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecione" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="passaporte">Passaporte</SelectItem>
+                          <SelectItem value="cnh">CNH</SelectItem>
+                          <SelectItem value="titulo_eleitor">Título de Eleitor</SelectItem>
+                          <SelectItem value="carteira_trabalho">Carteira de Trabalho</SelectItem>
+                          <SelectItem value="outro">Outro</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label>Número</Label>
+                      <Input
+                        value={formData.doc_number_2}
+                        onChange={(e) => setFormData({ ...formData, doc_number_2: e.target.value })}
+                        placeholder="Número do documento"
+                      />
+                    </div>
+                    <div>
+                      <Label>País</Label>
+                      <Input
+                        value={formData.doc_country_2}
+                        onChange={(e) => setFormData({ ...formData, doc_country_2: e.target.value })}
+                        placeholder="País emissor"
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Step 3: Endereço e Acadêmico */}
+          {currentStep === 3 && (
+            <div className="space-y-6">
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <MapPin className="h-4 w-4" />
+                    Endereço
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid md:grid-cols-4 gap-4">
+                    <div className="md:col-span-2">
+                      <Label>CEP</Label>
+                      <Input
+                        value={formData.zip_code}
+                        onChange={(e) => setFormData({ ...formData, zip_code: e.target.value })}
+                        placeholder="00000-000"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <Label>País</Label>
+                      <Input
+                        value={formData.country}
+                        onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                  <div className="grid md:grid-cols-4 gap-4">
+                    <div className="md:col-span-2">
+                      <Label>Endereço</Label>
+                      <Input
+                        value={formData.address}
+                        onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                        placeholder="Rua, Avenida..."
+                      />
+                    </div>
+                    <div>
+                      <Label>Número</Label>
+                      <Input
+                        value={formData.address_number}
+                        onChange={(e) => setFormData({ ...formData, address_number: e.target.value })}
+                        placeholder="123"
+                      />
+                    </div>
+                    <div>
+                      <Label>Complemento</Label>
+                      <Input
+                        value={formData.complement}
+                        onChange={(e) => setFormData({ ...formData, complement: e.target.value })}
+                        placeholder="Apto, Bloco..."
+                      />
+                    </div>
+                  </div>
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div>
+                      <Label>Bairro</Label>
+                      <Input
+                        value={formData.neighborhood}
+                        onChange={(e) => setFormData({ ...formData, neighborhood: e.target.value })}
+                        placeholder="Bairro"
+                      />
+                    </div>
+                    <div>
+                      <Label>Cidade</Label>
+                      <Input
+                        value={formData.city}
+                        onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                        placeholder="Cidade"
+                      />
+                    </div>
+                    <div>
+                      <Label>Estado / UF</Label>
+                      <Input
+                        value={formData.state}
+                        onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                        placeholder="SP"
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <GraduationCap className="h-4 w-4" />
+                    Informações Acadêmicas
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <Label>Nível de Escolaridade *</Label>
+                      <Select
+                        value={formData.education_level}
+                        onValueChange={(value) => setFormData({ ...formData, education_level: value })}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="fundamental">Ensino Fundamental</SelectItem>
+                          <SelectItem value="medio">Ensino Médio</SelectItem>
+                          <SelectItem value="superior">Ensino Superior</SelectItem>
+                          <SelectItem value="pos_graduacao">Pós-Graduação</SelectItem>
+                          <SelectItem value="mestrado">Mestrado</SelectItem>
+                          <SelectItem value="doutorado">Doutorado</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label>Instituição de Origem</Label>
+                      <Input
+                        value={formData.institution}
+                        onChange={(e) => setFormData({ ...formData, institution: e.target.value })}
+                        placeholder="Nome da última instituição"
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Step 4: Cursos e Acesso */}
+          {currentStep === 4 && (
+            <div className="space-y-6">
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base">Selecionar Cursos para Matrícula</CardTitle>
+                  <CardDescription>
+                    Selecione os cursos em que o aluno será matriculado
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {courses.length === 0 ? (
+                    <p className="text-muted-foreground text-center py-4">
+                      Nenhum curso disponível. Cadastre cursos primeiro.
+                    </p>
+                  ) : (
+                    <div className="grid md:grid-cols-2 gap-3">
+                      {courses.map((course) => (
+                        <div
+                          key={course.id}
+                          className={`p-4 border rounded-lg cursor-pointer transition-colors ${
+                            selectedCourses.includes(course.id)
+                              ? "border-primary bg-primary/5"
+                              : "border-border hover:border-primary/50"
+                          }`}
+                          onClick={() => {
+                            if (selectedCourses.includes(course.id)) {
+                              setSelectedCourses(selectedCourses.filter(c => c !== course.id));
+                            } else {
+                              setSelectedCourses([...selectedCourses, course.id]);
+                            }
+                          }}
+                        >
+                          <div className="flex items-start gap-3">
+                            <Checkbox
+                              checked={selectedCourses.includes(course.id)}
+                              onCheckedChange={() => {}}
+                            />
+                            <div className="flex-1">
+                              <p className="font-medium">{course.title}</p>
+                              <p className="text-sm text-muted-foreground">
+                                {formatCurrency(course.monthly_price)}/mês
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {selectedCourses.length > 0 && (
+                    <div className="mt-4 p-3 bg-muted rounded-lg">
+                      <p className="text-sm font-medium">
+                        {selectedCourses.length} curso(s) selecionado(s)
+                      </p>
+                      <p className="text-lg font-bold text-primary">
+                        Total: {formatCurrency(
+                          courses
+                            .filter(c => selectedCourses.includes(c.id))
+                            .reduce((sum, c) => sum + c.monthly_price, 0)
+                        )}/mês
+                      </p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base">Dados de Acesso</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <Label>Senha *</Label>
+                      <Input
+                        type="password"
+                        value={formData.password}
+                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                        placeholder="Mínimo 6 caracteres"
+                      />
+                    </div>
+                    <div>
+                      <Label>Confirmar Senha *</Label>
+                      <Input
+                        type="password"
+                        value={formData.confirm_password}
+                        onChange={(e) => setFormData({ ...formData, confirm_password: e.target.value })}
+                        placeholder="Repita a senha"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      id="send_credentials"
+                      checked={formData.send_credentials}
+                      onCheckedChange={(checked) => setFormData({ ...formData, send_credentials: checked as boolean })}
+                    />
+                    <Label htmlFor="send_credentials" className="text-sm cursor-pointer">
+                      Enviar credenciais de acesso por email
+                    </Label>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Navigation Buttons */}
+          <div className="flex justify-between pt-4 border-t">
+            <Button
+              variant="outline"
+              onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
+              disabled={currentStep === 1}
+            >
+              Voltar
+            </Button>
+            {currentStep < 4 ? (
+              <Button onClick={() => setCurrentStep(currentStep + 1)}>
+                Próximo
+              </Button>
+            ) : (
+              <Button onClick={handleCreateStudent} className="bg-primary">
+                <User className="h-4 w-4 mr-2" />
+                Cadastrar Aluno
+              </Button>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog de Visualização */}
+      <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Detalhes do Aluno</DialogTitle>
+          </DialogHeader>
+          {selectedStudent && (
+            <div className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-muted-foreground">Nome Completo</Label>
+                  <p className="font-medium">{selectedStudent.full_name}</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Email</Label>
+                  <p className="font-medium">{selectedStudent.email}</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">CPF</Label>
+                  <p className="font-medium">{selectedStudent.cpf}</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Telefone</Label>
+                  <p className="font-medium">{selectedStudent.phone || "-"}</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Escolaridade</Label>
+                  <p className="font-medium">{getEducationLabel(selectedStudent.education_level)}</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Status</Label>
+                  <Badge variant={selectedStudent.is_active ? "default" : "secondary"}>
+                    {selectedStudent.is_active ? "Ativo" : "Inativo"}
+                  </Badge>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Matrículas</Label>
+                  <p className="font-medium">{selectedStudent.enrollments_count || 0} curso(s)</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Data de Cadastro</Label>
+                  <p className="font-medium">{formatDate(selectedStudent.created_at)}</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+};
+
+export default StudentsManagement;
