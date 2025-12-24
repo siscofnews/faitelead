@@ -214,19 +214,41 @@ const ModuleManager = () => {
         }
 
         try {
+            // Importar supabase
+            const { supabase } = await import("@/integrations/supabase/client");
+
+            // Verificar se usuário está autenticado
+            const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+            if (sessionError || !session) {
+                toast.error("Sessão expirada. Faça login novamente.");
+                return;
+            }
+
             if (editingModule) {
-                await api.updateModule(editingModule.id, {
-                    title: formData.title,
-                    description: formData.description || null
-                });
+                // Atualizar módulo
+                const { error } = await supabase
+                    .from("modules")
+                    .update({
+                        title: formData.title,
+                        description: formData.description || null
+                    })
+                    .eq("id", editingModule.id);
+
+                if (error) throw error;
                 toast.success("Módulo atualizado");
             } else {
-                await api.createModule({
-                    subject_id: String(subjectId),
-                    title: formData.title,
-                    description: formData.description || null,
-                    order_index: modules.length + 1
-                });
+                // Criar módulo
+                const { error } = await supabase
+                    .from("modules")
+                    .insert({
+                        subject_id: String(subjectId),
+                        title: formData.title,
+                        description: formData.description || null,
+                        order_index: modules.length + 1
+                    });
+
+                if (error) throw error;
                 toast.success("Módulo criado");
             }
 
