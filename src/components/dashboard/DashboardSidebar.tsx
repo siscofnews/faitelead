@@ -88,6 +88,11 @@ const menuItems = [
     icon: HelpCircle,
     href: "/student/support",
   },
+  {
+    title: "Galeria",
+    icon: Library,
+    href: "/galeria",
+  },
 ];
 
 interface DashboardSidebarProps {

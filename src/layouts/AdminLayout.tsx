@@ -45,8 +45,15 @@ const AdminLayout = () => {
         // Fallback: tentar Supabase auth
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
+            const { data: roles } = await supabase
+                .from("user_roles")
+                .select("role")
+                .eq("user_id", user.id);
+            const r = (roles || []).map((x: any) => x.role);
+            const isSuper = r.includes("super_admin");
+            const isAdmin = r.includes("admin");
             setProfile({ full_name: user.email || "Admin" });
-            setUserRole("admin");
+            setUserRole(isSuper ? "super_admin" : (isAdmin ? "admin" : "admin"));
             setLoading(false);
             return;
         }

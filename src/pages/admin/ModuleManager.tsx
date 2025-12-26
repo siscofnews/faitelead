@@ -217,13 +217,20 @@ const ModuleManager = () => {
             // Importar supabase
             const { supabase } = await import("@/integrations/supabase/client");
 
-            // Verificar se usuário está autenticado
+            // Verificar SESSÃO primeiro (tentar renovar se expirada)
             const { data: { session }, error: sessionError } = await supabase.auth.getSession();
 
             if (sessionError || !session) {
-                toast.error("Sessão expirada. Faça login novamente.");
+                console.error("❌ Sessão expirada ou inválida:", sessionError);
+                toast.error("Sua sessão expirou. Por favor, faça login novamente.");
+                // Redirecionar para login após 2 segundos
+                setTimeout(() => {
+                    navigate("/auth");
+                }, 2000);
                 return;
             }
+
+            console.log("✅ Sessão válida para usuário:", session.user.email);
 
             if (editingModule) {
                 // Atualizar módulo
@@ -260,7 +267,16 @@ const ModuleManager = () => {
                 (error as any)?.message ||
                 (error as any)?.error_description ||
                 "Erro desconhecido";
-            toast.error(`Erro ao salvar módulo: ${message}`);
+
+            // Tratamento específico para erros de autenticação
+            if (message.includes("session") || message.includes("auth")) {
+                toast.error("Sessão expirada. Redirecionando para login...");
+                setTimeout(() => {
+                    navigate("/auth");
+                }, 2000);
+            } else {
+                toast.error(`Erro ao salvar módulo: ${message}`);
+            }
         }
     };
 

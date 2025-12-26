@@ -216,20 +216,31 @@ const CourseModulesManagement = () => {
         return;
       }
 
-      const { data: authData, error: authError } = await supabase.auth.getUser();
-      if (authError) throw authError;
-      if (!authData.user) {
-        toast.error("Você precisa estar logado para salvar o módulo");
-        navigate("/auth");
+      // Verificar SESSÃO primeiro (tentar renovar se expirada)
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+      if (sessionError || !session) {
+        console.error("❌ Sessão expirada ou inválida:", sessionError);
+        toast.error("Sua sessão expirou. Por favor, faça login novamente.");
+        // Redirecionar para login após 2 segundos
+        setTimeout(() => {
+          navigate("/auth");
+        }, 2000);
         return;
       }
 
+      console.log("✅ Sessão válida para usuário:", session.user.email);
+
+      // Verificar permissões
       const { data: roleRows, error: rolesError } = await supabase
         .from("user_roles")
         .select("role")
-        .eq("user_id", authData.user.id);
+        .eq("user_id", session.user.id);
 
-      if (rolesError) throw rolesError;
+      if (rolesError) {
+        console.error("Erro ao verificar permissões:", rolesError);
+        throw rolesError;
+      }
 
       const allowedRoles = new Set(["admin", "super_admin", "director", "teacher"]);
       const hasPermission = (roleRows || []).some((r) => allowedRoles.has(r.role));
@@ -278,7 +289,16 @@ const CourseModulesManagement = () => {
       loadData();
     } catch (error: any) {
       console.error("Error saving module:", error);
-      toast.error(`Erro ao salvar módulo: ${error.message || "Erro desconhecido"}`);
+
+      // Tratamento específico para erros de autenticação
+      if (error.message && error.message.includes("session")) {
+        toast.error("Sessão expirada. Redirecionando para login...");
+        setTimeout(() => {
+          navigate("/auth");
+        }, 2000);
+      } else {
+        toast.error(`Erro ao salvar módulo: ${error.message || "Erro desconhecido"}`);
+      }
     }
   };
 
@@ -319,6 +339,19 @@ const CourseModulesManagement = () => {
 
   const handleSaveMaterial = async () => {
     try {
+      // Verificar SESSÃO primeiro
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+      if (sessionError || !session) {
+        console.error("❌ Sessão expirada ou inválida:", sessionError);
+        toast.error("Sua sessão expirou. Por favor, faça login novamente.");
+        setUploadingMaterial(false);
+        setTimeout(() => {
+          navigate("/auth");
+        }, 2000);
+        return;
+      }
+
       if (!materialForm.title.trim()) {
         toast.error("Título é obrigatório");
         return;
@@ -381,9 +414,18 @@ const CourseModulesManagement = () => {
       setMaterialForm({ title: "", description: "", material_type: "pdf", youtube_url: "" });
       setMaterialFile(null);
       loadData();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error saving material:", error);
-      toast.error("Erro ao salvar material");
+
+      // Tratamento específico para erros de autenticação
+      if (error.message && (error.message.includes("session") || error.message.includes("auth"))) {
+        toast.error("Sessão expirada. Redirecionando para login...");
+        setTimeout(() => {
+          navigate("/auth");
+        }, 2000);
+      } else {
+        toast.error(`Erro ao salvar material: ${error.message || "Erro desconhecido"}`);
+      }
     } finally {
       setUploadingMaterial(false);
     }

@@ -110,12 +110,7 @@ const QuickNav = () => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          {items.filter(i => !["INSTITUCIONAL","ENSINO","VESTIBULAR","EAD","BIBLIOTECA"].includes(i.label)).map((it) => (
-            <Link key={it.href} to={it.href} className="flex items-center gap-2 text-sm tracking-wide hover:text-accent transition-colors">
-              <Menu className="h-4 w-4" />
-              {it.label}
-            </Link>
-          ))}
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Link to="/biblioteca" className="flex items-center gap-2 text-sm tracking-wide hover:text-accent transition-colors">
@@ -132,6 +127,11 @@ const QuickNav = () => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+
+          <Link to="/galeria" className="flex items-center gap-2 text-sm tracking-wide hover:text-accent transition-colors">
+            <Menu className="h-4 w-4" />
+            GALERIA
+          </Link>
         </div>
       </div>
     </div>

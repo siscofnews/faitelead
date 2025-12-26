@@ -643,6 +643,22 @@ const CoursesManagement = () => {
 
       setUploading(true);
 
+      // Verificar SESSÃO primeiro (tentar renovar se expirada)
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+      if (sessionError || !session) {
+        console.error("❌ Sessão expirada ou inválida:", sessionError);
+        toast.error("Sua sessão expirou. Por favor, faça login novamente.");
+        setUploading(false);
+        // Redirecionar para login após 2 segundos
+        setTimeout(() => {
+          navigate("/auth");
+        }, 2000);
+        return;
+      }
+
+      console.log("✅ Sessão válida para usuário:", session.user.email);
+
       // Criar curso diretamente no Supabase (apenas colunas que existem)
       const { data: created, error: createError } = await supabase
         .from("courses")
@@ -672,22 +688,20 @@ const CoursesManagement = () => {
 
       // Log audit trail for course creation
       if (newCourseId) {
-        await logAction({
-          tableName: "courses",
-          recordId: newCourseId,
-          action: "INSERT",
-          newValues: {
+        await logAction(
+          "INSERT",
+          "courses",
+          newCourseId,
+          undefined,
+          {
             title: formData.title,
             description: formData.description,
             duration_months: formData.duration_months,
             total_hours: formData.total_hours,
             monthly_price: formData.monthly_price,
             modality: formData.modality,
-          },
-          metadata: {
-            course_title: formData.title,
-          },
-        });
+          }
+        );
       }
 
       toast.success("Curso criado com sucesso!");
@@ -703,9 +717,18 @@ const CoursesManagement = () => {
       setThumbnailFile(null);
       setThumbnailPreview(null);
       loadCourses();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error creating course:", error);
-      toast.error("Erro ao criar curso");
+
+      // Tratamento específico para erros de autenticação
+      if (error.message && (error.message.includes("session") || error.message.includes("auth"))) {
+        toast.error("Sessão expirada. Redirecionando para login...");
+        setTimeout(() => {
+          navigate("/auth");
+        }, 2000);
+      } else {
+        toast.error(`Erro ao criar curso: ${error.message || "Erro desconhecido"}`);
+      }
     } finally {
       setUploading(false);
     }

@@ -116,6 +116,13 @@ const ModulesManagement = () => {
         return;
       }
 
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError || !session) {
+        toast.error("Sessão não encontrada. Faça login novamente.");
+        navigate("/auth");
+        return;
+      }
+
       const { data: authData, error: authError } = await supabase.auth.getUser();
       if (authError) throw authError;
       if (!authData.user) {

@@ -7,9 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
-import { getRoles } from "@/lib/demoAuth";
 import { toast } from "sonner";
-import { Eye, EyeOff, Mail, Lock, ArrowRight, User, Phone, GraduationCap, Shield, Crown, Users, ArrowLeft, Camera, Building2 } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, ArrowRight, User, Phone, GraduationCap, Shield, Crown, Users, ArrowLeft, Camera, Building2, Upload } from "lucide-react";
 import faitelLogo from "@/assets/faitel-logo.png";
 
 type EducationLevel = "fundamental" | "medio" | "superior" | "pos_graduacao";
@@ -37,11 +36,13 @@ const Auth = () => {
   const [poloId, setPoloId] = useState<string>("");
   const [polos, setPolos] = useState<Polo[]>([]);
 
-  // Selfie capture
+  // Selfie/Photo capture
   const [selfieData, setSelfieData] = useState<string | null>(null);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [showCamera, setShowCamera] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     loadPolos();
@@ -102,42 +103,39 @@ const Auth = () => {
     setLoading(true);
 
     try {
-      // USAR AUTH MOCK - BYPASS TOTAL DO SUPABASE!
-      console.log("🔐 Tentando login MOCK para:", email);
-      const { signIn } = await import("@/lib/demoAuth");
-      const result = await signIn(email, password);
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) throw error;
 
-      if ("error" in result) {
-        throw new Error(result.error.message);
+      const userId = data.user.id;
+
+      if (email.toLowerCase() === "faiteloficial@gmail.com") {
+        await supabase.rpc("bootstrap_super_admin").catch(() => {});
       }
 
-      console.log("✅ LOGIN MOCK SUCESSO!", result.user);
+      const { data: roleRows } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId);
 
-      // Validar tipo de usuário selecionado
-      const { getRoles } = await import("@/lib/demoAuth");
-      const roles = getRoles();
-      const role = roles.length > 0 ? roles[0] : null;
+      const roles = (roleRows || []).map(r => r.role);
+      const role = roles.find(r => r === "super_admin") || roles.find(r => r === "admin") || roles[0] || null;
 
-      console.log("🔐 User roles:", roles, "| Primary role:", role);
-
-      // Validar permissões
       if (selectedUserType === "super_admin" && role !== "super_admin") {
         toast.error("Acesso negado. Você não é um Super Administrador.");
-        const { signOut } = await import("@/lib/demoAuth");
-        await signOut();
+        await supabase.auth.signOut();
         setLoading(false);
         return;
       }
-
       if (selectedUserType === "admin" && role !== "admin" && role !== "super_admin") {
         toast.error("Acesso negado. Você não é um Administrador.");
-        const { signOut } = await import("@/lib/demoAuth");
-        await signOut();
+        await supabase.auth.signOut();
         setLoading(false);
         return;
       }
 
-      // Navegar baseado no role
       if (role === "super_admin" || role === "admin") {
         navigate("/admin");
       } else {
@@ -165,8 +163,8 @@ const Auth = () => {
         throw new Error("CPF deve conter 11 dígitos");
       }
 
-      if (!selfieData) {
-        throw new Error("Por favor, tire uma selfie para continuar");
+      if (!selfieData && !photoFile) {
+        throw new Error("Por favor, tire uma selfie ou envie uma foto");
       }
 
       if (!poloId) {
@@ -192,16 +190,24 @@ const Auth = () => {
       if (error) throw error;
 
       if (data.user) {
-        // Upload selfie to storage
+        // Upload photo to storage
         const fileName = `${data.user.id}/selfie.jpg`;
-        const base64Data = selfieData.split(",")[1];
-        const byteCharacters = atob(base64Data);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        let blob: Blob;
+
+        if (photoFile) {
+          blob = photoFile;
+        } else if (selfieData) {
+          const base64Data = selfieData.split(",")[1];
+          const byteCharacters = atob(base64Data);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          blob = new Blob([byteArray], { type: "image/jpeg" });
+        } else {
+          throw new Error("Nenhuma foto fornecida");
         }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: "image/jpeg" });
 
         const { error: uploadError } = await supabase.storage
           .from("profile-photos")

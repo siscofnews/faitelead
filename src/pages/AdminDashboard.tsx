@@ -30,23 +30,6 @@ const AdminDashboard = () => {
 
   const loadStats = async () => {
     try {
-      // Try to load from backend API first
-      try {
-        const response = await fetch('http://localhost:8090/stats/admin-dashboard');
-        if (response.ok) {
-          const data = await response.json();
-          setStats({
-            totalStudents: data.total_students || 0,
-            totalCourses: data.total_courses || 0,
-            activeEnrollments: data.active_enrollments || 0,
-            pendingPayments: data.pending_payments || 0,
-          });
-          return;
-        }
-      } catch (backendError) {
-        console.log('Backend API not available, falling back to Supabase');
-      }
-
       // Fallback to Supabase
       const { count: studentsCount } = await supabase
         .from("profiles")

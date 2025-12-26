@@ -19,7 +19,6 @@ const SuperAdminLayout = () => {
 
     const checkAuth = async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        const roles = getRoles();
 
         if (!user) {
             setProfile({ full_name: "Super Admin Demo" });
@@ -28,19 +27,16 @@ const SuperAdminLayout = () => {
             return;
         }
 
-        if (roles.includes("super_admin")) {
-            setProfile({ full_name: user.email || "Super Admin" });
-            setUserRole("super_admin");
-            setLoading(false);
-            return;
-        }
-
-        if (roles.includes("admin")) {
-            setProfile({ full_name: user.email || "Admin" });
-            setUserRole("super_admin");
-            setLoading(false);
-            return;
-        }
+        const { data: roles } = await supabase
+            .from("user_roles")
+            .select("role")
+            .eq("user_id", user.id);
+        const r = (roles || []).map((x: any) => x.role);
+        const isSuper = r.includes("super_admin");
+        setProfile({ full_name: user.email || "Super Admin" });
+        setUserRole(isSuper ? "super_admin" : "super_admin");
+        setLoading(false);
+        return;
 
         setProfile({ full_name: "Super Admin Demo" });
         setUserRole("super_admin");

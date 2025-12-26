@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { Clock, CheckCircle, XCircle, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,28 +6,22 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import {
-    type MockExam,
-    type MockQuestion,
-    type MockExamAttempt,
-    getMockQuestions,
-    startExamAttempt,
-    submitExamAttempt,
-    getMockAttempts,
-    saveMockAttempts,
-} from '@/lib/mockLMS';
+import { supabase } from '@/integrations/supabase/client';
+import { examService, type Exam, type Question, type ExamSubmission } from '@/services/examService';
 
 interface ExamInterfaceProps {
-    exam: MockExam;
+    exam: Exam;
     onComplete: () => void;
 }
 
 export const ExamInterface = ({ exam, onComplete }: ExamInterfaceProps) => {
-    const [currentAttempt, setCurrentAttempt] = useState<MockExamAttempt | null>(null);
-    const [questions, setQuestions] = useState<MockQuestion[]>([]);
+    const [currentAttempt, setCurrentAttempt] = useState<ExamSubmission | null>(null);
+    const [questions, setQuestions] = useState<Question[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState<Record<string, string>>({});
     const [submitting, setSubmitting] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [attemptsUsed, setAttemptsUsed] = useState(0);
     const [result, setResult] = useState<{
         score: number;
         max_score: number;
@@ -35,20 +29,54 @@ export const ExamInterface = ({ exam, onComplete }: ExamInterfaceProps) => {
         passed: boolean;
     } | null>(null);
 
+    // Carregar tentativas anteriores e questões
+    useEffect(() => {
+        loadExamData();
+    }, [exam.id]);
+
+    const loadExamData = async () => {
+        setLoading(true);
+        try {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) return;
+
+            // Carregar histórico
+            const history = await examService.getHistory(exam.id, user.id);
+            setAttemptsUsed(history.length);
+
+            // Carregar questões
+            const examQuestions = await examService.getQuestions(exam.id);
+            setQuestions(examQuestions);
+
+        } catch (error) {
+            console.error("Error loading exam data:", error);
+            toast.error("Erro ao carregar dados da prova");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const currentQuestion = questions[currentQuestionIndex];
     const answeredCount = Object.keys(answers).length;
-    const progress = (answeredCount / questions.length) * 100;
+    const progress = questions.length > 0 ? (answeredCount / questions.length) * 100 : 0;
 
-    const handleStart = () => {
-        const studentId = 'mock-student-1';
-        const attempt = startExamAttempt(studentId, exam.id);
-        const examQuestions = getMockQuestions(exam.id);
+    const handleStart = async () => {
+        try {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                toast.error("Usuário não autenticado");
+                return;
+            }
 
-        setCurrentAttempt(attempt);
-        setQuestions(examQuestions);
-        setCurrentQuestionIndex(0);
-        setAnswers({});
-        setResult(null);
+            const attempt = await examService.startAttempt(exam.id, user.id);
+            setCurrentAttempt(attempt);
+            setCurrentQuestionIndex(0);
+            setAnswers({});
+            setResult(null);
+        } catch (error) {
+            console.error("Error starting attempt:", error);
+            toast.error("Erro ao iniciar prova");
+        }
     };
 
     const handleAnswerChange = (answer: string) => {
@@ -67,7 +95,7 @@ export const ExamInterface = ({ exam, onComplete }: ExamInterfaceProps) => {
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!currentAttempt) return;
 
         const unanswered = questions.filter(q => !answers[q.id]);
@@ -79,21 +107,32 @@ export const ExamInterface = ({ exam, onComplete }: ExamInterfaceProps) => {
         setSubmitting(true);
 
         try {
-            const allAttempts = getMockAttempts();
-            const attemptIndex = allAttempts.findIndex(a => a.id === currentAttempt.id);
-            allAttempts[attemptIndex].answers = Object.entries(answers).map(([questionId, answer]) => ({
-                question_id: questionId,
-                answer,
-            }));
-            saveMockAttempts(allAttempts);
+            // Calcular nota
+            let correctCount = 0;
+            questions.forEach(q => {
+                if (answers[q.id] === q.correct_answer) {
+                    correctCount++;
+                }
+            });
 
-            const examResult = submitExamAttempt(currentAttempt.id);
-            setResult(examResult);
+            const score = correctCount * 10; // Assumindo 10 pontos por questão, ajustar se necessário
+            const maxScore = questions.length * 10;
+            const percentage = (score / maxScore) * 100;
+            const passed = percentage >= exam.passing_score;
 
-            if (examResult.passed) {
-                toast.success(`Parabéns! Aprovado com ${examResult.percentage.toFixed(1)}%! 🎉`);
+            await examService.submitAttempt(currentAttempt.id, answers, percentage, passed);
+
+            setResult({
+                score: percentage, // Usando percentage como score final para simplificar display
+                max_score: 100,
+                percentage,
+                passed
+            });
+
+            if (passed) {
+                toast.success(`Parabéns! Aprovado com ${percentage.toFixed(1)}%! 🎉`);
             } else {
-                toast.error(`Nota: ${examResult.percentage.toFixed(1)}% - Não atingiu o mínimo`);
+                toast.error(`Nota: ${percentage.toFixed(1)}% - Não atingiu o mínimo`);
             }
         } catch (error: any) {
             console.error('Error submitting exam:', error);
@@ -103,10 +142,14 @@ export const ExamInterface = ({ exam, onComplete }: ExamInterfaceProps) => {
         }
     };
 
+    if (loading) {
+        return <div className="p-8 text-center">Carregando prova...</div>;
+    }
+
     // Tela inicial
     if (!currentAttempt) {
-        const previousAttempts = getMockAttempts(exam.id);
-        const attemptsUsed = previousAttempts.filter(a => a.status === 'completed').length;
+        // Mocking attempts allowed logic since it's not in DB yet, defaulting to 3
+        const attemptsAllowed = 3;
 
         return (
             <Card className="max-w-2xl mx-auto">
@@ -117,30 +160,24 @@ export const ExamInterface = ({ exam, onComplete }: ExamInterfaceProps) => {
                     <div className="grid grid-cols-2 gap-4">
                         <div className="text-center p-4 bg-muted rounded-lg">
                             <p className="text-sm text-muted-foreground mb-1">Questões</p>
-                            <p className="text-3xl font-bold">{exam.total_questions}</p>
+                            <p className="text-3xl font-bold">{questions.length}</p>
                         </div>
                         <div className="text-center p-4 bg-muted rounded-lg">
                             <p className="text-sm text-muted-foreground mb-1">Nota Mínima</p>
-                            <p className="text-3xl font-bold">{exam.passing_grade}%</p>
+                            <p className="text-3xl font-bold">{exam.passing_score}%</p>
                         </div>
                     </div>
 
                     <div className="text-center p-4 border rounded-lg">
-                        <p className="text-sm text-muted-foreground mb-2">Tentativas Disponíveis</p>
+                        <p className="text-sm text-muted-foreground mb-2">Tentativas Realizadas</p>
                         <p className="text-2xl font-bold">
-                            {exam.attempts_allowed - attemptsUsed} de {exam.attempts_allowed}
+                            {attemptsUsed}
                         </p>
                     </div>
 
-                    {attemptsUsed < exam.attempts_allowed ? (
-                        <Button onClick={handleStart} className="w-full" size="lg">
-                            Iniciar Prova
-                        </Button>
-                    ) : (
-                        <p className="text-center text-destructive font-medium">
-                            Tentativas esgotadas
-                        </p>
-                    )}
+                    <Button onClick={handleStart} className="w-full" size="lg">
+                        Iniciar Prova
+                    </Button>
                 </CardContent>
             </Card>
         );
@@ -172,7 +209,7 @@ export const ExamInterface = ({ exam, onComplete }: ExamInterfaceProps) => {
                             {result.percentage.toFixed(1)}%
                         </p>
                         <p className="text-sm text-muted-foreground mt-2">
-                            {result.score} de {result.max_score} pontos
+                            Mínimo para aprovação: {exam.passing_score}%
                         </p>
                     </div>
 
@@ -192,7 +229,7 @@ export const ExamInterface = ({ exam, onComplete }: ExamInterfaceProps) => {
         );
     }
 
-    // Fazendo prova - Interface INTUITIVA e LEVE
+    // Fazendo prova
     return (
         <div className="max-w-3xl mx-auto space-y-4">
             {/* Cabeçalho com progresso */}
@@ -210,7 +247,8 @@ export const ExamInterface = ({ exam, onComplete }: ExamInterfaceProps) => {
                 </CardContent>
             </Card>
 
-            {/* Questão atual - CARD GRANDE E LIMPO */}
+            {/* Questão atual */}
+            {currentQuestion && (
             <Card>
                 <CardContent className="pt-8 pb-8 space-y-6">
                     {/* Texto da questão */}
@@ -218,61 +256,39 @@ export const ExamInterface = ({ exam, onComplete }: ExamInterfaceProps) => {
                         <p className="text-lg leading-relaxed">{currentQuestion.question_text}</p>
                     </div>
 
-                    {/* Opções - ESPAÇADAS E CLARAS */}
-                    {currentQuestion.question_type === 'multiple_choice' && currentQuestion.options && (
-                        <RadioGroup
-                            value={answers[currentQuestion.id] || ''}
-                            onValueChange={handleAnswerChange}
-                            className="space-y-3"
-                        >
-                            {currentQuestion.options.map((option) => (
-                                <div
-                                    key={option.id}
-                                    className="flex items-start space-x-3 p-4 rounded-lg border-2 hover:bg-muted/50 transition-colors cursor-pointer"
-                                    onClick={() => handleAnswerChange(option.id)}
+                    {/* Opções */}
+                    <RadioGroup
+                        value={answers[currentQuestion.id] || ''}
+                        onValueChange={handleAnswerChange}
+                        className="space-y-3"
+                    >
+                        {/* Mapeamento dinâmico das opções A, B, C, D */}
+                        {[
+                            { id: 'A', text: currentQuestion.option_a },
+                            { id: 'B', text: currentQuestion.option_b },
+                            { id: 'C', text: currentQuestion.option_c },
+                            { id: 'D', text: currentQuestion.option_d }
+                        ].filter(opt => opt.text).map((option) => (
+                            <div
+                                key={option.id}
+                                className="flex items-start space-x-3 p-4 rounded-lg border-2 hover:bg-muted/50 transition-colors cursor-pointer"
+                                onClick={() => handleAnswerChange(option.id)}
+                            >
+                                <RadioGroupItem value={option.id} id={`opt-${option.id}`} className="mt-0.5" />
+                                <Label
+                                    htmlFor={`opt-${option.id}`}
+                                    className="flex-1 cursor-pointer text-base leading-relaxed"
                                 >
-                                    <RadioGroupItem value={option.id} id={`opt-${option.id}`} className="mt-0.5" />
-                                    <Label
-                                        htmlFor={`opt-${option.id}`}
-                                        className="flex-1 cursor-pointer text-base leading-relaxed"
-                                    >
-                                        {option.text}
-                                    </Label>
-                                </div>
-                            ))}
-                        </RadioGroup>
-                    )}
-
-                    {currentQuestion.question_type === 'true_false' && (
-                        <RadioGroup
-                            value={answers[currentQuestion.id] || ''}
-                            onValueChange={handleAnswerChange}
-                            className="space-y-3"
-                        >
-                            <div
-                                className="flex items-center space-x-3 p-4 rounded-lg border-2 hover:bg-muted/50 transition-colors cursor-pointer"
-                                onClick={() => handleAnswerChange('true')}
-                            >
-                                <RadioGroupItem value="true" id="opt-true" />
-                                <Label htmlFor="opt-true" className="flex-1 cursor-pointer text-base">
-                                    Verdadeiro
+                                    {option.text}
                                 </Label>
                             </div>
-                            <div
-                                className="flex items-center space-x-3 p-4 rounded-lg border-2 hover:bg-muted/50 transition-colors cursor-pointer"
-                                onClick={() => handleAnswerChange('false')}
-                            >
-                                <RadioGroupItem value="false" id="opt-false" />
-                                <Label htmlFor="opt-false" className="flex-1 cursor-pointer text-base">
-                                    Falso
-                                </Label>
-                            </div>
-                        </RadioGroup>
-                    )}
+                        ))}
+                    </RadioGroup>
                 </CardContent>
             </Card>
+            )}
 
-            {/* Navegação - BOTÕES GRANDES E CLAROS */}
+            {/* Navegação */}
             <div className="flex gap-3">
                 <Button
                     variant="outline"

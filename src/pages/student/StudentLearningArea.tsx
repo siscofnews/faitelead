@@ -6,51 +6,63 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { ExamInterface } from '@/components/student/ExamInterface';
-import {
-    type MockModule,
-    type MockExam,
-    getMockModules,
-    getMockExams,
-    createSampleLMSData,
-} from '@/lib/mockLMS';
-import { getMockCourses } from '@/lib/mockData';
+import { learningService } from '@/services/learningService';
+import { examService } from '@/services/examService';
+import { supabase } from '@/integrations/supabase/client';
 
 const StudentLearningArea = () => {
     const navigate = useNavigate();
     const [courses, setCourses] = useState<any[]>([]);
-    const [modules, setModules] = useState<MockModule[]>([]);
-    const [selectedModule, setSelectedModule] = useState<MockModule | null>(null);
-    const [selectedExam, setSelectedExam] = useState<MockExam | null>(null);
+    const [modules, setModules] = useState<any[]>([]);
+    const [selectedModule, setSelectedModule] = useState<any | null>(null);
+    const [selectedExam, setSelectedExam] = useState<any | null>(null);
     const [showExam, setShowExam] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         loadData();
     }, []);
 
-    const loadData = () => {
-        // Criar dados de exemplo se não existir
-        const existingModules = getMockModules();
-        if (existingModules.length === 0) {
-            createSampleLMSData();
+    const loadData = async () => {
+        setLoading(true);
+        try {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) return;
+
+            // Carregar cursos
+            const myCourses = await learningService.getStudentCourses(user.id);
+            setCourses(myCourses);
+
+            // Carregar módulos de todos os cursos
+            // (Para simplificar, carrega do primeiro curso ou todos se possível, 
+            // aqui vamos assumir que queremos ver módulos de todos os cursos matriculados)
+            let allModules: any[] = [];
+            for (const course of myCourses) {
+                const courseModules = await learningService.getCourseModules(course.id, user.id);
+                allModules = [...allModules, ...courseModules];
+            }
+            setModules(allModules);
+
+        } catch (error) {
+            console.error("Error loading learning area:", error);
+        } finally {
+            setLoading(false);
         }
-
-        // Carregar cursos
-        const mockCourses = getMockCourses();
-        setCourses(mockCourses);
-
-        // Carregar módulos
-        const mockModules = getMockModules();
-        setModules(mockModules);
     };
 
-    const handleStartExam = (module: MockModule) => {
-        const exams = getMockExams(module.id);
-        const finalExam = exams.find(e => e.exam_type === 'prova_final');
-
-        if (finalExam) {
-            setSelectedModule(module);
-            setSelectedExam(finalExam);
-            setShowExam(true);
+    const handleStartExam = async (module: any) => {
+        try {
+            const exam = await examService.getExamByModule(module.id);
+            
+            if (exam) {
+                setSelectedModule(module);
+                setSelectedExam(exam);
+                setShowExam(true);
+            } else {
+                console.error("No exam found for this module");
+            }
+        } catch (error) {
+            console.error("Error starting exam:", error);
         }
     };
 
@@ -61,10 +73,12 @@ const StudentLearningArea = () => {
         loadData(); // Recarregar para ver progresso atualizado
     };
 
-    const getModuleProgress = (module: MockModule) => {
+    const getModuleProgress = (module: any) => {
         if (module.status === 'completed') return 100;
         if (module.status === 'locked') return 0;
-        return (module.lessons_completed / module.lessons_total) * 100;
+        return module.lessons_total > 0 
+            ? (module.lessons_completed / module.lessons_total) * 100
+            : 0;
     };
 
     // Se está fazendo prova, mostrar interface de prova
@@ -81,6 +95,10 @@ const StudentLearningArea = () => {
                 <ExamInterface exam={selectedExam} onComplete={handleExamComplete} />
             </div>
         );
+    }
+
+    if (loading) {
+        return <div className="p-8 text-center">Carregando seus cursos...</div>;
     }
 
     // Dashboard principal
@@ -101,7 +119,9 @@ const StudentLearningArea = () => {
 
                 const completedModules = courseModules.filter(m => m.status === 'completed').length;
                 const totalModules = courseModules.length;
-                const courseProgress = (completedModules / totalModules) * 100;
+                const courseProgress = totalModules > 0 
+                    ? (completedModules / totalModules) * 100
+                    : 0;
 
                 return (
                     <Card key={course.id}>
@@ -211,13 +231,14 @@ const StudentLearningArea = () => {
 
                                             {!isLocked && !isCompleted && (
                                                 <div className="flex gap-2">
-                                                    <Button variant="outline" className="flex-1">
+                                                    <Button variant="outline" className="flex-1" onClick={() => navigate(`/student/lessons/${module.id}`)}>
                                                         <FileText className="h-4 w-4 mr-2" />
                                                         Ver Aulas
                                                     </Button>
                                                     <Button
                                                         className="flex-1"
                                                         onClick={() => handleStartExam(module)}
+                                                        disabled={module.lessons_completed < module.lessons_total}
                                                     >
                                                         <GraduationCap className="h-4 w-4 mr-2" />
                                                         Fazer Prova Final

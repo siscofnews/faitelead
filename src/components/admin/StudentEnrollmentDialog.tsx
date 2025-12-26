@@ -30,7 +30,6 @@ import {
     getDocumentMaxLength
 } from '@/services/documentValidator';
 import { uploadStudentPhoto, createImagePreview, validatePhotoFile } from '@/services/photoService';
-import { addMockStudent } from '@/lib/mockStudents';
 
 interface StudentEnrollmentDialogProps {
     open: boolean;
@@ -221,46 +220,10 @@ export const StudentEnrollmentDialog = ({
             });
             setPhotoFile(null);
             setPhotoPreview(null);
-
+            
         } catch (error: any) {
             console.error('Error enrolling student:', error);
-
-            // Se Supabase falhar, tentar modo mock
-            console.warn('Trying mock mode...');
-            try {
-                const mockStudent = addMockStudent({
-                    full_name: formData.full_name,
-                    email: formData.email,
-                    birth_date: formData.birth_date,
-                    country: formData.country,
-                    document_type: documentType,
-                    document_number: formData.document_number.replace(/\D/g, ''),
-                    photo_url: photoPreview || null,
-                    is_active: true,
-                    password_hash: formData.password,
-                });
-
-                toast.success('Aluno matriculado com sucesso (modo demo)!');
-                console.log('Mock student created:', mockStudent);
-
-                onOpenChange(false);
-                onSuccess();
-
-                // Limpar formulário
-                setFormData({
-                    full_name: '',
-                    email: '',
-                    birth_date: '',
-                    password: '',
-                    confirmPassword: '',
-                    country: 'Brasil',
-                    document_number: '',
-                });
-                setPhotoFile(null);
-                setPhotoPreview(null);
-            } catch (mockError: any) {
-                toast.error(mockError.message || 'Erro ao matricular aluno');
-            }
+            toast.error(error.message || 'Erro ao matricular aluno');
         } finally {
             setSaving(false);
         }

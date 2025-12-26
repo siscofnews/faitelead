@@ -150,6 +150,13 @@ const LessonsManagement = () => {
         return;
       }
 
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError || !session) {
+        toast.error("Sessão não encontrada. Faça login novamente.");
+        navigate("/auth");
+        return;
+      }
+
       setUploading(true);
       setUploadProgress(20);
 

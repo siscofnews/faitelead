@@ -332,19 +332,81 @@ export const api = {
   },
 
   async getStudentStats(student_id: string, course_id: string) {
-    // Esta função precisa de lógica mais complexa, mantendo a implementação original
-    // ou criando uma view no Supabase
+    // 1. Get all modules for the course
+    const { data: modules } = await supabase
+      .from('modules')
+      .select('id')
+      .eq('course_id', course_id);
+    
+    const moduleIds = modules?.map(m => m.id) || [];
+
+    // 2. Get all contents (lessons)
+    const { data: contents } = await supabase
+      .from('contents')
+      .select('id, is_required')
+      .in('module_id', moduleIds);
+    
+    const contentIds = contents?.map(c => c.id) || [];
+    const total_lessons = contentIds.length;
+
+    // 3. Get progress
+    const { data: progress } = await supabase
+      .from('content_progress')
+      .select('content_id')
+      .eq('student_id', student_id)
+      .eq('completed', true)
+      .in('content_id', contentIds);
+
+    const completed_lessons = progress?.length || 0;
+    const completion_rate = total_lessons > 0 
+      ? Math.round((completed_lessons / total_lessons) * 100) 
+      : 0;
+
+    // 4. Get exams stats
+    const { data: exams } = await supabase
+      .from('exams')
+      .select('id')
+      .in('module_id', moduleIds);
+    
+    const examIds = exams?.map(e => e.id) || [];
+    const exams_count = examIds.length;
+
+    const { data: submissions } = await supabase
+      .from('exam_submissions')
+      .select('score, passed')
+      .eq('student_id', student_id)
+      .in('exam_id', examIds);
+
+    const exams_attempted = submissions?.length || 0;
+    
+    // Average score
+    const totalScore = submissions?.reduce((sum, sub) => sum + (sub.score || 0), 0) || 0;
+    const average_score = exams_attempted > 0 
+      ? Math.round(totalScore / exams_attempted) 
+      : null;
+
+    // Pass rate
+    const passedCount = submissions?.filter(s => s.passed).length || 0;
+    const pass_rate = exams_attempted > 0 
+      ? Math.round((passedCount / exams_attempted) * 100) 
+      : 0;
+
+    // Check required contents
+    const requiredContentIds = contents?.filter(c => c.is_required).map(c => c.id) || [];
+    const completedContentIds = progress?.map(p => p.content_id) || [];
+    const required_completed = requiredContentIds.every(id => completedContentIds.includes(id));
+
     return {
       student_id,
       course_id,
-      total_lessons: 0,
-      completed_lessons: 0,
-      completion_rate: 0,
-      exams_count: 0,
-      exams_attempted: 0,
-      average_score: null,
-      pass_rate: 0,
-      required_completed: false
-    }
+      total_lessons,
+      completed_lessons,
+      completion_rate,
+      exams_count,
+      exams_attempted,
+      average_score,
+      pass_rate,
+      required_completed
+    };
   }
 }
