@@ -163,10 +163,6 @@ const CoursesManagement = () => {
 
   // Função helper para pegar cursos mock
   function getMockCourses() {
-    const stored = localStorage.getItem("demo_courses");
-    if (stored) {
-      return JSON.parse(stored);
-    }
     // Cursos padrão
     const defaultCourses = [
       {
@@ -215,7 +211,6 @@ const CoursesManagement = () => {
         students_count: 0,
       },
     ];
-    localStorage.setItem("demo_courses", JSON.stringify(defaultCourses));
     return defaultCourses;
   }
 

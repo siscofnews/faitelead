@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { getRoles } from "@/lib/demoAuth";
 import { toast } from "sonner";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import AdminSidebar from "@/components/layout/AdminSidebar";
@@ -18,30 +17,6 @@ const AdminLayout = () => {
     }, []);
 
     const checkAuth = async () => {
-        // VERIFICAR AUTH MOCK PRIMEIRO!
-        const roles = getRoles();
-
-        // Se tem roles no localStorage (AUTH MOCK), usar isso!
-        if (roles.length > 0) {
-            // Pegar email do localStorage também
-            const demoUserStr = localStorage.getItem("demoUser");
-            const demoUser = demoUserStr ? JSON.parse(demoUserStr) : null;
-            const email = demoUser?.email || "Admin";
-
-            if (roles.includes("super_admin")) {
-                setProfile({ full_name: email });
-                setUserRole("super_admin");
-                setLoading(false);
-                return;
-            }
-            if (roles.includes("admin")) {
-                setProfile({ full_name: email });
-                setUserRole("admin");
-                setLoading(false);
-                return;
-            }
-        }
-
         // Fallback: tentar Supabase auth
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
