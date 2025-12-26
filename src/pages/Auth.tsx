@@ -112,7 +112,11 @@ const Auth = () => {
       const userId = data.user.id;
 
       if (email.toLowerCase() === "faiteloficial@gmail.com") {
-        await supabase.rpc("bootstrap_super_admin").catch(() => {});
+        try {
+            await supabase.rpc("bootstrap_super_admin");
+        } catch (e) {
+            console.log("Bootstrap ignorado ou falhou silenciosamente", e);
+        }
       }
 
       const { data: roleRows } = await supabase
