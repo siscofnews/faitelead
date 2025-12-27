@@ -490,7 +490,7 @@ const CourseViewer = () => {
         <main className={`flex-1 overflow-y-auto transition-all duration-300 ${sidebarOpen ? 'lg:ml-80' : ''}`}>
           {/* Video Section */}
           <div className="bg-foreground/95 relative">
-            <div className="max-w-6xl mx-auto">
+            <div className="w-full mx-auto">
               <VideoPlayer
                 youtubeUrl={currentLesson?.youtube_url || ""}
                 title={currentLesson?.title || ""}
