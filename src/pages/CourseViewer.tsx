@@ -620,6 +620,7 @@ const CourseViewer = () => {
         </div>
       </header>
 
+      <div className="flex flex-1 overflow-hidden">
         {/* Sidebar (List of Lessons) - LEFT SIDE like EAD Guru */}
         <aside className={`w-96 bg-card border-r border-border flex flex-col transition-all duration-300 ${isSidebarOpen ? '' : 'w-0 opacity-0 overflow-hidden'}`}>
           <div className="p-4 border-b border-border bg-muted/30 flex items-center justify-between">
@@ -833,7 +834,7 @@ const CourseViewer = () => {
         <Button
           variant="outline"
           size="sm"
-          onClick={() => setSidebarOpen(true)}
+          onClick={() => setIsSidebarOpen(true)}
           className="flex-1"
         >
           <Menu className="h-4 w-4 mr-2" />
