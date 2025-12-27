@@ -87,17 +87,25 @@ const CourseViewer = () => {
   const [watchedTime, setWatchedTime] = useState<Map<string, number>>(new Map());
   const [showModuleMenu, setShowModuleMenu] = useState(true); // Control module selection menu visibility
 
-  // ... (existing code)
+  const { recordLessonCompletion, recordCertificateEarned } = useGamification();
+
+  // Load course data
+  useEffect(() => {
+    // ... existing load logic
+  }, [courseId, supabase]); // (Keep existing implementation)
 
   // Effect to show module menu initially
   useEffect(() => {
+    // Check if we are coming from a specific lesson URL or just the course root
+    // If just course root, show menu. If lesson URL, maybe show lesson directly?
+    // For now, let's always default to menu unless specific state says otherwise
     setShowModuleMenu(true);
   }, []);
 
   const selectLesson = (moduleIndex: number, lessonIndex: number) => {
     // Check if module is locked
     if (isModuleLocked(moduleIndex)) {
-      // ... (existing error handling)
+      // ... existing error handling
       return;
     }
 
@@ -573,11 +581,24 @@ const CourseViewer = () => {
         <main className="flex-1 overflow-y-auto bg-black relative">
            <div className="w-full h-full flex flex-col">
              <div className="flex-1 relative flex items-center justify-center bg-black">
-                <VideoPlayer
-                  youtubeUrl={currentLesson?.youtube_url || ""}
-                  title={currentLesson?.title || ""}
-                  onComplete={markLessonComplete}
-                />
+                {currentLesson?.youtube_url ? (
+                  <VideoPlayer
+                    youtubeUrl={currentLesson.youtube_url}
+                    title={currentLesson.title}
+                    onComplete={markLessonComplete}
+                  />
+                ) : (
+                   <div className="aspect-video bg-gradient-hero flex items-center justify-center w-full">
+                    <div className="text-center space-y-4 p-8">
+                      <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center mx-auto">
+                        <Play className="w-10 h-10 text-primary-foreground" />
+                      </div>
+                      <p className="text-primary-foreground/80 text-lg font-display">
+                        Selecione uma aula para assistir
+                      </p>
+                    </div>
+                  </div>
+                )}
              </div>
              
              {/* Bottom Controls / Info Overlay */}
