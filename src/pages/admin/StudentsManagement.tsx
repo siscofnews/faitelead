@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { 
-  Search, Plus, MoreVertical, Eye, Edit, 
-  Download, Mail, UserCheck, UserX, Home, ChevronLeft,
-  User, Phone, FileText, GraduationCap, Calendar, MapPin, Trash2, TrendingUp, BookOpen
-} from "lucide-react";
+    Search, Plus, MoreVertical, Eye, Edit, 
+    Download, Mail, UserCheck, UserX, Home, ChevronLeft,
+    User, Phone, FileText, GraduationCap, Calendar, MapPin, Trash2, TrendingUp, BookOpen, Camera, Upload
+  } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -98,7 +98,10 @@ const StudentsManagement = () => {
     phone: "",
     birth_date: "",
     gender: "",
-    // Documentos
+    // Fotos
+    profile_photo: null as File | null,
+    selfie_photo: null as File | null,
+    // Documentos (Opcionais agora)
     cpf: "",
     rg: "",
     rg_issuer: "",
@@ -218,8 +221,9 @@ const StudentsManagement = () => {
   };
 
   const handleCreateStudent = async () => {
-    if (!formData.full_name || !formData.email || !formData.cpf || !formData.password) {
-      toast.error("Preencha todos os campos obrigatórios");
+    // Validação mínima: Nome, Email e Senha (CPF não é mais obrigatório aqui)
+    if (!formData.full_name || !formData.email || !formData.password) {
+      toast.error("Preencha Nome, Email e Senha (obrigatórios)");
       return;
     }
 
@@ -237,7 +241,7 @@ const StudentsManagement = () => {
       // 1. Criar usuário no Auth
       const cleanEmail = formData.email.trim();
       const cleanName = formData.full_name.trim();
-      const cleanCpf = formData.cpf.trim();
+      const cleanCpf = formData.cpf.trim(); // Pode estar vazio agora
       
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: cleanEmail,
@@ -245,7 +249,7 @@ const StudentsManagement = () => {
         options: {
           data: {
             full_name: cleanName,
-            cpf: cleanCpf,
+            cpf: cleanCpf, // Opcional
             phone: formData.phone,
             education_level: formData.education_level
           }
@@ -750,14 +754,89 @@ const StudentsManagement = () => {
             </div>
           )}
 
-          {/* Step 2: Documentos */}
+          {/* Step 2: Fotos e Documentos */}
           {currentStep === 2 && (
             <div className="space-y-6">
+              
+              {/* Seção de Fotos */}
+              <div className="grid md:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <Upload className="h-4 w-4" />
+                      Foto do Aluno (PC)
+                    </CardTitle>
+                    <CardDescription>Carregue uma foto do computador</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-col items-center justify-center border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 hover:bg-muted/50 transition-colors cursor-pointer relative">
+                      <Input 
+                        type="file" 
+                        accept="image/*"
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0] || null;
+                          setFormData({ ...formData, profile_photo: file });
+                        }}
+                      />
+                      {formData.profile_photo ? (
+                        <div className="text-center">
+                          <p className="font-medium text-primary">{formData.profile_photo.name}</p>
+                          <p className="text-xs text-muted-foreground">Clique para alterar</p>
+                        </div>
+                      ) : (
+                        <div className="text-center">
+                          <User className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
+                          <p className="text-sm font-medium">Clique para selecionar</p>
+                          <p className="text-xs text-muted-foreground">JPG, PNG</p>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <Camera className="h-4 w-4" />
+                      Selfie (Celular)
+                    </CardTitle>
+                    <CardDescription>Carregue uma selfie do celular</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-col items-center justify-center border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 hover:bg-muted/50 transition-colors cursor-pointer relative">
+                      <Input 
+                        type="file" 
+                        accept="image/*"
+                        capture="user"
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0] || null;
+                          setFormData({ ...formData, selfie_photo: file });
+                        }}
+                      />
+                       {formData.selfie_photo ? (
+                        <div className="text-center">
+                          <p className="font-medium text-primary">{formData.selfie_photo.name}</p>
+                          <p className="text-xs text-muted-foreground">Clique para alterar</p>
+                        </div>
+                      ) : (
+                        <div className="text-center">
+                          <Camera className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
+                          <p className="text-sm font-medium">Tirar foto ou selecionar</p>
+                          <p className="text-xs text-muted-foreground">JPG, PNG</p>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
               <Card>
                 <CardHeader className="pb-3">
                   <CardTitle className="text-base flex items-center gap-2">
                     <FileText className="h-4 w-4" />
-                    Documento Principal *
+                    Documento Principal (Opcional)
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -782,7 +861,7 @@ const StudentsManagement = () => {
                       </Select>
                     </div>
                     <div>
-                      <Label>Número *</Label>
+                      <Label>Número</Label>
                       <Input
                         value={formData.cpf}
                         onChange={(e) => setFormData({ ...formData, cpf: e.target.value })}
@@ -803,7 +882,7 @@ const StudentsManagement = () => {
 
               <Card>
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-base">RG / Identidade</CardTitle>
+                  <CardTitle className="text-base">RG / Identidade (Opcional)</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid md:grid-cols-2 gap-4">
@@ -821,50 +900,6 @@ const StudentsManagement = () => {
                         value={formData.rg_issuer}
                         onChange={(e) => setFormData({ ...formData, rg_issuer: e.target.value })}
                         placeholder="SSP/SP"
-                      />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base">Documento Adicional (Opcional)</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid md:grid-cols-3 gap-4">
-                    <div>
-                      <Label>Tipo</Label>
-                      <Select
-                        value={formData.doc_type_2}
-                        onValueChange={(value) => setFormData({ ...formData, doc_type_2: value })}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Selecione" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="passaporte">Passaporte</SelectItem>
-                          <SelectItem value="cnh">CNH</SelectItem>
-                          <SelectItem value="titulo_eleitor">Título de Eleitor</SelectItem>
-                          <SelectItem value="carteira_trabalho">Carteira de Trabalho</SelectItem>
-                          <SelectItem value="outro">Outro</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div>
-                      <Label>Número</Label>
-                      <Input
-                        value={formData.doc_number_2}
-                        onChange={(e) => setFormData({ ...formData, doc_number_2: e.target.value })}
-                        placeholder="Número do documento"
-                      />
-                    </div>
-                    <div>
-                      <Label>País</Label>
-                      <Input
-                        value={formData.doc_country_2}
-                        onChange={(e) => setFormData({ ...formData, doc_country_2: e.target.value })}
-                        placeholder="País emissor"
                       />
                     </div>
                   </div>
