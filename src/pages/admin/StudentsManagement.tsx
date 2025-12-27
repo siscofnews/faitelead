@@ -259,6 +259,26 @@ const StudentsManagement = () => {
       if (authError) throw authError;
 
       if (authData.user) {
+        // 1.5 GARANTIA DE PERFIL (Upsert manual para caso o trigger falhe)
+        const { error: profileError } = await supabase
+          .from("profiles")
+          .upsert({
+            id: authData.user.id,
+            full_name: cleanName,
+            email: cleanEmail,
+            role: "student",
+            is_active: true,
+            cpf: cleanCpf || null,
+            phone: formData.phone || null,
+            education_level: formData.education_level || "medio",
+            created_at: new Date().toISOString()
+          });
+
+        if (profileError) {
+          console.error("Erro ao criar perfil manual:", profileError);
+          // Não paramos o fluxo, mas logamos o erro
+        }
+
         // 2. Adicionar role de student
         // Verifica se já existe (criado pelo trigger) antes de tentar inserir
         const { data: existingRole } = await supabase
