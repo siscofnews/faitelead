@@ -13,12 +13,14 @@ import RecentActivity from "@/components/dashboard/RecentActivity";
 import Announcements from "@/components/dashboard/Announcements";
 import BookGallery from "@/components/BookGallery";
 import GamificationCard from "@/components/dashboard/GamificationCard";
+import { MessageSquare, PlayCircle } from "lucide-react"; // Added imports
 
 interface Course {
   id: string;
   title: string;
   description: string;
   thumbnail_url: string;
+  professor?: string; // Added prop
 }
 
 const StudentDashboard = () => {
@@ -115,69 +117,140 @@ const StudentDashboard = () => {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Welcome Card */}
-      <WelcomeCard
-        userName={profile?.full_name || "Aluno"}
-        coursesCount={enrolledCourses.length}
-        modulesCompleted={0}
-        studyHours={0}
-      />
+    <div className="space-y-8 animate-fade-in">
+      {/* Hero Section - Estilo EAD Guru / Netflix */}
+      {enrolledCourses.length > 0 && (
+        <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent z-10" />
+          <img 
+            src={enrolledCourses[0].thumbnail_url || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=400&fit=crop"} 
+            alt="Hero Course" 
+            className="w-full h-[400px] object-cover transform group-hover:scale-105 transition-transform duration-700"
+          />
+          <div className="absolute bottom-0 left-0 p-8 z-20 max-w-2xl space-y-4">
+            <span className="px-3 py-1 bg-primary/90 text-primary-foreground text-xs font-bold rounded-full uppercase tracking-wider">
+              Continue Assistindo
+            </span>
+            <h1 className="text-4xl md:text-5xl font-display font-bold text-white drop-shadow-lg">
+              {enrolledCourses[0].title}
+            </h1>
+            <p className="text-gray-200 text-lg line-clamp-2 drop-shadow-md">
+              {enrolledCourses[0].description}
+            </p>
+            <div className="flex items-center gap-4 pt-2">
+              <button 
+                onClick={() => navigate(`/course/${enrolledCourses[0].id}`)}
+                className="flex items-center gap-2 px-8 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg font-bold transition-all hover:scale-105 shadow-lg shadow-primary/25"
+              >
+                <PlayCircle className="w-6 h-6" />
+                Continuar Aula
+              </button>
+              <button 
+                onClick={() => navigate("/student/courses")}
+                className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-lg font-medium backdrop-blur-sm transition-all"
+              >
+                Ver Grade Completa
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
-      {/* Quick Actions */}
-      <QuickActions />
+      {/* Grid Layout Principal */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Coluna Principal (Cursos) - 8 colunas */}
+        <div className="lg:col-span-8 space-y-8">
+          
+          {/* Seção Meus Cursos */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-display font-bold text-foreground flex items-center gap-2">
+                <BookOpen className="w-6 h-6 text-primary" />
+                Meus Cursos
+              </h2>
+            </div>
 
-      {/* Main Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Courses Section - 2 columns */}
-        <div className="lg:col-span-2 space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-display font-bold text-foreground">Meus Cursos</h2>
-            <button className="text-sm text-primary hover:underline">Ver todos</button>
+            {enrolledCourses.length === 0 ? (
+              <Card className="border-dashed border-2 border-muted bg-muted/30">
+                <CardContent className="flex flex-col items-center justify-center py-16">
+                  <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mb-4">
+                    <BookOpen className="w-10 h-10 text-muted-foreground" />
+                  </div>
+                  <h3 className="text-lg font-display font-semibold text-foreground mb-2">
+                    Nenhum curso matriculado
+                  </h3>
+                  <p className="text-sm text-muted-foreground text-center max-w-sm">
+                    Entre em contato com a secretaria para realizar sua matrícula em um de nossos cursos
+                  </p>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {enrolledCourses.map((course) => (
+                  <CourseCard
+                    key={course.id}
+                    id={course.id}
+                    title={course.title}
+                    description={course.description}
+                    thumbnailUrl={course.thumbnail_url}
+                    progress={Math.floor(Math.random() * 80)} // Simulação de progresso
+                    lessonsCount={24}
+                    duration="12 meses"
+                    professor={course.professor || "Prof. Valmir Santos"} // Nome do professor
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
-          {enrolledCourses.length === 0 ? (
-            <Card className="border-dashed border-2 border-muted">
-              <CardContent className="flex flex-col items-center justify-center py-16">
-                <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mb-4">
-                  <BookOpen className="w-10 h-10 text-muted-foreground" />
+          {/* Seção Comunidade / Forum */}
+          <div className="space-y-4">
+            <h2 className="text-2xl font-display font-bold text-foreground flex items-center gap-2">
+              <MessageSquare className="w-6 h-6 text-primary" />
+              Comunidade Acadêmica
+            </h2>
+            <Card className="bg-gradient-to-br from-card to-muted border-border/50">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-6">
+                  <div className="hidden md:flex w-24 h-24 rounded-2xl bg-primary/10 items-center justify-center shrink-0">
+                    <MessageSquare className="w-10 h-10 text-primary" />
+                  </div>
+                  <div className="space-y-2 flex-1">
+                    <h3 className="text-xl font-semibold">Fórum de Discussão</h3>
+                    <p className="text-muted-foreground">
+                      Participe das discussões com professores e outros alunos. Tire dúvidas, compartilhe conhecimento e interaja com a turma.
+                    </p>
+                    <div className="pt-2">
+                      <button 
+                        onClick={() => navigate("/forum/student")}
+                        className="text-primary font-medium hover:underline flex items-center gap-2"
+                      >
+                        Acessar Fórum <BookOpen className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="text-lg font-display font-semibold text-foreground mb-2">
-                  Nenhum curso matriculado
-                </h3>
-                <p className="text-sm text-muted-foreground text-center max-w-sm">
-                  Entre em contato com a secretaria para realizar sua matrícula em um de nossos cursos
-                </p>
               </CardContent>
             </Card>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {enrolledCourses.map((course) => (
-                <CourseCard
-                  key={course.id}
-                  id={course.id}
-                  title={course.title}
-                  description={course.description}
-                  thumbnailUrl={course.thumbnail_url}
-                  progress={Math.floor(Math.random() * 80)}
-                  lessonsCount={24}
-                  duration="12 meses"
-                />
-              ))}
-            </div>
-          )}
+          </div>
+          
+          <BookGallery />
         </div>
 
-        {/* Sidebar Content - 1 column */}
-        <div className="space-y-6">
+        {/* Sidebar Lateral - 4 colunas */}
+        <div className="lg:col-span-4 space-y-6">
+          <WelcomeCard
+            userName={profile?.full_name || "Aluno"}
+            coursesCount={enrolledCourses.length}
+            modulesCompleted={0}
+            studyHours={0}
+          />
+          <QuickActions />
           <GamificationCard />
           <RecentActivity />
           <Announcements />
         </div>
       </div>
-
-      {/* Book Gallery */}
-      <BookGallery />
     </div>
   );
 };

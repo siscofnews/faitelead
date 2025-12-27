@@ -13,6 +13,7 @@ interface CourseCardProps {
   progress?: number;
   lessonsCount?: number;
   duration?: string;
+  professor?: string;
 }
 
 const CourseCard = ({
@@ -23,6 +24,7 @@ const CourseCard = ({
   progress = 0,
   lessonsCount = 0,
   duration = "12 meses",
+  professor = "FAITEL",
 }: CourseCardProps) => {
   const navigate = useNavigate();
 
@@ -71,6 +73,7 @@ const CourseCard = ({
             {title}
           </h3>
         </div>
+        <p className="text-xs text-primary font-medium">{professor}</p>
         <p className="text-sm text-muted-foreground line-clamp-2">
           {description || "Curso completo de teologia com material didático exclusivo"}
         </p>
