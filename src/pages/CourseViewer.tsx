@@ -80,7 +80,7 @@ const CourseViewer = () => {
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
   const [currentLessonIndex, setCurrentLessonIndex] = useState(0);
-  const [sidebarOpen, setSidebarOpen] = useState(false); // Sidebar closed by default for immersive view
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Sidebar open by default
   const [completedLessons, setCompletedLessons] = useState<Set<string>>(new Set());
   const [notes, setNotes] = useState("");
   const [moduleExamStatus, setModuleExamStatus] = useState<Map<string, ModuleExamStatus>>(new Map());
@@ -602,43 +602,6 @@ const CourseViewer = () => {
       </header>
 
       <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar (List of Lessons) */}
-        <aside className={`w-80 bg-card border-r border-border flex flex-col transition-all duration-300 ${sidebarOpen ? 'w-0 opacity-0 overflow-hidden' : ''}`}>
-          <div className="p-4 border-b border-border">
-            <h2 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground mb-1">Conteúdo</h2>
-            <p className="font-bold text-lg">{modules[currentModuleIndex]?.title}</p>
-          </div>
-          <ScrollArea className="flex-1">
-            <div className="p-2 space-y-1">
-              {modules[currentModuleIndex]?.lessons.map((lesson, idx) => (
-                <button
-                  key={lesson.id}
-                  onClick={() => selectLesson(currentModuleIndex, idx)}
-                  className={`w-full flex items-start gap-3 p-3 text-left rounded-lg transition-colors ${
-                    currentLesson?.id === lesson.id 
-                      ? "bg-primary/10 text-primary font-medium" 
-                      : "hover:bg-muted text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  <div className="mt-0.5">
-                    {completedLessons.has(lesson.id) ? (
-                      <CheckCircle2 className="w-4 h-4 text-success" />
-                    ) : currentLesson?.id === lesson.id ? (
-                      <Play className="w-4 h-4 fill-current" />
-                    ) : (
-                      <Circle className="w-4 h-4" />
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm line-clamp-2">{lesson.title}</p>
-                    <p className="text-xs opacity-70 mt-1">{lesson.duration_minutes} min</p>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </ScrollArea>
-        </aside>
-
         {/* Main Content (Full Width Video) */}
         <main className="flex-1 overflow-y-auto bg-black relative flex flex-col">
            <div className="flex-1 relative flex items-center justify-center bg-black min-h-[400px]">
@@ -708,6 +671,54 @@ const CourseViewer = () => {
               </div>
            </div>
         </main>
+
+        {/* Sidebar (List of Lessons) - Now on the RIGHT */}
+        <aside className={`w-96 bg-card border-l border-border flex flex-col transition-all duration-300 ${isSidebarOpen ? '' : 'w-0 opacity-0 overflow-hidden'}`}>
+          <div className="p-4 border-b border-border bg-muted/30">
+            <h2 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground mb-1">Módulo Atual</h2>
+            <p className="font-display font-bold text-lg text-primary">{modules[currentModuleIndex]?.title}</p>
+          </div>
+          <ScrollArea className="flex-1">
+            <div className="p-3 space-y-2">
+              {modules[currentModuleIndex]?.lessons.map((lesson, idx) => (
+                <button
+                  key={lesson.id}
+                  onClick={() => selectLesson(currentModuleIndex, idx)}
+                  className={`w-full flex items-start gap-3 p-4 text-left rounded-xl transition-all border ${
+                    currentLesson?.id === lesson.id 
+                      ? "bg-primary/10 border-primary/20 shadow-sm" 
+                      : "hover:bg-muted border-transparent hover:border-border"
+                  }`}
+                >
+                  <div className={`mt-0.5 rounded-full p-1 ${currentLesson?.id === lesson.id ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
+                    {completedLessons.has(lesson.id) ? (
+                      <CheckCircle2 className="w-4 h-4" />
+                    ) : currentLesson?.id === lesson.id ? (
+                      <Play className="w-4 h-4 fill-current" />
+                    ) : (
+                      <span className="w-4 h-4 flex items-center justify-center font-bold text-[10px]">{idx + 1}</span>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className={`text-sm font-semibold line-clamp-2 ${currentLesson?.id === lesson.id ? "text-primary" : "text-foreground"}`}>
+                      {lesson.title}
+                    </p>
+                    <div className="flex items-center gap-2 mt-1.5">
+                      <span className="text-xs text-muted-foreground flex items-center gap-1">
+                        <Clock className="w-3 h-3" /> {lesson.duration_minutes} min
+                      </span>
+                      {currentLesson?.id === lesson.id && (
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-primary animate-pulse">
+                          Reproduzindo
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </ScrollArea>
+        </aside>
       </div>
 
       {/* Mobile Bottom Navigation */}
