@@ -236,13 +236,17 @@ const StudentsManagement = () => {
 
     try {
       // 1. Criar usuário no Auth
+      const cleanEmail = formData.email.trim();
+      const cleanName = formData.full_name.trim();
+      const cleanCpf = formData.cpf.trim();
+      
       const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: formData.email,
+        email: cleanEmail,
         password: formData.password,
         options: {
           data: {
-            full_name: formData.full_name,
-            cpf: formData.cpf,
+            full_name: cleanName,
+            cpf: cleanCpf,
             phone: formData.phone,
             education_level: formData.education_level
           }
