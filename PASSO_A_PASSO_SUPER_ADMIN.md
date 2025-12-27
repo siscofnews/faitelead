@@ -56,12 +56,14 @@ Password: P26192920m
 ### 3.4 - Ver Resultado
 Você deve ver mensagens verdes tipo:
 ```
-✓ Perfil criado/atualizado como SUPER_ADMIN
-✓ Role SUPER_ADMIN adicionada  
-✓ Registrado como Master Super Admin
-✓ Log de auditoria criado
-SUPER ADMIN CONFIGURADO COM SUCESSO!
+✓ Usuário encontrado: ...
+✓ Perfil criado/atualizado
+✓ Role SUPER_ADMIN adicionada
+✓ Role ADMIN adicionada (acesso total)
+✅ SUPER ADMIN CONFIGURADO COM SUCESSO!
+Roles: super_admin + admin
 ```
+
 
 ---
 

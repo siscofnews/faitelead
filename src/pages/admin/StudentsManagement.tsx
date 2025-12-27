@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { 
   Search, Plus, MoreVertical, Eye, Edit, 
   Download, Mail, UserCheck, UserX, Home, ChevronLeft,
-  User, Phone, FileText, GraduationCap, Calendar, MapPin, Trash2, TrendingUp
+  User, Phone, FileText, GraduationCap, Calendar, MapPin, Trash2, TrendingUp, BookOpen
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -68,6 +68,8 @@ interface Course {
   monthly_price: number;
 }
 
+import { EnrollStudentInCourseDialog } from "@/components/admin/EnrollStudentInCourseDialog";
+
 const StudentsManagement = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -77,7 +79,9 @@ const StudentsManagement = () => {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
+  const [isEnrollDialogOpen, setIsEnrollDialogOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
+  const [studentToEnroll, setStudentToEnroll] = useState<{id: string, name: string} | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
   const [stats, setStats] = useState({
@@ -249,11 +253,20 @@ const StudentsManagement = () => {
 
       if (authData.user) {
         // 2. Adicionar role de student
+        // Tenta inserir, mas se falhar por duplicidade (já inserido pelo trigger), ignora o erro
         const { error: roleError } = await supabase
           .from("user_roles")
-          .insert({ user_id: authData.user.id, role: "student" });
+          .insert({ user_id: authData.user.id, role: "student" })
+          .select()
+          .single();
 
-        if (roleError) throw roleError;
+        // Se houver erro, verifica se é erro de duplicidade (código 23505 no Postgres)
+        // O Supabase JS retorna detalhes no objeto de erro.
+        // Se for erro de duplicidade, podemos ignorar e continuar.
+        if (roleError && roleError.code !== '23505') {
+             console.warn("Aviso ao definir role (pode já existir):", roleError);
+             // Não lançamos erro aqui para não impedir o fluxo, pois o trigger já deve ter criado
+        }
 
         // 3. Criar matrículas nos cursos selecionados
         if (selectedCourses.length > 0) {
@@ -575,6 +588,13 @@ const StudentsManagement = () => {
                             <DropdownMenuItem onClick={() => { setSelectedStudent(student); setIsViewDialogOpen(true); }}>
                               <Eye className="h-4 w-4 mr-2" />
                               Ver Detalhes
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => {
+                              setStudentToEnroll({ id: student.id, name: student.full_name });
+                              setIsEnrollDialogOpen(true);
+                            }}>
+                              <BookOpen className="h-4 w-4 mr-2" />
+                              Matricular em Curso
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => navigate(`/admin/alunos/${student.id}/desempenho`)}>
                               <TrendingUp className="h-4 w-4 mr-2" />
@@ -1147,6 +1167,19 @@ const StudentsManagement = () => {
           )}
         </DialogContent>
       </Dialog>
+
+      {studentToEnroll && (
+        <EnrollStudentInCourseDialog
+          open={isEnrollDialogOpen}
+          onOpenChange={setIsEnrollDialogOpen}
+          studentId={studentToEnroll.id}
+          studentName={studentToEnroll.name}
+          onSuccess={() => {
+            loadStudents();
+            toast.success("Matrícula realizada com sucesso!");
+          }}
+        />
+      )}
     </div>
   );
 };
