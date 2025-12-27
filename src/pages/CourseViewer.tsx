@@ -620,7 +620,108 @@ const CourseViewer = () => {
         </div>
       </header>
 
-      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar (List of Lessons) - LEFT SIDE like EAD Guru */}
+        <aside className={`w-96 bg-card border-r border-border flex flex-col transition-all duration-300 ${isSidebarOpen ? '' : 'w-0 opacity-0 overflow-hidden'}`}>
+          <div className="p-4 border-b border-border bg-muted/30 flex items-center justify-between">
+            <Button variant="ghost" size="sm" onClick={() => navigate("/student")} className="gap-2 text-muted-foreground hover:text-primary p-0">
+               <ChevronLeft className="h-4 w-4" /> VOLTAR
+            </Button>
+            <span className="text-xs font-bold bg-primary/10 text-primary px-2 py-1 rounded">
+               {completedLessons.size}/{modules.reduce((acc, m) => acc + m.lessons.length, 0)}
+            </span>
+          </div>
+          
+          <div className="p-4 pb-2">
+             <h2 className="font-display font-bold text-lg leading-tight">{currentLesson?.title}</h2>
+             <div className="relative mt-4 mb-2">
+                <input 
+                  type="text" 
+                  placeholder="Pesquisar aula..." 
+                  className="w-full bg-muted/50 border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary/50"
+                />
+             </div>
+          </div>
+
+          <ScrollArea className="flex-1">
+            <div className="p-3 space-y-2">
+              {/* Show all materials that are videos as lessons in the list */}
+              {modules[currentModuleIndex]?.module_materials?.filter(m => m.material_type === 'video' || m.youtube_url).map((video, idx) => (
+                 <button
+                  key={video.id}
+                  onClick={() => {
+                     setActiveVideoUrl(video.youtube_url || video.file_url);
+                     window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className={`w-full flex items-center gap-3 p-3 text-left rounded-lg transition-all border ${
+                    activeVideoUrl === (video.youtube_url || video.file_url)
+                      ? "bg-primary text-primary-foreground border-primary shadow-md" 
+                      : "bg-card hover:bg-muted border-border"
+                  }`}
+                >
+                  <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                     activeVideoUrl === (video.youtube_url || video.file_url) ? "bg-white/20 text-white" : "bg-primary/10 text-primary"
+                  }`}>
+                    {activeVideoUrl === (video.youtube_url || video.file_url) ? <Play className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4" />}
+                  </div>
+                  
+                  <div className="flex-1 min-w-0">
+                    <p className={`text-sm font-semibold line-clamp-2 ${activeVideoUrl === (video.youtube_url || video.file_url) ? "text-white" : "text-foreground"}`}>
+                      {video.title}
+                    </p>
+                    <div className="flex items-center justify-between mt-1">
+                       <span className={`text-xs ${activeVideoUrl === (video.youtube_url || video.file_url) ? "text-white/80" : "text-muted-foreground"}`}>
+                          Vídeo Aula
+                       </span>
+                       {activeVideoUrl === (video.youtube_url || video.file_url) && (
+                          <span className="text-[10px] font-bold uppercase tracking-wider bg-white/20 px-1.5 py-0.5 rounded text-white">
+                             Tocando
+                          </span>
+                       )}
+                    </div>
+                  </div>
+                </button>
+              ))}
+
+              {/* Regular Lessons */}
+              {modules[currentModuleIndex]?.lessons.map((lesson, idx) => (
+                <button
+                  key={lesson.id}
+                  onClick={() => selectLesson(currentModuleIndex, idx)}
+                  className={`w-full flex items-center gap-3 p-3 text-left rounded-lg transition-all border ${
+                    currentLesson?.id === lesson.id && !activeVideoUrl
+                      ? "bg-primary text-primary-foreground border-primary shadow-md" 
+                      : "bg-card hover:bg-muted border-border"
+                  }`}
+                >
+                  <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                     currentLesson?.id === lesson.id && !activeVideoUrl ? "bg-white/20 text-white" : "bg-muted text-muted-foreground"
+                  }`}>
+                    {completedLessons.has(lesson.id) ? (
+                      <CheckCircle2 className="w-5 h-5" />
+                    ) : (
+                      <span className="font-bold text-xs">{idx + 1}</span>
+                    )}
+                  </div>
+                  
+                  <div className="flex-1 min-w-0">
+                    <p className={`text-sm font-semibold line-clamp-2 ${currentLesson?.id === lesson.id && !activeVideoUrl ? "text-white" : "text-foreground"}`}>
+                      {lesson.title}
+                    </p>
+                    <div className="flex items-center justify-between mt-1">
+                       <span className={`text-xs ${currentLesson?.id === lesson.id && !activeVideoUrl ? "text-white/80" : "text-muted-foreground"}`}>
+                          {lesson.duration_minutes} min
+                       </span>
+                       {currentLesson?.id === lesson.id && !activeVideoUrl && (
+                          <Play className="w-3 h-3 fill-current text-white" />
+                       )}
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </ScrollArea>
+        </aside>
+
         {/* Main Content (Full Width Video) */}
         <main className="flex-1 overflow-y-auto bg-black relative flex flex-col">
            <div className="flex-1 relative flex items-center justify-center bg-black min-h-[400px]">
@@ -715,59 +816,7 @@ const CourseViewer = () => {
            </div>
         </main>
 
-        {/* Sidebar (List of Lessons) - Now on the RIGHT */}
-        <aside className={`w-96 bg-card border-l border-border flex flex-col transition-all duration-300 ${isSidebarOpen ? '' : 'w-0 opacity-0 overflow-hidden'}`}>
-          <div className="p-4 border-b border-border bg-muted/30 flex items-center justify-between">
-            <div>
-              <h2 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground mb-1">Módulo Atual</h2>
-              <p className="font-display font-bold text-lg text-primary">{modules[currentModuleIndex]?.title}</p>
-            </div>
-            {/* Toggle button inside sidebar for better UX */}
-            <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(false)} className="lg:hidden">
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
-          <ScrollArea className="flex-1">
-            <div className="p-3 space-y-2">
-              {modules[currentModuleIndex]?.lessons.map((lesson, idx) => (
-                <button
-                  key={lesson.id}
-                  onClick={() => selectLesson(currentModuleIndex, idx)}
-                  className={`w-full flex items-start gap-3 p-4 text-left rounded-xl transition-all border ${
-                    currentLesson?.id === lesson.id 
-                      ? "bg-primary/10 border-primary/20 shadow-sm" 
-                      : "hover:bg-muted border-transparent hover:border-border"
-                  }`}
-                >
-                  <div className={`mt-0.5 rounded-full p-1 ${currentLesson?.id === lesson.id ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
-                    {completedLessons.has(lesson.id) ? (
-                      <CheckCircle2 className="w-4 h-4" />
-                    ) : currentLesson?.id === lesson.id ? (
-                      <Play className="w-4 h-4 fill-current" />
-                    ) : (
-                      <span className="w-4 h-4 flex items-center justify-center font-bold text-[10px]">{idx + 1}</span>
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className={`text-sm font-semibold line-clamp-2 ${currentLesson?.id === lesson.id ? "text-primary" : "text-foreground"}`}>
-                      {lesson.title}
-                    </p>
-                    <div className="flex items-center gap-2 mt-1.5">
-                      <span className="text-xs text-muted-foreground flex items-center gap-1">
-                        <Clock className="w-3 h-3" /> {lesson.duration_minutes} min
-                      </span>
-                      {currentLesson?.id === lesson.id && (
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-primary animate-pulse">
-                          Reproduzindo
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </ScrollArea>
-        </aside>
+
       </div>
 
       {/* Mobile Bottom Navigation */}
