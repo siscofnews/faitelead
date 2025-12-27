@@ -86,6 +86,7 @@ const CourseViewer = () => {
   const [moduleExamStatus, setModuleExamStatus] = useState<Map<string, ModuleExamStatus>>(new Map());
   const [watchedTime, setWatchedTime] = useState<Map<string, number>>(new Map());
   const [showModuleMenu, setShowModuleMenu] = useState(true); // Control module selection menu visibility
+  const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null); // For handling multiple videos in materials
 
   const { recordLessonCompletion, recordCertificateEarned } = useGamification();
 
@@ -93,6 +94,13 @@ const CourseViewer = () => {
   useEffect(() => {
     // ... existing load logic
   }, [courseId, supabase]); // (Keep existing implementation)
+
+  // Reset active video when lesson changes
+  useEffect(() => {
+    if (currentLesson) {
+      setActiveVideoUrl(currentLesson.youtube_url || null);
+    }
+  }, [currentLesson]);
 
   // Effect to show module menu initially
   useEffect(() => {
@@ -616,10 +624,10 @@ const CourseViewer = () => {
         {/* Main Content (Full Width Video) */}
         <main className="flex-1 overflow-y-auto bg-black relative flex flex-col">
            <div className="flex-1 relative flex items-center justify-center bg-black min-h-[400px]">
-              {currentLesson?.youtube_url ? (
+              {activeVideoUrl ? (
                 <VideoPlayer
-                  youtubeUrl={currentLesson.youtube_url}
-                  title={currentLesson.title}
+                  youtubeUrl={activeVideoUrl}
+                  title={currentLesson?.title || ""}
                   onComplete={markLessonComplete}
                 />
               ) : (
@@ -646,9 +654,10 @@ const CourseViewer = () => {
                  
                  <div className="space-y-4">
                     <h3 className="font-semibold flex items-center gap-2">
-                      <FileText className="w-4 h-4 text-primary" /> Materiais de Apoio
+                      <FileText className="w-4 h-4 text-primary" /> Materiais e Vídeos Extras
                     </h3>
                     <div className="grid gap-2">
+                       {/* PDF da Aula */}
                        {currentLesson?.pdf_url && (
                          <a 
                            href={currentLesson.pdf_url} 
@@ -662,21 +671,44 @@ const CourseViewer = () => {
                            <span className="text-sm font-medium">Baixar PDF da Aula</span>
                          </a>
                        )}
-                       {/* Module Materials */}
-                       {modules[currentModuleIndex]?.module_materials?.map((mat: any) => (
-                          <a 
-                           key={mat.id}
-                           href={mat.file_url} 
-                           target="_blank" 
-                           rel="noopener noreferrer"
-                           className="flex items-center gap-3 p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors group"
-                         >
-                           <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20">
-                             <FileText className="w-4 h-4 text-primary" />
+                       
+                       {/* Module Materials (PDFs and Videos) */}
+                       {modules[currentModuleIndex]?.module_materials?.map((mat: any) => {
+                          const isVideo = mat.material_type === 'video' || mat.youtube_url;
+                          const isActive = isVideo && activeVideoUrl === (mat.youtube_url || mat.file_url);
+                          
+                          return (
+                            <div 
+                             key={mat.id}
+                             onClick={() => {
+                               if (isVideo) {
+                                 setActiveVideoUrl(mat.youtube_url || mat.file_url);
+                                 window.scrollTo({ top: 0, behavior: 'smooth' });
+                               } else {
+                                 window.open(mat.file_url, "_blank");
+                               }
+                             }}
+                             className={`flex items-center gap-3 p-3 rounded-lg transition-colors group cursor-pointer ${
+                               isActive 
+                                 ? "bg-primary/10 border border-primary/20" 
+                                 : "bg-muted hover:bg-muted/80"
+                             }`}
+                           >
+                             <div className={`w-8 h-8 rounded-full flex items-center justify-center group-hover:bg-primary/20 ${
+                               isActive ? "bg-primary text-primary-foreground" : "bg-primary/10"
+                             }`}>
+                               {isVideo ? <Play className="w-4 h-4 text-primary" /> : <FileText className="w-4 h-4 text-primary" />}
+                             </div>
+                             <div className="flex-1">
+                               <span className={`text-sm font-medium ${isActive ? "text-primary" : ""}`}>{mat.title}</span>
+                               {isVideo && <p className="text-xs text-muted-foreground">Clique para assistir</p>}
+                             </div>
+                             {isVideo && isActive && (
+                               <span className="text-xs font-bold text-primary animate-pulse">Reproduzindo</span>
+                             )}
                            </div>
-                           <span className="text-sm font-medium">{mat.title}</span>
-                         </a>
-                       ))}
+                          );
+                       })}
                     </div>
                  </div>
               </div>
