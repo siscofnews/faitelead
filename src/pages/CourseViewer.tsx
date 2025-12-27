@@ -646,34 +646,38 @@ const CourseViewer = () => {
           <ScrollArea className="flex-1">
             <div className="p-3 space-y-2">
               {/* Show all materials that are videos as lessons in the list */}
-              {modules[currentModuleIndex]?.module_materials?.filter(m => m.material_type === 'video' || m.youtube_url).map((video, idx) => (
+              {modules[currentModuleIndex]?.module_materials?.filter(m => m.material_type === 'video' || m.youtube_url || (m.file_url && (m.file_url.includes('youtube') || m.file_url.includes('youtu.be')))).map((video, idx) => {
+                 const videoUrl = video.youtube_url || video.file_url;
+                 const isActive = activeVideoUrl === videoUrl;
+                 
+                 return (
                  <button
                   key={video.id}
                   onClick={() => {
-                     setActiveVideoUrl(video.youtube_url || video.file_url);
+                     setActiveVideoUrl(videoUrl);
                      window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                   className={`w-full flex items-center gap-3 p-3 text-left rounded-lg transition-all border ${
-                    activeVideoUrl === (video.youtube_url || video.file_url)
+                    isActive
                       ? "bg-primary text-primary-foreground border-primary shadow-md" 
                       : "bg-card hover:bg-muted border-border"
                   }`}
                 >
                   <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                     activeVideoUrl === (video.youtube_url || video.file_url) ? "bg-white/20 text-white" : "bg-primary/10 text-primary"
+                     isActive ? "bg-white/20 text-white" : "bg-primary/10 text-primary"
                   }`}>
-                    {activeVideoUrl === (video.youtube_url || video.file_url) ? <Play className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4" />}
+                    {isActive ? <Play className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4" />}
                   </div>
                   
                   <div className="flex-1 min-w-0">
-                    <p className={`text-sm font-semibold line-clamp-2 ${activeVideoUrl === (video.youtube_url || video.file_url) ? "text-white" : "text-foreground"}`}>
+                    <p className={`text-sm font-semibold line-clamp-2 ${isActive ? "text-white" : "text-foreground"}`}>
                       {video.title}
                     </p>
                     <div className="flex items-center justify-between mt-1">
-                       <span className={`text-xs ${activeVideoUrl === (video.youtube_url || video.file_url) ? "text-white/80" : "text-muted-foreground"}`}>
+                       <span className={`text-xs ${isActive ? "text-white/80" : "text-muted-foreground"}`}>
                           Vídeo Aula
                        </span>
-                       {activeVideoUrl === (video.youtube_url || video.file_url) && (
+                       {isActive && (
                           <span className="text-[10px] font-bold uppercase tracking-wider bg-white/20 px-1.5 py-0.5 rounded text-white">
                              Tocando
                           </span>
@@ -681,7 +685,7 @@ const CourseViewer = () => {
                     </div>
                   </div>
                 </button>
-              ))}
+              )})}
 
               {/* Regular Lessons */}
               {modules[currentModuleIndex]?.lessons.map((lesson, idx) => (
@@ -776,17 +780,18 @@ const CourseViewer = () => {
                        
                        {/* Module Materials (PDFs and Videos) */}
                        {modules[currentModuleIndex]?.module_materials?.map((mat: any) => {
-                          const isVideo = mat.material_type === 'video' || mat.youtube_url;
-                          const isActive = isVideo && activeVideoUrl === (mat.youtube_url || mat.file_url);
+                          const isVideo = mat.material_type === 'video' || mat.youtube_url || (mat.file_url && (mat.file_url.includes('youtube') || mat.file_url.includes('youtu.be')));
+                          const videoUrl = mat.youtube_url || mat.file_url;
+                          const isActive = isVideo && activeVideoUrl === videoUrl;
                           
                           return (
                             <div 
                              key={mat.id}
                              onClick={() => {
-                               if (isVideo) {
-                                 setActiveVideoUrl(mat.youtube_url || mat.file_url);
+                               if (isVideo && videoUrl) {
+                                 setActiveVideoUrl(videoUrl);
                                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                               } else {
+                               } else if (mat.file_url) {
                                  window.open(mat.file_url, "_blank");
                                }
                              }}
