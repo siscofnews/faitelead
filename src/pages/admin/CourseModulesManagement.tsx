@@ -40,6 +40,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import VideoPlayer from "@/components/ead/VideoPlayer";
 
 interface Course {
   id: string;
@@ -100,6 +101,9 @@ const CourseModulesManagement = () => {
   const [uploadingMaterial, setUploadingMaterial] = useState(false);
   const materialFileRef = useRef<HTMLInputElement>(null);
   const [materialFile, setMaterialFile] = useState<File | null>(null);
+
+  // Video Preview Dialog
+  const [previewVideo, setPreviewVideo] = useState<{ url: string; title: string } | null>(null);
 
   // Exam dialog
   const [examDialogOpen, setExamDialogOpen] = useState(false);
@@ -698,10 +702,15 @@ const CourseModulesManagement = () => {
                                   </Button>
                                 )}
                                 {material.youtube_url && (
-                                  <Button size="sm" variant="ghost" asChild>
-                                    <a href={material.youtube_url} target="_blank" rel="noopener noreferrer">
-                                      <Youtube className="h-4 w-4" />
-                                    </a>
+                                  <Button 
+                                    size="sm" 
+                                    variant="ghost" 
+                                    onClick={() => setPreviewVideo({
+                                      url: material.youtube_url!,
+                                      title: material.title
+                                    })}
+                                  >
+                                    <Youtube className="h-4 w-4" />
                                   </Button>
                                 )}
                                 <Button
@@ -888,6 +897,24 @@ const CourseModulesManagement = () => {
               {uploadingMaterial ? 'Enviando...' : 'Adicionar'}
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Video Preview Dialog */}
+      <Dialog open={!!previewVideo} onOpenChange={(open) => !open && setPreviewVideo(null)}>
+        <DialogContent className="max-w-4xl p-0 overflow-hidden bg-black border-none">
+          <DialogHeader className="p-4 absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-black/80 to-transparent pointer-events-none">
+            <DialogTitle className="text-white text-shadow">{previewVideo?.title}</DialogTitle>
+          </DialogHeader>
+          
+          {previewVideo && (
+            <div className="aspect-video w-full">
+              <VideoPlayer
+                youtubeUrl={previewVideo.url}
+                title={previewVideo.title}
+              />
+            </div>
+          )}
         </DialogContent>
       </Dialog>
 

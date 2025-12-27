@@ -40,6 +40,7 @@ interface Module {
   description: string;
   order_index: number;
   lessons: Lesson[];
+  module_materials?: any[];
 }
 
 interface Lesson {
@@ -110,12 +111,13 @@ const CourseViewer = () => {
       if (courseError) throw courseError;
       setCourse(courseData);
 
-      // Load modules with lessons
+      // Load modules with lessons and materials
       const { data: modulesData, error: modulesError } = await supabase
         .from("modules")
         .select(`
           *,
-          lessons (*)
+          lessons (*),
+          module_materials (*)
         `)
         .eq("course_id", courseId)
         .order("order_index", { ascending: true });
@@ -592,6 +594,7 @@ const CourseViewer = () => {
                   pdfUrl={currentLesson?.pdf_url}
                   lessonTitle={currentLesson?.title || ""}
                   lessonId={currentLesson?.id || ""}
+                  materials={modules[currentModuleIndex]?.module_materials || []}
                 />
               </TabsContent>
 
