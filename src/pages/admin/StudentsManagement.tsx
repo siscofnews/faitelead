@@ -146,11 +146,11 @@ const StudentsManagement = () => {
 
   const loadStudents = async () => {
     try {
+      // Busca simplificada direto da tabela profiles
+      // (Requer que a coluna 'role' esteja populada, o que garantimos nos scripts recentes)
       const { data, error } = await supabase
-        .from("user_roles")
+        .from("profiles")
         .select(`
-          user_id,
-          profiles!inner (
             id,
             full_name,
             email,
@@ -159,21 +159,20 @@ const StudentsManagement = () => {
             education_level,
             is_active,
             created_at
-          )
         `)
         .eq("role", "student");
 
       if (error) throw error;
 
-      const studentsList: Student[] = (data || []).map((item: any) => ({
-        id: item.profiles.id,
-        full_name: item.profiles.full_name,
-        email: item.profiles.email,
-        phone: item.profiles.phone || "",
-        cpf: item.profiles.cpf || "",
-        education_level: item.profiles.education_level || "medio",
-        is_active: !!item.profiles.is_active,
-        created_at: item.profiles.created_at,
+      const studentsList: Student[] = (data || []).map((profile: any) => ({
+        id: profile.id,
+        full_name: profile.full_name || "Sem Nome",
+        email: profile.email || "",
+        phone: profile.phone || "",
+        cpf: profile.cpf || "",
+        education_level: profile.education_level || "medio",
+        is_active: !!profile.is_active,
+        created_at: profile.created_at,
         enrollments_count: 0,
       }));
 
