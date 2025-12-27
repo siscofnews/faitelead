@@ -27,16 +27,21 @@ const AdminLayout = () => {
             const r = (roles || []).map((x: any) => x.role);
             const isSuper = r.includes("super_admin");
             const isAdmin = r.includes("admin");
+
+            if (!isSuper && !isAdmin) {
+                // Se for aluno tentando acessar admin, manda pro painel de aluno
+                navigate("/student");
+                return;
+            }
+
             setProfile({ full_name: user.email || "Admin" });
-            setUserRole(isSuper ? "super_admin" : (isAdmin ? "admin" : "admin"));
+            setUserRole(isSuper ? "super_admin" : "admin");
             setLoading(false);
             return;
         }
 
-        // Último fallback
-        setProfile({ full_name: "Admin Demo" });
-        setUserRole("admin");
-        setLoading(false);
+        // Se não tiver usuário logado, manda pro login
+        navigate("/auth");
     };
 
     const handleLogout = async () => {
