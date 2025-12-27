@@ -554,6 +554,17 @@ const CourseViewer = () => {
         </div>
 
         <div className="flex items-center gap-2">
+           {/* Toggle Sidebar Button */}
+           <Button
+             variant="ghost"
+             size="icon"
+             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+             className="hidden lg:flex"
+             title={isSidebarOpen ? "Fechar lista de aulas" : "Abrir lista de aulas"}
+           >
+             {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+           </Button>
+
            {/* Navigation Controls in Header */}
            <div className="flex items-center gap-2 mr-2">
               <Button
@@ -674,9 +685,15 @@ const CourseViewer = () => {
 
         {/* Sidebar (List of Lessons) - Now on the RIGHT */}
         <aside className={`w-96 bg-card border-l border-border flex flex-col transition-all duration-300 ${isSidebarOpen ? '' : 'w-0 opacity-0 overflow-hidden'}`}>
-          <div className="p-4 border-b border-border bg-muted/30">
-            <h2 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground mb-1">Módulo Atual</h2>
-            <p className="font-display font-bold text-lg text-primary">{modules[currentModuleIndex]?.title}</p>
+          <div className="p-4 border-b border-border bg-muted/30 flex items-center justify-between">
+            <div>
+              <h2 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground mb-1">Módulo Atual</h2>
+              <p className="font-display font-bold text-lg text-primary">{modules[currentModuleIndex]?.title}</p>
+            </div>
+            {/* Toggle button inside sidebar for better UX */}
+            <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(false)} className="lg:hidden">
+              <X className="h-4 w-4" />
+            </Button>
           </div>
           <ScrollArea className="flex-1">
             <div className="p-3 space-y-2">
