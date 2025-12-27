@@ -554,6 +554,31 @@ const CourseViewer = () => {
         </div>
 
         <div className="flex items-center gap-2">
+           {/* Navigation Controls in Header */}
+           <div className="flex items-center gap-2 mr-2">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={goToPreviousLesson}
+                disabled={currentModuleIndex === 0 && currentLessonIndex === 0}
+                className="h-9 w-9"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={goToNextLesson}
+                disabled={
+                  currentModuleIndex === modules.length - 1 &&
+                  currentLessonIndex === modules[currentModuleIndex]?.lessons.length - 1
+                }
+                className="h-9 w-9"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+           </div>
+
            {currentLesson && !completedLessons.has(currentLesson.id) ? (
               <Button
                 size="sm"
@@ -577,75 +602,110 @@ const CourseViewer = () => {
       </header>
 
       <div className="flex flex-1 overflow-hidden">
-        {/* Main Content (Full Width Video) */}
-        <main className="flex-1 overflow-y-auto bg-black relative">
-           <div className="w-full h-full flex flex-col">
-             <div className="flex-1 relative flex items-center justify-center bg-black">
-                {currentLesson?.youtube_url ? (
-                  <VideoPlayer
-                    youtubeUrl={currentLesson.youtube_url}
-                    title={currentLesson.title}
-                    onComplete={markLessonComplete}
-                  />
-                ) : (
-                   <div className="aspect-video bg-gradient-hero flex items-center justify-center w-full">
-                    <div className="text-center space-y-4 p-8">
-                      <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center mx-auto">
-                        <Play className="w-10 h-10 text-primary-foreground" />
-                      </div>
-                      <p className="text-primary-foreground/80 text-lg font-display">
-                        Selecione uma aula para assistir
-                      </p>
-                    </div>
+        {/* Sidebar (List of Lessons) */}
+        <aside className={`w-80 bg-card border-r border-border flex flex-col transition-all duration-300 ${sidebarOpen ? 'w-0 opacity-0 overflow-hidden' : ''}`}>
+          <div className="p-4 border-b border-border">
+            <h2 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground mb-1">Conteúdo</h2>
+            <p className="font-bold text-lg">{modules[currentModuleIndex]?.title}</p>
+          </div>
+          <ScrollArea className="flex-1">
+            <div className="p-2 space-y-1">
+              {modules[currentModuleIndex]?.lessons.map((lesson, idx) => (
+                <button
+                  key={lesson.id}
+                  onClick={() => selectLesson(currentModuleIndex, idx)}
+                  className={`w-full flex items-start gap-3 p-3 text-left rounded-lg transition-colors ${
+                    currentLesson?.id === lesson.id 
+                      ? "bg-primary/10 text-primary font-medium" 
+                      : "hover:bg-muted text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <div className="mt-0.5">
+                    {completedLessons.has(lesson.id) ? (
+                      <CheckCircle2 className="w-4 h-4 text-success" />
+                    ) : currentLesson?.id === lesson.id ? (
+                      <Play className="w-4 h-4 fill-current" />
+                    ) : (
+                      <Circle className="w-4 h-4" />
+                    )}
                   </div>
-                )}
-             </div>
-             
-             {/* Bottom Controls / Info Overlay */}
-             <div className="bg-card border-t border-border p-6">
-                <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
-                   <div className="md:col-span-2 space-y-4">
-                      <h1 className="text-2xl font-display font-bold">{currentLesson?.title}</h1>
-                      <p className="text-muted-foreground">{currentLesson?.description}</p>
-                   </div>
-                   
-                   <div className="space-y-4">
-                      <h3 className="font-semibold flex items-center gap-2">
-                        <FileText className="w-4 h-4 text-primary" /> Materiais de Apoio
-                      </h3>
-                      <div className="grid gap-2">
-                         {currentLesson?.pdf_url && (
-                           <a 
-                             href={currentLesson.pdf_url} 
-                             target="_blank" 
-                             rel="noopener noreferrer"
-                             className="flex items-center gap-3 p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors group"
-                           >
-                             <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20">
-                               <Download className="w-4 h-4 text-primary" />
-                             </div>
-                             <span className="text-sm font-medium">Baixar PDF da Aula</span>
-                           </a>
-                         )}
-                         {/* Module Materials */}
-                         {modules[currentModuleIndex]?.module_materials?.map((mat: any) => (
-                            <a 
-                             key={mat.id}
-                             href={mat.file_url} 
-                             target="_blank" 
-                             rel="noopener noreferrer"
-                             className="flex items-center gap-3 p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors group"
-                           >
-                             <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20">
-                               <FileText className="w-4 h-4 text-primary" />
-                             </div>
-                             <span className="text-sm font-medium">{mat.title}</span>
-                           </a>
-                         ))}
-                      </div>
-                   </div>
+                  <div className="flex-1">
+                    <p className="text-sm line-clamp-2">{lesson.title}</p>
+                    <p className="text-xs opacity-70 mt-1">{lesson.duration_minutes} min</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </ScrollArea>
+        </aside>
+
+        {/* Main Content (Full Width Video) */}
+        <main className="flex-1 overflow-y-auto bg-black relative flex flex-col">
+           <div className="flex-1 relative flex items-center justify-center bg-black min-h-[400px]">
+              {currentLesson?.youtube_url ? (
+                <VideoPlayer
+                  youtubeUrl={currentLesson.youtube_url}
+                  title={currentLesson.title}
+                  onComplete={markLessonComplete}
+                />
+              ) : (
+                 <div className="aspect-video bg-gradient-hero flex items-center justify-center w-full">
+                  <div className="text-center space-y-4 p-8">
+                    <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center mx-auto">
+                      <Play className="w-10 h-10 text-primary-foreground" />
+                    </div>
+                    <p className="text-primary-foreground/80 text-lg font-display">
+                      Selecione uma aula para assistir
+                    </p>
+                  </div>
                 </div>
-             </div>
+              )}
+           </div>
+           
+           {/* Bottom Controls / Info Overlay */}
+           <div className="bg-card border-t border-border p-6">
+              <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
+                 <div className="md:col-span-2 space-y-4">
+                    <h1 className="text-2xl font-display font-bold">{currentLesson?.title}</h1>
+                    <p className="text-muted-foreground">{currentLesson?.description}</p>
+                 </div>
+                 
+                 <div className="space-y-4">
+                    <h3 className="font-semibold flex items-center gap-2">
+                      <FileText className="w-4 h-4 text-primary" /> Materiais de Apoio
+                    </h3>
+                    <div className="grid gap-2">
+                       {currentLesson?.pdf_url && (
+                         <a 
+                           href={currentLesson.pdf_url} 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           className="flex items-center gap-3 p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors group"
+                         >
+                           <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20">
+                             <Download className="w-4 h-4 text-primary" />
+                           </div>
+                           <span className="text-sm font-medium">Baixar PDF da Aula</span>
+                         </a>
+                       )}
+                       {/* Module Materials */}
+                       {modules[currentModuleIndex]?.module_materials?.map((mat: any) => (
+                          <a 
+                           key={mat.id}
+                           href={mat.file_url} 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           className="flex items-center gap-3 p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors group"
+                         >
+                           <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20">
+                             <FileText className="w-4 h-4 text-primary" />
+                           </div>
+                           <span className="text-sm font-medium">{mat.title}</span>
+                         </a>
+                       ))}
+                    </div>
+                 </div>
+              </div>
            </div>
         </main>
       </div>
