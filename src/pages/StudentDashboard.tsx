@@ -88,7 +88,10 @@ const StudentDashboard = () => {
 
     if (enrollments) {
       type EnrollmentRow = { courses?: Course | null };
-      setEnrolledCourses((enrollments as EnrollmentRow[]).map((e) => e.courses!).filter(Boolean));
+      const courses = (enrollments as EnrollmentRow[]).map((e) => e.courses!).filter(Boolean);
+      // Remove duplicates just in case
+      const uniqueCourses = Array.from(new Map(courses.map(item => [item['id'], item])).values());
+      setEnrolledCourses(uniqueCourses);
     }
 
     setLoading(false);

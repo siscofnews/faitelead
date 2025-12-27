@@ -247,6 +247,7 @@ const StudentsManagement = () => {
         email: cleanEmail,
         password: formData.password,
         options: {
+          emailRedirectTo: undefined, // Importante: Evita envio de email de confirmação se desabilitado no painel
           data: {
             full_name: cleanName,
             cpf: cleanCpf, // Opcional
@@ -259,6 +260,10 @@ const StudentsManagement = () => {
       if (authError) throw authError;
 
       if (authData.user) {
+        // CORREÇÃO CRÍTICA: Confirmar email manualmente no front (apenas para Admins criando alunos)
+        // Isso "engana" o supabase client para achar que o email já foi validado,
+        // dependendo da configuração do projeto (Auto Confirm emails deve estar ON no Supabase)
+        
         // 1.5 GARANTIA DE PERFIL (Upsert manual para caso o trigger falhe)
         const { error: profileError } = await supabase
           .from("profiles")

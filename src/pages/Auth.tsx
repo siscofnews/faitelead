@@ -143,6 +143,8 @@ const Auth = () => {
       if (role === "super_admin" || role === "admin") {
         navigate("/admin");
       } else {
+        // Redireciona o aluno para a dashboard correta
+        // Adicionando verificação de matrícula se necessário no futuro
         navigate("/student");
       }
 
