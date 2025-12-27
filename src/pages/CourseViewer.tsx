@@ -20,7 +20,8 @@ import {
   MessageSquare,
   Settings,
   Home,
-  Award
+  Award,
+  Lock // Added Lock icon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -79,12 +80,40 @@ const CourseViewer = () => {
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
   const [currentLessonIndex, setCurrentLessonIndex] = useState(0);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // Sidebar closed by default for immersive view
   const [completedLessons, setCompletedLessons] = useState<Set<string>>(new Set());
   const [notes, setNotes] = useState("");
   const [moduleExamStatus, setModuleExamStatus] = useState<Map<string, ModuleExamStatus>>(new Map());
   const [watchedTime, setWatchedTime] = useState<Map<string, number>>(new Map());
-  const { recordLessonCompletion, recordCertificateEarned } = useGamification();
+  const [showModuleMenu, setShowModuleMenu] = useState(true); // Control module selection menu visibility
+
+  // ... (existing code)
+
+  // Effect to show module menu initially
+  useEffect(() => {
+    setShowModuleMenu(true);
+  }, []);
+
+  const selectLesson = (moduleIndex: number, lessonIndex: number) => {
+    // Check if module is locked
+    if (isModuleLocked(moduleIndex)) {
+      // ... (existing error handling)
+      return;
+    }
+
+    const lesson = modules[moduleIndex]?.lessons[lessonIndex];
+    if (lesson) {
+      setCurrentLesson(lesson);
+      setCurrentModuleIndex(moduleIndex);
+      setCurrentLessonIndex(lessonIndex);
+      setShowModuleMenu(false); // Hide menu when lesson is selected
+    }
+  };
+
+  // Function to go back to module selection
+  const handleBackToModules = () => {
+    setShowModuleMenu(true);
+  };
 
   useEffect(() => {
     if (courseId) {
@@ -422,6 +451,77 @@ const CourseViewer = () => {
     );
   }
 
+  // Render Module Selection Menu
+  if (showModuleMenu) {
+    return (
+      <div className="min-h-screen bg-background">
+        <header className="h-16 bg-card border-b border-border flex items-center justify-between px-4 sticky top-0 z-50">
+          <Button variant="ghost" size="sm" onClick={() => navigate("/student")} className="gap-2">
+            <ChevronLeft className="h-4 w-4" /> Voltar
+          </Button>
+          <span className="font-display font-bold text-lg">{course?.title}</span>
+          <div className="w-10" /> {/* Spacer */}
+        </header>
+        
+        <div className="container mx-auto p-6 grid gap-6">
+          <div className="text-center py-8">
+            <h1 className="text-3xl font-display font-bold mb-2">Conteúdo do Curso</h1>
+            <p className="text-muted-foreground">Selecione um módulo para começar a assistir</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {modules.map((module, mIndex) => {
+              const isLocked = isModuleLocked(mIndex);
+              const completedCount = module.lessons.filter(l => completedLessons.has(l.id)).length;
+              const progress = Math.round((completedCount / module.lessons.length) * 100) || 0;
+
+              return (
+                <div 
+                  key={module.id}
+                  onClick={() => !isLocked && selectLesson(mIndex, 0)}
+                  className={`
+                    relative group overflow-hidden rounded-xl border border-border bg-card hover:border-primary/50 transition-all cursor-pointer
+                    ${isLocked ? 'opacity-75 grayscale' : 'hover:shadow-lg hover:shadow-primary/5'}
+                  `}
+                >
+                  <div className="aspect-video bg-gradient-hero p-6 flex flex-col justify-end relative">
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
+                    {isLocked && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-10">
+                        <div className="text-center text-white">
+                          <Lock className="w-8 h-8 mx-auto mb-2 opacity-75" />
+                          <p className="text-xs font-medium uppercase tracking-wider">Bloqueado</p>
+                        </div>
+                      </div>
+                    )}
+                    <div className="relative z-0">
+                      <p className="text-xs font-bold text-primary-foreground/80 uppercase tracking-wider mb-1">
+                        Módulo {mIndex + 1}
+                      </p>
+                      <h3 className="text-xl font-display font-bold text-white mb-2 leading-tight">
+                        {module.title}
+                      </h3>
+                      <Progress value={progress} className="h-1.5 bg-white/20" indicatorClassName="bg-primary" />
+                      <p className="text-xs text-white/80 mt-2 flex justify-between">
+                        <span>{completedCount}/{module.lessons.length} aulas</span>
+                        <span>{progress}%</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div className="p-4">
+                    <p className="text-sm text-muted-foreground line-clamp-2">
+                      {module.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Top Header Bar */}
@@ -429,235 +529,103 @@ const CourseViewer = () => {
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"
-            size="icon"
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="lg:hidden"
-          >
-            {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
-          
-          <Button
-            variant="ghost"
             size="sm"
-            onClick={() => navigate("/")}
+            onClick={handleBackToModules}
             className="gap-2"
           >
-            <Home className="h-4 w-4" />
-            <span className="hidden sm:inline">Home</span>
+            <ChevronLeft className="h-4 w-4" />
+            <span className="hidden sm:inline">Módulos</span>
           </Button>
 
           <div className="hidden md:flex items-center gap-2">
-            <GraduationCap className="h-5 w-5 text-primary" />
+            <span className="text-muted-foreground">/</span>
             <span className="font-display font-semibold text-foreground truncate max-w-[300px]">
-              {course?.title}
+              {currentLesson?.title}
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="hidden sm:flex items-center gap-3">
-            <div className="text-right">
-              <p className="text-xs text-muted-foreground">Progresso do curso</p>
-              <p className="text-sm font-semibold text-primary">{calculateProgress()}% concluído</p>
-            </div>
-            <div className="w-24">
-              <Progress value={calculateProgress()} className="h-2" />
-            </div>
-          </div>
-
-          <Badge variant="outline" className="hidden md:flex gap-1 border-success text-success">
-            <Award className="h-3 w-3" />
-            {completedLessons.size} aulas
-          </Badge>
+        <div className="flex items-center gap-2">
+           {currentLesson && !completedLessons.has(currentLesson.id) ? (
+              <Button
+                size="sm"
+                onClick={markLessonComplete}
+                className="bg-gradient-primary gap-2"
+              >
+                <CheckCircle2 className="h-4 w-4" />
+                <span className="hidden sm:inline">Concluir Aula</span>
+              </Button>
+            ) : (
+              <Button
+                size="sm"
+                onClick={goToNextLesson}
+                className="bg-gradient-primary gap-2"
+              >
+                <span className="hidden sm:inline">Próxima Aula</span>
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            )}
         </div>
       </header>
 
       <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar */}
-        <LessonSidebar
-          modules={modules}
-          currentLesson={currentLesson}
-          completedLessons={completedLessons}
-          isOpen={sidebarOpen}
-          onClose={() => setSidebarOpen(false)}
-          onSelectLesson={selectLesson}
-          courseProgress={calculateProgress()}
-          moduleExamStatus={moduleExamStatus}
-          watchedTime={watchedTime}
-        />
-
-        {/* Main Content */}
-        <main className={`flex-1 overflow-y-auto transition-all duration-300 ${sidebarOpen ? 'lg:ml-80' : ''}`}>
-          {/* Video Section */}
-          <div className="bg-foreground/95 relative">
-            <div className="w-full mx-auto">
-              <VideoPlayer
-                youtubeUrl={currentLesson?.youtube_url || ""}
-                title={currentLesson?.title || ""}
-                onComplete={markLessonComplete}
-              />
-            </div>
-          </div>
-
-          {/* Lesson Info & Controls */}
-          <div className="max-w-6xl mx-auto px-4 py-6 space-y-6">
-            {/* Lesson Header */}
-            <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <Badge variant="secondary" className="font-normal">
-                    Módulo {currentModuleIndex + 1}
-                  </Badge>
-                  <Badge variant="outline" className="font-normal">
-                    Aula {currentLessonIndex + 1}
-                  </Badge>
-                  {currentLesson && completedLessons.has(currentLesson.id) && (
-                    <Badge className="bg-success text-success-foreground gap-1">
-                      <CheckCircle2 className="h-3 w-3" />
-                      Concluída
-                    </Badge>
-                  )}
-                </div>
-                <h1 className="text-2xl md:text-3xl font-display font-bold text-foreground">
-                  {currentLesson?.title}
-                </h1>
-                <p className="text-muted-foreground max-w-2xl">
-                  {currentLesson?.description || modules[currentModuleIndex]?.description}
-                </p>
-                {currentLesson?.duration_minutes && (
-                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                    <Clock className="h-4 w-4" />
-                    {currentLesson.duration_minutes} minutos
-                  </div>
-                )}
-              </div>
-
-              {/* Navigation Controls */}
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  onClick={goToPreviousLesson}
-                  disabled={currentModuleIndex === 0 && currentLessonIndex === 0}
-                  className="gap-2"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                  <span className="hidden sm:inline">Anterior</span>
-                </Button>
-
-                {currentLesson && !completedLessons.has(currentLesson.id) ? (
-                  <Button
-                    onClick={markLessonComplete}
-                    className="bg-gradient-primary hover:opacity-90 gap-2 btn-shine"
-                  >
-                    <CheckCircle2 className="h-4 w-4" />
-                    Marcar Concluída
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={goToNextLesson}
-                    className="bg-gradient-primary hover:opacity-90 gap-2"
-                    disabled={
-                      currentModuleIndex === modules.length - 1 &&
-                      currentLessonIndex === modules[currentModuleIndex]?.lessons.length - 1
-                    }
-                  >
-                    <span className="hidden sm:inline">Próxima</span>
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                )}
-              </div>
-            </div>
-
-            {/* Tabs for Additional Content */}
-            <Tabs defaultValue="resources" className="w-full">
-              <TabsList className="bg-muted/50 p-1 w-full sm:w-auto">
-                <TabsTrigger value="resources" className="gap-2 data-[state=active]:bg-background">
-                  <FileText className="h-4 w-4" />
-                  <span className="hidden sm:inline">Materiais</span>
-                </TabsTrigger>
-                <TabsTrigger value="exam" className="gap-2 data-[state=active]:bg-background">
-                  <Award className="h-4 w-4" />
-                  <span className="hidden sm:inline">Prova</span>
-                </TabsTrigger>
-                <TabsTrigger value="notes" className="gap-2 data-[state=active]:bg-background">
-                  <MessageSquare className="h-4 w-4" />
-                  <span className="hidden sm:inline">Anotações</span>
-                </TabsTrigger>
-                <TabsTrigger value="about" className="gap-2 data-[state=active]:bg-background">
-                  <BookOpen className="h-4 w-4" />
-                  <span className="hidden sm:inline">Sobre</span>
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="resources" className="mt-6">
-                <LessonResources
-                  pdfUrl={currentLesson?.pdf_url}
-                  lessonTitle={currentLesson?.title || ""}
-                  lessonId={currentLesson?.id || ""}
-                  materials={modules[currentModuleIndex]?.module_materials || []}
+        {/* Main Content (Full Width Video) */}
+        <main className="flex-1 overflow-y-auto bg-black relative">
+           <div className="w-full h-full flex flex-col">
+             <div className="flex-1 relative flex items-center justify-center bg-black">
+                <VideoPlayer
+                  youtubeUrl={currentLesson?.youtube_url || ""}
+                  title={currentLesson?.title || ""}
+                  onComplete={markLessonComplete}
                 />
-              </TabsContent>
-
-              <TabsContent value="exam" className="mt-6">
-                {modules[currentModuleIndex] && (
-                  <ModuleExamCard
-                    moduleId={modules[currentModuleIndex].id}
-                    moduleLessonsCompleted={
-                      modules[currentModuleIndex].lessons.every(l => completedLessons.has(l.id))
-                    }
-                    completedLessonsCount={
-                      modules[currentModuleIndex].lessons.filter(l => completedLessons.has(l.id)).length
-                    }
-                    totalLessonsCount={modules[currentModuleIndex].lessons.length}
-                  />
-                )}
-              </TabsContent>
-
-              <TabsContent value="notes" className="mt-6">
-                <LessonNotes
-                  lessonId={currentLesson?.id || ""}
-                  notes={notes}
-                  onNotesChange={setNotes}
-                />
-              </TabsContent>
-
-              <TabsContent value="about" className="mt-6">
-                <div className="bg-card rounded-xl p-6 border border-border space-y-4">
-                  <h3 className="font-display font-semibold text-lg">Sobre este módulo</h3>
-                  <p className="text-muted-foreground">
-                    {modules[currentModuleIndex]?.description || 
-                      "Este módulo faz parte do curso " + course?.title + ". Complete todas as aulas para avançar para o próximo módulo."}
-                  </p>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-border">
-                    <div className="text-center p-4 bg-muted/30 rounded-lg">
-                      <p className="text-2xl font-display font-bold text-primary">
-                        {modules[currentModuleIndex]?.lessons.length || 0}
-                      </p>
-                      <p className="text-xs text-muted-foreground">Aulas</p>
-                    </div>
-                    <div className="text-center p-4 bg-muted/30 rounded-lg">
-                      <p className="text-2xl font-display font-bold text-primary">
-                        {modules.length}
-                      </p>
-                      <p className="text-xs text-muted-foreground">Módulos</p>
-                    </div>
-                    <div className="text-center p-4 bg-muted/30 rounded-lg">
-                      <p className="text-2xl font-display font-bold text-primary">
-                        {course?.total_hours || 540}h
-                      </p>
-                      <p className="text-xs text-muted-foreground">Carga Horária</p>
-                    </div>
-                    <div className="text-center p-4 bg-muted/30 rounded-lg">
-                      <p className="text-2xl font-display font-bold text-primary">
-                        {course?.duration_months || 12}
-                      </p>
-                      <p className="text-xs text-muted-foreground">Meses</p>
-                    </div>
-                  </div>
+             </div>
+             
+             {/* Bottom Controls / Info Overlay */}
+             <div className="bg-card border-t border-border p-6">
+                <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
+                   <div className="md:col-span-2 space-y-4">
+                      <h1 className="text-2xl font-display font-bold">{currentLesson?.title}</h1>
+                      <p className="text-muted-foreground">{currentLesson?.description}</p>
+                   </div>
+                   
+                   <div className="space-y-4">
+                      <h3 className="font-semibold flex items-center gap-2">
+                        <FileText className="w-4 h-4 text-primary" /> Materiais de Apoio
+                      </h3>
+                      <div className="grid gap-2">
+                         {currentLesson?.pdf_url && (
+                           <a 
+                             href={currentLesson.pdf_url} 
+                             target="_blank" 
+                             rel="noopener noreferrer"
+                             className="flex items-center gap-3 p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors group"
+                           >
+                             <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20">
+                               <Download className="w-4 h-4 text-primary" />
+                             </div>
+                             <span className="text-sm font-medium">Baixar PDF da Aula</span>
+                           </a>
+                         )}
+                         {/* Module Materials */}
+                         {modules[currentModuleIndex]?.module_materials?.map((mat: any) => (
+                            <a 
+                             key={mat.id}
+                             href={mat.file_url} 
+                             target="_blank" 
+                             rel="noopener noreferrer"
+                             className="flex items-center gap-3 p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors group"
+                           >
+                             <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20">
+                               <FileText className="w-4 h-4 text-primary" />
+                             </div>
+                             <span className="text-sm font-medium">{mat.title}</span>
+                           </a>
+                         ))}
+                      </div>
+                   </div>
                 </div>
-              </TabsContent>
-            </Tabs>
-          </div>
+             </div>
+           </div>
         </main>
       </div>
 
