@@ -253,19 +253,24 @@ const StudentsManagement = () => {
 
       if (authData.user) {
         // 2. Adicionar role de student
-        // Tenta inserir, mas se falhar por duplicidade (já inserido pelo trigger), ignora o erro
-        const { error: roleError } = await supabase
+        // Verifica se já existe (criado pelo trigger) antes de tentar inserir
+        const { data: existingRole } = await supabase
           .from("user_roles")
-          .insert({ user_id: authData.user.id, role: "student" })
-          .select()
-          .single();
+          .select("role")
+          .eq("user_id", authData.user.id)
+          .eq("role", "student")
+          .maybeSingle();
 
-        // Se houver erro, verifica se é erro de duplicidade (código 23505 no Postgres)
-        // O Supabase JS retorna detalhes no objeto de erro.
-        // Se for erro de duplicidade, podemos ignorar e continuar.
-        if (roleError && roleError.code !== '23505') {
-             console.warn("Aviso ao definir role (pode já existir):", roleError);
-             // Não lançamos erro aqui para não impedir o fluxo, pois o trigger já deve ter criado
+        if (!existingRole) {
+            // Se não existe, tenta criar
+            const { error: roleError } = await supabase
+              .from("user_roles")
+              .insert({ user_id: authData.user.id, role: "student" });
+
+            // Se der erro de duplicidade (race condition), ignoramos
+            if (roleError && roleError.code !== '23505') {
+                 console.warn("Aviso ao definir role:", roleError);
+            }
         }
 
         // 3. Criar matrículas nos cursos selecionados
