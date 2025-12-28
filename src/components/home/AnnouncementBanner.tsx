@@ -1,68 +1,70 @@
 import { useEffect, useState } from "react";
 import { Phone, Mail, GraduationCap, Sparkles, BookOpen, Heart, Star, Flame, Church, Trophy } from "lucide-react";
 import faitelLogo from "@/assets/faitel-logo.png";
-
-const bannerSlides = [
-  {
-    id: 1,
-    title: "MATRÍCULAS ABERTAS 2026",
-    subtitle: "Garanta sua vaga na melhor faculdade teológica do Brasil",
-    icon: GraduationCap,
-    gradient: "from-primary via-primary/90 to-accent",
-    highlight: true,
-  },
-  {
-    id: 2,
-    title: "TRANSFORME SUA FÉ EM CONHECIMENTO",
-    subtitle: "\"O temor do Senhor é o princípio da sabedoria\" - Provérbios 9:10",
-    icon: BookOpen,
-    gradient: "from-accent via-primary to-primary/90",
-    highlight: false,
-  },
-  {
-    id: 3,
-    title: "PREPARE-SE PARA O CHAMADO DE DEUS",
-    subtitle: "Forme-se com excelência e sirva com propósito",
-    icon: Church,
-    gradient: "from-success via-primary to-accent",
-    highlight: false,
-  },
-  {
-    id: 4,
-    title: "23 ANOS FORMANDO LÍDERES",
-    subtitle: "Mais de 65 mil alunos transformados pelo conhecimento teológico",
-    icon: Trophy,
-    gradient: "from-primary via-accent to-primary/90",
-    highlight: false,
-  },
-  {
-    id: 5,
-    title: "ESTUDE NO SEU RITMO",
-    subtitle: "Presencial, EAD ou Semi-presencial - você escolhe sua jornada",
-    icon: Star,
-    gradient: "from-accent via-success to-primary",
-    highlight: false,
-  },
-  {
-    id: 6,
-    title: "\"IDE E FAZEI DISCÍPULOS\"",
-    subtitle: "Capacite-se para cumprir a Grande Comissão - Mateus 28:19",
-    icon: Flame,
-    gradient: "from-destructive via-primary to-accent",
-    highlight: false,
-  },
-  {
-    id: 7,
-    title: "AMOR AO CONHECIMENTO DIVINO",
-    subtitle: "\"Crescei na graça e no conhecimento\" - 2 Pedro 3:18",
-    icon: Heart,
-    gradient: "from-primary via-destructive/50 to-accent",
-    highlight: false,
-  },
-];
+import { useI18n } from "@/i18n/I18nProvider";
 
 const AnnouncementBanner = () => {
+  const { t } = useI18n();
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  const bannerSlides = [
+    {
+      id: 1,
+      title: t('banner.slide1_title'),
+      subtitle: t('banner.slide1_subtitle'),
+      icon: GraduationCap,
+      gradient: "from-primary via-primary/90 to-accent",
+      highlight: true,
+    },
+    {
+      id: 2,
+      title: t('banner.slide2_title'),
+      subtitle: t('banner.slide2_subtitle'),
+      icon: BookOpen,
+      gradient: "from-accent via-primary to-primary/90",
+      highlight: false,
+    },
+    {
+      id: 3,
+      title: t('banner.slide3_title'),
+      subtitle: t('banner.slide3_subtitle'),
+      icon: Church,
+      gradient: "from-success via-primary to-accent",
+      highlight: false,
+    },
+    {
+      id: 4,
+      title: t('banner.slide4_title'),
+      subtitle: t('banner.slide4_subtitle'),
+      icon: Trophy,
+      gradient: "from-primary via-accent to-primary/90",
+      highlight: false,
+    },
+    {
+      id: 5,
+      title: t('banner.slide5_title'),
+      subtitle: t('banner.slide5_subtitle'),
+      icon: Star,
+      gradient: "from-accent via-success to-primary",
+      highlight: false,
+    },
+    {
+      id: 6,
+      title: t('banner.slide6_title'),
+      subtitle: t('banner.slide6_subtitle'),
+      icon: Flame,
+      gradient: "from-destructive via-primary to-accent",
+      highlight: false,
+    },
+    {
+      id: 7,
+      title: t('banner.slide7_title'),
+      subtitle: t('banner.slide7_subtitle'),
+      icon: Heart,
+      gradient: "from-primary via-destructive/50 to-accent",
+      highlight: false,
+    },
+  ];
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {

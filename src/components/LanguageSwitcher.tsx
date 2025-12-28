@@ -24,7 +24,11 @@ const LanguageSwitcher = ({ className }: { className?: string }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         {langs.map(l => (
-          <DropdownMenuItem key={l.code} onClick={() => setLang(l.code as any)}>
+          <DropdownMenuItem
+            key={l.code}
+            onSelect={() => setLang(l.code as any)}
+            className="cursor-pointer"
+          >
             {l.label}
           </DropdownMenuItem>
         ))}
