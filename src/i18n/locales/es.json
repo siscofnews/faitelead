@@ -11,7 +11,9 @@
     "completed": "Completado",
     "watch": "Ver",
     "download": "Descargar",
-    "home": "Inicio"
+    "home": "Inicio",
+    "enroll": "MATRICULARSE",
+    "search_placeholder": "Buscar cursos, módulos, clases..."
   },
   "course": {
     "content": "Contenido del Curso",

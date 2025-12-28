@@ -11,13 +11,13 @@ const langs = [
   { code: "de", label: "Deutsch" },
 ] as const
 
-const LanguageSwitcher = () => {
+const LanguageSwitcher = ({ className }: { className?: string }) => {
   const { lang, setLang } = useI18n()
   const current = langs.find(l => l.code === lang)?.label || "Português"
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="gap-2">
+        <Button variant="ghost" size="sm" className={`gap-2 ${className || ''}`}>
           <Globe className="h-4 w-4" />
           <span className="hidden sm:inline">{current}</span>
         </Button>

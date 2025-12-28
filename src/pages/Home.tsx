@@ -177,10 +177,10 @@ const Home = () => {
             </nav>
 
             <div className="flex items-center gap-4">
-              <LanguageSwitcher />
+              <LanguageSwitcher className="text-white hover:text-accent hover:bg-white/10" />
               <Link to="/auth" className="hidden md:block">
                 <Button className="bg-accent text-accent-foreground hover:bg-accent/90 font-bold btn-shine btn-3d-gold px-6">
-                  MATRICULE-SE
+                  {t('enroll')}
                 </Button>
               </Link>
 
@@ -198,6 +198,9 @@ const Home = () => {
                     <a href="#certificacoes" className="text-lg font-medium py-3 border-b border-white/10 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>Certificações</a>
                     <a href="#sobre" className="text-lg font-medium py-3 border-b border-white/10 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>Sobre</a>
                     <a href="#depoimentos" className="text-lg font-medium py-3 border-b border-white/10 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>Depoimentos</a>
+                    <div className="py-3 border-b border-white/10">
+                      <LanguageSwitcher className="w-full justify-start text-lg font-medium text-white hover:text-accent p-0 hover:bg-transparent" />
+                    </div>
                     <Link to="/auth" className="text-lg font-medium py-3 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>Portal do Aluno</Link>
                     <Link to="/auth" className="mt-4" onClick={() => setMobileMenuOpen(false)}>
                       <Button className="w-full bg-accent text-accent-foreground font-bold">MATRICULE-SE</Button>
