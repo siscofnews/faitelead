@@ -208,6 +208,11 @@
     "lesson_completed": "Leçon marquée comme terminée !",
     "module_locked_msg": "Terminez toutes les leçons et réussissez l'examen du module précédent pour débloquer."
   },
+  "video": {
+    "loading": "Chargement de la vidéo...",
+    "not_available": "Vidéo non disponible",
+    "not_configured": "La vidéo de cette leçon n'a pas encore été configurée. Veuillez contacter l'administration."
+  },
   "certifications": {
     "credibility_badge": "CRÉDIBILITÉ ET EXCELLENCE",
     "title_prefix": "SCEAUX ET",

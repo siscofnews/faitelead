@@ -222,6 +222,11 @@
     "lesson_completed": "Aula marcada como concluída!",
     "module_locked_msg": "Complete todas as aulas e passe na prova do módulo anterior para desbloquear."
   },
+  "video": {
+    "loading": "Carregando vídeo...",
+    "not_available": "Vídeo não disponível",
+    "not_configured": "O vídeo desta aula ainda não foi configurado. Entre em contato com a secretaria."
+  },
   "certifications": {
     "credibility_badge": "CREDIBILIDADE E EXCELÊNCIA",
     "title_prefix": "SELOS E",

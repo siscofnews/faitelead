@@ -180,7 +180,12 @@
     "lesson_completed": "Lektion als abgeschlossen markiert!",
     "module_locked_msg": "Schließen Sie alle Lektionen ab und bestehen Sie die Prüfung des vorherigen Moduls, um es freizuschalten."
   },
-  "devotional": {
+  "video": {
+    "loading": "Video wird geladen...",
+    "not_available": "Video nicht verfügbar",
+    "not_configured": "Das Video für diese Lektion wurde noch nicht konfiguriert. Bitte wenden Sie sich an die Verwaltung."
+  },
+  "certifications": {
     "title": "☕ DEVOTIONAL KAFFEE",
     "subtitle": "MIT DEM KANZLER",
     "verse": "\"Denn ich weiß wohl, was ich für Gedanken über euch habe, spricht der HERR: Gedanken des Friedens und nicht des Leides, dass ich euch gebe Zukunft und Hoffnung.\"",

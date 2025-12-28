@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { Play, Pause, Volume2, VolumeX, Maximize, SkipForward, Settings } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import { Play } from "lucide-react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 interface VideoPlayerProps {
   youtubeUrl: string;
@@ -33,6 +32,7 @@ declare global {
 }
 
 const VideoPlayer = ({ youtubeUrl, title, onComplete }: VideoPlayerProps) => {
+  const { t } = useI18n();
   const [isLoaded, setIsLoaded] = useState(false);
   const videoId = extractYoutubeId(youtubeUrl);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -100,10 +100,10 @@ const VideoPlayer = ({ youtubeUrl, title, onComplete }: VideoPlayerProps) => {
             <Play className="w-10 h-10 text-primary-foreground" />
           </div>
           <p className="text-primary-foreground/80 text-lg font-display">
-            Vídeo não disponível
+            {t('video.not_available')}
           </p>
           <p className="text-primary-foreground/60 text-sm max-w-md">
-            O vídeo desta aula ainda não foi configurado. Entre em contato com a secretaria.
+            {t('video.not_configured')}
           </p>
         </div>
       </div>
@@ -117,7 +117,7 @@ const VideoPlayer = ({ youtubeUrl, title, onComplete }: VideoPlayerProps) => {
         <div className="absolute inset-0 flex items-center justify-center bg-gradient-hero z-10">
           <div className="text-center space-y-4">
             <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <p className="text-primary-foreground text-sm">Carregando vídeo...</p>
+            <p className="text-primary-foreground text-sm">{t('video.loading')}</p>
           </div>
         </div>
       )}

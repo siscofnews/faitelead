@@ -222,6 +222,11 @@
     "lesson_completed": "Lesson marked as completed!",
     "module_locked_msg": "Complete all lessons and pass the previous module exam to unlock."
   },
+  "video": {
+    "loading": "Loading video...",
+    "not_available": "Video not available",
+    "not_configured": "The video for this lesson has not been configured yet. Please contact the administration."
+  },
   "certifications": {
     "credibility_badge": "CREDIBILITY AND EXCELLENCE",
     "title_prefix": "SEALS AND",
