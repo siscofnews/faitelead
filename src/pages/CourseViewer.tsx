@@ -117,7 +117,11 @@ const CourseViewer = () => {
   const selectLesson = (moduleIndex: number, lessonIndex: number) => {
     // Check if module is locked
     if (isModuleLocked(moduleIndex)) {
-      // ... existing error handling
+      const prevModule = modules[moduleIndex - 1];
+      toast.error("Módulo Bloqueado!", {
+        description: `Complete todas as aulas e passe na prova do módulo "${prevModule.title}" com pelo menos 70% para desbloquear.`,
+        duration: 5000
+      });
       return;
     }
 
@@ -268,24 +272,7 @@ const CourseViewer = () => {
     return !examStatus || !examStatus.passed || (examStatus.score !== null && examStatus.score < 70);
   };
 
-  const selectLesson = (moduleIndex: number, lessonIndex: number) => {
-    // Check if module is locked
-    if (isModuleLocked(moduleIndex)) {
-      const prevModule = modules[moduleIndex - 1];
-      toast.error("Módulo Bloqueado!", {
-        description: `Complete todas as aulas e passe na prova do módulo "${prevModule.title}" com pelo menos 70% para desbloquear.`,
-        duration: 5000
-      });
-      return;
-    }
 
-    const lesson = modules[moduleIndex]?.lessons[lessonIndex];
-    if (lesson) {
-      setCurrentLesson(lesson);
-      setCurrentModuleIndex(moduleIndex);
-      setCurrentLessonIndex(lessonIndex);
-    }
-  };
 
   const checkAndIssueCertificate = async (userId: string, completedSet: Set<string>) => {
     const totalLessons = modules.reduce((acc, m) => acc + m.lessons.length, 0);
