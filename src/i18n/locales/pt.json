@@ -11,7 +11,8 @@
     "completed": "Concluído",
     "watch": "Assistir",
     "download": "Baixar",
-    "home": "Início"
+    "home": "Início",
+    "go_to_slide": "Ir para slide"
   },
   "home": "Início",
   "enroll": "MATRICULE-SE",
@@ -290,7 +291,8 @@
       "role": "Diretor Chanceler da FAITEL",
       "church": "Presidente da Igreja IADMA",
       "convention": "Presidente da Convenção CEMADEB",
-      "publisher": "Fundador da WST Editora e Gráfica"
+      "publisher": "Fundador da WST Editora e Gráfica",
+      "img_alt": "Pastor Valdinei e Pastora Thelma - Chanceleres da FAITEL"
     },
     "thelma": {
       "name": "Pastora Thelma Santana Menezes Santos",
@@ -361,10 +363,14 @@
         "title": "Crianças",
         "subtitle": "Escola Bíblica Infantil (7 a 11 anos)",
         "desc": "Revista colorida e ilustrada para crianças de 7 a 11 anos..."
+      },
+      "themes": {
+        "romans": "Carta aos Romanos",
+        "youth_romans": "Romanos: Fé e Atitude Jovem"
       }
     },
     "lessons": "Lições",
-    "quarterly": "Trimestral",
+    "quarterly": "Trimestre",
     "details": "Ver Detalhes",
     "about": {
       "title": "Sobre as Revistas SECC",

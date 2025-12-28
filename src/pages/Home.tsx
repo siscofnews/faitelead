@@ -52,7 +52,7 @@ const Home = () => {
       title: t('modalities.presencial_title'),
       subtitle: t('modalities.presencial_subtitle'),
       description: t('modalities.presencial_desc'),
-      features: [t('modalities.presencial_subtitle'), "Networking", "Mentoria"], // Simplified for brevity/translation
+      features: [t('modalities.presencial_subtitle'), t('modalities.features.networking'), t('modalities.features.mentorship')], // Simplified for brevity/translation
       color: "from-primary to-primary/80",
       badge: null,
     },
@@ -61,7 +61,7 @@ const Home = () => {
       title: t('modalities.ead_title'),
       subtitle: t('modalities.ead_subtitle'),
       description: t('modalities.ead_desc'),
-      features: ["HD Video", "24/7", "Online"],
+      features: [t('modalities.features.hd_video'), t('modalities.features.online_247'), t('modalities.features.online_platform')],
       color: "from-accent to-accent/80",
       badge: t('modalities.ead_badge'),
     },
@@ -70,7 +70,7 @@ const Home = () => {
       title: t('modalities.semi_title'),
       subtitle: t('modalities.semi_subtitle'),
       description: t('modalities.semi_desc'),
-      features: ["Live Class", "Hybrid", "Interactive"],
+      features: [t('modalities.features.live_class'), t('modalities.features.hybrid'), t('modalities.features.interactive')],
       color: "from-success to-success/80",
       badge: t('modalities.semi_badge'),
       isLive: true,
@@ -361,8 +361,8 @@ const Home = () => {
                   {/* CTA */}
                   <Link to="/auth">
                     <Button className={`w-full font-bold ${modality.isLive
-                        ? 'bg-accent text-accent-foreground hover:bg-accent/90 glow-gold'
-                        : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
+                      ? 'bg-accent text-accent-foreground hover:bg-accent/90 glow-gold'
+                      : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
                       }`}>
                       {t('modalities.learn_more')}
                       <ArrowRight className="ml-2 h-4 w-4" />

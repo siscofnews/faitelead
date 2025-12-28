@@ -10,7 +10,7 @@ const ChancellorsSection = () => {
   return (
     <section className="py-24 bg-[hsl(220_50%_6%)] relative overflow-hidden">
       <div className="absolute inset-0 bg-dot-pattern opacity-20" />
-      
+
       {/* Decorative Glow */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[100px]" />
       <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/10 rounded-full blur-[100px]" />
@@ -33,9 +33,9 @@ const ChancellorsSection = () => {
           {/* Foto do Casal */}
           <div className="relative">
             <div className="aspect-[3/4] rounded-2xl overflow-hidden border-2 border-white/20 shadow-2xl">
-              <img 
-                src={chancellorImg} 
-                alt="Pastor Valdinei e Pastora Thelma - Chanceleres da FAITEL"
+              <img
+                src={chancellorImg}
+                alt={t('chancellors.valdinei.img_alt')}
                 className="w-full h-full object-cover object-top"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />

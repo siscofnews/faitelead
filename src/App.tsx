@@ -52,6 +52,7 @@ import AllModulesManagement from "./pages/admin/AllModulesManagement";
 import CourseModulesManagement from "./pages/admin/CourseModulesManagement";
 import ExamQuestionsManagement from "./pages/admin/ExamQuestionsManagement";
 import LessonsManagement from "./pages/admin/LessonsManagement";
+import RestoreContent from "./pages/admin/RestoreContent";
 import ProfessorsManagement from "./pages/admin/ProfessorsManagement";
 import FinancialManagement from "./pages/admin/FinancialManagement";
 import ReportsManagement from "./pages/admin/ReportsManagement";
@@ -147,6 +148,7 @@ const App = () => (
               <Route path="/admin/cursos/:courseId/modulos" element={<ModulesManagement />} />
               <Route path="/admin/aulas" element={<LessonsManagement />} />
               <Route path="/admin/cursos/:courseId/modulos/:moduleId/aulas" element={<LessonsManagement />} />
+              <Route path="/admin/restore" element={<RestoreContent />} />
               <Route path="/admin/polos" element={<PolosManagement />} />
               <Route path="/admin/financeiro" element={<FinancialManagement />} />
               <Route path="/admin/relatorios" element={<ReportsManagement />} />

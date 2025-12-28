@@ -11,7 +11,8 @@
     "completed": "Completed",
     "watch": "Watch",
     "download": "Download",
-    "home": "Home"
+    "home": "Home",
+    "go_to_slide": "Go to slide"
   },
   "home": "Home",
   "enroll": "ENROLL NOW",
@@ -290,7 +291,8 @@
       "role": "Chancellor Director of FAITEL",
       "church": "President of IADMA Church",
       "convention": "President of CEMADEB Convention",
-      "publisher": "Founder of WST Publishing and Graphics"
+      "publisher": "Founder of WST Publishing and Graphics",
+      "img_alt": "Pastor Valdinei and Pastor Thelma - Chancellors of FAITEL"
     },
     "thelma": {
       "name": "Pastor Thelma Santana Menezes Santos",
@@ -359,12 +361,15 @@
       },
       "kids": {
         "title": "Kids",
-        "subtitle": "Children's Bible School (7 to 11 years)",
         "desc": "Colorful and illustrated magazine for children aged 7 to 11..."
+      },
+      "themes": {
+        "romans": "Letter to the Romans",
+        "youth_romans": "Romans: Faith and Youth Attitude"
       }
     },
     "lessons": "Lessons",
-    "quarterly": "Quarterly",
+    "quarterly": "Quarter",
     "details": "View Details",
     "about": {
       "title": "About SECC Magazines",

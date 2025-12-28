@@ -81,6 +81,11 @@ const adminMenuItems: MenuItem[] = [
         icon: Award,
         href: "/admin/certificados",
     },
+    {
+        title: "Restaurar Conteúdo",
+        icon: Settings,
+        href: "/admin/restore",
+    },
 ];
 
 const AdminSidebar = ({ isOpen, onClose, isSuperAdmin = false }: AdminSidebarProps) => {

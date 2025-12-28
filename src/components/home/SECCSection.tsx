@@ -20,7 +20,7 @@ const SECCSection = () => {
       id: "adultos",
       title: t('secc.magazines.adults.title'),
       subtitle: t('secc.magazines.adults.subtitle'),
-      tema: "Carta aos Romanos",
+      tema: t('secc.themes.romans'),
       trimestre: `1º ${t('secc.quarterly')} 2026`,
       licoes: 13,
       preco: 30,
@@ -31,7 +31,7 @@ const SECCSection = () => {
       id: "jovens",
       title: t('secc.magazines.youth.title'),
       subtitle: t('secc.magazines.youth.subtitle'),
-      tema: "Romanos: Fé e Atitude Jovem",
+      tema: t('secc.themes.youth_romans'),
       trimestre: `1º ${t('secc.quarterly')} 2026`,
       licoes: 13,
       preco: 30,
@@ -42,7 +42,7 @@ const SECCSection = () => {
       id: "adolescentes",
       title: t('secc.magazines.teens.title'),
       subtitle: t('secc.magazines.teens.subtitle'),
-      tema: "Carta aos Romanos",
+      tema: t('secc.themes.romans'),
       trimestre: `1º ${t('secc.quarterly')} 2026`,
       licoes: 13,
       preco: 30,
@@ -53,7 +53,7 @@ const SECCSection = () => {
       id: "criancas",
       title: t('secc.magazines.kids.title'),
       subtitle: t('secc.magazines.kids.subtitle'),
-      tema: "Carta aos Romanos",
+      tema: t('secc.themes.romans'),
       trimestre: `1º ${t('secc.quarterly')} 2026`,
       licoes: 13,
       preco: 30,
@@ -65,7 +65,7 @@ const SECCSection = () => {
   return (
     <section className="py-24 bg-gradient-to-b from-[hsl(220_50%_6%)] to-[hsl(220_50%_8%)] relative overflow-hidden">
       <div className="absolute inset-0 bg-grid-pattern opacity-10" />
-      
+
       {/* Decorative */}
       <div className="absolute top-10 right-10 opacity-10">
         <BookOpen className="h-40 w-40 text-accent" strokeWidth={0.5} />
@@ -91,13 +91,13 @@ const SECCSection = () => {
         {/* Revistas Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {revistas.map((revista, index) => (
-            <Card 
-              key={index} 
+            <Card
+              key={index}
               className="bg-glass-card border-white/10 overflow-hidden group card-hover hover:border-accent/30"
             >
               <div className="h-56 bg-gradient-to-br from-white/5 to-white/10 flex items-center justify-center relative p-4">
-                <img 
-                  src={revista.image} 
+                <img
+                  src={revista.image}
                   alt={`Revista ${revista.title}`}
                   className="h-full w-auto object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-300"
                 />
@@ -112,7 +112,7 @@ const SECCSection = () => {
                 <p className="text-xs text-accent/80 font-medium mb-1">{revista.subtitle}</p>
                 <p className="text-sm text-white/80 font-semibold mb-2">{revista.tema}</p>
                 <p className="text-xs text-white/60 mb-3 line-clamp-3">{revista.descricao}</p>
-                
+
                 <div className="flex items-center gap-4 text-xs text-white/60 mb-4">
                   <span className="flex items-center gap-1">
                     <FileText className="h-3 w-3 text-accent" />
@@ -133,9 +133,9 @@ const SECCSection = () => {
                 </div>
 
                 <Link to={`/revista/${revista.id}`}>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                  <Button
+                    variant="outline"
+                    size="sm"
                     className="w-full text-xs border-white/20 text-white/80 hover:bg-accent hover:text-accent-foreground hover:border-accent"
                   >
                     <Eye className="h-3 w-3 mr-1" />

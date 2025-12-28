@@ -69,7 +69,7 @@ const AnnouncementBanner = () => {
 
   useEffect(() => {
     if (isHovered) return;
-    
+
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % bannerSlides.length);
     }, 4000);
@@ -80,7 +80,7 @@ const AnnouncementBanner = () => {
   const IconComponent = currentBanner.icon;
 
   return (
-    <div 
+    <div
       className={`bg-gradient-to-r ${currentBanner.gradient} relative overflow-hidden transition-all duration-700`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -90,7 +90,7 @@ const AnnouncementBanner = () => {
         <div className="absolute top-0 left-1/4 w-32 h-32 bg-white/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-0 right-1/4 w-40 h-40 bg-white/10 rounded-full blur-3xl animate-pulse delay-1000" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-32 bg-white/5 rounded-full blur-3xl" />
-        
+
         {/* Moving particles */}
         <div className="absolute top-0 left-0 w-2 h-2 bg-accent/40 rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
         <div className="absolute top-4 right-20 w-1.5 h-1.5 bg-white/30 rounded-full animate-bounce" style={{ animationDelay: '0.5s' }} />
@@ -102,14 +102,14 @@ const AnnouncementBanner = () => {
           {/* Logo and Main Message */}
           <div className="flex items-center gap-4 flex-1">
             <div className="relative hidden sm:block">
-              <img 
-                src={faitelLogo} 
-                alt="FAITEL" 
+              <img
+                src={faitelLogo}
+                alt="FAITEL"
                 className="h-14 w-14 object-contain drop-shadow-[0_0_10px_rgba(255,215,0,0.5)]"
               />
               <div className="absolute inset-0 bg-accent/40 blur-xl rounded-full animate-pulse" />
             </div>
-            
+
             {/* Sliding Content */}
             <div className="relative h-16 flex-1 overflow-hidden">
               {bannerSlides.map((slide, index) => {
@@ -117,11 +117,10 @@ const AnnouncementBanner = () => {
                 return (
                   <div
                     key={slide.id}
-                    className={`absolute inset-0 flex flex-col justify-center transition-all duration-700 ease-in-out ${
-                      index === currentSlide 
-                        ? "opacity-100 translate-y-0 scale-100" 
+                    className={`absolute inset-0 flex flex-col justify-center transition-all duration-700 ease-in-out ${index === currentSlide
+                        ? "opacity-100 translate-y-0 scale-100"
                         : "opacity-0 translate-y-8 scale-95"
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center gap-2">
                       <SlideIcon className="h-5 w-5 text-accent animate-pulse hidden sm:block" />
@@ -146,8 +145,8 @@ const AnnouncementBanner = () => {
 
           {/* Contact Info */}
           <div className="flex flex-wrap items-center justify-center gap-3 text-white">
-            <a 
-              href="tel:+557198338488" 
+            <a
+              href="tel:+557198338488"
               className="flex items-center gap-2 bg-white/15 hover:bg-white/25 rounded-full px-3 py-2 backdrop-blur-sm transition-all hover:scale-105"
             >
               <Phone className="h-4 w-4 text-accent" />
@@ -155,9 +154,9 @@ const AnnouncementBanner = () => {
                 (71) 9 8338-4883
               </span>
             </a>
-            
-            <a 
-              href="tel:+5571996822782" 
+
+            <a
+              href="tel:+5571996822782"
               className="flex items-center gap-2 bg-white/15 hover:bg-white/25 rounded-full px-3 py-2 backdrop-blur-sm transition-all hover:scale-105"
             >
               <Phone className="h-4 w-4 text-accent" />
@@ -165,9 +164,9 @@ const AnnouncementBanner = () => {
                 (71) 9 9682-2782
               </span>
             </a>
-            
-            <a 
-              href="mailto:faiteloficial@gmail.com" 
+
+            <a
+              href="mailto:faiteloficial@gmail.com"
               className="flex items-center gap-2 bg-white/15 hover:bg-white/25 rounded-full px-3 py-2 backdrop-blur-sm transition-all hover:scale-105"
             >
               <Mail className="h-4 w-4 text-accent" />
@@ -184,12 +183,11 @@ const AnnouncementBanner = () => {
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                index === currentSlide 
-                  ? "bg-accent w-6 shadow-[0_0_8px_rgba(255,215,0,0.6)]" 
+              className={`h-1.5 rounded-full transition-all duration-300 ${index === currentSlide
+                  ? "bg-accent w-6 shadow-[0_0_8px_rgba(255,215,0,0.6)]"
                   : "bg-white/40 w-1.5 hover:bg-white/60"
-              }`}
-              aria-label={`Ir para slide ${index + 1}`}
+                }`}
+              aria-label={`${t('common.go_to_slide')} ${index + 1}`}
             />
           ))}
         </div>
