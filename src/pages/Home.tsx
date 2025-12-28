@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { 
-  GraduationCap, Clock, Monitor, Award, BookOpen, Users, 
+import {
+  GraduationCap, Clock, Monitor, Award, BookOpen, Users,
   ChevronRight, Play, MessageCircle, Phone, Mail, MapPin,
   Facebook, Instagram, Youtube, Linkedin, CheckCircle, Star, ArrowRight,
-  Calendar, Video, Menu, X, Wifi, Building, Sparkles, 
+  Calendar, Video, Menu, X, Wifi, Building, Sparkles,
   Trophy, Shield, Flame, Church, PlayCircle, Globe, Zap,
   Radio, MonitorPlay, UserCheck, BadgeCheck
 } from "lucide-react";
@@ -87,32 +87,32 @@ const Home = () => {
 
   // FAITEL Courses with book images
   const faitelCourses = [
-    { title: "Juiz Arbitral", image: juizArbitralImg },
-    { title: "Formação de Líderes de Células", image: formacaoLideresImg },
-    { title: "Agentes e Defensores em Direitos Humanos", image: direitosHumanosImg },
-    { title: "Capelania Geral Militar", image: capelaniaImg },
+    { title: t('courses.names.juiz_arbitral'), image: juizArbitralImg },
+    { title: t('courses.names.lideres'), image: formacaoLideresImg },
+    { title: t('courses.names.direitos_humanos'), image: direitosHumanosImg },
+    { title: t('courses.names.capelania'), image: capelaniaImg },
   ];
 
   // Testimonials
   const testimonials = [
     {
       name: "Pastor João Silva",
-      role: "Igreja Batista Central",
-      text: "A FAITEL transformou meu ministério. A profundidade teológica e a praticidade dos ensinamentos foram fundamentais.",
+      role: t('testimonials.t1.role'),
+      text: t('testimonials.t1.text'),
       rating: 5,
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
     },
     {
       name: "Maria Santos",
-      role: "Missionária",
-      text: "A modalidade semi-presencial me permitiu continuar meus estudos mesmo em campo missionário. As aulas ao vivo são incríveis!",
+      role: t('testimonials.t2.role'),
+      text: t('testimonials.t2.text'),
       rating: 5,
       image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
     },
     {
       name: "Rev. Carlos Oliveira",
-      role: "Seminário Teológico",
-      text: "Formação completa que une teoria e prática. Os materiais didáticos da WST Editora são de primeira qualidade.",
+      role: t('testimonials.t3.role'),
+      text: t('testimonials.t3.text'),
       rating: 5,
       image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
     },
@@ -121,9 +121,8 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-[hsl(220_50%_6%)] text-foreground overflow-x-hidden">
       {/* Header */}
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? 'bg-glass-dark py-2' : 'bg-transparent py-4'
-      }`}>
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-glass-dark py-2' : 'bg-transparent py-4'
+        }`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center gap-3 group">
@@ -195,7 +194,7 @@ const Home = () => {
         {/* Animated Background Elements */}
         <div className="absolute inset-0 bg-grid-pattern opacity-30" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(220_50%_6%)/50] to-[hsl(220_50%_6%)]" />
-        
+
         {/* 3D Floating Elements */}
         <div className="absolute top-20 left-10 opacity-20 animate-float">
           <BookOpen className="h-32 w-32 text-accent" strokeWidth={1} />
@@ -206,7 +205,7 @@ const Home = () => {
         <div className="absolute top-1/3 right-1/4 opacity-10 animate-float-slow">
           <Church className="h-40 w-40 text-white" strokeWidth={0.5} />
         </div>
-        
+
         {/* Glowing Orbs */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[100px] animate-pulse-slow" />
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/20 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: '1s' }} />
@@ -225,7 +224,7 @@ const Home = () => {
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-black text-white mb-4 text-3d-white animate-fade-in" style={{ animationDelay: '0.2s' }}>
             FAITEL
           </h1>
-          
+
           <p className="text-xl md:text-2xl lg:text-3xl font-display font-bold text-gradient-gold text-glow-gold mb-6 animate-fade-in" style={{ animationDelay: '0.4s' }}>
             {t('hero.theology_faculty')}
           </p>
@@ -295,7 +294,7 @@ const Home = () => {
       {/* Modalities Section - 3D Cards */}
       <section id="modalidades" className="py-24 bg-[hsl(220_50%_6%)] relative">
         <div className="absolute inset-0 bg-grid-pattern opacity-20" />
-        
+
         <div className="container mx-auto px-4 relative z-10">
           <ScrollReveal animation="fade-up" className="text-center mb-16">
             <Badge className="bg-accent/20 text-accent border-accent/30 mb-4 font-semibold">
@@ -313,21 +312,19 @@ const Home = () => {
 
           <div className="grid md:grid-cols-3 gap-8 perspective-2000">
             {modalities.map((modality, index) => (
-              <Card 
-                key={index} 
-                className={`relative bg-glass-card border-white/10 overflow-hidden group card-hover transform-3d ${
-                  modality.isLive ? 'border-accent/30' : ''
-                }`}
+              <Card
+                key={index}
+                className={`relative bg-glass-card border-white/10 overflow-hidden group card-hover transform-3d ${modality.isLive ? 'border-accent/30' : ''
+                  }`}
                 style={{ animationDelay: `${index * 0.2}s` }}
               >
                 {modality.badge && (
-                  <div className={`absolute top-4 right-4 z-10 ${
-                    modality.badge === 'NOVO' ? 'bg-success' : 'bg-accent'
-                  } text-xs font-bold px-3 py-1 rounded-full text-white shimmer`}>
+                  <div className={`absolute top-4 right-4 z-10 ${modality.badge === 'NOVO' ? 'bg-success' : 'bg-accent'
+                    } text-xs font-bold px-3 py-1 rounded-full text-white shimmer`}>
                     {modality.badge}
                   </div>
                 )}
-                
+
                 {modality.isLive && (
                   <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-red-500/90 text-white text-xs font-bold px-3 py-1 rounded-full">
                     <span className="relative flex h-2 w-2">
@@ -347,7 +344,7 @@ const Home = () => {
                   {/* Title */}
                   <h3 className="text-2xl font-display font-bold text-white mb-2">{modality.title}</h3>
                   <p className="text-accent font-semibold text-sm mb-4">{modality.subtitle}</p>
-                  
+
                   {/* Description */}
                   <p className="text-white/70 text-sm mb-6 leading-relaxed">{modality.description}</p>
 
@@ -363,11 +360,10 @@ const Home = () => {
 
                   {/* CTA */}
                   <Link to="/auth">
-                    <Button className={`w-full font-bold ${
-                      modality.isLive 
-                        ? 'bg-accent text-accent-foreground hover:bg-accent/90 glow-gold' 
+                    <Button className={`w-full font-bold ${modality.isLive
+                        ? 'bg-accent text-accent-foreground hover:bg-accent/90 glow-gold'
                         : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
-                    }`}>
+                      }`}>
                       {t('modalities.learn_more')}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
@@ -385,7 +381,7 @@ const Home = () => {
       {/* Live Class Highlight Section */}
       <section className="py-20 bg-gradient-to-r from-[hsl(220_50%_10%)] via-[hsl(280_40%_15%)] to-[hsl(220_50%_10%)] relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-10" />
-        
+
         {/* Animated Background */}
         <div className="absolute top-0 left-1/4 w-64 h-64 bg-accent/20 rounded-full blur-[100px] animate-pulse-slow" />
         <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-primary/20 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: '1.5s' }} />
@@ -444,14 +440,14 @@ const Home = () => {
             {/* Video Preview Mockup */}
             <div className="relative">
               <div className="aspect-video rounded-2xl overflow-hidden border border-white/20 shadow-2xl bg-glass-card">
-                <div 
+                <div
                   className="absolute inset-0 bg-cover bg-center"
                   style={{
                     backgroundImage: `url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80')`,
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                
+
                 {/* Play Button */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <button className="w-24 h-24 rounded-full bg-accent/90 text-accent-foreground flex items-center justify-center hover:scale-110 transition-transform shadow-xl glow-gold animate-pulse-glow">
@@ -468,7 +464,6 @@ const Home = () => {
                   {t('modalities.live')}
                 </div>
 
-                {/* Viewers Count */}
                 <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white text-sm px-3 py-1 rounded-lg">
                   <Users className="inline h-4 w-4 mr-1" />
                   234 {t('live.watching')}
@@ -476,8 +471,8 @@ const Home = () => {
 
                 {/* Bottom Info */}
                 <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <p className="text-white font-bold text-lg mb-1">Hermenêutica Bíblica - Aula 12</p>
-                  <p className="text-white/70 text-sm">Prof. Dr. Valdinei Pereira</p>
+                  <p className="text-white font-bold text-lg mb-1">{t('live.demo_title')}</p>
+                  <p className="text-white/70 text-sm">{t('live.demo_prof')}</p>
                 </div>
               </div>
 
@@ -491,7 +486,7 @@ const Home = () => {
       {/* Courses Section */}
       <section id="cursos" className="py-24 bg-[hsl(220_50%_6%)] relative">
         <div className="absolute inset-0 bg-dot-pattern opacity-20" />
-        
+
         <div className="container mx-auto px-4 relative z-10">
           <ScrollReveal animation="fade-up" className="text-center mb-16">
             <Badge className="bg-primary/20 text-primary border-primary/30 mb-4 font-semibold">
@@ -513,24 +508,24 @@ const Home = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {faitelCourses.map((course, index) => (
               <ScrollReveal key={index} animation="fade-up" delay={index * 100}>
-                <Card 
+                <Card
                   className="bg-glass-card border-white/10 overflow-hidden group card-hover hover:border-accent/30 h-full"
                 >
                   <div className="aspect-square relative overflow-hidden bg-gradient-to-br from-white/5 to-white/0 p-6">
-                    <img 
-                      src={course.image} 
+                    <img
+                      src={course.image}
                       alt={course.title}
                       className="w-full h-full object-contain drop-shadow-xl transform group-hover:scale-105 transition-transform duration-500"
                     />
                     <Badge className="absolute top-3 left-3 bg-accent text-accent-foreground font-bold text-xs">
-                      R$ 400
+                      {t('courses.price').split(' ')[0] + ' ' + t('courses.price').split(' ')[1]}
                     </Badge>
                   </div>
                   <CardContent className="p-5">
                     <h3 className="text-sm font-display font-bold text-white mb-3 line-clamp-2 group-hover:text-accent transition-colors min-h-[2.5rem]">
                       {course.title}
                     </h3>
-                    
+
                     <div className="flex items-center gap-3 text-xs text-white/60 mb-4">
                       <span className="flex items-center gap-1">
                         <Calendar className="h-3 w-3 text-accent" />
@@ -576,7 +571,7 @@ const Home = () => {
       {/* About Section */}
       <section id="sobre" className="py-24 bg-[hsl(220_50%_8%)] relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-20" />
-        
+
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -584,7 +579,7 @@ const Home = () => {
                 <Trophy className="h-3 w-3 mr-1" />
                 {t('about.our_history')}
               </Badge>
-              
+
               <h2 className="text-4xl md:text-5xl font-display font-black text-white mb-6 text-3d-white">
                 <span className="text-gradient-gold">23 ANOS</span>
                 <span className="block">DE EXCELÊNCIA</span>
@@ -619,14 +614,14 @@ const Home = () => {
             {/* Video/Image */}
             <div className="relative">
               <div className="aspect-[4/3] rounded-2xl overflow-hidden border border-white/20 shadow-2xl">
-                <div 
+                <div
                   className="absolute inset-0 bg-cover bg-center"
                   style={{
                     backgroundImage: `url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&q=80')`,
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[hsl(220_50%_8%)] via-transparent to-transparent" />
-                
+
                 {/* Play Button */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <button className="w-20 h-20 rounded-full bg-accent/90 text-accent-foreground flex items-center justify-center hover:scale-110 transition-transform shadow-xl">
@@ -634,7 +629,7 @@ const Home = () => {
                   </button>
                 </div>
               </div>
-              
+
               {/* Decorative Glow */}
               <div className="absolute -inset-4 bg-primary/20 rounded-3xl blur-2xl -z-10" />
             </div>
@@ -645,7 +640,7 @@ const Home = () => {
       {/* Testimonials */}
       <section id="depoimentos" className="py-24 bg-[hsl(220_50%_6%)] relative">
         <div className="absolute inset-0 bg-dot-pattern opacity-20" />
-        
+
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
             <Badge className="bg-accent/20 text-accent border-accent/30 mb-4 font-semibold">
@@ -674,8 +669,8 @@ const Home = () => {
 
                   {/* Author */}
                   <div className="flex items-center gap-4">
-                    <img 
-                      src={testimonial.image} 
+                    <img
+                      src={testimonial.image}
                       alt={testimonial.name}
                       className="w-12 h-12 rounded-full object-cover border-2 border-accent/30"
                     />
@@ -702,7 +697,7 @@ const Home = () => {
             {t('cta.start_journey').split(' ').slice(0, 2).join(' ')}
             <span className="block text-gradient-gold">{t('cta.start_journey').split(' ').slice(2).join(' ')}</span>
           </h2>
-          
+
           <p className="text-xl text-white/80 max-w-2xl mx-auto mb-10">
             {t('cta.desc')}
           </p>
@@ -771,9 +766,9 @@ const Home = () => {
             <div>
               <h4 className="font-display font-bold text-white mb-4">{t('footer.programs')}</h4>
               <ul className="space-y-3">
-                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">Graduação</a></li>
-                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">Pós-graduação</a></li>
-                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">Mestrado</a></li>
+                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">{t('footer.programs_list.graduation')}</a></li>
+                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">{t('footer.programs_list.post_grad')}</a></li>
+                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">{t('footer.programs_list.master')}</a></li>
               </ul>
             </div>
 
@@ -781,9 +776,9 @@ const Home = () => {
             <div>
               <h4 className="font-display font-bold text-white mb-4">{t('footer.courses')}</h4>
               <ul className="space-y-3">
-                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">Bacharel em Teologia</a></li>
-                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">Teologia Básica</a></li>
-                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">Especializações</a></li>
+                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">{t('footer.courses_list.bachelor')}</a></li>
+                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">{t('footer.courses_list.basic')}</a></li>
+                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">{t('footer.courses_list.specialization')}</a></li>
               </ul>
             </div>
 
@@ -818,7 +813,7 @@ const Home = () => {
                   </div>
                 </li>
               </ul>
-              
+
               <h4 className="font-display font-bold text-white mb-3 mt-6">{t('footer.addresses')}</h4>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3 text-white/60 text-sm">
@@ -846,7 +841,7 @@ const Home = () => {
 
       {/* WhatsApp Float Button */}
       <a
-        href="https://wa.me/5571983384883?text=Olá! Gostaria de mais informações sobre os cursos da FAITEL."
+        href={`https://wa.me/5571983384883?text=${encodeURIComponent(t('cta.whatsapp_message'))}`}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform animate-pulse-glow"

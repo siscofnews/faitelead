@@ -64,7 +64,17 @@
     "semi_desc": "Le meilleur des deux mondes : flexibilité de l'apprentissage en ligne avec un cours en direct par semaine.",
     "semi_badge": "NOUVEAU",
     "live": "EN DIRECT",
-    "learn_more": "EN SAVOIR PLUS"
+    "learn_more": "EN SAVOIR PLUS",
+    "features": {
+      "networking": "Réseautage",
+      "mentorship": "Mentorat",
+      "hd_video": "Vidéo HD",
+      "online_247": "Disponible 24/7",
+      "online_platform": "Plateforme en ligne",
+      "live_class": "Cours en Direct",
+      "hybrid": "Apprentissage Hybride",
+      "interactive": "Interactif"
+    }
   },
   "live": {
     "exclusive": "EXCLUSIF",
@@ -90,7 +100,13 @@
     "days": "90 jours",
     "hours": "3h/cours",
     "details": "VOIR DÉTAILS",
-    "see_all": "VOIR TOUS LES COURS"
+    "see_all": "VOIR TOUS LES COURS",
+    "names": {
+      "juiz_arbitral": "Juge Arbitral",
+      "lideres": "Formation de Leaders de Cellule",
+      "direitos_humanos": "Agents et Défenseurs des Droits de l'Homme",
+      "capelania": "Aumônerie Militaire"
+    }
   },
   "about": {
     "our_history": "NOTRE HISTOIRE",
@@ -105,7 +121,19 @@
   "testimonials": {
     "badge": "TÉMOIGNAGES",
     "what_they_say": "CE QU'ILS DISENT",
-    "our_students": "NOS ÉTUDIANTS"
+    "our_students": "NOS ÉTUDIANTS",
+    "t1": {
+      "text": "FAITEL a transformé mon ministère. La profondeur théologique et la praticité des enseignements ont été fondamentales.",
+      "role": "Église Baptiste Centrale"
+    },
+    "t2": {
+      "text": "La modalité hybride m'a permis de continuer mes études même sur le champ missionnaire. Les cours en direct sont incroyables !",
+      "role": "Missionnaire"
+    },
+    "t3": {
+      "text": "Formation complète unissant théorie et pratique. Les matériels pédagogiques de WST Éditions sont de première qualité.",
+      "role": "Séminaire Théologique"
+    }
   },
   "cta": {
     "start_journey": "COMMENCEZ VOTRE PARCOURS AUJOURD'HUI",
@@ -179,5 +207,161 @@
     "congratulations": "Félicitations !",
     "lesson_completed": "Leçon marquée comme terminée !",
     "module_locked_msg": "Terminez toutes les leçons et réussissez l'examen du module précédent pour débloquer."
+  },
+  "certifications": {
+    "credibility_badge": "CRÉDIBILITÉ ET EXCELLENCE",
+    "title_prefix": "SCEAUX ET",
+    "title_suffix": "CERTIFICATIONS",
+    "description": "FAITEL est une institution engagée dans l'excellence de l'enseignement théologique, reconnue par d'importants organismes éducatifs et ministériels.",
+    "cec": {
+      "name": "CEC",
+      "full_name": "Conseil de l'Éducation et de la Culture",
+      "org": "de la CEMADEB",
+      "desc": "Organisme responsable de l'évaluation et de la certification des cours théologiques conformément aux normes éducatives évangéliques.",
+      "type": "Certification Éducative"
+    },
+    "cemadeb": {
+      "name": "CEMADEB",
+      "full_name": "Convention Évangélique des Ministres des Assemblées de Dieu",
+      "org": "À l'étranger et au Brésil",
+      "desc": "Convention qui rassemble les ministres et les églises des Assemblées de Dieu, garantissant la légitimité et la reconnaissance ministérielle.",
+      "type": "Reconnaissance Ministérielle"
+    },
+    "seal_100_percent": "100% des Cours",
+    "seal_recognized": "Reconnus par le CEC et la CEMADEB",
+    "differentials_title_prefix": "Nos",
+    "differentials_title_suffix": "Différentiels de Qualité",
+    "diff_quality": {
+      "title": "Enseignement de Qualité",
+      "desc": "Corps professoral qualifié avec des maîtres et des docteurs"
+    },
+    "diff_validity": {
+      "title": "Validité Internationale",
+      "desc": "Certificats reconnus dans divers pays"
+    },
+    "diff_curriculum": {
+      "title": "Programme Complet",
+      "desc": "Programme mis à jour et fondé sur les Écritures"
+    },
+    "diff_community": {
+      "title": "Communauté d'Apprentissage",
+      "desc": "Réseau de milliers d'étudiants et d'anciens élèves"
+    },
+    "diff_legal": {
+      "title": "Documentation Légale",
+      "desc": "Institution enregistrée et en conformité légale"
+    },
+    "diff_tradition": {
+      "title": "23 Ans de Tradition",
+      "desc": "Plus de deux décennies à former des leaders pour le Royaume"
+    },
+    "stats": {
+      "graduated": "Étudiants Diplômés",
+      "history": "Années d'Histoire",
+      "certificates": "Certificats Valides",
+      "polos": "Centres de Soutien"
+    },
+    "trust": {
+      "title": "Institution de Confiance",
+      "subtitle": "Choisie par des milliers de leaders",
+      "desc": "Rejoignez une communauté d'excellence en formation théologique avec une reconnaissance nationale et internationale."
+    }
+  },
+  "chancellors": {
+    "badge": "LEADERSHIP",
+    "title": "NOS CHANCELIERS",
+    "description": "Des leaders engagés dans l'excellence de l'enseignement théologique et le développement de leaders chrétiens",
+    "founders_label": "Fondateurs et Chanceliers de FAITEL",
+    "valdinei": {
+      "name": "Pasteur Valdinei da Conceição Santos",
+      "role": "Directeur Chancelier de FAITEL",
+      "church": "Président de l'Église IADMA",
+      "convention": "Président de la Convention CEMADEB",
+      "publisher": "Fondateur de WST Éditions et Graphisme"
+    },
+    "thelma": {
+      "name": "Pasteure Thelma Santana Menezes Santos",
+      "role": "Vice-Chancellerie de FAITEL",
+      "desc": "Leader engagée dans l'excellence de la gestion éducative et le développement de leaders chrétiens."
+    },
+    "stats": {
+      "ministry": "Années de Ministère",
+      "churches": "Églises Atteintes",
+      "lives": "Vies Impactées"
+    }
+  },
+  "devotional": {
+    "badge": "PAROLE DU JOUR",
+    "title": "☕ CAFÉ DÉVOTIONNEL",
+    "subtitle": "AVEC LE CHANCELIER",
+    "reflection_title": "Réflexion du Jour",
+    "reflection_p1": "Chers frères et sœurs, aujourd'hui je veux partager une parole d'espoir et de foi. Dieu a des projets merveilleux pour chacun de nous. Peu importe les défis auxquels vous êtes confrontés en ce moment, sachez que le Seigneur contrôle toutes choses.",
+    "reflection_p2": "Il connaît vos rêves, vos besoins et vos douleurs. Et plus que cela, Il a des pensées de paix pour vous ! N'abandonnez pas ! Continuez à faire confiance, à prier et à chercher la présence de Dieu. Le meilleur est à venir !",
+    "blessing": "Que Dieu bénisse richement votre journée ! 🙌",
+    "signature_name": "✍️ Pasteur Valdinei da Conceição Santos",
+    "signature_role": "Chancelier de FAITEL | Président de la CEMADEB | Président de l'IADMA"
+  },
+  "recognition": {
+    "badge": "INSTITUTION RECONNUE",
+    "title_prefix": "COURS",
+    "title_suffix1": "RECONNUS",
+    "title_separator": "ET",
+    "title_suffix2": "CERTIFIÉS",
+    "description": "Tous les cours FAITEL sont officiellement reconnus par le CEC - Conseil de l'Éducation et de la Culture de la CEMADEB et par la CEMADEB - Convention Évangélique des Ministres des Assemblées de Dieu à l'Étranger et au Brésil.",
+    "cec": {
+      "name": "CEC",
+      "desc": "Conseil de l'Éducation et de la Culture",
+      "sub": "de la CEMADEB"
+    },
+    "cemadeb": {
+      "name": "CEMADEB",
+      "desc": "Convention Évangélique des Ministres des Assemblées de Dieu",
+      "sub": "À l'étranger et au Brésil"
+    },
+    "official_cert": "CERTIFICATION OFFICIELLE",
+    "bottom_text": "Certificats valides et reconnus sur tout le territoire national et international"
+  },
+  "secc": {
+    "badge": "MATÉRIEL DIDACTIQUE",
+    "title": "MAGAZINE SECC",
+    "subtitle": "Système d'Éducation Chrétienne Continue",
+    "description": "École du Dimanche - Matériel didactique complet pour tous les âges",
+    "magazines": {
+      "adults": {
+        "title": "Adultes",
+        "subtitle": "Série Lettres de Paul",
+        "desc": "Matériel complet pour des études bibliques approfondies. Couvre la Lettre aux Romains..."
+      },
+      "youth": {
+        "title": "Jeunes",
+        "subtitle": "Ados & Jeunes",
+        "desc": "Contenu dynamique et pertinent pour la jeunesse chrétienne..."
+      },
+      "teens": {
+        "title": "Adolescents",
+        "subtitle": "École Biblique",
+        "desc": "Matériel adapté pour les adolescents avec un langage accessible..."
+      },
+      "kids": {
+        "title": "Enfants",
+        "subtitle": "École Biblique pour Enfants (7 à 11 ans)",
+        "desc": "Magazine coloré et illustré pour les enfants de 7 à 11 ans..."
+      }
+    },
+    "lessons": "Leçons",
+    "quarterly": "Trimestriel",
+    "details": "Voir Détails",
+    "about": {
+      "title": "À propos des Magazines SECC",
+      "p1": "Les magazines du Système d'Éducation Chrétienne Continue sont produits trimestriellement...",
+      "p2": "Chaque magazine coûte"
+    },
+    "visit_site": "Visiter le Site SECC",
+    "stats": {
+      "ages": "Groupes d'Âge",
+      "lessons_qt": "Leçons/Trimestre",
+      "lessons_year": "Leçons/An",
+      "price_unit": "Euros/Magazine"
+    }
   }
 }

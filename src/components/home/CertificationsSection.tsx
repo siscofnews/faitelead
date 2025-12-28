@@ -1,205 +1,155 @@
+import { BadgeCheck, Shield, Globe, Book, Users, FileCheck, Award, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { 
-  Shield, Award, CheckCircle, GraduationCap, Globe, 
-  BookOpen, Users, FileCheck, BadgeCheck, Star
-} from "lucide-react";
-import cecLogo from "@/assets/certifications/cec-logo.png";
-import cemadebLogo from "@/assets/certifications/cemadeb-logo.png";
-
-const certifications = [
-  {
-    logo: cecLogo,
-    name: "CEC",
-    fullName: "Conselho de Educação e Cultura",
-    organization: "da CEMADEB",
-    description: "Órgão responsável pela avaliação e certificação dos cursos teológicos em conformidade com os padrões educacionais evangélicos.",
-    type: "Certificação Educacional"
-  },
-  {
-    logo: cemadebLogo,
-    name: "CEMADEB",
-    fullName: "Convenção Evangélica de Ministro das Assembleias de Deus",
-    organization: "No Exterior e no Brasil",
-    description: "Convenção que congrega ministros e igrejas das Assembleias de Deus, garantindo legitimidade e reconhecimento ministerial.",
-    type: "Reconhecimento Ministerial"
-  }
-];
-
-const additionalSeals = [
-  {
-    icon: GraduationCap,
-    title: "Ensino de Qualidade",
-    description: "Corpo docente qualificado com mestres e doutores",
-    color: "from-primary to-primary/70"
-  },
-  {
-    icon: Globe,
-    title: "Validade Internacional",
-    description: "Certificados reconhecidos em diversos países",
-    color: "from-accent to-accent/70"
-  },
-  {
-    icon: BookOpen,
-    title: "Grade Curricular Completa",
-    description: "Currículo atualizado e fundamentado nas Escrituras",
-    color: "from-success to-success/70"
-  },
-  {
-    icon: Users,
-    title: "Comunidade de Aprendizado",
-    description: "Rede de milhares de alunos e ex-alunos",
-    color: "from-primary to-accent"
-  },
-  {
-    icon: FileCheck,
-    title: "Documentação Legal",
-    description: "Instituição registrada e em conformidade legal",
-    color: "from-accent to-primary"
-  },
-  {
-    icon: BadgeCheck,
-    title: "23 Anos de Tradição",
-    description: "Mais de duas décadas formando líderes para o Reino",
-    color: "from-success to-accent"
-  }
-];
+import { useI18n } from "@/i18n/I18nProvider";
 
 const CertificationsSection = () => {
+  const { t } = useI18n();
+
+  const differentials = [
+    {
+      icon: Star,
+      title: t('certifications.diff_quality.title'),
+      description: t('certifications.diff_quality.desc')
+    },
+    {
+      icon: Globe,
+      title: t('certifications.diff_validity.title'),
+      description: t('certifications.diff_validity.desc')
+    },
+    {
+      icon: Book,
+      title: t('certifications.diff_curriculum.title'),
+      description: t('certifications.diff_curriculum.desc')
+    },
+    {
+      icon: Users,
+      title: t('certifications.diff_community.title'),
+      description: t('certifications.diff_community.desc')
+    },
+    {
+      icon: FileCheck,
+      title: t('certifications.diff_legal.title'),
+      description: t('certifications.diff_legal.desc')
+    },
+    {
+      icon: Award,
+      title: t('certifications.diff_tradition.title'),
+      description: t('certifications.diff_tradition.desc')
+    }
+  ];
+
   return (
-    <section id="certificacoes" className="py-24 bg-gradient-to-b from-[hsl(220_50%_4%)] via-[hsl(220_50%_6%)] to-[hsl(220_50%_8%)] relative overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-5" />
-      <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[200px]" />
-      <div className="absolute bottom-1/4 right-0 w-[500px] h-[500px] bg-primary/15 rounded-full blur-[200px]" />
+    <section id="certificacoes" className="py-24 bg-[hsl(220_50%_8%)] relative overflow-hidden">
+      <div className="absolute inset-0 bg-grid-pattern opacity-10" />
       
       <div className="container mx-auto px-4 relative z-10">
-        {/* Header */}
         <div className="text-center mb-16">
-          <Badge className="bg-accent/20 text-accent border-accent/30 mb-4">
-            <Shield className="w-3 h-3 mr-1" />
-            CREDIBILIDADE E EXCELÊNCIA
+          <Badge className="bg-accent/20 text-accent border-accent/30 mb-4 font-semibold">
+            <BadgeCheck className="h-3 w-3 mr-1" />
+            {t('certifications.credibility_badge')}
           </Badge>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-black text-white mb-4 text-3d-white">
-            SELOS E <span className="text-gradient-gold">CERTIFICAÇÕES</span>
+          <h2 className="text-4xl md:text-5xl font-display font-black text-white mb-4 text-3d-white">
+            {t('certifications.title_prefix')} <span className="text-gradient-gold">{t('certifications.title_suffix')}</span>
           </h2>
-          <p className="text-lg text-white/70 max-w-3xl mx-auto">
-            A FAITEL é uma instituição comprometida com a excelência no ensino teológico, 
-            reconhecida por importantes órgãos educacionais e ministeriais.
+          <p className="text-lg text-white/70 max-w-2xl mx-auto">
+            {t('certifications.description')}
           </p>
         </div>
 
-        {/* Main Certifications */}
+        {/* Certificações Principais */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
-          {certifications.map((cert, index) => (
-            <Card 
-              key={index} 
-              className="bg-glass-card border-white/10 overflow-hidden group hover:border-accent/30 transition-all duration-500"
-            >
-              <CardContent className="p-8">
-                <div className="flex flex-col lg:flex-row items-center gap-6">
-                  {/* Logo */}
-                  <div className="relative flex-shrink-0">
-                    <div className="absolute inset-0 bg-accent/20 rounded-full blur-2xl group-hover:blur-3xl transition-all" />
-                    <img 
-                      src={cert.logo} 
-                      alt={cert.name}
-                      className="w-32 h-32 lg:w-40 lg:h-40 object-contain relative z-10 drop-shadow-2xl group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  
-                  {/* Info */}
-                  <div className="text-center lg:text-left flex-1">
-                    <Badge className="bg-primary/20 text-primary border-primary/30 mb-3 text-xs">
-                      {cert.type}
-                    </Badge>
-                    <h3 className="text-2xl font-display font-bold text-white mb-1">
-                      {cert.name}
-                    </h3>
-                    <p className="text-accent font-medium mb-1">{cert.fullName}</p>
-                    <p className="text-xs text-white/50 mb-3">{cert.organization}</p>
-                    <p className="text-sm text-white/70 leading-relaxed">
-                      {cert.description}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+          <Card className="bg-glass-card border-white/10 overflow-hidden group hover:border-accent/30 transition-colors">
+            <CardContent className="p-8 flex items-start gap-6">
+              <div className="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <Shield className="h-8 w-8 text-primary" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-display font-bold text-white mb-2">{t('certifications.cec.name')}</h3>
+                <p className="text-sm text-primary font-bold mb-3">{t('certifications.cec.full_name')} {t('certifications.cec.org')}</p>
+                <p className="text-white/70 leading-relaxed mb-4">
+                  {t('certifications.cec.desc')}
+                </p>
+                <Badge variant="outline" className="border-primary/30 text-primary">
+                  {t('certifications.cec.type')}
+                </Badge>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-glass-card border-white/10 overflow-hidden group hover:border-accent/30 transition-colors">
+            <CardContent className="p-8 flex items-start gap-6">
+              <div className="w-16 h-16 rounded-2xl bg-accent/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <Award className="h-8 w-8 text-accent" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-display font-bold text-white mb-2">{t('certifications.cemadeb.name')}</h3>
+                <p className="text-sm text-accent font-bold mb-3">{t('certifications.cemadeb.full_name')} {t('certifications.cemadeb.org')}</p>
+                <p className="text-white/70 leading-relaxed mb-4">
+                  {t('certifications.cemadeb.desc')}
+                </p>
+                <Badge variant="outline" className="border-accent/30 text-accent">
+                  {t('certifications.cemadeb.type')}
+                </Badge>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
-        {/* Certification Seal */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-3 bg-gradient-to-r from-accent/20 via-accent/10 to-accent/20 backdrop-blur-sm border border-accent/30 rounded-full px-8 py-4">
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-6 h-6 text-success" />
-              <span className="text-white font-bold">100% dos Cursos</span>
+        {/* Estatísticas de Credibilidade */}
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-8 mb-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+              <p className="text-4xl font-display font-black text-white mb-2">65K+</p>
+              <p className="text-sm text-white/60 font-medium">{t('certifications.stats.graduated')}</p>
             </div>
-            <div className="w-px h-6 bg-white/20" />
-            <span className="text-white/70">Reconhecidos pelo CEC e CEMADEB</span>
+            <div>
+              <p className="text-4xl font-display font-black text-white mb-2">23</p>
+              <p className="text-sm text-white/60 font-medium">{t('certifications.stats.history')}</p>
+            </div>
+            <div>
+              <p className="text-4xl font-display font-black text-white mb-2">100%</p>
+              <p className="text-sm text-white/60 font-medium">{t('certifications.stats.certificates')}</p>
+            </div>
+            <div>
+              <p className="text-4xl font-display font-black text-white mb-2">50+</p>
+              <p className="text-sm text-white/60 font-medium">{t('certifications.stats.polos')}</p>
+            </div>
           </div>
         </div>
 
-        {/* Additional Quality Seals */}
-        <div className="mb-12">
-          <h3 className="text-2xl font-display font-bold text-white text-center mb-8">
-            Nossos <span className="text-gradient-gold">Diferenciais de Qualidade</span>
+        {/* Diferenciais */}
+        <div>
+          <h3 className="text-2xl font-display font-bold text-white text-center mb-10">
+            {t('certifications.differentials_title_prefix')} <span className="text-gradient-gold">{t('certifications.differentials_title_suffix')}</span>
           </h3>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {additionalSeals.map((seal, index) => (
-              <div 
-                key={index}
-                className="group text-center p-6 rounded-2xl bg-glass-card border border-white/10 hover:border-accent/30 transition-all duration-300"
-              >
-                <div className={`inline-flex items-center justify-center w-14 h-14 mb-4 rounded-xl bg-gradient-to-br ${seal.color} group-hover:scale-110 transition-transform duration-300`}>
-                  <seal.icon className="h-7 w-7 text-white" />
+          <div className="grid md:grid-cols-3 gap-6">
+            {differentials.map((item, index) => (
+              <div key={index} className="flex gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors">
+                <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0 text-accent">
+                  <item.icon className="h-6 w-6" />
                 </div>
-                <h4 className="text-sm font-bold text-white mb-1">{seal.title}</h4>
-                <p className="text-xs text-white/60 leading-relaxed">{seal.description}</p>
+                <div>
+                  <h4 className="font-bold text-white mb-1">{item.title}</h4>
+                  <p className="text-sm text-white/60 leading-relaxed">{item.description}</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Trust Indicators */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {[
-            { value: "5.000+", label: "Alunos Formados", icon: GraduationCap },
-            { value: "23", label: "Anos de História", icon: Award },
-            { value: "100%", label: "Certificados Válidos", icon: FileCheck },
-            { value: "50+", label: "Polos de Apoio", icon: Globe }
-          ].map((stat, index) => (
-            <div 
-              key={index}
-              className="text-center p-6 rounded-2xl bg-white/5 border border-white/10"
-            >
-              <stat.icon className="w-8 h-8 text-accent mx-auto mb-3" />
-              <p className="text-3xl md:text-4xl font-display font-black text-white mb-1">
-                {stat.value}
-              </p>
-              <p className="text-xs text-white/60">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Bottom CTA */}
+        {/* Trust Badge */}
         <div className="mt-16 text-center">
-          <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 rounded-2xl bg-gradient-to-r from-primary/20 via-accent/10 to-primary/20 border border-white/10">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
-                <Star className="w-6 h-6 text-accent" fill="currentColor" />
-              </div>
-              <div className="text-left">
-                <p className="text-white font-bold">Instituição de Confiança</p>
-                <p className="text-sm text-white/60">Escolhida por milhares de líderes</p>
-              </div>
-            </div>
-            <div className="hidden sm:block w-px h-12 bg-white/20" />
-            <p className="text-white/70 text-sm max-w-md">
-              Faça parte de uma comunidade de excelência em formação teológica com reconhecimento nacional e internacional.
-            </p>
+          <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 px-6 py-3 rounded-full">
+            <Shield className="h-5 w-5 text-green-500" />
+            <span className="text-green-400 font-bold">{t('certifications.trust.title')}</span>
+            <span className="w-1 h-1 rounded-full bg-white/20 mx-2" />
+            <span className="text-white/60 text-sm">{t('certifications.trust.subtitle')}</span>
           </div>
+          <p className="mt-4 text-white/40 text-sm max-w-lg mx-auto">
+            {t('certifications.trust.desc')}
+          </p>
         </div>
       </div>
     </section>

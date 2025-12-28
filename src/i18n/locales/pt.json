@@ -64,7 +64,17 @@
     "semi_desc": "O melhor dos dois mundos: flexibilidade do EAD com uma aula ao vivo por semana.",
     "semi_badge": "NOVO",
     "live": "AO VIVO",
-    "learn_more": "SAIBA MAIS"
+    "learn_more": "SAIBA MAIS",
+    "features": {
+      "networking": "Networking",
+      "mentorship": "Mentoria",
+      "hd_video": "Vídeo em HD",
+      "online_247": "Disponível 24/7",
+      "online_platform": "Plataforma Online",
+      "live_class": "Aula ao Vivo",
+      "hybrid": "Ensino Híbrido",
+      "interactive": "Interativo"
+    }
   },
   "live": {
     "exclusive": "EXCLUSIVO",
@@ -79,7 +89,9 @@
     "recording": "Gravação",
     "recording_desc": "Assista depois se perder",
     "cta": "QUERO AULAS AO VIVO",
-    "watching": "assistindo"
+    "watching": "assistindo",
+    "demo_title": "Hermenêutica Bíblica - Aula 12",
+    "demo_prof": "Prof. Dr. Valdinei Pereira"
   },
   "courses": {
     "complete_formation": "FORMAÇÃO COMPLETA",
@@ -90,7 +102,13 @@
     "days": "90 dias",
     "hours": "3h/aula",
     "details": "VER DETALHES",
-    "see_all": "VER TODOS OS CURSOS"
+    "see_all": "VER TODOS OS CURSOS",
+    "names": {
+      "juiz_arbitral": "Juiz Arbitral",
+      "lideres": "Formação de Líderes de Células",
+      "direitos_humanos": "Agentes e Defensores em Direitos Humanos",
+      "capelania": "Capelania Geral Militar"
+    }
   },
   "about": {
     "our_history": "NOSSA HISTÓRIA",
@@ -105,13 +123,26 @@
   "testimonials": {
     "badge": "DEPOIMENTOS",
     "what_they_say": "O QUE DIZEM",
-    "our_students": "NOSSOS ALUNOS"
+    "our_students": "NOSSOS ALUNOS",
+    "t1": {
+      "text": "A FAITEL transformou meu ministério. A profundidade teológica e a praticidade dos ensinamentos foram fundamentais.",
+      "role": "Igreja Batista Central"
+    },
+    "t2": {
+      "text": "A modalidade semi-presencial me permitiu continuar meus estudos mesmo em campo missionário. As aulas ao vivo são incríveis!",
+      "role": "Missionária"
+    },
+    "t3": {
+      "text": "Formação completa que une teoria e prática. Os materiais didáticos da WST Editora são de primeira qualidade.",
+      "role": "Seminário Teológico"
+    }
   },
   "cta": {
     "start_journey": "COMECE SUA JORNADA HOJE",
     "desc": "Escolha a modalidade que melhor se adapta à sua rotina e transforme seu chamado em conhecimento.",
     "enroll_now": "MATRICULE-SE AGORA",
-    "contact_us": "FALE CONOSCO"
+    "contact_us": "FALE CONOSCO",
+    "whatsapp_message": "Olá! Gostaria de mais informações sobre os cursos da FAITEL."
   },
   "footer": {
     "rights": "© 2024 FAITEL - Faculdade de Teologia. Todos os direitos reservados.",
@@ -124,7 +155,17 @@
     "contact": "CONTATO",
     "addresses": "ENDEREÇOS",
     "matriz": "Matriz",
-    "admin_hq": "Sede Administrativa"
+    "admin_hq": "Sede Administrativa",
+    "programs_list": {
+      "graduation": "Graduação",
+      "post_grad": "Pós-graduação",
+      "master": "Mestrado"
+    },
+    "courses_list": {
+      "bachelor": "Bacharel em Teologia",
+      "basic": "Teologia Básica",
+      "specialization": "Especializações"
+    }
   },
   "banner": {
     "slide1_title": "MATRÍCULAS ABERTAS 2026",
@@ -179,5 +220,161 @@
     "congratulations": "Parabéns!",
     "lesson_completed": "Aula marcada como concluída!",
     "module_locked_msg": "Complete todas as aulas e passe na prova do módulo anterior para desbloquear."
+  },
+  "certifications": {
+    "credibility_badge": "CREDIBILIDADE E EXCELÊNCIA",
+    "title_prefix": "SELOS E",
+    "title_suffix": "CERTIFICAÇÕES",
+    "description": "A FAITEL é uma instituição comprometida com a excelência no ensino teológico, reconhecida por importantes órgãos educacionais e ministeriais.",
+    "cec": {
+      "name": "CEC",
+      "full_name": "Conselho de Educação e Cultura",
+      "org": "da CEMADEB",
+      "desc": "Órgão responsável pela avaliação e certificação dos cursos teológicos em conformidade com os padrões educacionais evangélicos.",
+      "type": "Certificação Educacional"
+    },
+    "cemadeb": {
+      "name": "CEMADEB",
+      "full_name": "Convenção Evangélica de Ministro das Assembleias de Deus",
+      "org": "No Exterior e no Brasil",
+      "desc": "Convenção que congrega ministros e igrejas das Assembleias de Deus, garantindo legitimidade e reconhecimento ministerial.",
+      "type": "Reconhecimento Ministerial"
+    },
+    "seal_100_percent": "100% dos Cursos",
+    "seal_recognized": "Reconhecidos pelo CEC e CEMADEB",
+    "differentials_title_prefix": "Nossos",
+    "differentials_title_suffix": "Diferenciais de Qualidade",
+    "diff_quality": {
+      "title": "Ensino de Qualidade",
+      "desc": "Corpo docente qualificado com mestres e doutores"
+    },
+    "diff_validity": {
+      "title": "Validade Internacional",
+      "desc": "Certificados reconhecidos em diversos países"
+    },
+    "diff_curriculum": {
+      "title": "Grade Curricular Completa",
+      "desc": "Currículo atualizado e fundamentado nas Escrituras"
+    },
+    "diff_community": {
+      "title": "Comunidade de Aprendizado",
+      "desc": "Rede de milhares de alunos e ex-alunos"
+    },
+    "diff_legal": {
+      "title": "Documentação Legal",
+      "desc": "Instituição registrada e em conformidade legal"
+    },
+    "diff_tradition": {
+      "title": "23 Anos de Tradição",
+      "desc": "Mais de duas décadas formando líderes para o Reino"
+    },
+    "stats": {
+      "graduated": "Alunos Formados",
+      "history": "Anos de História",
+      "certificates": "Certificados Válidos",
+      "polos": "Polos de Apoio"
+    },
+    "trust": {
+      "title": "Instituição de Confiança",
+      "subtitle": "Escolhida por milhares de líderes",
+      "desc": "Faça parte de uma comunidade de excelência em formação teológica com reconhecimento nacional e internacional."
+    }
+  },
+  "chancellors": {
+    "badge": "LIDERANÇA",
+    "title": "NOSSOS CHANCELERES",
+    "description": "Líderes comprometidos com a excelência no ensino teológico e desenvolvimento de líderes cristãos",
+    "founders_label": "Fundadores e Chanceleres da FAITEL",
+    "valdinei": {
+      "name": "Pastor Valdinei da Conceição Santos",
+      "role": "Diretor Chanceler da FAITEL",
+      "church": "Presidente da Igreja IADMA",
+      "convention": "Presidente da Convenção CEMADEB",
+      "publisher": "Fundador da WST Editora e Gráfica"
+    },
+    "thelma": {
+      "name": "Pastora Thelma Santana Menezes Santos",
+      "role": "Vice-Chancelaria da FAITEL",
+      "desc": "Líder comprometida com a excelência na gestão educacional e desenvolvimento de líderes cristãos."
+    },
+    "stats": {
+      "ministry": "Anos de Ministério",
+      "churches": "Igrejas Alcançadas",
+      "lives": "Vidas Impactadas"
+    }
+  },
+  "devotional": {
+    "badge": "PALAVRA DO DIA",
+    "title": "☕ CAFÉ DEVOCIONAL",
+    "subtitle": "COM O CHANCELER",
+    "reflection_title": "Reflexão do Dia",
+    "reflection_p1": "Queridos irmãos, hoje quero compartilhar uma palavra de esperança e fé. Deus tem planos maravilhosos para cada um de nós. Não importa quais sejam os desafios que você está enfrentando neste momento, saiba que o Senhor está no controle de todas as coisas.",
+    "reflection_p2": "Ele conhece seus sonhos, suas necessidades e suas dores. E mais do que isso, Ele tem pensamentos de paz para você! Não desista! Continue confiando, orando e buscando a presença de Deus. O melhor ainda está por vir!",
+    "blessing": "Que Deus abençoe ricamente seu dia! 🙌",
+    "signature_name": "✍️ Pastor Valdinei da Conceição Santos",
+    "signature_role": "Chanceler da FAITEL | Presidente CEMADEB | Presidente IADMA"
+  },
+  "recognition": {
+    "badge": "INSTITUIÇÃO RECONHECIDA",
+    "title_prefix": "CURSOS",
+    "title_suffix1": "RECONHECIDOS",
+    "title_separator": "E",
+    "title_suffix2": "CERTIFICADOS",
+    "description": "Todos os cursos da FAITE e FAITEL são oficialmente reconhecidos pelo CEC - Conselho de Educação e Cultura da CEMADEB e pela CEMADEB - Convenção Evangélica de Ministro das Assembleias de Deus no Exterior e no Brasil.",
+    "cec": {
+      "name": "CEC",
+      "desc": "Conselho de Educação e Cultura",
+      "sub": "da CEMADEB"
+    },
+    "cemadeb": {
+      "name": "CEMADEB",
+      "desc": "Convenção Evangélica de Ministro das Assembleias de Deus",
+      "sub": "No Exterior e no Brasil"
+    },
+    "official_cert": "CERTIFICAÇÃO OFICIAL",
+    "bottom_text": "Certificados válidos e reconhecidos em todo território nacional e internacional"
+  },
+  "secc": {
+    "badge": "MATERIAL DIDÁTICO",
+    "title": "REVISTA SECC",
+    "subtitle": "Sistema de Educação Cristã Continuada",
+    "description": "Escola Bíblica Dominical - Material didático completo para todas as idades",
+    "magazines": {
+      "adults": {
+        "title": "Adultos",
+        "subtitle": "Série Cartas de Paulo",
+        "desc": "Material completo para estudos bíblicos aprofundados. Aborda a Carta aos Romanos..."
+      },
+      "youth": {
+        "title": "Jovens",
+        "subtitle": "Adolescentes & Jovens",
+        "desc": "Conteúdo dinâmico e relevante para a juventude cristã..."
+      },
+      "teens": {
+        "title": "Adolescentes",
+        "subtitle": "Escola Bíblica",
+        "desc": "Material adaptado para adolescentes com linguagem acessível..."
+      },
+      "kids": {
+        "title": "Crianças",
+        "subtitle": "Escola Bíblica Infantil (7 a 11 anos)",
+        "desc": "Revista colorida e ilustrada para crianças de 7 a 11 anos..."
+      }
+    },
+    "lessons": "Lições",
+    "quarterly": "Trimestral",
+    "details": "Ver Detalhes",
+    "about": {
+      "title": "Sobre as Revistas SECC",
+      "p1": "As revistas do Sistema de Educação Cristã Continuada são produzidas trimestralmente...",
+      "p2": "Cada revista custa"
+    },
+    "visit_site": "Visitar Site da SECC",
+    "stats": {
+      "ages": "Faixas Etárias",
+      "lessons_qt": "Lições/Trimestre",
+      "lessons_year": "Lições/Ano",
+      "price_unit": "Euros/Revista"
+    }
   }
 }

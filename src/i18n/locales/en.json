@@ -64,7 +64,17 @@
     "semi_desc": "The best of both worlds: flexibility of online learning with one live class per week.",
     "semi_badge": "NEW",
     "live": "LIVE",
-    "learn_more": "LEARN MORE"
+    "learn_more": "LEARN MORE",
+    "features": {
+      "networking": "Networking",
+      "mentorship": "Mentorship",
+      "hd_video": "HD Video",
+      "online_247": "Available 24/7",
+      "online_platform": "Online Platform",
+      "live_class": "Live Class",
+      "hybrid": "Hybrid Learning",
+      "interactive": "Interactive"
+    }
   },
   "live": {
     "exclusive": "EXCLUSIVE",
@@ -79,7 +89,9 @@
     "recording": "Recording",
     "recording_desc": "Watch later if you miss it",
     "cta": "I WANT LIVE CLASSES",
-    "watching": "watching"
+    "watching": "watching",
+    "demo_title": "Biblical Hermeneutics - Lesson 12",
+    "demo_prof": "Prof. Dr. Valdinei Pereira"
   },
   "courses": {
     "complete_formation": "COMPLETE FORMATION",
@@ -90,7 +102,13 @@
     "days": "90 days",
     "hours": "3h/class",
     "details": "SEE DETAILS",
-    "see_all": "SEE ALL COURSES"
+    "see_all": "SEE ALL COURSES",
+    "names": {
+      "juiz_arbitral": "Arbitral Judge",
+      "lideres": "Cell Leaders Formation",
+      "direitos_humanos": "Human Rights Agents and Defenders",
+      "capelania": "Military Chaplaincy"
+    }
   },
   "about": {
     "our_history": "OUR HISTORY",
@@ -105,13 +123,26 @@
   "testimonials": {
     "badge": "TESTIMONIALS",
     "what_they_say": "WHAT THEY SAY",
-    "our_students": "OUR STUDENTS"
+    "our_students": "OUR STUDENTS",
+    "t1": {
+      "text": "FAITEL transformed my ministry. The theological depth and practicality of the teachings were fundamental.",
+      "role": "Central Baptist Church"
+    },
+    "t2": {
+      "text": "The blended modality allowed me to continue my studies even on the mission field. The live classes are amazing!",
+      "role": "Missionary"
+    },
+    "t3": {
+      "text": "Complete formation uniting theory and practice. The teaching materials from WST Publishing are top quality.",
+      "role": "Theological Seminary"
+    }
   },
   "cta": {
     "start_journey": "START YOUR JOURNEY TODAY",
     "desc": "Choose the modality that best fits your routine and transform your calling into knowledge.",
     "enroll_now": "ENROLL NOW",
-    "contact_us": "CONTACT US"
+    "contact_us": "CONTACT US",
+    "whatsapp_message": "Hello! I would like more information about FAITEL courses."
   },
   "footer": {
     "rights": "© 2024 FAITEL - Theological Faculty. All rights reserved.",
@@ -124,7 +155,17 @@
     "contact": "CONTACT",
     "addresses": "ADDRESSES",
     "matriz": "Headquarters",
-    "admin_hq": "Administrative HQ"
+    "admin_hq": "Administrative HQ",
+    "programs_list": {
+      "graduation": "Undergraduate",
+      "post_grad": "Postgraduate",
+      "master": "Master's Degree"
+    },
+    "courses_list": {
+      "bachelor": "Bachelor in Theology",
+      "basic": "Basic Theology",
+      "specialization": "Specializations"
+    }
   },
   "banner": {
     "slide1_title": "REGISTRATIONS OPEN 2026",
@@ -179,5 +220,161 @@
     "congratulations": "Congratulations!",
     "lesson_completed": "Lesson marked as completed!",
     "module_locked_msg": "Complete all lessons and pass the previous module exam to unlock."
+  },
+  "certifications": {
+    "credibility_badge": "CREDIBILITY AND EXCELLENCE",
+    "title_prefix": "SEALS AND",
+    "title_suffix": "CERTIFICATIONS",
+    "description": "FAITEL is an institution committed to excellence in theological education, recognized by important educational and ministerial bodies.",
+    "cec": {
+      "name": "CEC",
+      "full_name": "Education and Culture Council",
+      "org": "of CEMADEB",
+      "desc": "Body responsible for the evaluation and certification of theological courses in accordance with evangelical educational standards.",
+      "type": "Educational Certification"
+    },
+    "cemadeb": {
+      "name": "CEMADEB",
+      "full_name": "Evangelical Convention of Assembly of God Ministers",
+      "org": "Abroad and in Brazil",
+      "desc": "Convention gathering ministers and churches of the Assemblies of God, ensuring legitimacy and ministerial recognition.",
+      "type": "Ministerial Recognition"
+    },
+    "seal_100_percent": "100% of Courses",
+    "seal_recognized": "Recognized by CEC and CEMADEB",
+    "differentials_title_prefix": "Our",
+    "differentials_title_suffix": "Quality Differentials",
+    "diff_quality": {
+      "title": "Quality Teaching",
+      "desc": "Qualified faculty with masters and doctors"
+    },
+    "diff_validity": {
+      "title": "International Validity",
+      "desc": "Certificates recognized in various countries"
+    },
+    "diff_curriculum": {
+      "title": "Complete Curriculum",
+      "desc": "Updated curriculum based on Scriptures"
+    },
+    "diff_community": {
+      "title": "Learning Community",
+      "desc": "Network of thousands of students and alumni"
+    },
+    "diff_legal": {
+      "title": "Legal Documentation",
+      "desc": "Institution registered and legally compliant"
+    },
+    "diff_tradition": {
+      "title": "23 Years of Tradition",
+      "desc": "More than two decades forming leaders for the Kingdom"
+    },
+    "stats": {
+      "graduated": "Graduated Students",
+      "history": "Years of History",
+      "certificates": "Valid Certificates",
+      "polos": "Support Poles"
+    },
+    "trust": {
+      "title": "Trusted Institution",
+      "subtitle": "Chosen by thousands of leaders",
+      "desc": "Join a community of excellence in theological formation with national and international recognition."
+    }
+  },
+  "chancellors": {
+    "badge": "LEADERSHIP",
+    "title": "OUR CHANCELLORS",
+    "description": "Leaders committed to excellence in theological education and Christian leader development",
+    "founders_label": "Founders and Chancellors of FAITEL",
+    "valdinei": {
+      "name": "Pastor Valdinei da Conceição Santos",
+      "role": "Chancellor Director of FAITEL",
+      "church": "President of IADMA Church",
+      "convention": "President of CEMADEB Convention",
+      "publisher": "Founder of WST Publishing and Graphics"
+    },
+    "thelma": {
+      "name": "Pastor Thelma Santana Menezes Santos",
+      "role": "Vice-Chancellery of FAITEL",
+      "desc": "Leader committed to excellence in educational management and Christian leader development."
+    },
+    "stats": {
+      "ministry": "Years of Ministry",
+      "churches": "Reached Churches",
+      "lives": "Lives Impacted"
+    }
+  },
+  "devotional": {
+    "badge": "WORD OF THE DAY",
+    "title": "☕ DEVOTIONAL COFFEE",
+    "subtitle": "WITH THE CHANCELLOR",
+    "reflection_title": "Reflection of the Day",
+    "reflection_p1": "Dear brothers and sisters, today I want to share a word of hope and faith. God has wonderful plans for each of us. No matter what challenges you are facing right now, know that the Lord is in control of all things.",
+    "reflection_p2": "He knows your dreams, your needs, and your pains. And more than that, He has thoughts of peace for you! Don't give up! Keep trusting, praying, and seeking God's presence. The best is yet to come!",
+    "blessing": "May God richly bless your day! 🙌",
+    "signature_name": "✍️ Pastor Valdinei da Conceição Santos",
+    "signature_role": "Chancellor of FAITEL | President of CEMADEB | President of IADMA"
+  },
+  "recognition": {
+    "badge": "RECOGNIZED INSTITUTION",
+    "title_prefix": "COURSES",
+    "title_suffix1": "RECOGNIZED",
+    "title_separator": "AND",
+    "title_suffix2": "CERTIFIED",
+    "description": "All FAITEL courses are officially recognized by CEC - Education and Culture Council of CEMADEB and by CEMADEB - Evangelical Convention of Assembly of God Ministers Abroad and in Brazil.",
+    "cec": {
+      "name": "CEC",
+      "desc": "council of Education and Culture",
+      "sub": "of CEMADEB"
+    },
+    "cemadeb": {
+      "name": "CEMADEB",
+      "desc": "Evangelical Convention of Assembly of God Ministers",
+      "sub": "Abroad and in Brazil"
+    },
+    "official_cert": "OFFICIAL CERTIFICATION",
+    "bottom_text": "Certificates valid and recognized throughout national and international territory"
+  },
+  "secc": {
+    "badge": "DIDACTIC MATERIAL",
+    "title": "SECC MAGAZINE",
+    "subtitle": "Continuous Christian Education System",
+    "description": "Sunday School - Complete didactic material for all ages",
+    "magazines": {
+      "adults": {
+        "title": "Adults",
+        "subtitle": "Paul's Letters Series",
+        "desc": "Complete material for deep biblical studies. Covers the Letter to the Romans..."
+      },
+      "youth": {
+        "title": "Youth",
+        "subtitle": "Teens & Youth",
+        "desc": "Dynamic and relevant content for Christian youth..."
+      },
+      "teens": {
+        "title": "Teens",
+        "subtitle": "Bible School",
+        "desc": "Material adapted for teenagers with accessible language..."
+      },
+      "kids": {
+        "title": "Kids",
+        "subtitle": "Children's Bible School (7 to 11 years)",
+        "desc": "Colorful and illustrated magazine for children aged 7 to 11..."
+      }
+    },
+    "lessons": "Lessons",
+    "quarterly": "Quarterly",
+    "details": "View Details",
+    "about": {
+      "title": "About SECC Magazines",
+      "p1": "The magazines of the Continuous Christian Education System are produced quarterly...",
+      "p2": "Each magazine costs"
+    },
+    "visit_site": "Visit SECC Site",
+    "stats": {
+      "ages": "Age Groups",
+      "lessons_qt": "Lessons/Quarter",
+      "lessons_year": "Lessons/Year",
+      "price_unit": "Euros/Magazine"
+    }
   }
 }
