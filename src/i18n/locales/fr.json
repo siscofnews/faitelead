@@ -1,0 +1,32 @@
+{
+  "common": {
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "loading": "Chargement...",
+    "search": "Rechercher...",
+    "modules": "Modules",
+    "lessons": "Leçons",
+    "locked": "Verrouillé",
+    "completed": "Terminé",
+    "watch": "Regarder",
+    "download": "Télécharger",
+    "home": "Accueil"
+  },
+  "course": {
+    "content": "Contenu du Cours",
+    "select_module": "Sélectionnez un module pour commencer à regarder",
+    "module": "Module",
+    "complete_lesson": "Terminer la Leçon",
+    "next_lesson": "Leçon Suivante",
+    "materials_extras": "Matériels et Vidéos Supplémentaires",
+    "download_pdf": "Télécharger le PDF de la leçon",
+    "click_to_watch": "Cliquez pour regarder",
+    "playing": "Lecture en cours",
+    "video_lesson": "Leçon Vidéo",
+    "search_lesson": "Rechercher une leçon...",
+    "congratulations": "Félicitations !",
+    "lesson_completed": "Leçon marquée comme terminée !",
+    "module_locked_msg": "Terminez toutes les leçons et réussissez l'examen du module précédent pour débloquer."
+  }
+}

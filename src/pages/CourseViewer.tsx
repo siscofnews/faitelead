@@ -3,9 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { api } from "@/lib/api";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next"; // Import useTranslation
 import { useGamification } from "@/hooks/useGamification";
 import { 
-  ChevronLeft, 
+  ChevronLeft,  
   ChevronRight, 
   Menu, 
   X, 
@@ -34,6 +35,8 @@ import LessonSidebar from "@/components/ead/LessonSidebar";
 import LessonNotes from "@/components/ead/LessonNotes";
 import LessonResources from "@/components/ead/LessonResources";
 import ModuleExamCard from "@/components/ead/ModuleExamCard";
+
+import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
 
 interface Module {
   id: string;
@@ -72,6 +75,7 @@ interface ModuleExamStatus {
 }
 
 const CourseViewer = () => {
+  const { t } = useTranslation(); // Initialize translation hook
   const { courseId } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -477,12 +481,13 @@ const CourseViewer = () => {
           </Button>
           <span className="font-display font-bold text-lg">{course?.title}</span>
           <div className="w-10" /> {/* Spacer */}
+          <LanguageSwitcher />
         </header>
         
         <div className="container mx-auto p-6 grid gap-6">
           <div className="text-center py-8">
-            <h1 className="text-3xl font-display font-bold mb-2">Conteúdo do Curso</h1>
-            <p className="text-muted-foreground">Selecione um módulo para começar a assistir</p>
+            <h1 className="text-3xl font-display font-bold mb-2">{t('course.content')}</h1>
+            <p className="text-muted-foreground">{t('course.select_module')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -506,20 +511,20 @@ const CourseViewer = () => {
                       <div className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-10">
                         <div className="text-center text-white">
                           <Lock className="w-8 h-8 mx-auto mb-2 opacity-75" />
-                          <p className="text-xs font-medium uppercase tracking-wider">Bloqueado</p>
+                          <p className="text-xs font-medium uppercase tracking-wider">{t('common.locked')}</p>
                         </div>
                       </div>
                     )}
                     <div className="relative z-0">
                       <p className="text-xs font-bold text-primary-foreground/80 uppercase tracking-wider mb-1">
-                        Módulo {mIndex + 1}
+                        {t('course.module')} {mIndex + 1}
                       </p>
                       <h3 className="text-xl font-display font-bold text-white mb-2 leading-tight">
                         {module.title}
                       </h3>
                       <Progress value={progress} className="h-1.5 bg-white/20" indicatorClassName="bg-primary" />
                       <p className="text-xs text-white/80 mt-2 flex justify-between">
-                        <span>{completedCount}/{module.lessons.length} aulas</span>
+                        <span>{completedCount}/{module.lessons.length} {t('common.lessons').toLowerCase()}</span>
                         <span>{progress}%</span>
                       </p>
                     </div>
@@ -562,6 +567,7 @@ const CourseViewer = () => {
         </div>
 
         <div className="flex items-center gap-2">
+           <LanguageSwitcher />
            {/* Toggle Sidebar Button */}
            <Button
              variant="ghost"

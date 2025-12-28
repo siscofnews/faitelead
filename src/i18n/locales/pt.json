@@ -1,0 +1,32 @@
+{
+  "common": {
+    "back": "Voltar",
+    "next": "Próxima",
+    "previous": "Anterior",
+    "loading": "Carregando...",
+    "search": "Pesquisar...",
+    "modules": "Módulos",
+    "lessons": "Aulas",
+    "locked": "Bloqueado",
+    "completed": "Concluído",
+    "watch": "Assistir",
+    "download": "Baixar",
+    "home": "Início"
+  },
+  "course": {
+    "content": "Conteúdo do Curso",
+    "select_module": "Selecione um módulo para começar a assistir",
+    "module": "Módulo",
+    "complete_lesson": "Concluir Aula",
+    "next_lesson": "Próxima Aula",
+    "materials_extras": "Materiais e Vídeos Extras",
+    "download_pdf": "Baixar PDF da Aula",
+    "click_to_watch": "Clique para assistir",
+    "playing": "Tocando",
+    "video_lesson": "Vídeo Aula",
+    "search_lesson": "Pesquisar aula...",
+    "congratulations": "Parabéns!",
+    "lesson_completed": "Aula marcada como concluída!",
+    "module_locked_msg": "Complete todas as aulas e passe na prova do módulo anterior para desbloquear."
+  }
+}

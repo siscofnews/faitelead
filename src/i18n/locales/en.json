@@ -1,0 +1,32 @@
+{
+  "common": {
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "loading": "Loading...",
+    "search": "Search...",
+    "modules": "Modules",
+    "lessons": "Lessons",
+    "locked": "Locked",
+    "completed": "Completed",
+    "watch": "Watch",
+    "download": "Download",
+    "home": "Home"
+  },
+  "course": {
+    "content": "Course Content",
+    "select_module": "Select a module to start watching",
+    "module": "Module",
+    "complete_lesson": "Complete Lesson",
+    "next_lesson": "Next Lesson",
+    "materials_extras": "Extra Materials & Videos",
+    "download_pdf": "Download Lesson PDF",
+    "click_to_watch": "Click to watch",
+    "playing": "Playing",
+    "video_lesson": "Video Lesson",
+    "search_lesson": "Search lesson...",
+    "congratulations": "Congratulations!",
+    "lesson_completed": "Lesson marked as completed!",
+    "module_locked_msg": "Complete all lessons and pass the previous module exam to unlock."
+  }
+}
