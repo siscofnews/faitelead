@@ -190,6 +190,29 @@
     "subtitle": "MIT DEM KANZLER",
     "verse": "\"Denn ich weiß wohl, was ich für Gedanken über euch habe, spricht der HERR: Gedanken des Friedens und nicht des Leides, dass ich euch gebe Zukunft und Hoffnung.\"",
     "verse_ref": "Jeremia 29:11",
-    "reflection_title": "Reflexion des Tages"
-  }
+    "reflection_title": "Reflexion des Tages",
+    "signature_role": "Kanzler der FAITEL | Präsident CEMADEB | Präsident IADMA"
+  },
+  "board": {
+    "badge": "INTERNATIONALE FÜHRUNG",
+    "title": "VORSTAND FAITEL EUROPA",
+    "description": "Geweihte Führungskräfte für die Ausbreitung des Königreichs in Europa und weltweit",
+    "etienne": {
+      "name": "Pr. B.A. Etienne Claude dos Santos de Souza",
+      "role": "Internationaler Präsident Direktor"
+    },
+    "handerson": {
+      "name": "Pr. B.A. José Handerson Costa de Oliveira",
+      "role": "Internationaler Vizepräsident Direktor"
+    },
+    "leonardo": {
+      "name": "Pr. B.A. José Léonardo Kohpcke",
+      "role": "Internationaler Vizepräsident Direktor"
+    },
+    "haila": {
+      "name": "Pra. Haila Menezes",
+      "role": "Internationale Sekretärin Direktorin"
+    }
+  },
+  "recognition": {
 }

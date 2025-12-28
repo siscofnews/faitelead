@@ -306,7 +306,28 @@
     "reflection_p2": "Il connaît vos rêves, vos besoins et vos douleurs. Et plus que cela, Il a des pensées de paix pour vous ! N'abandonnez pas ! Continuez à faire confiance, à prier et à chercher la présence de Dieu. Le meilleur est à venir !",
     "blessing": "Que Dieu bénisse richement votre journée ! 🙌",
     "signature_name": "✍️ Pasteur Valdinei da Conceição Santos",
-    "signature_role": "Chancelier de FAITEL | Président de la CEMADEB | Président de l'IADMA"
+    "signature_role": "Chancelier de FAITEL | Président CEMADEB | Président IADMA"
+  },
+  "board": {
+    "badge": "LEADERSHIP INTERNATIONAL",
+    "title": "CONSEIL D'ADMINISTRATION FAITEL EUROPE",
+    "description": "Des dirigeants consacrés pour l'expansion du Royaume en Europe et dans le monde",
+    "etienne": {
+      "name": "Pr. B.A. Etienne Claude dos Santos de Souza",
+      "role": "Directeur Président International"
+    },
+    "handerson": {
+      "name": "Pr. B.A. José Handerson Costa de Oliveira",
+      "role": "Directeur Vice-Président International"
+    },
+    "leonardo": {
+      "name": "Pr. B.A. José Léonardo Kohpcke",
+      "role": "Directeur Vice-Président International"
+    },
+    "haila": {
+      "name": "Pra. Haila Menezes",
+      "role": "Directrice Secrétaire Internationale"
+    }
   },
   "recognition": {
     "badge": "INSTITUTION RECONNUE",

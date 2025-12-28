@@ -323,6 +323,27 @@
     "signature_name": "✍️ Pastor Valdinei da Conceição Santos",
     "signature_role": "Chanceler da FAITEL | Presidente CEMADEB | Presidente IADMA"
   },
+  "board": {
+    "badge": "LIDERANÇA INTERNACIONAL",
+    "title": "DIRETORIA FAITEL EUROPA",
+    "description": "Líderes consagrados para a expansão do Reino na Europa e no mundo",
+    "etienne": {
+      "name": "Pr. Bacharel Etienne Claude dos Santos de Souza",
+      "role": "Diretor Presidente Internacional"
+    },
+    "handerson": {
+      "name": "Pr. Bacharel José Handerson Costa de Oliveira",
+      "role": "Diretor Vice-Presidente Internacional"
+    },
+    "leonardo": {
+      "name": "Pr. Bacharel José Léonardo Kohpcke",
+      "role": "Diretor Vice-Presidente Internacional"
+    },
+    "haila": {
+      "name": "Pra. Haila Menezes",
+      "role": "Diretora Secretária Internacional"
+    }
+  },
   "recognition": {
     "badge": "INSTITUIÇÃO RECONHECIDA",
     "title_prefix": "CURSOS",

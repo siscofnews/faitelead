@@ -21,6 +21,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 // Import home sections
 import DevotionalSection from "@/components/home/DevotionalSection";
 import ChancellorsSection from "@/components/home/ChancellorsSection";
+import InternationalBoardSection from "@/components/home/InternationalBoardSection";
 import SECCSection from "@/components/home/SECCSection";
 import AnnouncementBanner from "@/components/home/AnnouncementBanner";
 import RecognitionBanner from "@/components/home/RecognitionBanner";
@@ -564,6 +565,9 @@ const Home = () => {
 
       {/* Chancellors Section */}
       <ChancellorsSection />
+
+      {/* International Board Section */}
+      <InternationalBoardSection />
 
       {/* Certifications Section */}
       <CertificationsSection />
