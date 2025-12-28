@@ -179,5 +179,12 @@
     "congratulations": "Herzlichen Glückwunsch!",
     "lesson_completed": "Lektion als abgeschlossen markiert!",
     "module_locked_msg": "Schließen Sie alle Lektionen ab und bestehen Sie die Prüfung des vorherigen Moduls, um es freizuschalten."
+  },
+  "devotional": {
+    "title": "☕ DEVOTIONAL KAFFEE",
+    "subtitle": "MIT DEM KANZLER",
+    "verse": "\"Denn ich weiß wohl, was ich für Gedanken über euch habe, spricht der HERR: Gedanken des Friedens und nicht des Leides, dass ich euch gebe Zukunft und Hoffnung.\"",
+    "verse_ref": "Jeremia 29:11",
+    "reflection_title": "Reflexion des Tages"
   }
 }
