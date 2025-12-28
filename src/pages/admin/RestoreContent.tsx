@@ -35,8 +35,7 @@ const RestoreContent = () => {
           .insert({
             title: "Bibliologia",
             description: "Estudo sobre a origem, inspiração e autoridade da Bíblia.",
-            slug: "bibliologia",
-            level: "GRADUACAO"
+            slug: "bibliologia"
           })
           .select()
           .single();
