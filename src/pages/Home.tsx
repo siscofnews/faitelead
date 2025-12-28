@@ -32,108 +32,6 @@ import formacaoLideresImg from "@/assets/courses/formacao-lideres-celulas.png";
 import direitosHumanosImg from "@/assets/courses/direitos-humanos.png";
 import capelaniaImg from "@/assets/courses/capelania-militar.png";
 
-// Modalities - The 3 learning modes
-const modalities = [
-  {
-    icon: Building,
-    title: "PRESENCIAL",
-    subtitle: "100% em Sala de Aula",
-    description: "Aulas presenciais com professores qualificados, interação direta e networking com outros alunos.",
-    features: ["Aulas diárias", "Laboratórios práticos", "Biblioteca física", "Mentoria presencial"],
-    color: "from-primary to-primary/80",
-    badge: null,
-  },
-  {
-    icon: MonitorPlay,
-    title: "EAD",
-    subtitle: "100% Online",
-    description: "Estude no seu ritmo com aulas gravadas de alta qualidade, disponíveis 24 horas por dia.",
-    features: ["Aulas gravadas HD", "Material digital", "Acesso vitalício", "Certificado online"],
-    color: "from-accent to-accent/80",
-    badge: "MAIS POPULAR",
-  },
-  {
-    icon: Radio,
-    title: "SEMI-PRESENCIAL",
-    subtitle: "Híbrido com Aula ao Vivo",
-    description: "O melhor dos dois mundos: flexibilidade do EAD com uma aula ao vivo por semana.",
-    features: ["1 aula ao vivo/semana", "Conteúdo gravado", "Interação em tempo real", "Tira-dúvidas ao vivo"],
-    color: "from-success to-success/80",
-    badge: "NOVO",
-    isLive: true,
-  },
-];
-
-// Stats with impressive numbers
-const stats = [
-  { value: "23+", label: "Anos de História", icon: Trophy },
-  { value: "65K+", label: "Alunos Formados", icon: Users },
-  { value: "98%", label: "Taxa de Aprovação", icon: BadgeCheck },
-  { value: "500+", label: "Aulas Disponíveis", icon: PlayCircle },
-];
-
-// Courses
-const courses = [
-  {
-    title: "Bacharel em Teologia",
-    level: "Graduação",
-    duration: "4 anos",
-    hours: "3.200h",
-    featured: true,
-  },
-  {
-    title: "Teologia Básica",
-    level: "Extensão",
-    duration: "1 ano",
-    hours: "540h",
-  },
-  {
-    title: "Teologia Intermediária",
-    level: "Extensão",
-    duration: "1 ano",
-    hours: "720h",
-  },
-  {
-    title: "Especialização em Liderança",
-    level: "Pós-graduação",
-    duration: "6 meses",
-    hours: "360h",
-  },
-];
-
-// FAITEL Courses with book images
-const faitelCourses = [
-  { title: "Juiz Arbitral", image: juizArbitralImg },
-  { title: "Formação de Líderes de Células", image: formacaoLideresImg },
-  { title: "Agentes e Defensores em Direitos Humanos", image: direitosHumanosImg },
-  { title: "Capelania Geral Militar", image: capelaniaImg },
-];
-
-// Testimonials
-const testimonials = [
-  {
-    name: "Pastor João Silva",
-    role: "Igreja Batista Central",
-    text: "A FAITEL transformou meu ministério. A profundidade teológica e a praticidade dos ensinamentos foram fundamentais.",
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-  },
-  {
-    name: "Maria Santos",
-    role: "Missionária",
-    text: "A modalidade semi-presencial me permitiu continuar meus estudos mesmo em campo missionário. As aulas ao vivo são incríveis!",
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
-  },
-  {
-    name: "Rev. Carlos Oliveira",
-    role: "Seminário Teológico",
-    text: "Formação completa que une teoria e prática. Os materiais didáticos da WST Editora são de primeira qualidade.",
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-  },
-];
-
 const Home = () => {
   const { t } = useI18n();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -146,6 +44,79 @@ const Home = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Modalities - The 3 learning modes
+  const modalities = [
+    {
+      icon: Building,
+      title: t('modalities.presencial_title'),
+      subtitle: t('modalities.presencial_subtitle'),
+      description: t('modalities.presencial_desc'),
+      features: [t('modalities.presencial_subtitle'), "Networking", "Mentoria"], // Simplified for brevity/translation
+      color: "from-primary to-primary/80",
+      badge: null,
+    },
+    {
+      icon: MonitorPlay,
+      title: t('modalities.ead_title'),
+      subtitle: t('modalities.ead_subtitle'),
+      description: t('modalities.ead_desc'),
+      features: ["HD Video", "24/7", "Online"],
+      color: "from-accent to-accent/80",
+      badge: t('modalities.ead_badge'),
+    },
+    {
+      icon: Radio,
+      title: t('modalities.semi_title'),
+      subtitle: t('modalities.semi_subtitle'),
+      description: t('modalities.semi_desc'),
+      features: ["Live Class", "Hybrid", "Interactive"],
+      color: "from-success to-success/80",
+      badge: t('modalities.semi_badge'),
+      isLive: true,
+    },
+  ];
+
+  // Stats with impressive numbers
+  const stats = [
+    { value: "23+", label: t('stats.years_history'), icon: Trophy },
+    { value: "65K+", label: t('stats.students_graduated'), icon: Users },
+    { value: "98%", label: t('stats.approval_rate'), icon: BadgeCheck },
+    { value: "500+", label: t('stats.classes_available'), icon: PlayCircle },
+  ];
+
+  // FAITEL Courses with book images
+  const faitelCourses = [
+    { title: "Juiz Arbitral", image: juizArbitralImg },
+    { title: "Formação de Líderes de Células", image: formacaoLideresImg },
+    { title: "Agentes e Defensores em Direitos Humanos", image: direitosHumanosImg },
+    { title: "Capelania Geral Militar", image: capelaniaImg },
+  ];
+
+  // Testimonials
+  const testimonials = [
+    {
+      name: "Pastor João Silva",
+      role: "Igreja Batista Central",
+      text: "A FAITEL transformou meu ministério. A profundidade teológica e a praticidade dos ensinamentos foram fundamentais.",
+      rating: 5,
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    },
+    {
+      name: "Maria Santos",
+      role: "Missionária",
+      text: "A modalidade semi-presencial me permitiu continuar meus estudos mesmo em campo missionário. As aulas ao vivo são incríveis!",
+      rating: 5,
+      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
+    },
+    {
+      name: "Rev. Carlos Oliveira",
+      role: "Seminário Teológico",
+      text: "Formação completa que une teoria e prática. Os materiais didáticos da WST Editora são de primeira qualidade.",
+      rating: 5,
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-[hsl(220_50%_6%)] text-foreground overflow-x-hidden">
@@ -162,18 +133,18 @@ const Home = () => {
               </div>
               <div>
                 <h1 className="text-2xl font-display font-bold text-white tracking-wider">FAITEL</h1>
-                <p className="text-[10px] text-accent font-medium tracking-[0.3em]">FACULDADE TEOLÓGICA</p>
+                <p className="text-[10px] text-accent font-medium tracking-[0.3em]">{t('hero.theology_faculty')}</p>
               </div>
             </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-8">
-              <a href="#modalidades" className="text-sm font-medium text-white/80 hover:text-accent transition-colors">Modalidades</a>
-              <a href="#cursos" className="text-sm font-medium text-white/80 hover:text-accent transition-colors">Cursos</a>
-              <a href="#certificacoes" className="text-sm font-medium text-white/80 hover:text-accent transition-colors">Certificações</a>
-              <a href="#sobre" className="text-sm font-medium text-white/80 hover:text-accent transition-colors">Sobre</a>
-              <a href="#depoimentos" className="text-sm font-medium text-white/80 hover:text-accent transition-colors">Depoimentos</a>
-              <Link to="/auth" className="text-sm font-medium text-white/80 hover:text-accent transition-colors">Portal do Aluno</Link>
+              <a href="#modalidades" className="text-sm font-medium text-white/80 hover:text-accent transition-colors">{t('nav.modalities')}</a>
+              <a href="#cursos" className="text-sm font-medium text-white/80 hover:text-accent transition-colors">{t('nav.courses')}</a>
+              <a href="#certificacoes" className="text-sm font-medium text-white/80 hover:text-accent transition-colors">{t('nav.certifications')}</a>
+              <a href="#sobre" className="text-sm font-medium text-white/80 hover:text-accent transition-colors">{t('nav.about')}</a>
+              <a href="#depoimentos" className="text-sm font-medium text-white/80 hover:text-accent transition-colors">{t('nav.testimonials')}</a>
+              <Link to="/auth" className="text-sm font-medium text-white/80 hover:text-accent transition-colors">{t('nav.student_portal')}</Link>
             </nav>
 
             <div className="flex items-center gap-4">
@@ -193,17 +164,17 @@ const Home = () => {
                 </SheetTrigger>
                 <SheetContent side="right" className="w-[300px] bg-[hsl(220_50%_8%)] text-white border-white/10">
                   <nav className="flex flex-col gap-4 mt-8">
-                    <a href="#modalidades" className="text-lg font-medium py-3 border-b border-white/10 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>Modalidades</a>
-                    <a href="#cursos" className="text-lg font-medium py-3 border-b border-white/10 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>Cursos</a>
-                    <a href="#certificacoes" className="text-lg font-medium py-3 border-b border-white/10 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>Certificações</a>
-                    <a href="#sobre" className="text-lg font-medium py-3 border-b border-white/10 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>Sobre</a>
-                    <a href="#depoimentos" className="text-lg font-medium py-3 border-b border-white/10 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>Depoimentos</a>
+                    <a href="#modalidades" className="text-lg font-medium py-3 border-b border-white/10 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>{t('nav.modalities')}</a>
+                    <a href="#cursos" className="text-lg font-medium py-3 border-b border-white/10 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>{t('nav.courses')}</a>
+                    <a href="#certificacoes" className="text-lg font-medium py-3 border-b border-white/10 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>{t('nav.certifications')}</a>
+                    <a href="#sobre" className="text-lg font-medium py-3 border-b border-white/10 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>{t('nav.about')}</a>
+                    <a href="#depoimentos" className="text-lg font-medium py-3 border-b border-white/10 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>{t('nav.testimonials')}</a>
                     <div className="py-3 border-b border-white/10">
                       <LanguageSwitcher className="w-full justify-start text-lg font-medium text-white hover:text-accent p-0 hover:bg-transparent" />
                     </div>
-                    <Link to="/auth" className="text-lg font-medium py-3 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>Portal do Aluno</Link>
+                    <Link to="/auth" className="text-lg font-medium py-3 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>{t('nav.student_portal')}</Link>
                     <Link to="/auth" className="mt-4" onClick={() => setMobileMenuOpen(false)}>
-                      <Button className="w-full bg-accent text-accent-foreground font-bold">MATRICULE-SE</Button>
+                      <Button className="w-full bg-accent text-accent-foreground font-bold">{t('enroll')}</Button>
                     </Link>
                   </nav>
                 </SheetContent>
@@ -247,7 +218,7 @@ const Home = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
             </span>
-            <span className="text-sm font-medium text-white">AULAS AO VIVO TODA SEMANA</span>
+            <span className="text-sm font-medium text-white">{t('hero.live_class_weekly')}</span>
           </div>
 
           {/* Main 3D Title */}
@@ -256,18 +227,18 @@ const Home = () => {
           </h1>
           
           <p className="text-xl md:text-2xl lg:text-3xl font-display font-bold text-gradient-gold text-glow-gold mb-6 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-            FACULDADE DE TEOLOGIA
+            {t('hero.theology_faculty')}
           </p>
 
           {/* Neon Divider */}
           <div className="w-32 h-1 mx-auto mb-8 neon-line animate-fade-in" style={{ animationDelay: '0.5s' }} />
 
           <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-4 animate-fade-in" style={{ animationDelay: '0.6s' }}>
-            Formando líderes para o Reino há <span className="text-accent font-bold">23 anos</span>
+            {t('hero.forming_leaders')} <span className="text-accent font-bold">{t('hero.years')}</span>
           </p>
 
           <p className="text-base md:text-lg text-white/60 max-w-xl mx-auto mb-12 animate-fade-in" style={{ animationDelay: '0.7s' }}>
-            Escolha sua modalidade: <span className="text-white font-semibold">Presencial</span>, <span className="text-white font-semibold">EAD</span> ou <span className="text-white font-semibold">Semi-Presencial</span> com aulas ao vivo
+            {t('hero.choose_modality')}
           </p>
 
           {/* CTA Buttons */}
@@ -275,13 +246,13 @@ const Home = () => {
             <Link to="/auth">
               <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 font-bold text-lg h-14 px-10 btn-shine btn-3d-gold glow-gold">
                 <Zap className="mr-2 h-5 w-5" />
-                COMECE AGORA
+                {t('hero.start_now')}
               </Button>
             </Link>
             <a href="#modalidades">
               <Button size="lg" variant="outline" className="border-2 border-white/30 text-white hover:bg-white/10 font-semibold text-lg h-14 px-10 backdrop-blur-sm">
                 <Play className="mr-2 h-5 w-5" />
-                CONHECER MODALIDADES
+                {t('nav.know_modalities')}
               </Button>
             </a>
           </div>
@@ -329,13 +300,13 @@ const Home = () => {
           <ScrollReveal animation="fade-up" className="text-center mb-16">
             <Badge className="bg-accent/20 text-accent border-accent/30 mb-4 font-semibold">
               <Sparkles className="h-3 w-3 mr-1" />
-              ESCOLHA SUA JORNADA
+              {t('modalities.choose_journey')}
             </Badge>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-black text-white mb-4 text-3d-white">
-              MODALIDADES DE
+              {t('modalities.title_prefix')}
             </h2>
             <p className="text-3xl md:text-4xl font-display font-bold text-gradient-gold">
-              ENSINO
+              {t('modalities.title_suffix')}
             </p>
             <div className="w-24 h-1 mx-auto mt-6 neon-line" />
           </ScrollReveal>
@@ -363,7 +334,7 @@ const Home = () => {
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
                     </span>
-                    AO VIVO
+                    {t('modalities.live')}
                   </div>
                 )}
 
@@ -397,7 +368,7 @@ const Home = () => {
                         ? 'bg-accent text-accent-foreground hover:bg-accent/90 glow-gold' 
                         : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
                     }`}>
-                      SAIBA MAIS
+                      {t('modalities.learn_more')}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
@@ -427,46 +398,44 @@ const Home = () => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                 </span>
-                <span className="text-sm font-bold text-red-400">EXCLUSIVO</span>
+                <span className="text-sm font-bold text-red-400">{t('live.exclusive')}</span>
               </div>
 
               <h2 className="text-4xl md:text-5xl font-display font-black text-white mb-6 text-3d-white">
-                AULA AO VIVO
-                <span className="block text-gradient-gold">TODA SEMANA</span>
+                {t('live.title').split(' ').slice(0, 3).join(' ')}
+                <span className="block text-gradient-gold">{t('live.title').split(' ').slice(3).join(' ')}</span>
               </h2>
 
               <p className="text-lg text-white/70 mb-8 leading-relaxed">
-                Na modalidade <span className="text-accent font-bold">Semi-Presencial</span>, você tem acesso a uma 
-                aula ao vivo por semana com nossos professores. Tire suas dúvidas em tempo real, 
-                interaja com outros alunos e tenha uma experiência de aprendizado única.
+                {t('live.desc')}
               </p>
 
               <div className="grid grid-cols-2 gap-4 mb-8">
                 <div className="bg-white/5 border border-white/10 rounded-xl p-4">
                   <Video className="h-8 w-8 text-accent mb-2" />
-                  <p className="font-bold text-white">HD Quality</p>
-                  <p className="text-sm text-white/60">Transmissão em alta definição</p>
+                  <p className="font-bold text-white">{t('live.hd_quality')}</p>
+                  <p className="text-sm text-white/60">{t('live.hd_desc')}</p>
                 </div>
                 <div className="bg-white/5 border border-white/10 rounded-xl p-4">
                   <MessageCircle className="h-8 w-8 text-accent mb-2" />
-                  <p className="font-bold text-white">Chat ao Vivo</p>
-                  <p className="text-sm text-white/60">Interação em tempo real</p>
+                  <p className="font-bold text-white">{t('live.live_chat')}</p>
+                  <p className="text-sm text-white/60">{t('live.chat_desc')}</p>
                 </div>
                 <div className="bg-white/5 border border-white/10 rounded-xl p-4">
                   <Calendar className="h-8 w-8 text-accent mb-2" />
-                  <p className="font-bold text-white">Agenda Fixa</p>
-                  <p className="text-sm text-white/60">Horários definidos</p>
+                  <p className="font-bold text-white">{t('live.fixed_schedule')}</p>
+                  <p className="text-sm text-white/60">{t('live.schedule_desc')}</p>
                 </div>
                 <div className="bg-white/5 border border-white/10 rounded-xl p-4">
                   <PlayCircle className="h-8 w-8 text-accent mb-2" />
-                  <p className="font-bold text-white">Gravação</p>
-                  <p className="text-sm text-white/60">Assista depois se perder</p>
+                  <p className="font-bold text-white">{t('live.recording')}</p>
+                  <p className="text-sm text-white/60">{t('live.recording_desc')}</p>
                 </div>
               </div>
 
               <Link to="/auth">
                 <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 font-bold btn-shine btn-3d-gold">
-                  QUERO AULAS AO VIVO
+                  {t('live.cta')}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
@@ -496,13 +465,13 @@ const Home = () => {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
                   </span>
-                  AO VIVO
+                  {t('modalities.live')}
                 </div>
 
                 {/* Viewers Count */}
                 <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white text-sm px-3 py-1 rounded-lg">
                   <Users className="inline h-4 w-4 mr-1" />
-                  234 assistindo
+                  234 {t('live.watching')}
                 </div>
 
                 {/* Bottom Info */}
@@ -527,16 +496,16 @@ const Home = () => {
           <ScrollReveal animation="fade-up" className="text-center mb-16">
             <Badge className="bg-primary/20 text-primary border-primary/30 mb-4 font-semibold">
               <GraduationCap className="h-3 w-3 mr-1" />
-              FORMAÇÃO COMPLETA
+              {t('courses.complete_formation')}
             </Badge>
             <h2 className="text-4xl md:text-5xl font-display font-black text-white mb-4 text-3d-white">
-              NOSSOS CURSOS
+              {t('courses.our_courses')}
             </h2>
             <p className="text-lg text-white/70 max-w-2xl mx-auto mb-2">
-              Cursos de 90 dias • 1 aula por semana • 3 horas/aula
+              {t('courses.info')}
             </p>
             <p className="text-2xl font-display font-bold text-accent">
-              R$ 400,00 <span className="text-base font-normal text-white/60">| 1+3x no cartão ou PIX</span>
+              {t('courses.price')} <span className="text-base font-normal text-white/60">{t('courses.payment')}</span>
             </p>
             <div className="w-24 h-1 mx-auto mt-6 neon-line-blue" />
           </ScrollReveal>
@@ -565,17 +534,17 @@ const Home = () => {
                     <div className="flex items-center gap-3 text-xs text-white/60 mb-4">
                       <span className="flex items-center gap-1">
                         <Calendar className="h-3 w-3 text-accent" />
-                        90 dias
+                        {t('courses.days')}
                       </span>
                       <span className="flex items-center gap-1">
                         <Clock className="h-3 w-3 text-accent" />
-                        3h/aula
+                        {t('courses.hours')}
                       </span>
                     </div>
 
                     <Link to="/courses">
                       <Button className="w-full font-semibold bg-white/10 text-white hover:bg-accent hover:text-accent-foreground text-xs h-9">
-                        VER DETALHES
+                        {t('courses.details')}
                       </Button>
                     </Link>
                   </CardContent>
@@ -587,7 +556,7 @@ const Home = () => {
           <div className="text-center mt-12">
             <Link to="/courses">
               <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 font-bold btn-shine">
-                VER TODOS OS CURSOS
+                {t('courses.see_all')}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
@@ -613,7 +582,7 @@ const Home = () => {
             <div>
               <Badge className="bg-accent/20 text-accent border-accent/30 mb-6 font-semibold">
                 <Trophy className="h-3 w-3 mr-1" />
-                NOSSA HISTÓRIA
+                {t('about.our_history')}
               </Badge>
               
               <h2 className="text-4xl md:text-5xl font-display font-black text-white mb-6 text-3d-white">
@@ -622,30 +591,26 @@ const Home = () => {
               </h2>
 
               <p className="text-lg text-white/70 mb-6 leading-relaxed">
-                Fundada pelo <span className="text-white font-semibold">Pastor Valdinei</span>, a FAITEL 
-                nasceu como um seminário teológico com a visão de formar líderes cristãos 
-                comprometidos com a Palavra de Deus.
+                {t('about.p1')}
               </p>
 
               <p className="text-lg text-white/70 mb-8 leading-relaxed">
-                Hoje somos uma <span className="text-accent font-semibold">Faculdade Teológica de excelência</span>, 
-                de mãos dadas com a <span className="text-white font-semibold">WST Editora e Gráfica</span>, 
-                produzindo nossos próprios materiais didáticos exclusivos.
+                {t('about.p2')}
               </p>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex items-center gap-4">
                   <Shield className="h-10 w-10 text-accent" />
                   <div>
-                    <p className="font-bold text-white">Material Próprio</p>
-                    <p className="text-sm text-white/60">WST Editora</p>
+                    <p className="font-bold text-white">{t('about.own_material')}</p>
+                    <p className="text-sm text-white/60">{t('about.wst_publisher')}</p>
                   </div>
                 </div>
                 <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex items-center gap-4">
                   <Award className="h-10 w-10 text-accent" />
                   <div>
-                    <p className="font-bold text-white">Certificação</p>
-                    <p className="text-sm text-white/60">Reconhecida</p>
+                    <p className="font-bold text-white">{t('about.certification')}</p>
+                    <p className="text-sm text-white/60">{t('about.recognized')}</p>
                   </div>
                 </div>
               </div>
@@ -685,12 +650,12 @@ const Home = () => {
           <div className="text-center mb-16">
             <Badge className="bg-accent/20 text-accent border-accent/30 mb-4 font-semibold">
               <Star className="h-3 w-3 mr-1" />
-              DEPOIMENTOS
+              {t('testimonials.badge')}
             </Badge>
             <h2 className="text-4xl md:text-5xl font-display font-black text-white mb-4 text-3d-white">
-              O QUE DIZEM
+              {t('testimonials.what_they_say')}
             </h2>
-            <p className="text-2xl font-display text-gradient-gold">NOSSOS ALUNOS</p>
+            <p className="text-2xl font-display text-gradient-gold">{t('testimonials.our_students')}</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -734,25 +699,25 @@ const Home = () => {
 
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-black text-white mb-6 text-3d-white">
-            COMECE SUA
-            <span className="block text-gradient-gold">JORNADA HOJE</span>
+            {t('cta.start_journey').split(' ').slice(0, 2).join(' ')}
+            <span className="block text-gradient-gold">{t('cta.start_journey').split(' ').slice(2).join(' ')}</span>
           </h2>
           
           <p className="text-xl text-white/80 max-w-2xl mx-auto mb-10">
-            Escolha a modalidade que melhor se adapta à sua rotina e transforme seu chamado em conhecimento.
+            {t('cta.desc')}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link to="/auth">
               <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 font-bold text-lg h-16 px-12 btn-shine btn-3d-gold glow-gold">
-                MATRICULE-SE AGORA
+                {t('cta.enroll_now')}
                 <ArrowRight className="ml-2 h-6 w-6" />
               </Button>
             </Link>
             <a href="https://wa.me/5500000000000" target="_blank" rel="noopener noreferrer">
               <Button size="lg" variant="outline" className="border-2 border-white/50 text-white hover:bg-white/10 font-semibold text-lg h-16 px-12">
                 <MessageCircle className="mr-2 h-6 w-6" />
-                FALE CONOSCO
+                {t('cta.contact_us')}
               </Button>
             </a>
           </div>
@@ -769,11 +734,11 @@ const Home = () => {
                 <img src={faitelLogo} alt="FAITEL" className="h-12 w-12 object-contain" />
                 <div>
                   <h3 className="text-xl font-display font-bold text-white">FAITEL</h3>
-                  <p className="text-xs text-accent">FACULDADE TEOLÓGICA</p>
+                  <p className="text-xs text-accent">{t('hero.theology_faculty')}</p>
                 </div>
               </div>
               <p className="text-white/60 text-sm mb-6">
-                Formando líderes para o Reino há 23 anos com excelência e compromisso com a Palavra de Deus.
+                {t('about.p1').substring(0, 100)}...
               </p>
               <div className="flex gap-3">
                 <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-accent-foreground transition-colors">
@@ -793,93 +758,74 @@ const Home = () => {
 
             {/* Links Rápidos */}
             <div>
-              <h4 className="font-display font-bold text-white mb-4">LINKS RÁPIDOS</h4>
+              <h4 className="font-display font-bold text-white mb-4">{t('footer.quick_links')}</h4>
               <ul className="space-y-3">
-                <li><a href="#modalidades" className="text-white/60 hover:text-accent transition-colors text-sm">Modalidades</a></li>
-                <li><Link to="/courses" className="text-white/60 hover:text-accent transition-colors text-sm">Curso</Link></li>
-                <li><a href="#about" className="text-white/60 hover:text-accent transition-colors text-sm">À Propos</a></li>
-                <li><a href="#chancellors" className="text-white/60 hover:text-accent transition-colors text-sm">Chancelaria</a></li>
-                <li><a href="#secc" className="text-white/60 hover:text-accent transition-colors text-sm">SECC</a></li>
-                <li><a href="#testimonials" className="text-white/60 hover:text-accent transition-colors text-sm">Testemunhos</a></li>
+                <li><a href="#modalidades" className="text-white/60 hover:text-accent transition-colors text-sm">{t('nav.modalities')}</a></li>
+                <li><Link to="/courses" className="text-white/60 hover:text-accent transition-colors text-sm">{t('nav.courses')}</Link></li>
+                <li><a href="#sobre" className="text-white/60 hover:text-accent transition-colors text-sm">{t('nav.about')}</a></li>
+                <li><a href="#depoimentos" className="text-white/60 hover:text-accent transition-colors text-sm">{t('nav.testimonials')}</a></li>
               </ul>
             </div>
 
             {/* Nossos Programas */}
             <div>
-              <h4 className="font-display font-bold text-white mb-4">NOSSOS PROGRAMAS</h4>
+              <h4 className="font-display font-bold text-white mb-4">{t('footer.programs')}</h4>
               <ul className="space-y-3">
                 <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">Graduação</a></li>
                 <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">Pós-graduação</a></li>
                 <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">Mestrado</a></li>
-                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">Doutorado</a></li>
-                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">Profissionalizante</a></li>
-                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">EJA</a></li>
               </ul>
             </div>
 
             {/* Cursos */}
             <div>
-              <h4 className="font-display font-bold text-white mb-4">CURSOS</h4>
+              <h4 className="font-display font-bold text-white mb-4">{t('footer.courses')}</h4>
               <ul className="space-y-3">
                 <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">Bacharel em Teologia</a></li>
                 <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">Teologia Básica</a></li>
                 <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">Especializações</a></li>
-                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">Pós-Graduação</a></li>
               </ul>
             </div>
 
             {/* Modalidades */}
             <div>
-              <h4 className="font-display font-bold text-white mb-4">MODALIDADES</h4>
+              <h4 className="font-display font-bold text-white mb-4">{t('footer.modalities')}</h4>
               <ul className="space-y-3">
-                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">Presencial</a></li>
-                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">EAD - 100% Online</a></li>
+                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">{t('modalities.presencial_title')}</a></li>
+                <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm">{t('modalities.ead_title')}</a></li>
                 <li><a href="#" className="text-white/60 hover:text-accent transition-colors text-sm flex items-center gap-2">
-                  Semi-Presencial
-                  <Badge className="bg-success text-white text-[10px] py-0">NOVO</Badge>
+                  {t('modalities.semi_title')}
+                  <Badge className="bg-success text-white text-[10px] py-0">{t('modalities.semi_badge')}</Badge>
                 </a></li>
               </ul>
             </div>
 
             {/* Contact */}
             <div className="col-span-2 md:col-span-3 lg:col-span-1">
-              <h4 className="font-display font-bold text-white mb-4">CONTATO</h4>
+              <h4 className="font-display font-bold text-white mb-4">{t('footer.contact')}</h4>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3 text-white/60 text-sm">
                   <Phone className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />
                   <div>
                     <p>+55 71 98338-4883</p>
                     <p>+55 75 9 9101-8335</p>
-                    <p>+55 71 9 9682-2782</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3 text-white/60 text-sm">
                   <Mail className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />
                   <div>
-                    <p>pr.vcsantos@gmail.com</p>
                     <p>faiteloficial@gmail.com</p>
                   </div>
                 </li>
               </ul>
               
-              <h4 className="font-display font-bold text-white mb-3 mt-6">ENDEREÇOS</h4>
+              <h4 className="font-display font-bold text-white mb-3 mt-6">{t('footer.addresses')}</h4>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3 text-white/60 text-sm">
                   <MapPin className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-white font-medium mb-1">Matriz</p>
-                    <p>BA 099 km 90 da Linha Verde, nº 001</p>
-                    <p>Bairro: Comunidade Limoeiro</p>
-                    <p>Entre Rios - BA, CEP: 48.180-000</p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-3 text-white/60 text-sm">
-                  <MapPin className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="text-white font-medium mb-1">Sede Administrativa</p>
-                    <p>Rua Henrique Alves Barbosa, 119</p>
-                    <p>Bairro: Siriri</p>
-                    <p>Aguaí - SP, CEP: 13.866-052</p>
+                    <p className="text-white font-medium mb-1">{t('footer.matriz')}</p>
+                    <p>Entre Rios - BA</p>
                   </div>
                 </li>
               </ul>
@@ -888,11 +834,11 @@ const Home = () => {
 
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-white/40 text-sm">
-              © 2024 FAITEL - Faculdade de Teologia. Todos os direitos reservados.
+              {t('footer.rights')}
             </p>
             <div className="flex gap-6 text-sm">
-              <a href="#" className="text-white/40 hover:text-white transition-colors">Termos de Uso</a>
-              <a href="#" className="text-white/40 hover:text-white transition-colors">Privacidade</a>
+              <a href="#" className="text-white/40 hover:text-white transition-colors">{t('footer.terms')}</a>
+              <a href="#" className="text-white/40 hover:text-white transition-colors">{t('footer.privacy')}</a>
             </div>
           </div>
         </div>

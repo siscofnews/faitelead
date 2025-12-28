@@ -11,8 +11,120 @@
     "completed": "Completed",
     "watch": "Watch",
     "download": "Download",
-    "home": "Home",
-    "enroll": "ENROLL NOW"
+    "home": "Home"
+  },
+  "home": "Home",
+  "enroll": "ENROLL NOW",
+  "search_placeholder": "Search courses, modules, lessons...",
+  "profile": "My Profile",
+  "settings": "Settings",
+  "logout": "Logout",
+  "role_student": "Student",
+  "role_admin": "Administrator",
+  "role_teacher": "Professor",
+  "role_director": "Director",
+  "role_super_admin": "Super Administrator",
+  "back": "Back",
+  "nav": {
+    "modalities": "Modalities",
+    "courses": "Courses",
+    "certifications": "Certifications",
+    "about": "About",
+    "testimonials": "Testimonials",
+    "student_portal": "Student Portal",
+    "know_modalities": "KNOW MODALITIES"
+  },
+  "hero": {
+    "live_class_weekly": "LIVE CLASSES WEEKLY",
+    "theology_faculty": "THEOLOGICAL FACULTY",
+    "forming_leaders": "Forming leaders for the Kingdom for",
+    "years": "23 years",
+    "choose_modality": "Choose your modality: On-site, Online, or Blended with live classes",
+    "start_now": "START NOW"
+  },
+  "stats": {
+    "years_history": "Years of History",
+    "students_graduated": "Students Graduated",
+    "approval_rate": "Approval Rate",
+    "classes_available": "Classes Available"
+  },
+  "modalities": {
+    "choose_journey": "CHOOSE YOUR JOURNEY",
+    "title_prefix": "TEACHING",
+    "title_suffix": "MODALITIES",
+    "presencial_title": "ON-SITE",
+    "presencial_subtitle": "100% in Classroom",
+    "presencial_desc": "On-site classes with qualified teachers, direct interaction, and networking with other students.",
+    "ead_title": "ONLINE",
+    "ead_subtitle": "100% Online",
+    "ead_desc": "Study at your own pace with high-quality recorded classes, available 24 hours a day.",
+    "ead_badge": "MOST POPULAR",
+    "semi_title": "BLENDED",
+    "semi_subtitle": "Hybrid with Live Class",
+    "semi_desc": "The best of both worlds: flexibility of online learning with one live class per week.",
+    "semi_badge": "NEW",
+    "live": "LIVE",
+    "learn_more": "LEARN MORE"
+  },
+  "live": {
+    "exclusive": "EXCLUSIVE",
+    "title": "LIVE CLASS WEEKLY",
+    "desc": "In the Blended modality, you have access to one live class per week with our teachers. Ask questions in real-time, interact with other students, and have a unique learning experience.",
+    "hd_quality": "HD Quality",
+    "hd_desc": "High definition broadcast",
+    "live_chat": "Live Chat",
+    "chat_desc": "Real-time interaction",
+    "fixed_schedule": "Fixed Schedule",
+    "schedule_desc": "Defined times",
+    "recording": "Recording",
+    "recording_desc": "Watch later if you miss it",
+    "cta": "I WANT LIVE CLASSES",
+    "watching": "watching"
+  },
+  "courses": {
+    "complete_formation": "COMPLETE FORMATION",
+    "our_courses": "OUR COURSES",
+    "info": "90-day courses • 1 class per week • 3 hours/class",
+    "price": "R$ 400.00",
+    "payment": "| 1+3x on card or PIX",
+    "days": "90 days",
+    "hours": "3h/class",
+    "details": "SEE DETAILS",
+    "see_all": "SEE ALL COURSES"
+  },
+  "about": {
+    "our_history": "OUR HISTORY",
+    "title": "23 YEARS OF EXCELLENCE",
+    "p1": "Founded by Pastor Valdinei, FAITEL was born as a theological seminary with the vision of forming Christian leaders committed to the Word of God.",
+    "p2": "Today we are a Theological Faculty of excellence, hand in hand with WST Publishing and Graphics, producing our own exclusive teaching materials.",
+    "own_material": "Own Material",
+    "wst_publisher": "WST Publishing",
+    "certification": "Certification",
+    "recognized": "Recognized"
+  },
+  "testimonials": {
+    "badge": "TESTIMONIALS",
+    "what_they_say": "WHAT THEY SAY",
+    "our_students": "OUR STUDENTS"
+  },
+  "cta": {
+    "start_journey": "START YOUR JOURNEY TODAY",
+    "desc": "Choose the modality that best fits your routine and transform your calling into knowledge.",
+    "enroll_now": "ENROLL NOW",
+    "contact_us": "CONTACT US"
+  },
+  "footer": {
+    "rights": "© 2024 FAITEL - Theological Faculty. All rights reserved.",
+    "terms": "Terms of Use",
+    "privacy": "Privacy",
+    "quick_links": "QUICK LINKS",
+    "programs": "OUR PROGRAMS",
+    "courses": "COURSES",
+    "modalities": "MODALITIES",
+    "contact": "CONTACT",
+    "addresses": "ADDRESSES",
+    "matriz": "Headquarters",
+    "admin_hq": "Administrative HQ"
   },
   "course": {
     "content": "Course Content",

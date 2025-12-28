@@ -25,6 +25,107 @@
   "role_director": "Diretor",
   "role_super_admin": "Super Administrador",
   "back": "Voltar",
+  "nav": {
+    "modalities": "Modalidades",
+    "courses": "Cursos",
+    "certifications": "Certificações",
+    "about": "Sobre",
+    "testimonials": "Depoimentos",
+    "student_portal": "Portal do Aluno",
+    "know_modalities": "CONHECER MODALIDADES"
+  },
+  "hero": {
+    "live_class_weekly": "AULAS AO VIVO TODA SEMANA",
+    "theology_faculty": "FACULDADE TEOLÓGICA",
+    "forming_leaders": "Formando líderes para o Reino há",
+    "years": "23 anos",
+    "choose_modality": "Escolha sua modalidade: Presencial, EAD ou Semi-Presencial com aulas ao vivo",
+    "start_now": "COMECE AGORA"
+  },
+  "stats": {
+    "years_history": "Anos de História",
+    "students_graduated": "Alunos Formados",
+    "approval_rate": "Taxa de Aprovação",
+    "classes_available": "Aulas Disponíveis"
+  },
+  "modalities": {
+    "choose_journey": "ESCOLHA SUA JORNADA",
+    "title_prefix": "MODALIDADES DE",
+    "title_suffix": "ENSINO",
+    "presencial_title": "PRESENCIAL",
+    "presencial_subtitle": "100% em Sala de Aula",
+    "presencial_desc": "Aulas presenciais com professores qualificados, interação direta e networking com outros alunos.",
+    "ead_title": "EAD",
+    "ead_subtitle": "100% Online",
+    "ead_desc": "Estude no seu ritmo com aulas gravadas de alta qualidade, disponíveis 24 horas por dia.",
+    "ead_badge": "MAIS POPULAR",
+    "semi_title": "SEMI-PRESENCIAL",
+    "semi_subtitle": "Híbrido com Aula ao Vivo",
+    "semi_desc": "O melhor dos dois mundos: flexibilidade do EAD com uma aula ao vivo por semana.",
+    "semi_badge": "NOVO",
+    "live": "AO VIVO",
+    "learn_more": "SAIBA MAIS"
+  },
+  "live": {
+    "exclusive": "EXCLUSIVO",
+    "title": "AULA AO VIVO TODA SEMANA",
+    "desc": "Na modalidade Semi-Presencial, você tem acesso a uma aula ao vivo por semana com nossos professores. Tire suas dúvidas em tempo real, interaja com outros alunos e tenha uma experiência de aprendizado única.",
+    "hd_quality": "HD Quality",
+    "hd_desc": "Transmissão em alta definição",
+    "live_chat": "Chat ao Vivo",
+    "chat_desc": "Interação em tempo real",
+    "fixed_schedule": "Agenda Fixa",
+    "schedule_desc": "Horários definidos",
+    "recording": "Gravação",
+    "recording_desc": "Assista depois se perder",
+    "cta": "QUERO AULAS AO VIVO",
+    "watching": "assistindo"
+  },
+  "courses": {
+    "complete_formation": "FORMAÇÃO COMPLETA",
+    "our_courses": "NOSSOS CURSOS",
+    "info": "Cursos de 90 dias • 1 aula por semana • 3 horas/aula",
+    "price": "R$ 400,00",
+    "payment": "| 1+3x no cartão ou PIX",
+    "days": "90 dias",
+    "hours": "3h/aula",
+    "details": "VER DETALHES",
+    "see_all": "VER TODOS OS CURSOS"
+  },
+  "about": {
+    "our_history": "NOSSA HISTÓRIA",
+    "title": "23 ANOS DE EXCELÊNCIA",
+    "p1": "Fundada pelo Pastor Valdinei, a FAITEL nasceu como um seminário teológico com a visão de formar líderes cristãos comprometidos com a Palavra de Deus.",
+    "p2": "Hoje somos uma Faculdade Teológica de excelência, de mãos dadas com a WST Editora e Gráfica, produzindo nossos próprios materiais didáticos exclusivos.",
+    "own_material": "Material Próprio",
+    "wst_publisher": "WST Editora",
+    "certification": "Certificação",
+    "recognized": "Reconhecida"
+  },
+  "testimonials": {
+    "badge": "DEPOIMENTOS",
+    "what_they_say": "O QUE DIZEM",
+    "our_students": "NOSSOS ALUNOS"
+  },
+  "cta": {
+    "start_journey": "COMECE SUA JORNADA HOJE",
+    "desc": "Escolha a modalidade que melhor se adapta à sua rotina e transforme seu chamado em conhecimento.",
+    "enroll_now": "MATRICULE-SE AGORA",
+    "contact_us": "FALE CONOSCO"
+  },
+  "footer": {
+    "rights": "© 2024 FAITEL - Faculdade de Teologia. Todos os direitos reservados.",
+    "terms": "Termos de Uso",
+    "privacy": "Privacidade",
+    "quick_links": "LINKS RÁPIDOS",
+    "programs": "NOSSOS PROGRAMAS",
+    "courses": "CURSOS",
+    "modalities": "MODALIDADES",
+    "contact": "CONTATO",
+    "addresses": "ENDEREÇOS",
+    "matriz": "Matriz",
+    "admin_hq": "Sede Administrativa"
+  },
   "course": {
     "content": "Conteúdo do Curso",
     "select_module": "Selecione um módulo para começar a assistir",

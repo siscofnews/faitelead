@@ -25,6 +25,107 @@
   "role_director": "Directeur",
   "role_super_admin": "Super Administrateur",
   "back": "Retour",
+  "nav": {
+    "modalities": "Modalités",
+    "courses": "Cours",
+    "certifications": "Certifications",
+    "about": "À propos",
+    "testimonials": "Témoignages",
+    "student_portal": "Portail Étudiant",
+    "know_modalities": "DÉCOUVRIR LES MODALITÉS"
+  },
+  "hero": {
+    "live_class_weekly": "COURS EN DIRECT CHAQUE SEMAINE",
+    "theology_faculty": "FACULTÉ DE THÉOLOGIE",
+    "forming_leaders": "Former des leaders pour le Royaume depuis",
+    "years": "23 ans",
+    "choose_modality": "Choisissez votre modalité : Présentiel, En ligne ou Hybride avec cours en direct",
+    "start_now": "COMMENCER MAINTENANT"
+  },
+  "stats": {
+    "years_history": "Années d'Histoire",
+    "students_graduated": "Étudiants Diplômés",
+    "approval_rate": "Taux de Réussite",
+    "classes_available": "Cours Disponibles"
+  },
+  "modalities": {
+    "choose_journey": "CHOISISSEZ VOTRE PARCOURS",
+    "title_prefix": "MODALITÉS D'",
+    "title_suffix": "ENSEIGNEMENT",
+    "presencial_title": "PRÉSENTIEL",
+    "presencial_subtitle": "100% en Salle de Classe",
+    "presencial_desc": "Cours présentiels avec des professeurs qualifiés, interaction directe et réseautage avec d'autres étudiants.",
+    "ead_title": "EN LIGNE",
+    "ead_subtitle": "100% En Ligne",
+    "ead_desc": "Étudiez à votre rythme avec des cours enregistrés de haute qualité, disponibles 24h/24.",
+    "ead_badge": "LE PLUS POPULAIRE",
+    "semi_title": "HYBRIDE",
+    "semi_subtitle": "Hybride avec Cours en Direct",
+    "semi_desc": "Le meilleur des deux mondes : flexibilité de l'apprentissage en ligne avec un cours en direct par semaine.",
+    "semi_badge": "NOUVEAU",
+    "live": "EN DIRECT",
+    "learn_more": "EN SAVOIR PLUS"
+  },
+  "live": {
+    "exclusive": "EXCLUSIF",
+    "title": "COURS EN DIRECT HEBDOMADAIRE",
+    "desc": "Dans la modalité Hybride, vous avez accès à un cours en direct par semaine avec nos professeurs. Posez vos questions en temps réel, interagissez avec d'autres étudiants et vivez une expérience d'apprentissage unique.",
+    "hd_quality": "Qualité HD",
+    "hd_desc": "Diffusion haute définition",
+    "live_chat": "Chat en Direct",
+    "chat_desc": "Interaction en temps réel",
+    "fixed_schedule": "Horaire Fixe",
+    "schedule_desc": "Horaires définis",
+    "recording": "Enregistrement",
+    "recording_desc": "Regardez plus tard si vous manquez",
+    "cta": "JE VEUX DES COURS EN DIRECT",
+    "watching": "visionnent"
+  },
+  "courses": {
+    "complete_formation": "FORMATION COMPLÈTE",
+    "our_courses": "NOS COURS",
+    "info": "Cours de 90 jours • 1 cours par semaine • 3 heures/cours",
+    "price": "R$ 400,00",
+    "payment": "| 1+3x sur carte ou PIX",
+    "days": "90 jours",
+    "hours": "3h/cours",
+    "details": "VOIR DÉTAILS",
+    "see_all": "VOIR TOUS LES COURS"
+  },
+  "about": {
+    "our_history": "NOTRE HISTOIRE",
+    "title": "23 ANS D'EXCELLENCE",
+    "p1": "Fondée par le Pasteur Valdinei, FAITEL est née comme un séminaire théologique avec la vision de former des leaders chrétiens engagés envers la Parole de Dieu.",
+    "p2": "Aujourd'hui, nous sommes une Faculté de Théologie d'excellence, main dans la main avec WST Éditions, produisant nos propres matériels pédagogiques exclusifs.",
+    "own_material": "Matériel Propre",
+    "wst_publisher": "WST Éditions",
+    "certification": "Certification",
+    "recognized": "Reconnue"
+  },
+  "testimonials": {
+    "badge": "TÉMOIGNAGES",
+    "what_they_say": "CE QU'ILS DISENT",
+    "our_students": "NOS ÉTUDIANTS"
+  },
+  "cta": {
+    "start_journey": "COMMENCEZ VOTRE PARCOURS AUJOURD'HUI",
+    "desc": "Choisissez la modalité qui s'adapte le mieux à votre routine et transformez votre appel en connaissance.",
+    "enroll_now": "S'INSCRIRE MAINTENANT",
+    "contact_us": "CONTACTEZ-NOUS"
+  },
+  "footer": {
+    "rights": "© 2024 FAITEL - Faculté de Théologie. Tous droits réservés.",
+    "terms": "Conditions d'Utilisation",
+    "privacy": "Confidentialité",
+    "quick_links": "LIENS RAPIDES",
+    "programs": "NOS PROGRAMMES",
+    "courses": "COURS",
+    "modalities": "MODALITÉS",
+    "contact": "CONTACT",
+    "addresses": "ADRESSES",
+    "matriz": "Siège Social",
+    "admin_hq": "Siège Administratif"
+  },
   "course": {
     "content": "Contenu du Cours",
     "select_module": "Sélectionnez un module pour commencer à regarder",
