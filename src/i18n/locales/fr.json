@@ -13,6 +13,17 @@
     "download": "Télécharger",
     "home": "Accueil"
   },
+  "home": "Accueil",
+  "search_placeholder": "Rechercher cours, modules, leçons...",
+  "profile": "Mon Profil",
+  "settings": "Paramètres",
+  "logout": "Se déconnecter",
+  "role_student": "Étudiant",
+  "role_admin": "Administrateur",
+  "role_teacher": "Professeur",
+  "role_director": "Directeur",
+  "role_super_admin": "Super Administrateur",
+  "back": "Retour",
   "course": {
     "content": "Contenu du Cours",
     "select_module": "Sélectionnez un module pour commencer à regarder",

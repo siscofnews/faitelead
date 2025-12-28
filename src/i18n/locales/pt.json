@@ -13,6 +13,17 @@
     "download": "Baixar",
     "home": "Início"
   },
+  "home": "Início",
+  "search_placeholder": "Buscar cursos, módulos, aulas...",
+  "profile": "Meu Perfil",
+  "settings": "Configurações",
+  "logout": "Sair",
+  "role_student": "Aluno",
+  "role_admin": "Administrador",
+  "role_teacher": "Professor",
+  "role_director": "Diretor",
+  "role_super_admin": "Super Administrador",
+  "back": "Voltar",
   "course": {
     "content": "Conteúdo do Curso",
     "select_module": "Selecione um módulo para começar a assistir",

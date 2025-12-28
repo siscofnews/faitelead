@@ -1,0 +1,43 @@
+{
+  "common": {
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Vorherige",
+    "loading": "Laden...",
+    "search": "Suchen...",
+    "modules": "Module",
+    "lessons": "Lektionen",
+    "locked": "Gesperrt",
+    "completed": "Abgeschlossen",
+    "watch": "Ansehen",
+    "download": "Herunterladen",
+    "home": "Startseite"
+  },
+  "home": "Startseite",
+  "search_placeholder": "Kurse, Module, Lektionen suchen...",
+  "profile": "Mein Profil",
+  "settings": "Einstellungen",
+  "logout": "Abmelden",
+  "role_student": "Student",
+  "role_admin": "Administrator",
+  "role_teacher": "Lehrer",
+  "role_director": "Direktor",
+  "role_super_admin": "Super-Administrator",
+  "back": "Zurück",
+  "course": {
+    "content": "Kursinhalt",
+    "select_module": "Wählen Sie ein Modul aus, um zu beginnen",
+    "module": "Modul",
+    "complete_lesson": "Lektion abschließen",
+    "next_lesson": "Nächste Lektion",
+    "materials_extras": "Zusätzliche Materialien & Videos",
+    "download_pdf": "Lektion PDF herunterladen",
+    "click_to_watch": "Zum Ansehen klicken",
+    "playing": "Wiedergabe",
+    "video_lesson": "Video-Lektion",
+    "search_lesson": "Lektion suchen...",
+    "congratulations": "Herzlichen Glückwunsch!",
+    "lesson_completed": "Lektion als abgeschlossen markiert!",
+    "module_locked_msg": "Schließen Sie alle Lektionen ab und bestehen Sie die Prüfung des vorherigen Moduls, um es freizuschalten."
+  }
+}
