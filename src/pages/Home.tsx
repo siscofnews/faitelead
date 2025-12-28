@@ -15,6 +15,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import faitelLogo from "@/assets/faitel-logo.png";
 import { ScrollReveal } from "@/hooks/useScrollReveal";
 import QuickNav from "@/components/QuickNav";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useI18n } from "@/i18n/I18nProvider";
 
 // Import home sections
 import DevotionalSection from "@/components/home/DevotionalSection";
@@ -133,6 +135,7 @@ const testimonials = [
 ];
 
 const Home = () => {
+  const { t } = useI18n();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -174,6 +177,7 @@ const Home = () => {
             </nav>
 
             <div className="flex items-center gap-4">
+              <LanguageSwitcher />
               <Link to="/auth" className="hidden md:block">
                 <Button className="bg-accent text-accent-foreground hover:bg-accent/90 font-bold btn-shine btn-3d-gold px-6">
                   MATRICULE-SE
