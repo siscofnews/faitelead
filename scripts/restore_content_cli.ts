@@ -29,9 +29,7 @@ async function restoreContent() {
         .from("courses")
         .insert({
           title: "Bibliologia",
-          description: "Estudo sobre a origem, inspiração e autoridade da Bíblia.",
-          slug: "bibliologia",
-          level: "GRADUACAO"
+          description: "Estudo sobre a origem, inspiração e autoridade da Bíblia."
         })
         .select()
         .single();
