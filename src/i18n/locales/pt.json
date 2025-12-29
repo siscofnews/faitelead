@@ -94,6 +94,62 @@
     "demo_title": "Hermenêutica Bíblica - Aula 12",
     "demo_prof": "Prof. Dr. Valdinei Pereira"
   },
+  "dashboard": {
+    "welcome": {
+      "good_morning": "Bom dia",
+      "good_afternoon": "Boa tarde",
+      "good_evening": "Boa noite",
+      "continue_learning": "Continue sua jornada de aprendizado na FAITEL. Você está indo muito bem!",
+      "courses_enrolled": "Cursos Matriculados",
+      "modules_completed": "Módulos Concluídos",
+      "study_hours": "Horas de Estudo",
+      "overall_progress": "Progresso Geral"
+    },
+    "quick_actions": {
+      "title": "Acesso Rápido",
+      "continue_lesson": "Continuar Aula",
+      "continue_desc": "Retome de onde parou",
+      "history": "Histórico",
+      "history_desc": "Boletim acadêmico",
+      "financial": "Financeiro",
+      "financial_desc": "Pagamentos",
+      "certificates": "Certificados",
+      "certificates_desc": "Meus diplomas",
+      "support": "Suporte",
+      "support_desc": "Falar conosco",
+      "courses": "Cursos",
+      "courses_desc": "Ver catálogo"
+    },
+    "gamification": {
+      "achievements": "Conquistas",
+      "see_all": "Ver todas",
+      "level": "Nível",
+      "streak": "Dias seguidos",
+      "badges": "Badges",
+      "recent_achievements": "Últimas conquistas",
+      "view_ranking": "Ver Ranking"
+    },
+    "announcements": {
+      "title": "Avisos",
+      "see_all": "Ver todos",
+      "new": "Novo",
+      "items": {
+        "new_module": "Novo módulo disponível",
+        "new_module_desc": "O módulo de Escatologia já está liberado para acesso",
+        "exams_week": "Semana de Provas",
+        "exams_week_desc": "As provas do 2º semestre começam dia 15 de dezembro",
+        "recess": "Recesso de Fim de Ano",
+        "recess_desc": "A plataforma estará em recesso de 24/12 a 02/01"
+      }
+    },
+    "course_card": {
+      "active": "Ativo",
+      "lessons": "aulas",
+      "progress": "Progresso",
+      "continue": "Continuar Curso",
+      "default_desc": "Curso completo de teologia com material didático exclusivo"
+    }
+  },
   "courses": {
     "complete_formation": "FORMAÇÃO COMPLETA",
     "our_courses": "NOSSOS CURSOS",

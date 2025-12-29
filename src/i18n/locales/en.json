@@ -94,6 +94,62 @@
     "demo_title": "Biblical Hermeneutics - Lesson 12",
     "demo_prof": "Prof. Dr. Valdinei Pereira"
   },
+  "dashboard": {
+    "welcome": {
+      "good_morning": "Good morning",
+      "good_afternoon": "Good afternoon",
+      "good_evening": "Good evening",
+      "continue_learning": "Continue your learning journey at FAITEL. You are doing great!",
+      "courses_enrolled": "Enrolled Courses",
+      "modules_completed": "Modules Completed",
+      "study_hours": "Study Hours",
+      "overall_progress": "Overall Progress"
+    },
+    "quick_actions": {
+      "title": "Quick Access",
+      "continue_lesson": "Continue Lesson",
+      "continue_desc": "Resume where you left off",
+      "history": "Transcript",
+      "history_desc": "Academic record",
+      "financial": "Financial",
+      "financial_desc": "Payments",
+      "certificates": "Certificates",
+      "certificates_desc": "My diplomas",
+      "support": "Support",
+      "support_desc": "Contact us",
+      "courses": "Courses",
+      "courses_desc": "View catalog"
+    },
+    "gamification": {
+      "achievements": "Achievements",
+      "see_all": "See all",
+      "level": "Level",
+      "streak": "Day streak",
+      "badges": "Badges",
+      "recent_achievements": "Recent achievements",
+      "view_ranking": "View Ranking"
+    },
+    "announcements": {
+      "title": "Announcements",
+      "see_all": "See all",
+      "new": "New",
+      "items": {
+        "new_module": "New module available",
+        "new_module_desc": "Eschatology module is now available for access",
+        "exams_week": "Exam Week",
+        "exams_week_desc": "Second semester exams start on December 15th",
+        "recess": "End of Year Recess",
+        "recess_desc": "Platform will be on recess from Dec 24th to Jan 2nd"
+      }
+    },
+    "course_card": {
+      "active": "Active",
+      "lessons": "lessons",
+      "progress": "Progress",
+      "continue": "Continue Course",
+      "default_desc": "Complete theology course with exclusive didactic material"
+    }
+  },
   "courses": {
     "complete_formation": "COMPLETE FORMATION",
     "our_courses": "OUR COURSES",
