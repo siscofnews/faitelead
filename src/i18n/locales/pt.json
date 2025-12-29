@@ -385,19 +385,23 @@
     "description": "Uma liderança visionária e ungida, divinamente estabelecida para romper fronteiras e governar a expansão do ensino teológico na Europa e nas nações. Homens e mulheres de autoridade, estrategicamente posicionados para edificar o Reino com excelência e poder.",
     "etienne": {
       "name": "Pr. Bacharel Etienne Claude dos Santos de Souza",
-      "role": "Diretor Presidente Internacional"
+      "role": "Diretor Presidente Internacional",
+      "desc": "Responsável pela representação legal da FAITEL Europa, pela condução da visão estratégica, pela expansão institucional em território europeu e pela fidelidade ao projeto acadêmico e espiritual confiado."
     },
     "handerson": {
       "name": "Pr. Bacharel José Handerson Costa de Oliveira",
-      "role": "Diretor Vice-Presidente Internacional"
+      "role": "Diretor Vice-Presidente Internacional",
+      "desc": "Responsável pelo suporte direto à presidência, pela gestão administrativa dos núcleos, coordenação operacional e acompanhamento dos polos de ensino."
     },
     "leonardo": {
       "name": "Pr. Bacharel José Léonardo Kohpcke",
-      "role": "Diretor Vice-Presidente Internacional"
+      "role": "Diretor Vice-Presidente Internacional",
+      "desc": "Responsável pelo suporte à presidência, relações institucionais, representatividade internacional e fortalecimento da identidade teológica da FAITEL na Europa."
     },
     "haila": {
       "name": "Pra. Haila Menezes",
-      "role": "Diretora Secretária Internacional"
+      "role": "Diretora Secretária Internacional",
+      "desc": "Responsável pelo registro acadêmico, controle documental, atas oficiais, emissão e guarda de diplomas, além da organização da Secretaria Geral Internacional."
     }
   },
   "recognition": {
