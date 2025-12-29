@@ -3,36 +3,32 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { useI18n } from "@/i18n/I18nProvider";
 
-import etienneImg from "@/assets/board/etienne.jpg";
-import handersonImg from "@/assets/board/handerson.jpg";
-import leonardoImg from "@/assets/board/leonardo.jpg";
-import hailaImg from "@/assets/board/haila.jpg";
-
+// Use public folder images for better reliability with dynamic updates
 const InternationalBoardSection = () => {
   const { t } = useI18n();
 
   const members = [
     {
       id: "etienne",
-      image: etienneImg,
+      image: "/images/etienne.jpg",
       roleKey: "board.etienne.role",
       nameKey: "board.etienne.name"
     },
     {
       id: "handerson",
-      image: handersonImg,
+      image: "/images/handerson.jpg",
       roleKey: "board.handerson.role",
       nameKey: "board.handerson.name"
     },
     {
       id: "leonardo",
-      image: leonardoImg,
+      image: "/images/leonardo.jpg",
       roleKey: "board.leonardo.role",
       nameKey: "board.leonardo.name"
     },
     {
       id: "haila",
-      image: hailaImg,
+      image: "/images/haila.jpg",
       roleKey: "board.haila.role",
       nameKey: "board.haila.name"
     }
@@ -64,6 +60,11 @@ const InternationalBoardSection = () => {
                   src={member.image} 
                   alt={t(member.nameKey)}
                   className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    // Fallback if image fails
+                    target.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop";
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
               </div>

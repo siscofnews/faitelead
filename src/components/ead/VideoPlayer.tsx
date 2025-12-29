@@ -10,7 +10,7 @@ interface VideoPlayerProps {
 
 const extractYoutubeId = (url: string): string | null => {
   if (!url) return null;
-  
+
   // Handle various YouTube URL formats
   const patterns = [
     /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\s?]+)/,
@@ -31,12 +31,14 @@ declare global {
   interface Window { YT: any; onYouTubeIframeAPIReady: any }
 }
 
+// VideoPlayer component that handles YouTube and direct file URLs
 const VideoPlayer = ({ youtubeUrl, title, onComplete }: VideoPlayerProps) => {
   const { t } = useI18n();
   const [isLoaded, setIsLoaded] = useState(false);
   const videoId = extractYoutubeId(youtubeUrl);
   const containerRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<any>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     setIsLoaded(false);
@@ -45,8 +47,16 @@ const VideoPlayer = ({ youtubeUrl, title, onComplete }: VideoPlayerProps) => {
     return () => clearTimeout(timer);
   }, [youtubeUrl]);
 
+  // YouTube Player Effect
   useEffect(() => {
     if (!videoId || !containerRef.current) return;
+
+    // Clear previous player if any
+    if (playerRef.current) {
+      try { playerRef.current.destroy(); } catch (err) { console.error(err); }
+      playerRef.current = null;
+    }
+
     const ensureApi = () =>
       new Promise<void>((resolve) => {
         if (window.YT && window.YT.Player) return resolve();
@@ -63,13 +73,12 @@ const VideoPlayer = ({ youtubeUrl, title, onComplete }: VideoPlayerProps) => {
           }
         }, 200);
       });
+
     (async () => {
       await ensureApi();
-      if (playerRef.current) {
-        try { playerRef.current.destroy(); } catch (err) { console.error(err); }
-        playerRef.current = null;
-      }
-      playerRef.current = new window.YT.Player(containerRef.current!, {
+      if (!containerRef.current) return; // double check existence
+
+      playerRef.current = new window.YT.Player(containerRef.current, {
         videoId,
         playerVars: {
           rel: 0, modestbranding: 1, playsinline: 1
@@ -84,6 +93,7 @@ const VideoPlayer = ({ youtubeUrl, title, onComplete }: VideoPlayerProps) => {
         }
       });
     })();
+
     return () => {
       if (playerRef.current) {
         try { playerRef.current.destroy(); } catch (err) { console.error(err); }
@@ -92,7 +102,8 @@ const VideoPlayer = ({ youtubeUrl, title, onComplete }: VideoPlayerProps) => {
     };
   }, [videoId, onComplete]);
 
-  if (!videoId) {
+  // If no URL at all
+  if (!youtubeUrl) {
     return (
       <div className="aspect-video bg-gradient-hero flex items-center justify-center">
         <div className="text-center space-y-4 p-8">
@@ -111,7 +122,7 @@ const VideoPlayer = ({ youtubeUrl, title, onComplete }: VideoPlayerProps) => {
   }
 
   return (
-    <div className="relative aspect-video bg-foreground/95 group">
+    <div className="relative aspect-video bg-black group flex items-center justify-center overflow-hidden">
       {/* Loading State */}
       {!isLoaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-gradient-hero z-10">
@@ -122,13 +133,28 @@ const VideoPlayer = ({ youtubeUrl, title, onComplete }: VideoPlayerProps) => {
         </div>
       )}
 
-      {/* YouTube Player */}
-      <div ref={containerRef} className="w-full h-full" />
+      {/* Logic: If ID exists, generic YouTube player container. Else HTML5 video */}
+      {videoId ? (
+        <div ref={containerRef} className="w-full h-full" />
+      ) : (
+        <video
+          ref={videoRef}
+          src={youtubeUrl}
+          className="w-full h-full object-contain"
+          controls
+          controlsList="nodownload"
+          onEnded={() => {
+            if (onComplete) onComplete();
+          }}
+        // Auto-play depending on user preference? usually better not to auto-play or muted
+        // but for consistency with previous behavior, let's leave it to user
+        />
+      )}
 
-      {/* Gradient Overlay for Title */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-foreground/80 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
+      {/* Gradient Overlay for Title (Only visible on hover and if title exists) */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/80 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-20">
         <div className="absolute bottom-4 left-4 right-4">
-          <p className="text-primary-foreground font-display font-semibold truncate">
+          <p className="text-white font-display font-semibold truncate shadow-sm">
             {title}
           </p>
         </div>
