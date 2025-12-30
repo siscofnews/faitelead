@@ -9,7 +9,7 @@ const InternationalBoardSection = () => {
   const members = [
     {
       id: "etienne",
-      image: "/images/board/etienne.png",
+      image: "/images/board/etienne_new.jpg",
       roleKey: "board.etienne.role",
       nameKey: "board.etienne.name",
       descKey: "board.etienne.desc"
@@ -30,7 +30,7 @@ const InternationalBoardSection = () => {
     },
     {
       id: "haila",
-      image: "/images/board/haila.jpg",
+      image: "/images/board/haila.png",
       roleKey: "board.haila.role",
       nameKey: "board.haila.name",
       descKey: "board.haila.desc"
@@ -55,10 +55,53 @@ const InternationalBoardSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-          {members.map((member) => (
-            <Card key={member.id} className="bg-glass-card border-white/10 overflow-hidden group hover:border-accent/30 transition-all duration-300 flex flex-col h-full">
-              <div className="aspect-[3/4] overflow-hidden relative">
+        {/* President Section - Highlighted & Horizontal */}
+        <div className="flex justify-center mb-16 relative z-20">
+          {(() => {
+            const president = members[0]; // Etienne
+            return (
+              <div className="w-full max-w-4xl relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-accent via-primary to-accent rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200" />
+                <Card className="relative bg-glass-card border-accent/30 overflow-hidden shadow-2xl hover:shadow-[0_0_40px_rgba(var(--accent-rgb),0.3)] transition-all duration-500 transform hover:-translate-y-1 flex flex-col md:flex-row">
+                  {/* Photo Section - Left */}
+                  <div className="md:w-2/5 aspect-[3/4] md:aspect-auto relative overflow-hidden">
+                    <img
+                      src={president.image}
+                      alt={t(president.nameKey)}
+                      className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/80 via-transparent to-transparent opacity-60" />
+                  </div>
+
+                  {/* Content Section - Right */}
+                  <div className="md:w-3/5 p-8 flex flex-col justify-center bg-[hsl(220_50%_8%)] border-t md:border-t-0 md:border-l border-accent/20">
+                    <div className="mb-4">
+                      <p className="text-sm font-bold bg-gradient-to-r from-accent to-white bg-clip-text text-transparent uppercase tracking-widest mb-2">
+                        {t(president.roleKey)}
+                      </p>
+                      <h3 className="text-2xl md:text-3xl font-display font-black text-white leading-tight drop-shadow-lg">
+                        {t(president.nameKey)}
+                      </h3>
+                    </div>
+
+                    <div className="h-1 w-20 bg-accent/50 rounded-full mb-6" />
+
+                    <p className="text-base text-white/80 leading-relaxed font-medium">
+                      {t(president.descKey)}
+                    </p>
+                  </div>
+                </Card>
+              </div>
+            );
+          })()}
+        </div>
+
+        {/* Other Members Grid - Horizontal Cards */}
+        <div className="grid md:grid-cols-2 gap-6 max-w-7xl mx-auto">
+          {members.slice(1).map((member) => (
+            <Card key={member.id} className="bg-glass-card border-white/10 overflow-hidden group hover:border-accent/30 transition-all duration-300 flex flex-col sm:flex-row h-full hover:shadow-xl hover:-translate-y-1">
+              {/* Photo - Left */}
+              <div className="sm:w-1/3 aspect-[3/4] sm:aspect-auto relative overflow-hidden shrink-0">
                 <img
                   src={member.image}
                   alt={t(member.nameKey)}
@@ -68,21 +111,21 @@ const InternationalBoardSection = () => {
                     target.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop";
                   }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80" />
-
-                {/* Overlay Name/Role for visual impact */}
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <h3 className="text-sm font-display font-bold text-white mb-1 leading-tight text-center">
-                    {t(member.nameKey)}
-                  </h3>
-                  <p className="text-[10px] text-accent font-semibold uppercase tracking-wider text-center mb-2">
-                    {t(member.roleKey)}
-                  </p>
-                </div>
+                <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent opacity-50" />
               </div>
 
-              <CardContent className="p-4 flex-grow bg-[hsl(220_50%_8%)] border-t border-white/5">
-                <p className="text-xs text-white/70 text-center leading-relaxed">
+              {/* Content - Right */}
+              <CardContent className="p-6 flex flex-col justify-center sm:w-2/3 bg-[hsl(220_50%_8%)] border-t sm:border-t-0 sm:border-l border-white/5">
+                <div className="mb-3">
+                  <p className="text-[10px] text-accent font-semibold uppercase tracking-wider mb-1">
+                    {t(member.roleKey)}
+                  </p>
+                  <h3 className="text-lg font-display font-bold text-white leading-tight">
+                    {t(member.nameKey)}
+                  </h3>
+                </div>
+
+                <p className="text-xs text-white/70 leading-relaxed">
                   {t(member.descKey)}
                 </p>
               </CardContent>

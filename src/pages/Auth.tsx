@@ -10,6 +10,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Eye, EyeOff, Mail, Lock, ArrowRight, User, Phone, GraduationCap, Shield, Crown, Users, ArrowLeft, Camera, Building2, Upload } from "lucide-react";
 import faitelLogo from "@/assets/faitel-logo.png";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
 
 type EducationLevel = "fundamental" | "medio" | "superior" | "pos_graduacao";
 type UserType = "student" | "admin" | "super_admin" | null;
@@ -20,6 +22,7 @@ interface Polo {
 }
 
 const Auth = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -67,7 +70,7 @@ const Auth = () => {
         setShowCamera(true);
       }
     } catch (err) {
-      toast.error("Não foi possível acessar a câmera");
+      toast.error(t('auth.camera_error'));
     }
   };
 
@@ -93,7 +96,7 @@ const Auth = () => {
         const imageData = canvas.toDataURL("image/jpeg", 0.8);
         setSelfieData(imageData);
         stopCamera();
-        toast.success("Foto capturada!");
+        toast.success(t('auth.photo_captured'));
       }
     }
   };
@@ -113,9 +116,9 @@ const Auth = () => {
 
       if (email.toLowerCase() === "faiteloficial@gmail.com") {
         try {
-            await supabase.rpc("bootstrap_super_admin");
+          await supabase.rpc("bootstrap_super_admin");
         } catch (e) {
-            console.log("Bootstrap ignorado ou falhou silenciosamente", e);
+          console.log("Bootstrap ignorado ou falhou silenciosamente", e);
         }
       }
 
@@ -128,13 +131,13 @@ const Auth = () => {
       const role = roles.find(r => r === "super_admin") || roles.find(r => r === "admin") || roles[0] || null;
 
       if (selectedUserType === "super_admin" && role !== "super_admin") {
-        toast.error("Acesso negado. Você não é um Super Administrador.");
+        toast.error(t('auth.access_denied_super_admin'));
         await supabase.auth.signOut();
         setLoading(false);
         return;
       }
       if (selectedUserType === "admin" && role !== "admin" && role !== "super_admin") {
-        toast.error("Acesso negado. Você não é um Administrador.");
+        toast.error(t('auth.access_denied_admin'));
         await supabase.auth.signOut();
         setLoading(false);
         return;
@@ -148,9 +151,9 @@ const Auth = () => {
         navigate("/student");
       }
 
-      toast.success("Login realizado com sucesso!");
+      toast.success(t('auth.login_success'));
     } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : "Erro ao fazer login";
+      const message = error instanceof Error ? error.message : t('auth.login_error');
       toast.error(message);
       console.error("❌ Erro no login:", error);
     } finally {
@@ -166,15 +169,15 @@ const Auth = () => {
       // Validations
       const cleanCpf = cpf.replace(/\D/g, "");
       if (cleanCpf.length !== 11) {
-        throw new Error("CPF deve conter 11 dígitos");
+        throw new Error(t('auth.cpf_invalid'));
       }
 
       if (!selfieData && !photoFile) {
-        throw new Error("Por favor, tire uma selfie ou envie uma foto");
+        throw new Error(t('auth.photo_required'));
       }
 
       if (!poloId) {
-        throw new Error("Por favor, selecione um polo");
+        throw new Error(t('auth.polo_required'));
       }
 
       const redirectUrl = `${window.location.origin}/`;
@@ -212,7 +215,7 @@ const Auth = () => {
           const byteArray = new Uint8Array(byteNumbers);
           blob = new Blob([byteArray], { type: "image/jpeg" });
         } else {
-          throw new Error("Nenhuma foto fornecida");
+          throw new Error(t('auth.no_photo'));
         }
 
         const { error: uploadError } = await supabase.storage
@@ -235,11 +238,11 @@ const Auth = () => {
             .eq("id", data.user.id);
         }
 
-        toast.success("Cadastro realizado! Aguarde a aprovação do seu diretor de polo.");
+        toast.success(t('auth.signup_success'));
         navigate("/pending-approval");
       }
     } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : "Erro ao criar conta";
+      const message = error instanceof Error ? error.message : t('auth.signup_error');
       toast.error(message);
     } finally {
       setLoading(false);
@@ -264,16 +267,16 @@ const Auth = () => {
   const adminOptions = [
     {
       type: "admin" as const,
-      title: "Administrador",
-      description: "Gerenciamento da plataforma",
+      title: t('auth.admin_types.admin'),
+      description: t('auth.admin_types.admin_desc'),
       icon: Shield,
       gradient: "from-emerald-500 to-emerald-600",
       shadowColor: "shadow-emerald-500/30",
     },
     {
       type: "super_admin" as const,
-      title: "Super Administrador",
-      description: "Acesso total ao sistema",
+      title: t('auth.admin_types.super_admin'),
+      description: t('auth.admin_types.super_admin_desc'),
       icon: Crown,
       gradient: "from-amber-500 to-amber-600",
       shadowColor: "shadow-amber-500/30",
@@ -290,8 +293,12 @@ const Auth = () => {
           className="fixed top-4 left-4 z-50 flex items-center gap-2 px-4 py-2 rounded-lg bg-background/80 backdrop-blur border border-border text-foreground hover:bg-background/90 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span className="hidden sm:inline">Home</span>
+          <span className="hidden sm:inline">{t('auth.home')}</span>
         </button>
+
+        <div className="fixed top-4 right-4 z-50">
+          <LanguageSwitcher />
+        </div>
 
         {/* Left Side - Branding */}
         <div className="hidden lg:flex lg:w-1/2 bg-gradient-hero relative overflow-hidden">
@@ -353,10 +360,10 @@ const Auth = () => {
 
             <div className="text-center">
               <h2 className="text-3xl font-display font-bold text-foreground mb-2">
-                Bem-vindo à FAITEL
+                {t('auth.welcome_title')}
               </h2>
               <p className="text-muted-foreground">
-                Selecione o tipo de acesso para continuar
+                {t('auth.welcome_subtitle')}
               </p>
             </div>
 
@@ -376,10 +383,10 @@ const Auth = () => {
                     </div>
                     <div className="flex-1">
                       <h3 className="text-xl font-display font-bold text-white mb-1">
-                        Portal do Aluno
+                        {t('auth.student_portal')}
                       </h3>
                       <p className="text-white/80 text-sm">
-                        Acesso exclusivo para estudantes
+                        {t('auth.student_access')}
                       </p>
                     </div>
                     <ArrowRight className="w-6 h-6 text-white/70 group-hover:text-white group-hover:translate-x-1 transition-all" />
@@ -399,10 +406,10 @@ const Auth = () => {
                     </div>
                     <div className="flex-1">
                       <h3 className="text-xl font-display font-bold text-white mb-1">
-                        Administradores
+                        {t('auth.admin_portal')}
                       </h3>
                       <p className="text-white/80 text-sm">
-                        Acesso administrativo e gerenciamento
+                        {t('auth.admin_access')}
                       </p>
                     </div>
                     <ArrowRight className="w-6 h-6 text-white/70 group-hover:text-white group-hover:translate-x-1 transition-all" />
@@ -417,7 +424,7 @@ const Auth = () => {
                   className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <ArrowLeft className="w-4 h-4" />
-                  <span>Voltar</span>
+                  <span>{t('auth.back')}</span>
                 </button>
 
                 <div className="grid gap-4">
@@ -451,8 +458,8 @@ const Auth = () => {
 
             <p className="text-center text-sm text-muted-foreground">
               {showAdminOptions
-                ? "Selecione seu nível de acesso administrativo"
-                : "Escolha seu perfil para acessar as funcionalidades corretas"}
+                ? t('auth.admin_select_level')
+                : t('auth.profile_select_prompt')}
             </p>
           </div>
         </div>
@@ -469,8 +476,12 @@ const Auth = () => {
         className="fixed top-4 left-4 z-50 flex items-center gap-2 px-4 py-2 rounded-lg bg-background/80 backdrop-blur border border-border text-foreground hover:bg-background/90 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
-        <span className="hidden sm:inline">Home</span>
+        <span className="hidden sm:inline">{t('auth.home')}</span>
       </button>
+
+      <div className="fixed top-4 right-4 z-50">
+        <LanguageSwitcher />
+      </div>
 
       {/* Left Side - Branding */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-hero relative overflow-hidden">
@@ -540,7 +551,7 @@ const Auth = () => {
             className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Voltar</span>
+            <span>{t('auth.back')}</span>
           </button>
 
           {/* User Type Badge */}
@@ -555,14 +566,14 @@ const Auth = () => {
             </div>
             <div>
               <h2 className="text-xl font-display font-bold text-foreground">
-                {selectedUserType === "student" ? "Área do Aluno" :
-                  selectedUserType === "admin" ? "Área Administrativa" :
-                    "Super Administrador"}
+                {selectedUserType === "student" ? t('auth.student_portal') :
+                  selectedUserType === "admin" ? t('auth.admin_types.admin') :
+                    t('auth.admin_types.super_admin')}
               </h2>
               <p className="text-sm text-muted-foreground">
-                {selectedUserType === "student" ? "Acesse sua conta de estudante" :
-                  selectedUserType === "admin" ? "Gerencie a plataforma" :
-                    "Acesso total ao sistema"}
+                {selectedUserType === "student" ? t('auth.student_access') :
+                  selectedUserType === "admin" ? t('auth.admin_types.admin_desc') :
+                    t('auth.admin_types.super_admin_desc')}
               </p>
             </div>
           </div>
@@ -570,24 +581,24 @@ const Auth = () => {
           {selectedUserType === "student" ? (
             <Tabs defaultValue="login" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="login">Entrar</TabsTrigger>
-                <TabsTrigger value="signup">Cadastrar</TabsTrigger>
+                <TabsTrigger value="login">{t('auth.login_tab')}</TabsTrigger>
+                <TabsTrigger value="signup">{t('auth.signup_tab')}</TabsTrigger>
               </TabsList>
 
               {/* Login Tab */}
               <TabsContent value="login">
                 <Card className="border-0 shadow-xl">
                   <CardHeader className="space-y-1 pb-4">
-                    <CardTitle className="text-xl font-display">Entrar</CardTitle>
+                    <CardTitle className="text-xl font-display">{t('auth.login_title')}</CardTitle>
                     <CardDescription>
-                      Digite suas credenciais para acessar a plataforma
+                      {t('auth.login_desc')}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <form onSubmit={handleLogin} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="login-email" className="text-sm font-medium">
-                          Email
+                          {t('auth.email_label')}
                         </Label>
                         <div className="relative">
                           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -606,13 +617,13 @@ const Auth = () => {
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
                           <Label htmlFor="login-password" className="text-sm font-medium">
-                            Senha
+                            {t('auth.password_label')}
                           </Label>
                           <button
                             type="button"
                             className="text-xs text-primary hover:underline"
                           >
-                            Esqueceu a senha?
+                            {t('auth.forgot_password')}
                           </button>
                         </div>
                         <div className="relative">
@@ -648,11 +659,11 @@ const Auth = () => {
                         {loading ? (
                           <div className="flex items-center gap-2">
                             <div className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
-                            Entrando...
+                            {t('auth.entering')}
                           </div>
                         ) : (
                           <div className="flex items-center gap-2">
-                            Entrar
+                            {t('auth.enter_button')}
                             <ArrowRight className="h-4 w-4" />
                           </div>
                         )}
@@ -666,16 +677,16 @@ const Auth = () => {
               <TabsContent value="signup">
                 <Card className="border-0 shadow-xl">
                   <CardHeader className="space-y-1 pb-4">
-                    <CardTitle className="text-xl font-display">Criar Conta</CardTitle>
+                    <CardTitle className="text-xl font-display">{t('auth.signup_title')}</CardTitle>
                     <CardDescription>
-                      Preencha seus dados para se cadastrar
+                      {t('auth.signup_desc')}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <form onSubmit={handleSignup} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="fullName" className="text-sm font-medium">
-                          Nome Completo
+                          {t('auth.fullname_label')}
                         </Label>
                         <div className="relative">
                           <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -693,7 +704,7 @@ const Auth = () => {
 
                       <div className="space-y-2">
                         <Label htmlFor="signup-email" className="text-sm font-medium">
-                          Email
+                          {t('auth.email_label')}
                         </Label>
                         <div className="relative">
                           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -712,7 +723,7 @@ const Auth = () => {
                       <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-2">
                           <Label htmlFor="cpf" className="text-sm font-medium">
-                            CPF
+                            {t('auth.cpf_label')}
                           </Label>
                           <Input
                             id="cpf"
@@ -727,7 +738,7 @@ const Auth = () => {
 
                         <div className="space-y-2">
                           <Label htmlFor="phone" className="text-sm font-medium">
-                            Telefone
+                            {t('auth.phone_label')}
                           </Label>
                           <div className="relative">
                             <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -746,31 +757,31 @@ const Auth = () => {
 
                       <div className="space-y-2">
                         <Label htmlFor="education" className="text-sm font-medium">
-                          Nível de Escolaridade
+                          {t('auth.education_label')}
                         </Label>
                         <Select value={educationLevel} onValueChange={(v) => setEducationLevel(v as EducationLevel)}>
                           <SelectTrigger className="h-11">
                             <div className="flex items-center gap-2">
                               <GraduationCap className="h-4 w-4 text-muted-foreground" />
-                              <SelectValue placeholder="Selecione" />
+                              <SelectValue placeholder={t('auth.select_placeholder')} />
                             </div>
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="fundamental">Ensino Fundamental</SelectItem>
-                            <SelectItem value="medio">Ensino Médio</SelectItem>
-                            <SelectItem value="superior">Ensino Superior</SelectItem>
-                            <SelectItem value="pos_graduacao">Pós-Graduação</SelectItem>
+                            <SelectItem value="fundamental">{t('auth.education_levels.fundamental')}</SelectItem>
+                            <SelectItem value="medio">{t('auth.education_levels.medio')}</SelectItem>
+                            <SelectItem value="superior">{t('auth.education_levels.superior')}</SelectItem>
+                            <SelectItem value="pos_graduacao">{t('auth.education_levels.pos_graduacao')}</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
 
                       <div className="space-y-2">
-                        <Label className="text-sm font-medium">Polo</Label>
+                        <Label className="text-sm font-medium">{t('auth.polo_label')}</Label>
                         <Select value={poloId} onValueChange={setPoloId}>
                           <SelectTrigger className="h-11">
                             <div className="flex items-center gap-2">
                               <Building2 className="h-4 w-4 text-muted-foreground" />
-                              <SelectValue placeholder="Selecione seu polo" />
+                              <SelectValue placeholder={t('auth.polo_placeholder')} />
                             </div>
                           </SelectTrigger>
                           <SelectContent>
@@ -782,7 +793,7 @@ const Auth = () => {
                       </div>
 
                       <div className="space-y-2">
-                        <Label className="text-sm font-medium">Selfie (obrigatório)</Label>
+                        <Label className="text-sm font-medium">{t('auth.selfie_label')}</Label>
                         {!selfieData ? (
                           <div className="space-y-2">
                             {showCamera ? (
@@ -790,13 +801,13 @@ const Auth = () => {
                                 <video ref={videoRef} autoPlay playsInline muted className="w-full aspect-[4/3] object-cover" style={{ transform: "scaleX(-1)" }} />
                                 <canvas ref={canvasRef} className="hidden" />
                                 <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
-                                  <Button type="button" size="sm" onClick={capturePhoto}><Camera className="h-4 w-4 mr-1" />Capturar</Button>
-                                  <Button type="button" size="sm" variant="outline" onClick={stopCamera}>Cancelar</Button>
+                                  <Button type="button" size="sm" onClick={capturePhoto}><Camera className="h-4 w-4 mr-1" />{t('auth.capture_button')}</Button>
+                                  <Button type="button" size="sm" variant="outline" onClick={stopCamera}>{t('auth.cancel_button')}</Button>
                                 </div>
                               </div>
                             ) : (
                               <Button type="button" variant="outline" className="w-full h-20 gap-2" onClick={startCamera}>
-                                <Camera className="h-5 w-5" />Tirar Selfie
+                                <Camera className="h-5 w-5" />{t('auth.take_selfie_button')}
                               </Button>
                             )}
                           </div>
@@ -864,16 +875,16 @@ const Auth = () => {
             // Admin/Super Admin Login Only
             <Card className="border-0 shadow-xl">
               <CardHeader className="space-y-1 pb-4">
-                <CardTitle className="text-xl font-display">Entrar</CardTitle>
+                <CardTitle className="text-xl font-display">{t('auth.login_admin_title')}</CardTitle>
                 <CardDescription>
-                  Digite suas credenciais de {selectedUserType === "admin" ? "administrador" : "super administrador"}
+                  {t('auth.login_admin_desc', { role: selectedUserType === "admin" ? t('auth.role_admin') : t('auth.role_super_admin') })}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleLogin} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="login-email" className="text-sm font-medium">
-                      Email
+                      {t('auth.email_label')}
                     </Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -892,7 +903,7 @@ const Auth = () => {
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <Label htmlFor="login-password" className="text-sm font-medium">
-                        Senha
+                        {t('auth.password_label')}
                       </Label>
                     </div>
                     <div className="relative">
@@ -931,11 +942,11 @@ const Auth = () => {
                     {loading ? (
                       <div className="flex items-center gap-2">
                         <div className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
-                        Entrando...
+                        {t('auth.entering')}
                       </div>
                     ) : (
                       <div className="flex items-center gap-2">
-                        Entrar
+                        {t('auth.enter_button')}
                         <ArrowRight className="h-4 w-4" />
                       </div>
                     )}
@@ -946,13 +957,13 @@ const Auth = () => {
           )}
 
           <p className="text-center text-xs text-muted-foreground">
-            Ao continuar, você concorda com nossos{" "}
+            {t('auth.terms_text')}{" "}
             <a href="#" className="text-primary hover:underline">
-              Termos de Uso
+              {t('auth.terms_link')}
             </a>{" "}
-            e{" "}
+            {t('auth.and')}{" "}
             <a href="#" className="text-primary hover:underline">
-              Política de Privacidade
+              {t('auth.privacy_link')}
             </a>
           </p>
         </div>

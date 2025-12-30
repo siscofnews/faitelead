@@ -382,27 +382,33 @@
   "board": {
     "badge": "AUTORIDADE E EXPANSÃO GLOBAL",
     "title": "ALTA DIRETORIA INTERNACIONAL",
-    "description": "Uma liderança visionária e ungida, divinamente estabelecida para romper fronteiras e governar a expansão do ensino teológico na Europa e nas nações. Homens e mulheres de autoridade, estrategicamente posicionados para edificar o Reino com excelência e poder.",
+    "description": "Uma liderança visionária e ungida, estabelecida divinamente para romper fronteiras e governar a expansão do ensino teológico na Europa e nas nações. Homens e mulheres de autoridade, posicionados estrategicamente para edificar o Reino com excelência e poder.",
     "etienne": {
-      "name": "Pr. Bacharel Etienne Claude dos Santos de Souza",
+      "name": "Pr. B.A. Etienne Claude dos Santos de Souza",
       "role": "Diretor Presidente Internacional",
       "desc": "Responsável pela representação legal da FAITEL Europa, pela condução da visão estratégica, pela expansão institucional em território europeu e pela fidelidade ao projeto acadêmico e espiritual confiado."
     },
     "handerson": {
-      "name": "Pr. Bacharel José Handerson Costa de Oliveira",
+      "name": "Pr. B.A. José Handerson Costa de Oliveira",
       "role": "Diretor Vice-Presidente Internacional",
-      "desc": "Responsável pelo suporte direto à presidência, pela gestão administrativa dos núcleos, coordenação operacional e acompanhamento dos polos de ensino."
+      "desc": "Liderança estratégica para implementação de novos polos."
     },
     "leonardo": {
-      "name": "Pr. Bacharel José Léonardo Kohpcke",
+      "name": "Pr. B.A. José Léonardo Kohpcke",
       "role": "Diretor Vice-Presidente Internacional",
-      "desc": "Responsável pelo suporte à presidência, relações institucionais, representatividade internacional e fortalecimento da identidade teológica da FAITEL na Europa."
+      "desc": "Coordenação de parcerias e relações institucionais na Europa."
     },
     "haila": {
       "name": "Pra. Haila Menezes",
       "role": "Diretora Secretária Internacional",
       "desc": "Responsável pelo registro acadêmico, controle documental, atas oficiais, emissão e guarda de diplomas, além da organização da Secretaria Geral Internacional."
     }
+  },
+  "translation_team": {
+    "badge": "EQUIPE TÉCNICA",
+    "title": "CORREÇÃO E TRADUÇÃO",
+    "description": "Nossa equipe dedicada de especialistas responsáveis por garantir a excelência e precisão em todas as nossas traduções e materiais didáticos.",
+    "names": "Glebenice Costa Ribeiro, Jacob Ampion Leon, Nduwayo Alexis, Elionay de Souza Leitão, Kartodimedjo Noah, Courreur Samya"
   },
   "recognition": {
     "badge": "INSTITUIÇÃO RECONHECIDA",
@@ -470,5 +476,105 @@
       "lessons_year": "Lições/Ano",
       "price_unit": "Euros/Revista"
     }
+  },
+  "course_viewer": {
+    "module_locked": "Módulo Bloqueado!",
+    "unlock_requirement": "Complete todas as aulas e passe na prova do módulo \"{{moduleTitle}}\" com pelo menos 70% para desbloquear.",
+    "load_error": "Erro ao carregar o curso",
+    "certificate_earned": "🎉 Parabéns! Certificado emitido automaticamente!",
+    "certificate_desc": "Acesse sua área de certificados para visualizar.",
+    "view_certificate": "Ver Certificado",
+    "back_to_modules": "Voltar aos Módulos",
+    "modules": "Módulos",
+    "finish_lesson": "Concluir Aula",
+    "next_lesson": "Próxima Aula",
+    "previous_lesson": "Aula Anterior",
+    "search_lesson_placeholder": "Pesquisar aula...",
+    "video_lesson": "Vídeo Aula",
+    "playing": "Tocando",
+    "select_lesson_prompt": "Selecione uma aula para assistir",
+    "toggle_sidebar_open": "Abrir lista de aulas",
+    "toggle_sidebar_close": "Fechar lista de aulas",
+    "module_completed_title": "Parabéns! Você concluiu todas as aulas deste módulo.",
+    "module_completed_desc": "Agora faça a prova para desbloquear o próximo módulo. Você precisa de 70% para ser aprovado.",
+    "next_module_locked": "Próximo módulo bloqueado!",
+    "next_module_locked_desc": "Complete a prova deste módulo com pelo menos 70% para continuar.",
+    "save_progress_error": "Erro ao salvar progresso",
+    "lesson_completed": "Aula marcada como concluída!",
+    "locked_module_msg": "Módulo Bloqueado"
+  },
+  "video": {
+    "not_available": "Vídeo não disponível",
+    "not_configured": "Este vídeo ainda não foi configurado ou o link está indisponível.",
+    "loading": "Carregando player..."
+  },
+  "auth": {
+    "camera_error": "Não foi possível acessar a câmera",
+    "photo_captured": "Foto capturada!",
+    "login_success": "Login realizado com sucesso!",
+    "access_denied_super_admin": "Acesso negado. Você não é um Super Administrador.",
+    "access_denied_admin": "Acesso negado. Você não é um Administrador.",
+    "login_error": "Erro ao fazer login",
+    "signup_success": "Cadastro realizado! Aguarde a aprovação do seu diretor de polo.",
+    "signup_error": "Erro ao criar conta",
+    "cpf_invalid": "CPF deve conter 11 dígitos",
+    "photo_required": "Por favor, tire uma selfie ou envie uma foto",
+    "polo_required": "Por favor, selecione um polo",
+    "no_photo": "Nenhuma foto fornecida",
+    "welcome_title": "Bem-vindo à FAITEL",
+    "welcome_subtitle": "Selecione o tipo de acesso para continuar",
+    "student_portal": "Portal do Aluno",
+    "student_access": "Acesso exclusivo para estudantes",
+    "admin_portal": "Administradores",
+    "admin_access": "Acesso administrativo e gerenciamento",
+    "admin_select_level": "Selecione seu nível de acesso administrativo",
+    "profile_select_prompt": "Escolha seu perfil para acessar as funcionalidades corretas",
+    "back": "Voltar",
+    "home": "Home",
+    "login_tab": "Entrar",
+    "signup_tab": "Cadastrar",
+    "login_title": "Entrar",
+    "login_desc": "Digite suas credenciais para acessar a plataforma",
+    "email_label": "Email",
+    "password_label": "Senha",
+    "forgot_password": "Esqueceu a senha?",
+    "enter_button": "Entrar",
+    "entering": "Entrando...",
+    "signup_title": "Criar Conta",
+    "signup_desc": "Preencha seus dados para se cadastrar",
+    "fullname_label": "Nome Completo",
+    "cpf_label": "CPF",
+    "phone_label": "Telefone",
+    "education_label": "Nível de Escolaridade",
+    "select_placeholder": "Selecione",
+    "polo_label": "Polo",
+    "polo_placeholder": "Selecione seu polo",
+    "selfie_label": "Selfie (obrigatório)",
+    "capture_button": "Capturar",
+    "cancel_button": "Cancelar",
+    "take_selfie_button": "Tirar Selfie",
+    "or_upload": "Ou envie uma foto",
+    "register_button": "Cadastrar",
+    "registering": "Cadastrando...",
+    "education_levels": {
+      "fundamental": "Ensino Fundamental",
+      "medio": "Ensino Médio",
+      "superior": "Ensino Superior",
+      "pos_graduacao": "Pós-Graduação"
+    },
+    "admin_types": {
+      "admin": "Administrador",
+      "admin_desc": "Gerenciamento da plataforma",
+      "super_admin": "Super Administrador",
+      "super_admin_desc": "Acesso total ao sistema"
+    },
+    "login_admin_title": "Entrar",
+    "login_admin_desc": "Digite suas credenciais de {{role}}",
+    "role_admin": "administrador",
+    "role_super_admin": "super administrador",
+    "terms_text": "Ao continuar, você concorda com nossos",
+    "terms_link": "Termos de Uso",
+    "and": "e",
+    "privacy_link": "Política de Privacidade"
   }
 }

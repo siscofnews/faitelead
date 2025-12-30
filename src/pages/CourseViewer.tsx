@@ -119,8 +119,8 @@ const CourseViewer = () => {
     // Check if module is locked
     if (isModuleLocked(moduleIndex)) {
       const prevModule = modules[moduleIndex - 1];
-      toast.error("Módulo Bloqueado!", {
-        description: `Complete todas as aulas e passe na prova do módulo "${prevModule.title}" com pelo menos 70% para desbloquear.`,
+      toast.error(t('course_viewer.module_locked'), {
+        description: t('course_viewer.unlock_requirement', { moduleTitle: prevModule.title }),
         duration: 5000
       });
       return;
@@ -270,7 +270,7 @@ const CourseViewer = () => {
       setLoading(false);
     } catch (error) {
       console.error("Error loading course:", error);
-      toast.error("Erro ao carregar o curso");
+      toast.error(t('course_viewer.load_error'));
       setLoading(false);
     }
   };
@@ -307,11 +307,11 @@ const CourseViewer = () => {
         }
 
         if (data?.certificate) {
-          toast.success("🎉 Parabéns! Certificado emitido automaticamente!", {
-            description: "Acesse sua área de certificados para visualizar.",
+          toast.success(t('course_viewer.certificate_earned'), {
+            description: t('course_viewer.certificate_desc'),
             duration: 8000,
             action: {
-              label: "Ver Certificado",
+              label: t('course_viewer.view_certificate'),
               onClick: () => navigate(`/certificate/${data.certificate.id}`)
             }
           });
@@ -419,7 +419,7 @@ const CourseViewer = () => {
         return next;
       });
 
-      toast.success("Aula marcada como concluída!");
+      toast.success(t('course_viewer.lesson_completed'));
 
       // Record gamification progress
       await recordLessonCompletion(user.id);
@@ -438,7 +438,7 @@ const CourseViewer = () => {
       goToNextLesson();
     } catch (error) {
       console.error("Error marking lesson complete:", error);
-      toast.error("Erro ao salvar progresso");
+      toast.error(t('course_viewer.save_progress_error'));
     }
   };
 
@@ -455,8 +455,8 @@ const CourseViewer = () => {
 
       if (allLessonsCompleted && (!examStatus || !examStatus.passed)) {
         // Show prompt to take exam
-        toast.info("Parabéns! Você concluiu todas as aulas deste módulo.", {
-          description: "Agora faça a prova para desbloquear o próximo módulo. Você precisa de 70% para ser aprovado.",
+        toast.info(t('course_viewer.module_completed_title'), {
+          description: t('course_viewer.module_completed_desc'),
           duration: 8000
         });
         return;
@@ -465,8 +465,8 @@ const CourseViewer = () => {
       // Try to go to next module
       if (currentModuleIndex < modules.length - 1) {
         if (isModuleLocked(currentModuleIndex + 1)) {
-          toast.warning("Próximo módulo bloqueado!", {
-            description: "Complete a prova deste módulo com pelo menos 70% para continuar.",
+          toast.warning(t('course_viewer.next_module_locked'), {
+            description: t('course_viewer.next_module_locked_desc'),
             duration: 5000
           });
           return;
@@ -498,7 +498,7 @@ const CourseViewer = () => {
       <div className="min-h-screen flex items-center justify-center bg-gradient-hero">
         <div className="text-center space-y-4">
           <div className="w-20 h-20 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="text-primary-foreground text-xl font-display">Carregando curso...</p>
+          <p className="text-primary-foreground text-xl font-display">{t('common.loading')}</p>
         </div>
       </div>
     );
@@ -510,7 +510,7 @@ const CourseViewer = () => {
       <div className="min-h-screen bg-background">
         <header className="h-16 bg-card border-b border-border flex items-center justify-between px-4 sticky top-0 z-50">
           <Button variant="ghost" size="sm" onClick={() => navigate("/student")} className="gap-2">
-            <ChevronLeft className="h-4 w-4" /> Voltar
+            <ChevronLeft className="h-4 w-4" /> {t('common.back')}
           </Button>
           <span className="font-display font-bold text-lg">{course?.title}</span>
           <div className="w-10" /> {/* Spacer */}
@@ -588,7 +588,7 @@ const CourseViewer = () => {
             className="gap-2"
           >
             <ChevronLeft className="h-4 w-4" />
-            <span className="hidden sm:inline">Módulos</span>
+            <span className="hidden sm:inline">{t('course_viewer.modules')}</span>
           </Button>
 
           <div className="hidden md:flex items-center gap-2">
@@ -607,7 +607,7 @@ const CourseViewer = () => {
             size="icon"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             className="hidden lg:flex"
-            title={isSidebarOpen ? "Fechar lista de aulas" : "Abrir lista de aulas"}
+            title={isSidebarOpen ? t('course_viewer.toggle_sidebar_close') : t('course_viewer.toggle_sidebar_open')}
           >
             {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
@@ -644,7 +644,7 @@ const CourseViewer = () => {
               className="bg-gradient-primary gap-2"
             >
               <CheckCircle2 className="h-4 w-4" />
-              <span className="hidden sm:inline">Concluir Aula</span>
+              <span className="hidden sm:inline">{t('course_viewer.finish_lesson')}</span>
             </Button>
           ) : (
             <Button
@@ -652,7 +652,7 @@ const CourseViewer = () => {
               onClick={goToNextLesson}
               className="bg-gradient-primary gap-2"
             >
-              <span className="hidden sm:inline">Próxima Aula</span>
+              <span className="hidden sm:inline">{t('course_viewer.next_lesson')}</span>
               <ChevronRight className="h-4 w-4" />
             </Button>
           )}
@@ -664,7 +664,7 @@ const CourseViewer = () => {
         <aside className={`w-96 bg-card border-r border-border flex flex-col transition-all duration-300 ${isSidebarOpen ? '' : 'w-0 opacity-0 overflow-hidden'}`}>
           <div className="p-4 border-b border-border bg-muted/30 flex items-center justify-between">
             <Button variant="ghost" size="sm" onClick={() => navigate("/student")} className="gap-2 text-muted-foreground hover:text-primary p-0">
-              <ChevronLeft className="h-4 w-4" /> VOLTAR
+              <ChevronLeft className="h-4 w-4" /> {t('common.back').toUpperCase()}
             </Button>
             <span className="text-xs font-bold bg-primary/10 text-primary px-2 py-1 rounded">
               {completedLessons.size}/{modules.reduce((acc, m) => acc + m.lessons.length, 0)}
@@ -676,7 +676,7 @@ const CourseViewer = () => {
             <div className="relative mt-4 mb-2">
               <input
                 type="text"
-                placeholder="Pesquisar aula..."
+                placeholder={t('course_viewer.search_lesson_placeholder')}
                 className="w-full bg-muted/50 border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary/50"
               />
             </div>
@@ -712,11 +712,11 @@ const CourseViewer = () => {
                       </p>
                       <div className="flex items-center justify-between mt-1">
                         <span className={`text-xs ${isActive ? "text-white/80" : "text-muted-foreground"}`}>
-                          Vídeo Aula
+                          {t('course_viewer.video_lesson')}
                         </span>
                         {isActive && (
                           <span className="text-[10px] font-bold uppercase tracking-wider bg-white/20 px-1.5 py-0.5 rounded text-white">
-                            Tocando
+                            {t('course_viewer.playing')}
                           </span>
                         )}
                       </div>
@@ -786,7 +786,7 @@ const CourseViewer = () => {
                     className="w-40 h-40 object-contain mx-auto opacity-80"
                   />
                   <p className="text-primary-foreground/80 text-lg font-display">
-                    Selecione uma aula para assistir
+                    {t('course_viewer.select_lesson_prompt')}
                   </p>
                 </div>
               </div>
