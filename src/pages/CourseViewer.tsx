@@ -5,12 +5,12 @@ import { api } from "@/lib/api";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next"; // Import useTranslation
 import { useGamification } from "@/hooks/useGamification";
-import { 
-  ChevronLeft,  
-  ChevronRight, 
-  Menu, 
-  X, 
-  Download, 
+import {
+  ChevronLeft,
+  ChevronRight,
+  Menu,
+  X,
+  Download,
   BookOpen,
   CheckCircle2,
   Circle,
@@ -89,6 +89,7 @@ const CourseViewer = () => {
   const [notes, setNotes] = useState("");
   const [moduleExamStatus, setModuleExamStatus] = useState<Map<string, ModuleExamStatus>>(new Map());
   const [watchedTime, setWatchedTime] = useState<Map<string, number>>(new Map());
+  const [lastWatchedPosition, setLastWatchedPosition] = useState<Map<string, number>>(new Map());
   const [showModuleMenu, setShowModuleMenu] = useState(true); // Control module selection menu visibility
   const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null); // For handling multiple videos in materials
 
@@ -148,7 +149,7 @@ const CourseViewer = () => {
   const loadCourseData = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      
+
       if (!user) {
         navigate("/auth");
         return;
@@ -199,12 +200,17 @@ const CourseViewer = () => {
 
         // Build watched time map
         const timeMap = new Map<string, number>();
+        const positionMap = new Map<string, number>();
         progressData.forEach(p => {
           if (p.watched_seconds) {
             timeMap.set(p.lesson_id, p.watched_seconds);
           }
+          if (p.last_position) {
+            positionMap.set(p.lesson_id, p.last_position);
+          }
         });
         setWatchedTime(timeMap);
+        setLastWatchedPosition(positionMap);
       }
 
       // Load exam submissions for each module to check pass status
@@ -224,10 +230,10 @@ const CourseViewer = () => {
 
         // Build module exam status map
         const examStatusMap = new Map<string, ModuleExamStatus>();
-        
+
         sortedModules.forEach(module => {
           const moduleExams = examsData.filter(e => e.module_id === module.id);
-          const moduleSubmissions = submissions?.filter(s => 
+          const moduleSubmissions = submissions?.filter(s =>
             moduleExams.some(e => e.id === s.exam_id)
           ) || [];
 
@@ -248,9 +254,17 @@ const CourseViewer = () => {
         setModuleExamStatus(examStatusMap);
       }
 
-      // Set first lesson as current (from first unlocked module)
+      // Set first lesson as current and auto-load video
       if (sortedModules.length > 0 && sortedModules[0].lessons.length > 0) {
-        setCurrentLesson(sortedModules[0].lessons[0]);
+        const firstLesson = sortedModules[0].lessons[0];
+        setCurrentLesson(firstLesson);
+        setCurrentModuleIndex(0);
+        setCurrentLessonIndex(0);
+
+        // Auto-load video
+        if (firstLesson.youtube_url) {
+          setActiveVideoUrl(firstLesson.youtube_url);
+        }
       }
 
       setLoading(false);
@@ -264,10 +278,10 @@ const CourseViewer = () => {
   // Check if a module is locked
   const isModuleLocked = (moduleIndex: number): boolean => {
     if (moduleIndex === 0) return false;
-    
+
     const previousModule = modules[moduleIndex - 1];
     if (!previousModule) return false;
-    
+
     const examStatus = moduleExamStatus.get(previousModule.id);
     return !examStatus || !examStatus.passed || (examStatus.score !== null && examStatus.score < 70);
   };
@@ -277,21 +291,21 @@ const CourseViewer = () => {
   const checkAndIssueCertificate = async (userId: string, completedSet: Set<string>) => {
     const totalLessons = modules.reduce((acc, m) => acc + m.lessons.length, 0);
     if (totalLessons === 0) return;
-    
+
     const progress = Math.round((completedSet.size / totalLessons) * 100);
-    
+
     if (progress === 100 && courseId) {
       try {
         console.log("Course completed! Checking certificate eligibility...");
         const { data, error } = await supabase.functions.invoke('auto-certificate', {
           body: { student_id: userId, course_id: courseId }
         });
-        
+
         if (error) {
           console.error("Error calling auto-certificate:", error);
           return;
         }
-        
+
         if (data?.certificate) {
           toast.success("🎉 Parabéns! Certificado emitido automaticamente!", {
             description: "Acesse sua área de certificados para visualizar.",
@@ -338,6 +352,36 @@ const CourseViewer = () => {
     }
   };
 
+  const handleVideoProgress = async (seconds: number) => {
+    if (!currentLesson) return;
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    try {
+      // Update last position in database
+      await supabase
+        .from("lesson_progress")
+        .upsert({
+          student_id: user.id,
+          lesson_id: currentLesson.id,
+          last_position: seconds,
+          watched_seconds: seconds
+        }, {
+          onConflict: "student_id,lesson_id"
+        });
+
+      // Update local state
+      setLastWatchedPosition(prev => {
+        const next = new Map(prev);
+        next.set(currentLesson.id, seconds);
+        return next;
+      });
+    } catch (error) {
+      console.error("Error updating video progress:", error);
+    }
+  };
+
   const markLessonComplete = async () => {
     if (!currentLesson) return;
 
@@ -346,7 +390,7 @@ const CourseViewer = () => {
 
     try {
       const watchedSeconds = (currentLesson.duration_minutes || 0) * 60;
-      
+
       const { error } = await supabase
         .from("lesson_progress")
         .upsert({
@@ -367,14 +411,14 @@ const CourseViewer = () => {
 
       const newCompletedSet = new Set([...completedLessons, currentLesson.id]);
       setCompletedLessons(newCompletedSet);
-      
+
       // Update watched time state
       setWatchedTime(prev => {
         const next = new Map(prev);
         next.set(currentLesson.id, watchedSeconds);
         return next;
       });
-      
+
       toast.success("Aula marcada como concluída!");
 
       // Record gamification progress
@@ -383,11 +427,11 @@ const CourseViewer = () => {
       // Check if course is now 100% complete and issue certificate
       const totalLessons = modules.reduce((acc, m) => acc + m.lessons.length, 0);
       const progress = Math.round((newCompletedSet.size / totalLessons) * 100);
-      
+
       if (progress === 100) {
         await recordCertificateEarned(user.id);
       }
-      
+
       await checkAndIssueCertificate(user.id, newCompletedSet);
 
       // Auto advance to next lesson
@@ -402,13 +446,13 @@ const CourseViewer = () => {
     if (!modules || modules.length === 0) return;
     const currentModule = modules[currentModuleIndex];
     if (!currentModule || !currentModule.lessons) return;
-    
+
     // Check if we're at the last lesson of current module
     if (currentLessonIndex >= currentModule.lessons.length - 1) {
       // Check if all lessons in current module are completed
       const allLessonsCompleted = currentModule.lessons.every(l => completedLessons.has(l.id));
       const examStatus = moduleExamStatus.get(currentModule.id);
-      
+
       if (allLessonsCompleted && (!examStatus || !examStatus.passed)) {
         // Show prompt to take exam
         toast.info("Parabéns! Você concluiu todas as aulas deste módulo.", {
@@ -417,7 +461,7 @@ const CourseViewer = () => {
         });
         return;
       }
-      
+
       // Try to go to next module
       if (currentModuleIndex < modules.length - 1) {
         if (isModuleLocked(currentModuleIndex + 1)) {
@@ -472,7 +516,7 @@ const CourseViewer = () => {
           <div className="w-10" /> {/* Spacer */}
           <LanguageSwitcher />
         </header>
-        
+
         <div className="container mx-auto p-6 grid gap-6">
           <div className="text-center py-8">
             <h1 className="text-3xl font-display font-bold mb-2">{t('course.content')}</h1>
@@ -486,7 +530,7 @@ const CourseViewer = () => {
               const progress = Math.round((completedCount / module.lessons.length) * 100) || 0;
 
               return (
-                <div 
+                <div
                   key={module.id}
                   onClick={() => !isLocked && selectLesson(mIndex, 0)}
                   className={`
@@ -556,62 +600,62 @@ const CourseViewer = () => {
         </div>
 
         <div className="flex items-center gap-2">
-           <LanguageSwitcher />
-           {/* Toggle Sidebar Button */}
-           <Button
-             variant="ghost"
-             size="icon"
-             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-             className="hidden lg:flex"
-             title={isSidebarOpen ? "Fechar lista de aulas" : "Abrir lista de aulas"}
-           >
-             {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-           </Button>
+          <LanguageSwitcher />
+          {/* Toggle Sidebar Button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="hidden lg:flex"
+            title={isSidebarOpen ? "Fechar lista de aulas" : "Abrir lista de aulas"}
+          >
+            {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </Button>
 
-           {/* Navigation Controls in Header */}
-           <div className="flex items-center gap-2 mr-2">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={goToPreviousLesson}
-                disabled={currentModuleIndex === 0 && currentLessonIndex === 0}
-                className="h-9 w-9"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={goToNextLesson}
-                disabled={
-                  currentModuleIndex === modules.length - 1 &&
-                  currentLessonIndex === modules[currentModuleIndex]?.lessons.length - 1
-                }
-                className="h-9 w-9"
-              >
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-           </div>
+          {/* Navigation Controls in Header */}
+          <div className="flex items-center gap-2 mr-2">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={goToPreviousLesson}
+              disabled={currentModuleIndex === 0 && currentLessonIndex === 0}
+              className="h-9 w-9"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={goToNextLesson}
+              disabled={
+                currentModuleIndex === modules.length - 1 &&
+                currentLessonIndex === modules[currentModuleIndex]?.lessons.length - 1
+              }
+              className="h-9 w-9"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
 
-           {currentLesson && !completedLessons.has(currentLesson.id) ? (
-              <Button
-                size="sm"
-                onClick={markLessonComplete}
-                className="bg-gradient-primary gap-2"
-              >
-                <CheckCircle2 className="h-4 w-4" />
-                <span className="hidden sm:inline">Concluir Aula</span>
-              </Button>
-            ) : (
-              <Button
-                size="sm"
-                onClick={goToNextLesson}
-                className="bg-gradient-primary gap-2"
-              >
-                <span className="hidden sm:inline">Próxima Aula</span>
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            )}
+          {currentLesson && !completedLessons.has(currentLesson.id) ? (
+            <Button
+              size="sm"
+              onClick={markLessonComplete}
+              className="bg-gradient-primary gap-2"
+            >
+              <CheckCircle2 className="h-4 w-4" />
+              <span className="hidden sm:inline">Concluir Aula</span>
+            </Button>
+          ) : (
+            <Button
+              size="sm"
+              onClick={goToNextLesson}
+              className="bg-gradient-primary gap-2"
+            >
+              <span className="hidden sm:inline">Próxima Aula</span>
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       </header>
 
@@ -620,100 +664,97 @@ const CourseViewer = () => {
         <aside className={`w-96 bg-card border-r border-border flex flex-col transition-all duration-300 ${isSidebarOpen ? '' : 'w-0 opacity-0 overflow-hidden'}`}>
           <div className="p-4 border-b border-border bg-muted/30 flex items-center justify-between">
             <Button variant="ghost" size="sm" onClick={() => navigate("/student")} className="gap-2 text-muted-foreground hover:text-primary p-0">
-               <ChevronLeft className="h-4 w-4" /> VOLTAR
+              <ChevronLeft className="h-4 w-4" /> VOLTAR
             </Button>
             <span className="text-xs font-bold bg-primary/10 text-primary px-2 py-1 rounded">
-               {completedLessons.size}/{modules.reduce((acc, m) => acc + m.lessons.length, 0)}
+              {completedLessons.size}/{modules.reduce((acc, m) => acc + m.lessons.length, 0)}
             </span>
           </div>
-          
+
           <div className="p-4 pb-2">
-             <h2 className="font-display font-bold text-lg leading-tight">{currentLesson?.title}</h2>
-             <div className="relative mt-4 mb-2">
-                <input 
-                  type="text" 
-                  placeholder="Pesquisar aula..." 
-                  className="w-full bg-muted/50 border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary/50"
-                />
-             </div>
+            <h2 className="font-display font-bold text-lg leading-tight">{currentLesson?.title}</h2>
+            <div className="relative mt-4 mb-2">
+              <input
+                type="text"
+                placeholder="Pesquisar aula..."
+                className="w-full bg-muted/50 border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary/50"
+              />
+            </div>
           </div>
 
           <ScrollArea className="flex-1">
             <div className="p-3 space-y-2">
               {/* Show all materials that are videos as lessons in the list */}
-              {modules[currentModuleIndex]?.module_materials?.filter(m => m.material_type === 'video' || m.youtube_url || (m.file_url && (m.file_url.includes('youtube') || m.file_url.includes('youtu.be')))).map((video, idx) => {
-                 const videoUrl = video.youtube_url || video.file_url;
-                 const isActive = activeVideoUrl === videoUrl;
-                 
-                 return (
-                 <button
-                  key={video.id}
-                  onClick={() => {
-                     setActiveVideoUrl(videoUrl);
-                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className={`w-full flex items-center gap-3 p-3 text-left rounded-lg transition-all border ${
-                    isActive
-                      ? "bg-primary text-primary-foreground border-primary shadow-md" 
+              {modules[currentModuleIndex]?.module_materials?.filter(m => m.material_type === 'video' || m.youtube_url || (m.file_url && (m.file_url.includes('youtube') || m.file_url.includes('youtu.be') || m.file_url.match(/\.(mp4|webm|ogg|mov)(\?|$)/i)))).map((video, idx) => {
+                const videoUrl = video.youtube_url || video.file_url;
+                const isActive = activeVideoUrl === videoUrl;
+
+                return (
+                  <button
+                    key={video.id}
+                    onClick={() => {
+                      setActiveVideoUrl(videoUrl);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className={`w-full flex items-center gap-3 p-3 text-left rounded-lg transition-all border ${isActive
+                      ? "bg-primary text-primary-foreground border-primary shadow-md"
                       : "bg-card hover:bg-muted border-border"
-                  }`}
-                >
-                  <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                     isActive ? "bg-white/20 text-white" : "bg-primary/10 text-primary"
-                  }`}>
-                    {isActive ? <Play className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4" />}
-                  </div>
-                  
-                  <div className="flex-1 min-w-0">
-                    <p className={`text-sm font-semibold line-clamp-2 ${isActive ? "text-white" : "text-foreground"}`}>
-                      {video.title}
-                    </p>
-                    <div className="flex items-center justify-between mt-1">
-                       <span className={`text-xs ${isActive ? "text-white/80" : "text-muted-foreground"}`}>
-                          Vídeo Aula
-                       </span>
-                       {isActive && (
-                          <span className="text-[10px] font-bold uppercase tracking-wider bg-white/20 px-1.5 py-0.5 rounded text-white">
-                             Tocando
-                          </span>
-                       )}
+                      }`}
+                  >
+                    <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${isActive ? "bg-white/20 text-white" : "bg-primary/10 text-primary"
+                      }`}>
+                      {isActive ? <Play className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4" />}
                     </div>
-                  </div>
-                </button>
-              )})}
+
+                    <div className="flex-1 min-w-0">
+                      <p className={`text-sm font-semibold line-clamp-2 ${isActive ? "text-white" : "text-foreground"}`}>
+                        {video.title}
+                      </p>
+                      <div className="flex items-center justify-between mt-1">
+                        <span className={`text-xs ${isActive ? "text-white/80" : "text-muted-foreground"}`}>
+                          Vídeo Aula
+                        </span>
+                        {isActive && (
+                          <span className="text-[10px] font-bold uppercase tracking-wider bg-white/20 px-1.5 py-0.5 rounded text-white">
+                            Tocando
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </button>
+                )
+              })}
 
               {/* Regular Lessons */}
               {modules[currentModuleIndex]?.lessons.map((lesson, idx) => (
                 <button
                   key={lesson.id}
                   onClick={() => selectLesson(currentModuleIndex, idx)}
-                  className={`w-full flex items-center gap-3 p-3 text-left rounded-lg transition-all border ${
-                    currentLesson?.id === lesson.id && !activeVideoUrl
-                      ? "bg-primary text-primary-foreground border-primary shadow-md" 
-                      : "bg-card hover:bg-muted border-border"
-                  }`}
+                  className={`w-full flex items-center gap-3 p-3 text-left rounded-lg transition-all border ${currentLesson?.id === lesson.id && !activeVideoUrl
+                    ? "bg-primary text-primary-foreground border-primary shadow-md"
+                    : "bg-card hover:bg-muted border-border"
+                    }`}
                 >
-                  <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                     currentLesson?.id === lesson.id && !activeVideoUrl ? "bg-white/20 text-white" : "bg-muted text-muted-foreground"
-                  }`}>
+                  <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${currentLesson?.id === lesson.id && !activeVideoUrl ? "bg-white/20 text-white" : "bg-muted text-muted-foreground"
+                    }`}>
                     {completedLessons.has(lesson.id) ? (
                       <CheckCircle2 className="w-5 h-5" />
                     ) : (
                       <span className="font-bold text-xs">{idx + 1}</span>
                     )}
                   </div>
-                  
+
                   <div className="flex-1 min-w-0">
                     <p className={`text-sm font-semibold line-clamp-2 ${currentLesson?.id === lesson.id && !activeVideoUrl ? "text-white" : "text-foreground"}`}>
                       {lesson.title}
                     </p>
                     <div className="flex items-center justify-between mt-1">
-                       <span className={`text-xs ${currentLesson?.id === lesson.id && !activeVideoUrl ? "text-white/80" : "text-muted-foreground"}`}>
-                          {lesson.duration_minutes} min
-                       </span>
-                       {currentLesson?.id === lesson.id && !activeVideoUrl && (
-                          <Play className="w-3 h-3 fill-current text-white" />
-                       )}
+                      <span className={`text-xs ${currentLesson?.id === lesson.id && !activeVideoUrl ? "text-white/80" : "text-muted-foreground"}`}>
+                        {lesson.duration_minutes} min
+                      </span>
+                      {currentLesson?.id === lesson.id && !activeVideoUrl && (
+                        <Play className="w-3 h-3 fill-current text-white" />
+                      )}
                     </div>
                   </div>
                 </button>
@@ -723,98 +764,111 @@ const CourseViewer = () => {
         </aside>
 
         {/* Main Content (Full Width Video) */}
-        <main className="flex-1 overflow-y-auto bg-black relative flex flex-col">
-           <div className="flex-1 relative flex items-center justify-center bg-black min-h-[400px]">
-              {activeVideoUrl ? (
+        <main className="flex-1 overflow-y-auto bg-background relative">
+          {/* Video Container with Aspect Ratio */}
+          <div className="w-full bg-black">
+            {activeVideoUrl ? (
+              <div className="w-full aspect-video">
                 <VideoPlayer
                   youtubeUrl={activeVideoUrl}
                   title={currentLesson?.title || ""}
                   onComplete={markLessonComplete}
+                  startTime={currentLesson ? lastWatchedPosition.get(currentLesson.id) || 0 : 0}
+                  onProgress={handleVideoProgress}
                 />
-              ) : (
-                 <div className="aspect-video bg-gradient-hero flex items-center justify-center w-full">
-                  <div className="text-center space-y-4 p-8">
-                    <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center mx-auto">
-                      <Play className="w-10 h-10 text-primary-foreground" />
-                    </div>
-                    <p className="text-primary-foreground/80 text-lg font-display">
-                      Selecione uma aula para assistir
-                    </p>
-                  </div>
-                </div>
-              )}
-           </div>
-           
-           {/* Bottom Controls / Info Overlay */}
-           <div className="bg-card border-t border-border p-6">
-              <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
-                 <div className="md:col-span-2 space-y-4">
-                    <h1 className="text-2xl font-display font-bold">{currentLesson?.title}</h1>
-                    <p className="text-muted-foreground text-justify leading-relaxed whitespace-pre-line">{currentLesson?.description}</p>
-                 </div>
-                 
-                 <div className="space-y-4">
-                    <h3 className="font-semibold flex items-center gap-2">
-                      <FileText className="w-4 h-4 text-primary" /> Materiais e Vídeos Extras
-                    </h3>
-                    <div className="grid gap-2">
-                       {/* PDF da Aula */}
-                       {currentLesson?.pdf_url && (
-                         <a 
-                           href={currentLesson.pdf_url} 
-                           target="_blank" 
-                           rel="noopener noreferrer"
-                           className="flex items-center gap-3 p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors group"
-                         >
-                           <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20">
-                             <Download className="w-4 h-4 text-primary" />
-                           </div>
-                           <span className="text-sm font-medium">Baixar PDF da Aula</span>
-                         </a>
-                       )}
-                       
-                       {/* Module Materials (PDFs and Videos) */}
-                       {modules[currentModuleIndex]?.module_materials?.map((mat: any) => {
-                          const isVideo = mat.material_type === 'video' || mat.youtube_url || (mat.file_url && (mat.file_url.includes('youtube') || mat.file_url.includes('youtu.be')));
-                          const videoUrl = mat.youtube_url || mat.file_url;
-                          const isActive = isVideo && activeVideoUrl === videoUrl;
-                          
-                          return (
-                            <div 
-                             key={mat.id}
-                             onClick={() => {
-                               if (isVideo && videoUrl) {
-                                 setActiveVideoUrl(videoUrl);
-                                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                               } else if (mat.file_url) {
-                                 window.open(mat.file_url, "_blank");
-                               }
-                             }}
-                             className={`flex items-center gap-3 p-3 rounded-lg transition-colors group cursor-pointer ${
-                               isActive 
-                                 ? "bg-primary/10 border border-primary/20" 
-                                 : "bg-muted hover:bg-muted/80"
-                             }`}
-                           >
-                             <div className={`w-8 h-8 rounded-full flex items-center justify-center group-hover:bg-primary/20 ${
-                               isActive ? "bg-primary text-primary-foreground" : "bg-primary/10"
-                             }`}>
-                               {isVideo ? <Play className="w-4 h-4 text-primary" /> : <FileText className="w-4 h-4 text-primary" />}
-                             </div>
-                             <div className="flex-1">
-                               <span className={`text-sm font-medium ${isActive ? "text-primary" : ""}`}>{mat.title}</span>
-                               {isVideo && <p className="text-xs text-muted-foreground">Clique para assistir</p>}
-                             </div>
-                             {isVideo && isActive && (
-                               <span className="text-xs font-bold text-primary animate-pulse">Reproduzindo</span>
-                             )}
-                           </div>
-                          );
-                       })}
-                    </div>
-                 </div>
               </div>
-           </div>
+            ) : (
+              <div className="aspect-video bg-gradient-hero flex items-center justify-center w-full">
+                <div className="text-center space-y-4 p-8">
+                  <img
+                    src="/faitel-logo-novo.png"
+                    alt="FAITELEAD"
+                    className="w-40 h-40 object-contain mx-auto opacity-80"
+                  />
+                  <p className="text-primary-foreground/80 text-lg font-display">
+                    Selecione uma aula para assistir
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Bottom Controls / Info Overlay */}
+          <div className="bg-card border-t border-border p-6">
+            <div className="max-w-7xl mx-auto space-y-6">
+              {/* Lesson Title and Description */}
+              <div className="space-y-4">
+                <h1 className="text-2xl font-display font-bold">{currentLesson?.title}</h1>
+                <p className="text-muted-foreground text-justify leading-relaxed whitespace-pre-line">{currentLesson?.description}</p>
+              </div>
+
+              {/* Materiais e Vídeos Extras - Full Width Below Description */}
+              <div className="space-y-4">
+                <h3 className="font-semibold flex items-center gap-2 text-lg">
+                  <FileText className="w-5 h-5 text-primary" /> Materiais e Vídeos Extras
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {/* PDF da Aula */}
+                  {currentLesson?.pdf_url && (
+                    <a
+                      href={currentLesson.pdf_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 p-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors group"
+                    >
+                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 shrink-0">
+                        <Download className="w-5 h-5 text-primary" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold truncate">PDF da Aula</p>
+                        <p className="text-xs text-muted-foreground">Baixar material</p>
+                      </div>
+                    </a>
+                  )}
+
+                  {/* Module Materials (PDFs and Videos) */}
+                  {modules[currentModuleIndex]?.module_materials?.map((mat: any) => {
+                    const isVideo = mat.material_type === 'video' || mat.youtube_url || (mat.file_url && (mat.file_url.includes('youtube') || mat.file_url.includes('youtu.be') || mat.file_url.match(/\.(mp4|webm|ogg|mov)$/i)));
+                    const videoUrl = mat.youtube_url || mat.file_url;
+                    const isActive = isVideo && activeVideoUrl === videoUrl;
+
+                    return (
+                      <div
+                        key={mat.id}
+                        onClick={() => {
+                          if (isVideo && videoUrl) {
+                            setActiveVideoUrl(videoUrl);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          } else if (mat.file_url) {
+                            window.open(mat.file_url, "_blank");
+                          }
+                        }}
+                        className={`flex items-center gap-3 p-3 rounded-lg transition-colors group cursor-pointer ${isActive
+                          ? "bg-primary/10 border border-primary/20"
+                          : "bg-muted hover:bg-muted/80"
+                          }`}
+                      >
+                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${isActive ? "bg-primary text-primary-foreground" : "bg-primary/10"
+                          }`}>
+                          {isVideo ? <Play className="w-5 h-5 text-primary" fill={isActive ? "currentColor" : "none"} /> : <FileText className="w-5 h-5 text-primary" />}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className={`text-sm font-semibold truncate ${isActive ? "text-primary" : ""}`}>{mat.title}</p>
+                          <p className="text-xs text-muted-foreground">{isVideo ? "Vídeo Extra" : "Material PDF"}</p>
+                        </div>
+                        {isVideo && isActive && (
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                            <span className="text-xs font-medium text-primary">Tocando</span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
         </main>
 
 

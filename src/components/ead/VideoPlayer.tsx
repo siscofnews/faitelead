@@ -6,6 +6,8 @@ interface VideoPlayerProps {
   youtubeUrl: string;
   title: string;
   onComplete?: () => void;
+  startTime?: number; // Starting position in seconds
+  onProgress?: (seconds: number) => void; // Called periodically with current time
 }
 
 const extractYoutubeId = (url: string): string | null => {
@@ -32,7 +34,7 @@ declare global {
 }
 
 // VideoPlayer component that handles YouTube and direct file URLs
-const VideoPlayer = ({ youtubeUrl, title, onComplete }: VideoPlayerProps) => {
+const VideoPlayer = ({ youtubeUrl, title, onComplete, startTime = 0, onProgress }: VideoPlayerProps) => {
   const { t } = useI18n();
   const [isLoaded, setIsLoaded] = useState(false);
   const videoId = extractYoutubeId(youtubeUrl);
@@ -81,9 +83,27 @@ const VideoPlayer = ({ youtubeUrl, title, onComplete }: VideoPlayerProps) => {
       playerRef.current = new window.YT.Player(containerRef.current, {
         videoId,
         playerVars: {
-          rel: 0, modestbranding: 1, playsinline: 1
+          autoplay: 0,
+          rel: 0, // Don't show related videos
+          modestbranding: 1, // Hide YouTube logo (mostly)
+          playsinline: 1,
+          controls: 1, // Show controls (needed for playback)
+          iv_load_policy: 3, // Hide annotations
+          showinfo: 0, // Hide title/uploader (deprecated but still helps)
+          fs: 1, // Allow fullscreen (better UX)
+          disablekb: 0, // Allow keyboard controls (better UX)
+          cc_load_policy: 0, // Don't force captions
+          color: 'white', // Use white progress bar (more neutral)
+          enablejsapi: 1, // Enable JS API for better control
+          start: Math.floor(startTime) // Start at specific time
         },
         events: {
+          onReady: (e: any) => {
+            // Seek to start time if specified
+            if (startTime && startTime > 0) {
+              e.target.seekTo(startTime, true);
+            }
+          },
           onStateChange: (e: any) => {
             // 0: ended
             if (e?.data === 0 && typeof onComplete === "function") {
@@ -100,16 +120,38 @@ const VideoPlayer = ({ youtubeUrl, title, onComplete }: VideoPlayerProps) => {
         playerRef.current = null;
       }
     };
-  }, [videoId, onComplete]);
+  }, [videoId, onComplete, startTime]);
+
+  // Track progress periodically for YouTube videos
+  useEffect(() => {
+    if (!videoId || !playerRef.current || !onProgress) return;
+
+    const interval = setInterval(() => {
+      if (playerRef.current && typeof playerRef.current.getCurrentTime === 'function') {
+        try {
+          const currentTime = playerRef.current.getCurrentTime();
+          if (currentTime && currentTime > 0) {
+            onProgress(Math.floor(currentTime));
+          }
+        } catch (err) {
+          console.error('Error getting current time:', err);
+        }
+      }
+    }, 5000); // Every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [videoId, onProgress]);
 
   // If no URL at all
   if (!youtubeUrl) {
     return (
       <div className="aspect-video bg-gradient-hero flex items-center justify-center">
         <div className="text-center space-y-4 p-8">
-          <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center mx-auto">
-            <Play className="w-10 h-10 text-primary-foreground" />
-          </div>
+          <img
+            src="/faitel-logo-novo.png"
+            alt="FAITELEAD"
+            className="w-32 h-32 object-contain mx-auto opacity-80"
+          />
           <p className="text-primary-foreground/80 text-lg font-display">
             {t('video.not_available')}
           </p>
@@ -122,7 +164,7 @@ const VideoPlayer = ({ youtubeUrl, title, onComplete }: VideoPlayerProps) => {
   }
 
   return (
-    <div className="relative aspect-video bg-black group flex items-center justify-center overflow-hidden">
+    <div className="relative w-full aspect-video bg-black group flex items-center justify-center overflow-hidden">
       {/* Loading State */}
       {!isLoaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-gradient-hero z-10">
@@ -135,7 +177,11 @@ const VideoPlayer = ({ youtubeUrl, title, onComplete }: VideoPlayerProps) => {
 
       {/* Logic: If ID exists, generic YouTube player container. Else HTML5 video */}
       {videoId ? (
-        <div ref={containerRef} className="w-full h-full" />
+        <div className="relative w-full h-full">
+          <div ref={containerRef} className="w-full h-full" />
+          {/* Custom overlay to hide YouTube branding in corners */}
+          <div className="absolute top-0 right-0 w-20 h-16 bg-black pointer-events-none z-30" />
+        </div>
       ) : (
         <video
           ref={videoRef}
@@ -143,11 +189,19 @@ const VideoPlayer = ({ youtubeUrl, title, onComplete }: VideoPlayerProps) => {
           className="w-full h-full object-contain"
           controls
           controlsList="nodownload"
+          onTimeUpdate={(e) => {
+            if (onProgress) {
+              onProgress(Math.floor(e.currentTarget.currentTime));
+            }
+          }}
+          onLoadedMetadata={(e) => {
+            if (startTime && startTime > 0) {
+              e.currentTarget.currentTime = startTime;
+            }
+          }}
           onEnded={() => {
             if (onComplete) onComplete();
           }}
-        // Auto-play depending on user preference? usually better not to auto-play or muted
-        // but for consistency with previous behavior, let's leave it to user
         />
       )}
 
