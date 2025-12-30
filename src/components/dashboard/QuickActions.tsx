@@ -52,7 +52,7 @@ const QuickActions = () => {
     <section className="space-y-4">
       <h2 className="text-xl font-display font-bold text-foreground">Acesso Rápido</h2>
       
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-4">
         {actions.map((action, index) => (
           <Link key={index} to={action.href}>
             <Card className="group cursor-pointer card-hover p-4 text-center border-border/50 hover:border-primary/30 h-full">
