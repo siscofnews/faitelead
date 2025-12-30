@@ -399,7 +399,9 @@ const CourseViewer = () => {
   };
 
   const goToNextLesson = () => {
+    if (!modules || modules.length === 0) return;
     const currentModule = modules[currentModuleIndex];
+    if (!currentModule || !currentModule.lessons) return;
     
     // Check if we're at the last lesson of current module
     if (currentLessonIndex >= currentModule.lessons.length - 1) {
