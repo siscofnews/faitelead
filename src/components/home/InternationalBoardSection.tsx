@@ -106,6 +106,7 @@ const InternationalBoardSection = () => {
                   src={member.image}
                   alt={t(member.nameKey)}
                   className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  style={{ objectPosition: member.id === 'handerson' ? 'center 20%' : 'top' }}
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop";
