@@ -208,20 +208,32 @@
       "testing": "Testen...",
       "test_connection": "Verbindung testen",
       "new_student": "Neuer Student",
-      "management_title": "Akademisches Management",
-      "management_desc": "Schnellzugriff auf die wichtigsten Verwaltungsbereiche",
-      "enrollments": "Einschreibungen",
-      "reports": "Berichte",
-      "financial": "Finanzen",
-      "students_management": "Studentenverwaltung",
+      "management": {
+        "title": "Akademisches Management",
+        "desc": "Schneller Zugriff auf wichtige Verwaltungsbereiche",
+        "students": "Studentenverwaltung",
+        "professors": "Professorenverwaltung",
+        "courses": "Kursverwaltung",
+        "enrollments": "Immatrikulationsverwaltung",
+        "reports": "Berichtsverwaltung",
+        "financial": "Finanzverwaltung"
+      },
       "courses_management": "Kursverwaltung",
-      "enrollment_management": "Einschreibungsverwaltung",
-      "reports_management": "Berichtsverwaltung",
-      "financial_management": "Finanzverwaltung",
       "new_course": "Neuer Kurs",
       "new_enrollment": "Neue Einschreibung",
       "generate_report": "Bericht erstellen",
-      "new_transaction": "Neuer Eintrag"
+      "new_transaction": "Neuer Eintrag",
+      "actions": {
+        "reset_demo": "Demo zurücksetzen",
+        "wipe_system": "System bereinigen",
+        "delete_all_courses": "Alle Kurse löschen",
+        "confirm_reset_demo": "Sind Sie sicher, dass Sie die Demodaten zurücksetzen möchten?",
+        "confirm_wipe_system": "Sind Sie sicher, dass Sie das gesamte System bereinigen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+        "edit": "Bearbeiten",
+        "delete": "Löschen",
+        "deactivate": "Deaktivieren",
+        "activate": "Aktivieren"
+      }
     },
     "superadmin": {
       "title": "Super Admin Dashboard",

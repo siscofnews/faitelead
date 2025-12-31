@@ -159,7 +159,7 @@ const AdminDashboard = () => {
           </Button>
           <Button className="bg-gradient-primary gap-2" onClick={() => navigate("/admin/alunos")}>
             <UserPlus className="h-4 w-4" />
-            <span className="hidden sm:inline">{t("dashboards.admin.new_student", { defaultValue: "Novo Aluno" })}</span>
+            <span className="hidden sm:inline">{t("dashboards.admin.students.new", { defaultValue: "Novo Aluno" })}</span>
           </Button>
         </div>
       </div>

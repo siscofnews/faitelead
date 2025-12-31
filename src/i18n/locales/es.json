@@ -101,14 +101,15 @@
       "reports": "Informes",
       "financial": "Financiero",
       "students_management": "Gestión de Estudiantes",
-      "courses_management": "Gestão de Cursos",
+      "courses_management": "Gestión de Cursos",
       "enrollment_management": "Gestión de Matrículas",
       "reports_management": "Gestión de Informes",
       "financial_management": "Gestión Financiera",
-      "new_course": "Nuevo Curso",
-      "new_enrollment": "Nueva Matrícula",
-      "generate_report": "Generar Informe",
-      "new_transaction": "Nuevo Registro"
+      "new_course": "Nuevo curso",
+      "new_enrollment": "Nueva matrícula",
+      "generate_report": "Generar informe",
+      "new_transaction": "Nueva transacción",
+      "courses": {
     },
     "superadmin": {
       "title": "Panel de Súper Administración",
@@ -123,7 +124,18 @@
       "enrolled_students": "Estudiantes matriculados",
       "system_status": "Estado del Sistema",
       "total_nucleos": "Núcleos Totales",
-      "nucleos_desc": "Núcleos distribuidos en los polos"
+      "nucleos_desc": "Núcleos distribuidos en los polos",
+      "actions": {
+        "reset_demo": "Reiniciar Demo",
+        "wipe_system": "Limpiar Sistema",
+        "delete_all_courses": "Eliminar Todos los Cursos",
+        "confirm_reset_demo": "¿Está seguro de que desea reiniciar los datos de demostración?",
+        "confirm_wipe_system": "¿Está seguro de que desea limpiar todo el sistema? Esta acción es irreversible.",
+        "edit": "Editar",
+        "delete": "Eliminar",
+        "deactivate": "Desactivar",
+        "activate": "Activar"
+      }
     }
   },
   "auth": {

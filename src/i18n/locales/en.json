@@ -220,6 +220,9 @@
       },
       "courses_management": "Courses Management",
       "new_course": "New Course",
+      "new_enrollment": "New Enrollment",
+      "generate_report": "Generate Report",
+      "new_transaction": "New Transaction",
       "courses": {
         "new": "New Course",
         "new_desc": "Fill in the course information",

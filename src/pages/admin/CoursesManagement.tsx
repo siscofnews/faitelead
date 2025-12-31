@@ -895,15 +895,7 @@ const CoursesManagement = () => {
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
-              <Button variant="outline" onClick={resetDemo} disabled={resetting}>
-                {resetting ? t("common.loading") : t("dashboards.admin.actions.reset_demo")}
-              </Button>
-              <Button variant="destructive" onClick={wipeSystem} disabled={wiping}>
-                {wiping ? t("common.loading") : t("dashboards.admin.actions.wipe_system")}
-              </Button>
-              <Button variant="destructive" onClick={deleteAllCourses} disabled={deletingAllCourses}>
-                {deletingAllCourses ? t("common.loading") : t("dashboards.admin.actions.delete_all_courses")}
-              </Button>
+
             </div>
           </div>
         </div>

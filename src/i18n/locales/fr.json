@@ -218,6 +218,11 @@
         "reports": "Gestion des rapports",
         "financial": "Gestion financière"
       },
+      "courses_management": "Gestion des cours",
+      "new_course": "Nouveau cours",
+      "new_enrollment": "Nouvelle inscription",
+      "generate_report": "Générer le rapport",
+      "new_transaction": "Nouvelle transaction",
       "courses": {
         "new": "Nouveau cours",
         "new_desc": "Remplissez les informations du cours",

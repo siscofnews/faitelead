@@ -220,6 +220,9 @@
       },
       "courses_management": "Gestão de Cursos",
       "new_course": "Novo Curso",
+      "new_enrollment": "Nova Matrícula",
+      "generate_report": "Gerar Relatório",
+      "new_transaction": "Novo Lançamento",
       "courses": {
         "new": "Novo Curso",
         "new_desc": "Preencha as informações do curso",
