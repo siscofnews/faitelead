@@ -75,10 +75,17 @@ const AdminDashboard = () => {
       if (sessionErr) throw sessionErr;
       if (coursesErr) throw coursesErr;
 
-      toast.success(`Conexão OK. Sessão: ${sessionOk ? "ativa" : "inativa"}. Cursos: ${courses?.length ?? 0}`);
+      toast.success(t("dashboards.admin.connection_ok", {
+        defaultValue: "Conexão OK. Sessão: {{status}}. Cursos: {{count}}",
+        status: sessionOk ? t("common.active") : t("common.inactive"),
+        count: courses?.length ?? 0
+      }));
     } catch (error: any) {
       console.error("Teste de conexão falhou:", error);
-      toast.error(`Falha na conexão: ${error.message || "Erro desconhecido"}`);
+      toast.error(t("dashboards.admin.connection_failed", {
+        defaultValue: "Falha na conexão: {{error}}",
+        error: error.message || t("common.unknown_error")
+      }));
     } finally {
       setTesting(false);
     }
@@ -89,7 +96,7 @@ const AdminDashboard = () => {
       <div className="min-h-screen flex items-center justify-center bg-gradient-hero">
         <div className="text-center space-y-4">
           <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="text-primary-foreground text-lg font-medium">Carregando...</p>
+          <p className="text-primary-foreground text-lg font-medium">{t("common.loading")}</p>
         </div>
       </div>
     );
@@ -97,7 +104,7 @@ const AdminDashboard = () => {
 
   const statCards = [
     {
-      title: "Total de Alunos",
+      title: t("dashboards.admin.total_students", { defaultValue: "Total de Alunos" }),
       value: stats.totalStudents,
       icon: Users,
       color: "text-primary",
@@ -106,7 +113,7 @@ const AdminDashboard = () => {
       trendUp: true,
     },
     {
-      title: "Cursos Ativos",
+      title: t("dashboards.admin.active_courses", { defaultValue: "Cursos Ativos" }),
       value: stats.totalCourses,
       icon: BookOpen,
       color: "text-accent",
@@ -115,7 +122,7 @@ const AdminDashboard = () => {
       trendUp: true,
     },
     {
-      title: "Matrículas Ativas",
+      title: t("dashboards.admin.active_enrollments", { defaultValue: "Matrículas Ativas" }),
       value: stats.activeEnrollments,
       icon: GraduationCap,
       color: "text-success",
@@ -124,7 +131,7 @@ const AdminDashboard = () => {
       trendUp: true,
     },
     {
-      title: "Pagamentos Pendentes",
+      title: t("dashboards.admin.pending_payments", { defaultValue: "Pagamentos Pendentes" }),
       value: stats.pendingPayments,
       icon: DollarSign,
       color: "text-warning",
@@ -139,8 +146,8 @@ const AdminDashboard = () => {
       {/* Page Title */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-display font-bold text-foreground">Dashboard</h1>
-          <p className="text-muted-foreground">Visão geral da plataforma</p>
+          <h1 className="text-2xl font-display font-bold text-foreground">{t("dashboards.admin.title", { defaultValue: "Dashboard" })}</h1>
+          <p className="text-muted-foreground">{t("dashboards.admin.overview", { defaultValue: "Visão geral da plataforma" })}</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" className="gap-2">
@@ -148,11 +155,11 @@ const AdminDashboard = () => {
             <span className="hidden sm:inline">Dezembro 2024</span>
           </Button>
           <Button variant="outline" className="gap-2" onClick={testConnection} disabled={testing}>
-            {testing ? "Testando..." : "Testar Conexão"}
+            {testing ? t("dashboards.admin.testing", { defaultValue: "Testando..." }) : t("dashboards.admin.test_connection", { defaultValue: "Testar Conexão" })}
           </Button>
           <Button className="bg-gradient-primary gap-2" onClick={() => navigate("/admin/alunos")}>
             <UserPlus className="h-4 w-4" />
-            <span className="hidden sm:inline">Novo Aluno</span>
+            <span className="hidden sm:inline">{t("dashboards.admin.new_student", { defaultValue: "Novo Aluno" })}</span>
           </Button>
         </div>
       </div>
@@ -188,8 +195,8 @@ const AdminDashboard = () => {
               <Settings className="h-5 w-5 text-primary-foreground" />
             </div>
             <div>
-              <CardTitle className="text-xl">Gestão Acadêmica</CardTitle>
-              <CardDescription>Acesso rápido às principais áreas administrativas</CardDescription>
+              <CardTitle className="text-xl">{t("dashboards.admin.management_title", { defaultValue: "Gestão Acadêmica" })}</CardTitle>
+              <CardDescription>{t("dashboards.admin.management_desc", { defaultValue: "Acesso rápido às principais áreas administrativas" })}</CardDescription>
             </div>
           </div>
         </CardHeader>
@@ -198,23 +205,23 @@ const AdminDashboard = () => {
             <TabsList className="grid w-full grid-cols-5 mb-6">
               <TabsTrigger value="alunos" className="gap-2" onClick={() => navigate("/admin/alunos")}>
                 <Users className="h-4 w-4" />
-                Alunos
+                {t("common.students")}
               </TabsTrigger>
               <TabsTrigger value="cursos" className="gap-2" onClick={() => navigate("/admin/cursos")}>
                 <BookOpen className="h-4 w-4" />
-                Cursos
+                {t("nav.courses")}
               </TabsTrigger>
               <TabsTrigger value="matriculas" className="gap-2" onClick={() => navigate("/admin/matriculas")}>
                 <GraduationCap className="h-4 w-4" />
-                Matrículas
+                {t("dashboards.admin.enrollments")}
               </TabsTrigger>
               <TabsTrigger value="relatorios" className="gap-2" onClick={() => navigate("/admin/relatorios")}>
                 <FileText className="h-4 w-4" />
-                Relatórios
+                {t("nav.reports")}
               </TabsTrigger>
               <TabsTrigger value="financeiro" className="gap-2" onClick={() => navigate("/admin/financeiro")}>
                 <DollarSign className="h-4 w-4" />
-                Financeiro
+                {t("nav.financial")}
               </TabsTrigger>
             </TabsList>
 
@@ -222,11 +229,11 @@ const AdminDashboard = () => {
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold flex items-center gap-2">
                   <Users className="h-5 w-5 text-primary" />
-                  Gestão de Alunos
+                  {t("dashboards.admin.students_management", { defaultValue: "Gestão de Alunos" })}
                 </h3>
                 <Button className="bg-gradient-primary gap-2" onClick={() => navigate("/admin/alunos")}>
                   <UserPlus className="h-4 w-4" />
-                  Novo Aluno
+                  {t("dashboards.admin.new_student", { defaultValue: "Novo Aluno" })}
                 </Button>
               </div>
             </TabsContent>
@@ -235,11 +242,11 @@ const AdminDashboard = () => {
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold flex items-center gap-2">
                   <BookOpen className="h-5 w-5 text-accent" />
-                  Gestão de Cursos
+                  {t("dashboards.admin.courses_management", { defaultValue: "Gestão de Cursos" })}
                 </h3>
                 <Button className="bg-gradient-primary gap-2" onClick={() => navigate("/admin/cursos")}>
                   <BookOpen className="h-4 w-4" />
-                  Novo Curso
+                  {t("dashboards.admin.new_course", { defaultValue: "Novo Curso" })}
                 </Button>
               </div>
             </TabsContent>
@@ -248,11 +255,11 @@ const AdminDashboard = () => {
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold flex items-center gap-2">
                   <GraduationCap className="h-5 w-5 text-success" />
-                  Gestão de Matrículas
+                  {t("dashboards.admin.enrollment_management", { defaultValue: "Gestão de Matrículas" })}
                 </h3>
                 <Button className="bg-gradient-primary gap-2" onClick={() => navigate("/admin/matriculas")}>
                   <GraduationCap className="h-4 w-4" />
-                  Nova Matrícula
+                  {t("dashboards.admin.new_enrollment", { defaultValue: "Nova Matrícula" })}
                 </Button>
               </div>
             </TabsContent>
@@ -261,11 +268,11 @@ const AdminDashboard = () => {
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold flex items-center gap-2">
                   <FileText className="h-5 w-5 text-info" />
-                  {t("reports_title")}
+                  {t("dashboards.admin.reports_management", { defaultValue: "Gestão de Relatórios" })}
                 </h3>
                 <Button className="bg-gradient-primary gap-2" onClick={() => navigate("/admin/relatorios")}>
                   <FileText className="h-4 w-4" />
-                  {t("generate_report")}
+                  {t("dashboards.admin.generate_report", { defaultValue: "Gerar Relatório" })}
                 </Button>
               </div>
             </TabsContent>
@@ -274,11 +281,11 @@ const AdminDashboard = () => {
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold flex items-center gap-2">
                   <DollarSign className="h-5 w-5 text-warning" />
-                  Gestão Financeira
+                  {t("dashboards.admin.financial_management", { defaultValue: "Gestão Financeira" })}
                 </h3>
                 <Button className="bg-gradient-primary gap-2" onClick={() => navigate("/admin/financeiro")}>
                   <DollarSign className="h-4 w-4" />
-                  Novo Lançamento
+                  {t("dashboards.admin.new_transaction", { defaultValue: "Novo Lançamento" })}
                 </Button>
               </div>
             </TabsContent>

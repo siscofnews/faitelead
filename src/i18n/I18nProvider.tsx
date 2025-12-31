@@ -6,7 +6,7 @@ type Lang = "pt" | "en" | "es" | "fr" | "de"
 type I18nContextType = {
   lang: Lang
   setLang: (l: Lang) => void
-  t: (key: string) => string
+  t: (key: string, options?: any) => any
 }
 
 const I18nContext = createContext<I18nContextType | null>(null)
@@ -27,18 +27,44 @@ export const I18nProvider = ({ children }: { children: any }) => {
   }, [i18n])
 
   useEffect(() => {
-    // Initial load from localStorage handled by i18next language detector, 
-    // but we can ensure consistency
-    const current = i18n.language?.split('-')[0] as Lang
-    if (current && current !== lang) {
-      setLangState(current)
-    }
-  }, [i18n.language])
+    const detectIPLanguage = async () => {
+      // If we already have a language set in localStorage or i18next, don't override
+      const savedLang = localStorage.getItem("i18nextLng");
+      if (savedLang) return;
+
+      try {
+        const response = await fetch("https://ipapi.co/json/");
+        const data = await response.json();
+        const countryCode = data.country_code; // e.g., 'BR', 'FR', 'US'
+
+        const countryToLang: Record<string, Lang> = {
+          BR: "pt",
+          PT: "pt",
+          FR: "fr",
+          CA: "fr",
+          ES: "es",
+          MX: "es",
+          DE: "de",
+          US: "en",
+          GB: "en"
+        };
+
+        const targetLang = countryToLang[countryCode];
+        if (targetLang && targetLang !== lang) {
+          setLang(targetLang);
+        }
+      } catch (error) {
+        console.error("IP Language detection failed:", error);
+      }
+    };
+
+    detectIPLanguage();
+  }, []);
 
   const setLang = (l: Lang) => {
     i18n.changeLanguage(l)
     setLangState(l)
-    localStorage.setItem("i18nextLng", l) // i18next browser detector uses this
+    localStorage.setItem("i18nextLng", l)
   }
 
   // Wrapper for t function to handle missing keys gracefully if needed, 
@@ -48,7 +74,7 @@ export const I18nProvider = ({ children }: { children: any }) => {
   // but I'm replacing the provider, so the old dict is gone.
   // I added the critical keys to the JSONs.
 
-  const value = { lang, setLang, t: (k: string) => t(k) }
+  const value = { lang, setLang, t: (k: string, options?: any) => t(k, options) }
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>
 }

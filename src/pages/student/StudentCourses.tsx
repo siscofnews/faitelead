@@ -38,7 +38,7 @@ const StudentCourses = () => {
   const loadCourses = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      
+
       if (!user) {
         navigate("/auth");
         return;
@@ -48,7 +48,7 @@ const StudentCourses = () => {
 
       // For each course, calculate progress
       const coursesWithProgress: EnrolledCourse[] = [];
-      
+
       for (const enrollment of (enrollments || [])) {
         const course = await api.getCourse(enrollment.course_id);
         if (!course) continue;
@@ -78,7 +78,7 @@ const StudentCourses = () => {
       setCourses(coursesWithProgress);
     } catch (error) {
       console.error("Error loading courses:", error);
-      toast.error("Erro ao carregar cursos");
+      toast.error(t("dashboards.student.errors.courses_load", { defaultValue: "Erro ao carregar cursos" }));
     } finally {
       setLoading(false);
     }
@@ -89,7 +89,7 @@ const StudentCourses = () => {
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center space-y-4">
           <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="text-foreground text-lg font-medium">Carregando cursos...</p>
+          <p className="text-foreground text-lg font-medium">{t("common.loading_courses", { defaultValue: "Carregando cursos..." })}</p>
         </div>
       </div>
     );
@@ -105,8 +105,8 @@ const StudentCourses = () => {
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div>
-              <h1 className="text-2xl font-display font-bold text-foreground">{t("my_courses")}</h1>
-              <p className="text-sm text-muted-foreground">Gerencie seus cursos matriculados</p>
+              <h1 className="text-2xl font-display font-bold text-foreground">{t("dashboards.student.my_courses", { defaultValue: "Meus Cursos" })}</h1>
+              <p className="text-sm text-muted-foreground">{t("dashboards.student.manage_enrolled", { defaultValue: "Gerencie seus cursos matriculados" })}</p>
             </div>
           </div>
         </div>
@@ -121,13 +121,13 @@ const StudentCourses = () => {
                 <BookOpen className="w-10 h-10 text-muted-foreground" />
               </div>
               <h3 className="text-lg font-display font-semibold text-foreground mb-2">
-                Nenhum curso matriculado
+                {t("dashboards.student.no_courses", { defaultValue: "Nenhum curso matriculado" })}
               </h3>
               <p className="text-sm text-muted-foreground text-center max-w-sm mb-4">
-                Entre em contato com a secretaria para realizar sua matrícula em um de nossos cursos
+                {t("dashboards.student.no_courses_desc", { defaultValue: "Entre em contato com a secretaria para realizar sua matrícula em um de nossos cursos" })}
               </p>
               <Button onClick={() => navigate("/courses")}>
-                Ver Catálogo de Cursos
+                {t("dashboards.student.view_catalog", { defaultValue: "Ver Catálogo de Cursos" })}
               </Button>
             </CardContent>
           </Card>
@@ -148,9 +148,9 @@ const StudentCourses = () => {
                       <GraduationCap className="w-16 h-16 text-primary-foreground/60" />
                     </div>
                   )}
-                  
+
                   <Badge className="absolute top-3 right-3 bg-success/90 text-success-foreground border-0">
-                    Ativo
+                    {t("common.active", { defaultValue: "Ativo" })}
                   </Badge>
                 </div>
 
@@ -159,7 +159,7 @@ const StudentCourses = () => {
                     {course.title}
                   </h3>
                   <p className="text-sm text-muted-foreground line-clamp-2">
-                    {course.description || "Curso completo de teologia"}
+                    {course.description || t("dashboards.student.default_course_desc", { defaultValue: "Curso completo de teologia" })}
                   </p>
                 </CardHeader>
 
@@ -167,30 +167,32 @@ const StudentCourses = () => {
                   <div className="flex items-center gap-4 text-xs text-muted-foreground">
                     <span className="flex items-center gap-1">
                       <BookOpen className="h-3.5 w-3.5" />
-                      {course.totalLessons} aulas
+                      {course.totalLessons} {t("common.lessons", { defaultValue: "aulas" })}
                     </span>
                     <span className="flex items-center gap-1">
                       <Clock className="h-3.5 w-3.5" />
-                      {course.duration_months || 12} meses
+                      {course.duration_months || 12} {t("common.months", { defaultValue: "meses" })}
                     </span>
                   </div>
 
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-xs">
                       <span className="text-muted-foreground">
-                        {course.lessonsCompleted} de {course.totalLessons} aulas
+                        {course.lessonsCompleted} {t("common.of", { defaultValue: "de" })} {course.totalLessons} {t("common.lessons", { defaultValue: "aulas" })}
                       </span>
                       <span className="font-medium text-primary">{course.progress}%</span>
                     </div>
                     <Progress value={course.progress} className="h-2" />
                   </div>
 
-                  <Button 
+                  <Button
                     className="w-full bg-gradient-to-r from-primary to-primary/80 hover:opacity-90"
                     onClick={() => navigate(`/course/${course.id}`)}
                   >
                     <Play className="mr-2 h-4 w-4" />
-                    {course.progress > 0 ? "Continuar" : "Iniciar"} Curso
+                    {course.progress > 0
+                      ? t("common.continue", { defaultValue: "Continuar" })
+                      : t("common.start", { defaultValue: "Iniciar" })} {t("common.course", { defaultValue: "Curso" })}
                   </Button>
                 </CardContent>
               </Card>

@@ -828,7 +828,10 @@ const CourseViewer = () => {
 
                   {/* Module Materials (PDFs and Videos) */}
                   {modules[currentModuleIndex]?.module_materials?.map((mat: any) => {
-                    const isVideo = mat.material_type === 'video' || mat.youtube_url || (mat.file_url && (mat.file_url.includes('youtube') || mat.file_url.includes('youtu.be') || mat.file_url.match(/\.(mp4|webm|ogg|mov)$/i)));
+                    const isVideoType = mat.material_type === 'video';
+                    const isVideoUrl = mat.youtube_url || (mat.file_url && (mat.file_url.includes('youtube') || mat.file_url.includes('youtu.be') || mat.file_url.match(/\.(mp4|webm|ogg|mov)$/i)));
+                    const isVideo = isVideoType || isVideoUrl;
+                    
                     const videoUrl = mat.youtube_url || mat.file_url;
                     const isActive = isVideo && activeVideoUrl === videoUrl;
 

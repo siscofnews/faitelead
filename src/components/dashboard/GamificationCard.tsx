@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useI18n } from '@/i18n/I18nProvider';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -26,6 +27,7 @@ interface StudentBadge {
 }
 
 export default function GamificationCard() {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const [stats, setStats] = useState<GamificationStats | null>(null);
   const [recentBadges, setRecentBadges] = useState<StudentBadge[]>([]);
@@ -90,15 +92,15 @@ export default function GamificationCard() {
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg flex items-center gap-2">
             <Trophy className="h-5 w-5 text-primary" />
-            Conquistas
+            {t("dashboard.gamification.achievements", { defaultValue: "Conquistas" })}
           </CardTitle>
-          <Button 
-            variant="ghost" 
-            size="sm" 
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => navigate('/student/conquistas')}
             className="text-xs gap-1"
           >
-            Ver todas <ChevronRight className="h-3 w-3" />
+            {t("dashboard.gamification.see_all", { defaultValue: "Ver todas" })} <ChevronRight className="h-3 w-3" />
           </Button>
         </div>
       </CardHeader>
@@ -110,7 +112,7 @@ export default function GamificationCard() {
           </div>
           <div className="flex-1">
             <div className="flex items-baseline justify-between mb-1">
-              <span className="font-semibold text-foreground">Nível {currentStats.current_level}</span>
+              <span className="font-semibold text-foreground">{t("dashboard.gamification.level", { defaultValue: "Nível" })} {currentStats.current_level}</span>
               <span className="text-sm text-muted-foreground">{currentStats.total_points} XP</span>
             </div>
             <Progress value={getLevelProgress()} className="h-2" />
@@ -123,14 +125,14 @@ export default function GamificationCard() {
             <Flame className="h-5 w-5 text-orange-500" />
             <div>
               <p className="text-lg font-bold text-foreground">{currentStats.current_streak}</p>
-              <p className="text-xs text-muted-foreground">Dias seguidos</p>
+              <p className="text-xs text-muted-foreground">{t("dashboard.gamification.streak", { defaultValue: "Dias seguidos" })}</p>
             </div>
           </div>
           <div className="flex items-center gap-2 bg-muted/50 rounded-lg p-2">
             <Star className="h-5 w-5 text-yellow-500" />
             <div>
               <p className="text-lg font-bold text-foreground">{recentBadges.length}</p>
-              <p className="text-xs text-muted-foreground">Badges</p>
+              <p className="text-xs text-muted-foreground">{t("dashboard.gamification.badges", { defaultValue: "Badges" })}</p>
             </div>
           </div>
         </div>
@@ -138,10 +140,10 @@ export default function GamificationCard() {
         {/* Recent Badges */}
         {recentBadges.length > 0 && (
           <div>
-            <p className="text-xs text-muted-foreground mb-2">Últimas conquistas</p>
+            <p className="text-xs text-muted-foreground mb-2">{t("dashboard.gamification.recent_achievements", { defaultValue: "Últimas conquistas" })}</p>
             <div className="flex gap-2">
               {recentBadges.map((badge) => (
-                <div 
+                <div
                   key={badge.id}
                   className="flex items-center gap-2 bg-primary/10 rounded-full px-3 py-1"
                 >
@@ -156,13 +158,13 @@ export default function GamificationCard() {
         )}
 
         {/* Ranking Link */}
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           className="w-full gap-2"
           onClick={() => navigate('/student/ranking')}
         >
           <Users className="h-4 w-4" />
-          Ver Ranking
+          {t("dashboard.gamification.view_ranking", { defaultValue: "Ver Ranking" })}
         </Button>
       </CardContent>
     </Card>

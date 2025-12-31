@@ -13,6 +13,7 @@ import RecentActivity from "@/components/dashboard/RecentActivity";
 import Announcements from "@/components/dashboard/Announcements";
 import BookGallery from "@/components/BookGallery";
 import GamificationCard from "@/components/dashboard/GamificationCard";
+import { useI18n } from "@/i18n/I18nProvider";
 import { MessageSquare, PlayCircle } from "lucide-react"; // Added imports
 
 interface Course {
@@ -24,6 +25,7 @@ interface Course {
 }
 
 const StudentDashboard = () => {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   type ProfileMin = { full_name?: string } | null;
@@ -89,8 +91,7 @@ const StudentDashboard = () => {
       .eq("is_active", true);
 
     if (enrollments) {
-      type EnrollmentRow = { courses?: Course | null };
-      const courses = (enrollments as EnrollmentRow[]).map((e) => e.courses!).filter(Boolean);
+      const courses = (enrollments as any[]).map((e) => e.courses).filter(Boolean) as Course[];
       // Remove duplicates just in case
       const uniqueCourses = Array.from(new Map(courses.map(item => [item['id'], item])).values());
       setEnrolledCourses(uniqueCourses);
@@ -102,7 +103,7 @@ const StudentDashboard = () => {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/auth");
-    toast.success("Logout realizado com sucesso!");
+    toast.success(t("common.logout_success"));
   };
 
   if (loading) {
@@ -110,7 +111,7 @@ const StudentDashboard = () => {
       <div className="min-h-screen flex items-center justify-center bg-gradient-hero">
         <div className="text-center space-y-4">
           <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="text-primary-foreground text-lg font-medium">Carregando...</p>
+          <p className="text-primary-foreground text-lg font-medium">{t("common.loading")}</p>
         </div>
       </div>
     );
@@ -122,14 +123,14 @@ const StudentDashboard = () => {
       {enrolledCourses.length > 0 && (
         <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
           <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent z-10" />
-          <img 
-            src={enrolledCourses[0].thumbnail_url || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=400&fit=crop"} 
-            alt="Hero Course" 
+          <img
+            src={enrolledCourses[0].thumbnail_url || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=400&fit=crop"}
+            alt="Hero Course"
             className="w-full h-[400px] object-cover transform group-hover:scale-105 transition-transform duration-700"
           />
           <div className="absolute bottom-0 left-0 p-8 z-20 max-w-2xl space-y-4">
             <span className="px-3 py-1 bg-primary/90 text-primary-foreground text-xs font-bold rounded-full uppercase tracking-wider">
-              Continue Assistindo
+              {t("dashboards.student.continue_watching")}
             </span>
             <h1 className="text-4xl md:text-5xl font-display font-bold text-white drop-shadow-lg">
               {enrolledCourses[0].title}
@@ -138,18 +139,18 @@ const StudentDashboard = () => {
               {enrolledCourses[0].description}
             </p>
             <div className="flex items-center gap-4 pt-2">
-              <button 
+              <button
                 onClick={() => navigate(`/course/${enrolledCourses[0].id}`)}
                 className="flex items-center gap-2 px-8 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg font-bold transition-all hover:scale-105 shadow-lg shadow-primary/25"
               >
                 <PlayCircle className="w-6 h-6" />
-                Continuar Aula
+                {t("dashboards.student.continue_lesson")}
               </button>
-              <button 
+              <button
                 onClick={() => navigate("/student/courses")}
                 className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-lg font-medium backdrop-blur-sm transition-all"
               >
-                Ver Grade Completa
+                {t("dashboards.student.view_full_grade")}
               </button>
             </div>
           </div>
@@ -160,13 +161,13 @@ const StudentDashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Coluna Principal (Cursos) - 8 colunas */}
         <div className="lg:col-span-8 space-y-8">
-          
+
           {/* Seção Meus Cursos */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-display font-bold text-foreground flex items-center gap-2">
                 <BookOpen className="w-6 h-6 text-primary" />
-                Meus Cursos
+                {t("dashboards.student.my_courses")}
               </h2>
             </div>
 
@@ -177,10 +178,10 @@ const StudentDashboard = () => {
                     <BookOpen className="w-10 h-10 text-muted-foreground" />
                   </div>
                   <h3 className="text-lg font-display font-semibold text-foreground mb-2">
-                    Nenhum curso matriculado
+                    {t("dashboards.student.no_courses")}
                   </h3>
                   <p className="text-sm text-muted-foreground text-center max-w-sm">
-                    Entre em contato com a secretaria para realizar sua matrícula em um de nossos cursos
+                    {t("dashboards.student.no_courses_desc")}
                   </p>
                 </CardContent>
               </Card>
@@ -207,7 +208,7 @@ const StudentDashboard = () => {
           <div className="space-y-4">
             <h2 className="text-2xl font-display font-bold text-foreground flex items-center gap-2">
               <MessageSquare className="w-6 h-6 text-primary" />
-              Comunidade Acadêmica
+              {t("dashboards.student.academic_community")}
             </h2>
             <Card className="bg-gradient-to-br from-card to-muted border-border/50">
               <CardContent className="p-6">
@@ -216,16 +217,16 @@ const StudentDashboard = () => {
                     <MessageSquare className="w-10 h-10 text-primary" />
                   </div>
                   <div className="space-y-2 flex-1">
-                    <h3 className="text-xl font-semibold">Fórum de Discussão</h3>
+                    <h3 className="text-xl font-semibold">{t("dashboards.student.forum_title")}</h3>
                     <p className="text-muted-foreground">
-                      Participe das discussões com professores e outros alunos. Tire dúvidas, compartilhe conhecimento e interaja com a turma.
+                      {t("dashboards.student.forum_desc")}
                     </p>
                     <div className="pt-2">
-                      <button 
+                      <button
                         onClick={() => navigate("/forum/student")}
                         className="text-primary font-medium hover:underline flex items-center gap-2"
                       >
-                        Acessar Fórum <BookOpen className="w-4 h-4" />
+                        {t("dashboards.student.access_forum")} <BookOpen className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
@@ -233,7 +234,7 @@ const StudentDashboard = () => {
               </CardContent>
             </Card>
           </div>
-          
+
           <BookGallery />
         </div>
 

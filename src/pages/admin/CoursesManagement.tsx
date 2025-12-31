@@ -216,7 +216,7 @@ const CoursesManagement = () => {
 
   const resetDemo = async () => {
     if (resetting) return;
-    const confirmed = confirm("Tem certeza que deseja limpar todos os cursos e criar dados de demonstração?");
+    const confirmed = confirm(t("dashboards.admin.actions.confirm_reset_demo"));
     if (!confirmed) return;
 
     setResetting(true);
@@ -354,7 +354,7 @@ const CoursesManagement = () => {
 
   const wipeSystem = async () => {
     if (wiping) return;
-    const confirmed = confirm("Tem certeza que deseja ZERAR TODO o sistema? Esta ação remove cursos, módulos, aulas, matrículas e alunos (somente perfis de student). Não pode ser desfeita.");
+    const confirmed = confirm(t("dashboards.admin.actions.confirm_wipe_system"));
     if (!confirmed) return;
 
     setWiping(true);
@@ -446,7 +446,7 @@ const CoursesManagement = () => {
 
   const deleteAllCourses = async () => {
     if (deletingAllCourses) return;
-    const confirmed = confirm("Excluir TODOS os cursos? Esta ação remove cursos e dados vinculados (módulos, aulas, materiais, provas, matrículas e pagamentos relacionados).");
+    const confirmed = confirm(t("dashboards.admin.confirm_delete_all_courses"));
     if (!confirmed) return;
 
     setDeletingAllCourses(true);
@@ -768,28 +768,28 @@ const CoursesManagement = () => {
               </Link>
               <Button variant="ghost" size="sm" onClick={() => navigate("/admin")}>
                 <ChevronLeft className="h-4 w-4 mr-1" />
-                {t("back")}
+                {t("common.back")}
               </Button>
-              <h1 className="text-xl font-display font-bold">{t("courses_management")}</h1>
+              <h1 className="text-xl font-display font-bold">{t("nav.courses")}</h1>
             </div>
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
                 <Button className="gap-2">
                   <Plus className="h-4 w-4" />
-                  {t("new_course")}
+                  {t("dashboards.admin.courses.new")}
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-lg">
                 <DialogHeader>
-                  <DialogTitle>Criar Novo Curso</DialogTitle>
+                  <DialogTitle>{t("dashboards.admin.courses.new")}</DialogTitle>
                   <DialogDescription>
-                    Preencha as informações do curso
+                    {t("dashboards.admin.courses.new_desc")}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 py-4 max-h-[60vh] overflow-y-auto">
                   {/* Upload de Imagem */}
                   <div className="space-y-2">
-                    <Label>Imagem do Curso</Label>
+                    <Label>{t("auth.selfie_label")}</Label>
                     <input
                       type="file"
                       ref={fileInputRef}
@@ -809,7 +809,7 @@ const CoursesManagement = () => {
                             className="w-full h-32 object-cover rounded-lg"
                           />
                           <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg">
-                            <p className="text-white text-sm">Clique para trocar</p>
+                            <p className="text-white text-sm">{t("auth.take_selfie_button")}</p>
                           </div>
                         </div>
                       ) : (
@@ -823,7 +823,7 @@ const CoursesManagement = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Título do Curso *</Label>
+                    <Label>{t("auth.fullname_label")} *</Label>
                     <Input
                       value={formData.title}
                       onChange={(e) => setFormData({ ...formData, title: e.target.value })}
@@ -831,7 +831,7 @@ const CoursesManagement = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Descrição</Label>
+                    <Label>{t("common.message")}</Label>
                     <Textarea
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -841,7 +841,7 @@ const CoursesManagement = () => {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label>Duração (meses)</Label>
+                      <Label>{t("common.deadline")} ({t("common.months")})</Label>
                       <Input
                         type="number"
                         value={formData.duration_months}
@@ -887,21 +887,21 @@ const CoursesManagement = () => {
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button variant="outline" onClick={() => setDialogOpen(false)} disabled={uploading}>Cancelar</Button>
+                  <Button variant="outline" onClick={() => setDialogOpen(false)} disabled={uploading}>{t("common.back")}</Button>
                   <Button onClick={handleCreateCourse} disabled={uploading}>
-                    {uploading ? "Criando..." : "Criar Curso"}
+                    {uploading ? t("common.loading") : t("dashboards.admin.new_course")}
                   </Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
             <Button variant="outline" className="ml-2" onClick={resetDemo} disabled={resetting}>
-              {resetting ? "Processando..." : "Resetar Demo"}
+              {resetting ? t("common.loading") : t("dashboards.admin.actions.reset_demo")}
             </Button>
             <Button variant="destructive" className="ml-2" onClick={wipeSystem} disabled={wiping}>
-              {wiping ? "Zerando..." : "Zerar Sistema"}
+              {wiping ? t("common.loading") : t("dashboards.admin.actions.wipe_system")}
             </Button>
             <Button variant="destructive" className="ml-2" onClick={deleteAllCourses} disabled={deletingAllCourses}>
-              {deletingAllCourses ? "Excluindo..." : "Excluir Todos os Cursos"}
+              {deletingAllCourses ? t("common.loading") : t("dashboards.admin.actions.delete_all_courses")}
             </Button>
           </div>
         </div>
@@ -916,7 +916,7 @@ const CoursesManagement = () => {
                 <BookOpen className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Total de Cursos</p>
+                <p className="text-sm text-muted-foreground">{t("dashboards.admin.stats.total_courses")}</p>
                 <p className="text-2xl font-display font-bold">{courses.length}</p>
               </div>
             </CardContent>
@@ -927,7 +927,7 @@ const CoursesManagement = () => {
                 <Users className="h-6 w-6 text-success" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Alunos Matriculados</p>
+                <p className="text-sm text-muted-foreground">{t("dashboards.admin.stats.students_enrolled")}</p>
                 <p className="text-2xl font-display font-bold">{totalStudents}</p>
               </div>
             </CardContent>
@@ -938,7 +938,7 @@ const CoursesManagement = () => {
                 <Award className="h-6 w-6 text-accent" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Cursos Ativos</p>
+                <p className="text-sm text-muted-foreground">{t("dashboards.admin.stats.active_courses")}</p>
                 <p className="text-2xl font-display font-bold">{courses.filter(c => c.is_active).length}</p>
               </div>
             </CardContent>
@@ -949,7 +949,7 @@ const CoursesManagement = () => {
                 <Clock className="h-6 w-6 text-warning" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Inativos</p>
+                <p className="text-sm text-muted-foreground">{t("common.inactive")}</p>
                 <p className="text-2xl font-display font-bold">{courses.filter(c => !c.is_active).length}</p>
               </div>
             </CardContent>
@@ -960,7 +960,7 @@ const CoursesManagement = () => {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Buscar cursos..."
+            placeholder={t("dashboards.admin.courses.search")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10"
@@ -999,7 +999,7 @@ const CoursesManagement = () => {
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem onClick={() => navigate(`/admin/cursos/${course.id}/conteudo`)}>
                         <BookOpen className="h-4 w-4 mr-2" />
-                        Gerenciar Conteúdo
+                        {t("dashboards.admin.courses.manage_content")}
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={() => {
@@ -1007,14 +1007,14 @@ const CoursesManagement = () => {
                         setEnrollDialogOpen(true);
                       }}>
                         <UserPlus className="h-4 w-4 mr-2" />
-                        Matricular Aluno
+                        {t("dashboards.admin.courses.enroll_student")}
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => {
                         setSelectedCourse(course);
                         setBulkEnrollDialogOpen(true);
                       }}>
                         <Users className="h-4 w-4 mr-2" />
-                        Matrícula em Massa
+                        {t("dashboards.admin.courses.bulk_enroll")}
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={() => {
@@ -1022,7 +1022,7 @@ const CoursesManagement = () => {
                         setHistoryDialogOpen(true);
                       }}>
                         <History className="h-4 w-4 mr-2" />
-                        Ver Histórico
+                        {t("dashboards.admin.courses.view_history")}
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={() => {
@@ -1030,11 +1030,11 @@ const CoursesManagement = () => {
                         setEditDialogOpen(true);
                       }}>
                         <Edit className="h-4 w-4 mr-2" />
-                        Editar
+                        {t("dashboards.admin.actions.edit")}
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => toggleCourseStatus(course.id, course.is_active)}>
                         <Settings className="h-4 w-4 mr-2" />
-                        {course.is_active ? "Desativar" : "Ativar"}
+                        {course.is_active ? t("dashboards.admin.actions.deactivate") : t("dashboards.admin.actions.activate")}
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem
@@ -1045,7 +1045,7 @@ const CoursesManagement = () => {
                         className="text-destructive focus:text-destructive"
                       >
                         <Trash2 className="h-4 w-4 mr-2" />
-                        Excluir
+                        {t("dashboards.admin.actions.delete")}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -1060,7 +1060,7 @@ const CoursesManagement = () => {
                   )}
                   <Badge variant="outline">
                     <Clock className="h-3 w-3 mr-1" />
-                    {course.duration_months || 12} meses
+                    {course.duration_months || 12} {t("common.months")}
                   </Badge>
                   <Badge variant="outline">
                     {course.total_hours || 540}h
@@ -1089,10 +1089,10 @@ const CoursesManagement = () => {
           <Card>
             <CardContent className="py-12 text-center">
               <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">Nenhum curso encontrado</p>
+              <p className="text-muted-foreground">{t("dashboards.admin.courses.no_found")}</p>
               <Button className="mt-4" onClick={() => setDialogOpen(true)}>
                 <Plus className="h-4 w-4 mr-2" />
-                Criar Primeiro Curso
+                {t("dashboards.admin.courses.create_first")}
               </Button>
             </CardContent>
           </Card>

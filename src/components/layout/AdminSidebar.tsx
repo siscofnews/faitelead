@@ -13,6 +13,7 @@ import {
     Award
 } from "lucide-react";
 import AppSidebar, { MenuItem } from "./AppSidebar";
+import { useI18n } from "@/i18n/I18nProvider";
 
 interface AdminSidebarProps {
     isOpen: boolean;
@@ -20,75 +21,77 @@ interface AdminSidebarProps {
     isSuperAdmin?: boolean;
 }
 
-const adminMenuItems: MenuItem[] = [
-    {
-        title: "Dashboard",
-        icon: LayoutDashboard,
-        href: "/admin",
-    },
-    {
-        title: "Alunos",
-        icon: Users,
-        href: "/admin/alunos",
-    },
-    {
-        title: "Professores",
-        icon: GraduationCap,
-        href: "/admin/professores",
-    },
-    {
-        title: "Cursos",
-        icon: BookOpen,
-        href: "/admin/cursos",
-    },
-    {
-        title: "Polos",
-        icon: MapPin,
-        href: "/admin/polos",
-    },
-    {
-        title: "Financeiro",
-        icon: CreditCard,
-        href: "/admin/financeiro",
-    },
-    {
-        title: "Relatórios",
-        icon: FileText,
-        href: "/admin/relatorios",
-    },
-    {
-        title: "Provas",
-        icon: FileCheck,
-        href: "/admin/provas",
-    },
-    {
-        title: "Aprovações",
-        icon: Users,
-        href: "/admin/aprovacoes",
-    },
-    {
-        title: "Comunicados",
-        icon: Megaphone,
-        href: "/admin/comunicados",
-    },
-    {
-        title: "Calendário",
-        icon: Calendar,
-        href: "/admin/calendario",
-    },
-    {
-        title: "Certificados",
-        icon: Award,
-        href: "/admin/certificados",
-    },
-    {
-        title: "Restaurar Conteúdo",
-        icon: Settings,
-        href: "/admin/restore",
-    },
-];
-
 const AdminSidebar = ({ isOpen, onClose, isSuperAdmin = false }: AdminSidebarProps) => {
+    const { t } = useI18n();
+
+    const adminMenuItems: MenuItem[] = [
+        {
+            title: t("nav.dashboard"),
+            icon: LayoutDashboard,
+            href: "/admin",
+        },
+        {
+            title: t("nav.students"),
+            icon: Users,
+            href: "/admin/alunos",
+        },
+        {
+            title: t("nav.professors"),
+            icon: GraduationCap,
+            href: "/admin/professores",
+        },
+        {
+            title: t("nav.courses"),
+            icon: BookOpen,
+            href: "/admin/cursos",
+        },
+        {
+            title: t("nav.polos"),
+            icon: MapPin,
+            href: "/admin/polos",
+        },
+        {
+            title: t("nav.financial"),
+            icon: CreditCard,
+            href: "/admin/financeiro",
+        },
+        {
+            title: t("nav.reports"),
+            icon: FileText,
+            href: "/admin/relatorios",
+        },
+        {
+            title: t("nav.exams"),
+            icon: FileCheck,
+            href: "/admin/provas",
+        },
+        {
+            title: t("nav.approvals"),
+            icon: Users,
+            href: "/admin/aprovacoes",
+        },
+        {
+            title: t("nav.announcements"),
+            icon: Megaphone,
+            href: "/admin/comunicados",
+        },
+        {
+            title: t("nav.calendar"),
+            icon: Calendar,
+            href: "/admin/calendario",
+        },
+        {
+            title: t("nav.certificates"),
+            icon: Award,
+            href: "/admin/certificados",
+        },
+        {
+            title: t("nav.restore"),
+            icon: Settings,
+            href: "/admin/restore",
+        },
+    ];
+
     return <AppSidebar isOpen={isOpen} onClose={onClose} menuItems={adminMenuItems} isSuperAdmin={isSuperAdmin} />;
 };
 

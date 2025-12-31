@@ -2,7 +2,8 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { 
+import { useI18n } from "@/i18n/I18nProvider";
+import {
   BookOpen, Play, Clock, ArrowLeft, CheckCircle2, Circle,
   Video, FileText
 } from "lucide-react";
@@ -28,6 +29,7 @@ interface Lesson {
 }
 
 const StudentLessons = () => {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [lessons, setLessons] = useState<Lesson[]>([]);
@@ -40,7 +42,7 @@ const StudentLessons = () => {
   const loadLessons = useCallback(async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      
+
       if (!user) {
         navigate("/auth");
         return;
@@ -115,7 +117,7 @@ const StudentLessons = () => {
       setLessons(mappedLessons);
     } catch (error) {
       console.error("Error loading lessons:", error);
-      toast.error("Erro ao carregar aulas");
+      toast.error(t("dashboards.student.errors.lessons_load", { defaultValue: "Erro ao carregar aulas" }));
     } finally {
       setLoading(false);
     }
@@ -128,8 +130,8 @@ const StudentLessons = () => {
   });
 
   const completedCount = lessons.filter(l => l.completed).length;
-  const progressPercent = lessons.length > 0 
-    ? Math.round((completedCount / lessons.length) * 100) 
+  const progressPercent = lessons.length > 0
+    ? Math.round((completedCount / lessons.length) * 100)
     : 0;
 
   if (loading) {
@@ -137,7 +139,7 @@ const StudentLessons = () => {
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center space-y-4">
           <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="text-foreground text-lg font-medium">Carregando aulas...</p>
+          <p className="text-foreground text-lg font-medium">{t("common.loading_lessons", { defaultValue: "Carregando aulas..." })}</p>
         </div>
       </div>
     );
@@ -153,9 +155,9 @@ const StudentLessons = () => {
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div className="flex-1">
-              <h1 className="text-2xl font-display font-bold text-foreground">Minhas Aulas</h1>
+              <h1 className="text-2xl font-display font-bold text-foreground">{t("dashboards.student.my_lessons", { defaultValue: "Minhas Aulas" })}</h1>
               <p className="text-sm text-muted-foreground">
-                {completedCount} de {lessons.length} aulas concluídas
+                {completedCount} {t("common.of", { defaultValue: "de" })} {lessons.length} {t("dashboards.student.lessons_completed", { defaultValue: "aulas concluídas" })}
               </p>
             </div>
             <div className="hidden md:block w-32">
@@ -175,10 +177,10 @@ const StudentLessons = () => {
                 <Video className="w-10 h-10 text-muted-foreground" />
               </div>
               <h3 className="text-lg font-display font-semibold text-foreground mb-2">
-                Nenhuma aula disponível
+                {t("dashboards.student.no_lessons", { defaultValue: "Nenhuma aula disponível" })}
               </h3>
               <p className="text-sm text-muted-foreground text-center max-w-sm">
-                Você ainda não está matriculado em nenhum curso com aulas
+                {t("dashboards.student.no_lessons_desc", { defaultValue: "Você ainda não está matriculado em nenhum curso com aulas" })}
               </p>
             </CardContent>
           </Card>
@@ -188,13 +190,13 @@ const StudentLessons = () => {
             <Tabs defaultValue="all" className="mb-6" onValueChange={(v: "all" | "pending" | "completed") => setFilter(v)}>
               <TabsList>
                 <TabsTrigger value="all">
-                  Todas ({lessons.length})
+                  {t("common.all", { defaultValue: "Todas" })} ({lessons.length})
                 </TabsTrigger>
                 <TabsTrigger value="pending">
-                  Pendentes ({lessons.length - completedCount})
+                  {t("common.pending", { defaultValue: "Pendentes" })} ({lessons.length - completedCount})
                 </TabsTrigger>
                 <TabsTrigger value="completed">
-                  Concluídas ({completedCount})
+                  {t("common.completed", { defaultValue: "Concluídas" })} ({completedCount})
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -202,25 +204,24 @@ const StudentLessons = () => {
             {/* Lessons Grid */}
             <div className="space-y-4">
               {filteredLessons.map((lesson) => (
-                <Card 
-                  key={lesson.id} 
+                <Card
+                  key={lesson.id}
                   className="hover:border-primary/30 transition-colors cursor-pointer"
                   onClick={() => navigate(`/course/${lesson.course_id}`)}
                 >
                   <CardContent className="p-4">
                     <div className="flex items-start gap-4">
-                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                        lesson.completed 
-                          ? "bg-success/20 text-success" 
+                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${lesson.completed
+                          ? "bg-success/20 text-success"
                           : "bg-primary/20 text-primary"
-                      }`}>
+                        }`}>
                         {lesson.completed ? (
                           <CheckCircle2 className="h-6 w-6" />
                         ) : (
                           <Play className="h-6 w-6" />
                         )}
                       </div>
-                      
+
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <Badge variant="outline" className="text-xs">
@@ -244,14 +245,16 @@ const StudentLessons = () => {
                           {lesson.pdf_url && (
                             <span className="flex items-center gap-1">
                               <FileText className="h-3 w-3" />
-                              Material PDF
+                              {t("common.pdf_material", { defaultValue: "Material PDF" })}
                             </span>
                           )}
                         </div>
                       </div>
 
                       <Button size="sm" variant={lesson.completed ? "outline" : "default"}>
-                        {lesson.completed ? "Revisar" : "Assistir"}
+                        {lesson.completed
+                          ? t("common.review", { defaultValue: "Revisar" })
+                          : t("common.watch", { defaultValue: "Assistir" })}
                       </Button>
                     </div>
                   </CardContent>

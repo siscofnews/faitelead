@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { 
+import { useI18n } from "@/i18n/I18nProvider";
+import {
   ArrowLeft, MessageCircle, Phone, Mail, Clock,
   Send, HelpCircle, BookOpen, FileText, CreditCard,
   ChevronDown, ChevronUp, ExternalLink
@@ -18,104 +19,106 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const faqs = [
-  {
-    category: "Acesso",
-    icon: HelpCircle,
-    questions: [
-      {
-        question: "Como acesso minhas aulas?",
-        answer: "Após fazer login, vá para 'Meus Cursos' no menu lateral. Clique no curso desejado e você terá acesso a todas as aulas disponíveis organizadas por módulos."
-      },
-      {
-        question: "Esqueci minha senha, o que fazer?",
-        answer: "Na tela de login, clique em 'Esqueci minha senha'. Você receberá um e-mail com instruções para redefinir sua senha. Verifique também sua caixa de spam."
-      },
-      {
-        question: "Posso acessar de qualquer dispositivo?",
-        answer: "Sim! Nossa plataforma é responsiva e funciona em computadores, tablets e smartphones. Basta acessar com seu e-mail e senha cadastrados."
-      }
-    ]
-  },
-  {
-    category: "Aulas e Conteúdo",
-    icon: BookOpen,
-    questions: [
-      {
-        question: "As aulas ficam disponíveis para sempre?",
-        answer: "Sim, enquanto sua matrícula estiver ativa, você terá acesso ilimitado a todo o conteúdo do seu curso, podendo revisar as aulas quantas vezes quiser."
-      },
-      {
-        question: "Posso fazer download do material?",
-        answer: "Sim, os materiais em PDF disponibilizados podem ser baixados. Os vídeos das aulas ficam disponíveis apenas para visualização online."
-      },
-      {
-        question: "Como funciona a aula ao vivo semanal?",
-        answer: "Para alunos do modo semi-presencial, há uma aula ao vivo por semana. Você será notificado por e-mail e poderá acessar pela página de Calendário."
-      }
-    ]
-  },
-  {
-    category: "Provas e Certificados",
-    icon: FileText,
-    questions: [
-      {
-        question: "Como faço as provas?",
-        answer: "Após completar todas as aulas de um módulo, a prova será desbloqueada. Acesse 'Minhas Provas' para realizá-la. A nota mínima para aprovação é 70%."
-      },
-      {
-        question: "Posso refazer uma prova?",
-        answer: "Sim, caso não atinja a nota mínima, você pode refazer a prova após 24 horas. Não há limite de tentativas."
-      },
-      {
-        question: "Quando recebo meu certificado?",
-        answer: "O certificado é emitido automaticamente após você completar 100% do curso e ser aprovado em todas as provas. Ele fica disponível na área de Certificados."
-      }
-    ]
-  },
-  {
-    category: "Financeiro",
-    icon: CreditCard,
-    questions: [
-      {
-        question: "Quais formas de pagamento?",
-        answer: "Aceitamos cartão de crédito, boleto bancário e PIX. As mensalidades podem ser parceladas no cartão em até 12x."
-      },
-      {
-        question: "Como acesso meus boletos?",
-        answer: "Na área 'Financeiro' você encontra todos os seus boletos, com opção de segunda via e histórico de pagamentos."
-      },
-      {
-        question: "Há desconto para pagamento antecipado?",
-        answer: "Sim! Oferecemos 5% de desconto para pagamentos realizados até 5 dias antes do vencimento. Para pagamento à vista do curso completo, o desconto é de 15%."
-      }
-    ]
-  }
-];
-
-const contactInfo = [
-  {
-    icon: Phone,
-    title: "Telefone",
-    value: "(11) 1234-5678",
-    description: "Segunda a Sexta, 8h às 18h"
-  },
-  {
-    icon: MessageCircle,
-    title: "WhatsApp",
-    value: "(11) 91234-5678",
-    description: "Atendimento rápido"
-  },
-  {
-    icon: Mail,
-    title: "E-mail",
-    value: "suporte@faitel.edu.br",
-    description: "Resposta em até 24h"
-  }
-];
-
 const StudentSupport = () => {
+  const { t } = useI18n();
   const navigate = useNavigate();
+
+  const faqs = [
+    {
+      category: t("dashboards.student.support_category_access", { defaultValue: "Acesso" }),
+      icon: HelpCircle,
+      questions: [
+        {
+          question: t("dashboards.student.faq_access_q1", { defaultValue: "Como acesso minhas aulas?" }),
+          answer: t("dashboards.student.faq_access_a1", { defaultValue: "Após fazer login, vá para 'Meus Cursos' no menu lateral. Clique no curso desejado e você terá acesso a todas as aulas disponíveis organizadas por módulos." })
+        },
+        {
+          question: t("dashboards.student.faq_access_q2", { defaultValue: "Esqueci minha senha, o que fazer?" }),
+          answer: t("dashboards.student.faq_access_a2", { defaultValue: "Na tela de login, clique em 'Esqueci minha senha'. Você receberá um e-mail com instruções para redefinir sua senha. Verifique também sua caixa de spam." })
+        },
+        {
+          question: t("dashboards.student.faq_access_q3", { defaultValue: "Posso acessar de qualquer dispositivo?" }),
+          answer: t("dashboards.student.faq_access_a3", { defaultValue: "Sim! Nossa plataforma é responsiva e funciona em computadores, tablets e smartphones. Basta acessar com seu e-mail e senha cadastrados." })
+        }
+      ]
+    },
+    {
+      category: t("dashboards.student.support_category_lessons", { defaultValue: "Aulas e Conteúdo" }),
+      icon: BookOpen,
+      questions: [
+        {
+          question: t("dashboards.student.faq_lessons_q1", { defaultValue: "As aulas ficam disponíveis para sempre?" }),
+          answer: t("dashboards.student.faq_lessons_a1", { defaultValue: "Sim, enquanto sua matrícula estiver ativa, você terá acesso ilimitado a todo o conteúdo do seu curso, podendo revisar as aulas quantas vezes quiser." })
+        },
+        {
+          question: t("dashboards.student.faq_lessons_q2", { defaultValue: "Posso fazer download do material?" }),
+          answer: t("dashboards.student.faq_lessons_a2", { defaultValue: "Sim, os materiais em PDF disponibilizados podem ser baixados. Os vídeos das aulas ficam disponíveis apenas para visualização online." })
+        },
+        {
+          question: t("dashboards.student.faq_lessons_q3", { defaultValue: "Como funciona a aula ao vivo semanal?" }),
+          answer: t("dashboards.student.faq_lessons_a3", { defaultValue: "Para alunos do modo semi-presencial, há uma aula ao vivo por semana. Você será notificado por e-mail e poderá acessar pela página de Calendário." })
+        }
+      ]
+    },
+    {
+      category: t("dashboards.student.support_category_exams", { defaultValue: "Provas e Certificados" }),
+      icon: FileText,
+      questions: [
+        {
+          question: t("dashboards.student.faq_exams_q1", { defaultValue: "Como faço as provas?" }),
+          answer: t("dashboards.student.faq_exams_a1", { defaultValue: "Após completar todas as aulas de um módulo, a prova será desbloqueada. Acesse 'Minhas Provas' para realizá-la. A nota mínima para aprovação é 70%." })
+        },
+        {
+          question: t("dashboards.student.faq_exams_q2", { defaultValue: "Posso refazer uma prova?" }),
+          answer: t("dashboards.student.faq_exams_a2", { defaultValue: "Sim, caso não atinja a nota mínima, você pode refazer a prova após 24 horas. Não há limite de tentativas." })
+        },
+        {
+          question: t("dashboards.student.faq_exams_q3", { defaultValue: "Quando recebo meu certificado?" }),
+          answer: t("dashboards.student.faq_exams_a3", { defaultValue: "O certificado é emitido automaticamente após você completar 100% do curso e ser aprovado em todas as provas. Ele fica disponível na área de Certificados." })
+        }
+      ]
+    },
+    {
+      category: t("dashboards.student.support_category_financial", { defaultValue: "Financeiro" }),
+      icon: CreditCard,
+      questions: [
+        {
+          question: t("dashboards.student.faq_financial_q1", { defaultValue: "Quais formas de pagamento?" }),
+          answer: t("dashboards.student.faq_financial_a1", { defaultValue: "Aceitamos cartão de crédito, boleto bancário e PIX. As mensalidades podem ser parceladas no cartão em até 12x." })
+        },
+        {
+          question: t("dashboards.student.faq_financial_q2", { defaultValue: "Como acesso meus boletos?" }),
+          answer: t("dashboards.student.faq_financial_a2", { defaultValue: "Na área 'Financeiro' você encontra todos os seus boletos, com opção de segunda via e histórico de pagamentos." })
+        },
+        {
+          question: t("dashboards.student.faq_financial_q3", { defaultValue: "Há desconto para pagamento antecipado?" }),
+          answer: t("dashboards.student.faq_financial_a3", { defaultValue: "Sim! Oferecemos 5% de desconto para pagamentos realizados até 5 dias antes do vencimento. Para pagamento à vista do curso completo, o desconto é de 15%." })
+        }
+      ]
+    }
+  ];
+
+  const contactInfo = [
+    {
+      icon: Phone,
+      title: t("common.phone", { defaultValue: "Telefone" }),
+      value: "(11) 1234-5678",
+      description: t("dashboards.student.support_phone_desc", { defaultValue: "Segunda a Sexta, 8h às 18h" })
+    },
+    {
+      icon: MessageCircle,
+      title: "WhatsApp",
+      value: "(11) 91234-5678",
+      description: t("dashboards.student.support_whatsapp_desc", { defaultValue: "Atendimento rápido" })
+    },
+    {
+      icon: Mail,
+      title: "E-mail",
+      value: "suporte@faitel.edu.br",
+      description: t("dashboards.student.support_email_desc", { defaultValue: "Resposta em até 24h" })
+    }
+  ];
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
@@ -124,18 +127,18 @@ const StudentSupport = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!name || !email || !subject || !message) {
-      toast.error("Preencha todos os campos");
+      toast.error(t("common.fill_all_fields", { defaultValue: "Preencha todos os campos" }));
       return;
     }
 
     setSending(true);
-    
+
     // Simulate sending message
     await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    toast.success("Mensagem enviada com sucesso! Responderemos em breve.");
+
+    toast.success(t("dashboards.student.support_message_success", { defaultValue: "Mensagem enviada com sucesso! Responderemos em breve." }));
     setName("");
     setEmail("");
     setSubject("");
@@ -153,9 +156,9 @@ const StudentSupport = () => {
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div>
-              <h1 className="text-2xl font-display font-bold text-foreground">Central de Suporte</h1>
+              <h1 className="text-2xl font-display font-bold text-foreground">{t("dashboard.quick_actions.support")}</h1>
               <p className="text-sm text-muted-foreground">
-                Tire suas dúvidas e entre em contato
+                {t("dashboards.student.support_subtitle", { defaultValue: "Tire suas dúvidas e entre em contato" })}
               </p>
             </div>
           </div>
@@ -186,9 +189,9 @@ const StudentSupport = () => {
           {/* FAQ Section */}
           <div className="space-y-6">
             <h2 className="text-xl font-display font-bold text-foreground">
-              Perguntas Frequentes
+              {t("dashboards.student.faq_title", { defaultValue: "Perguntas Frequentes" })}
             </h2>
-            
+
             {faqs.map((category, categoryIndex) => (
               <Card key={categoryIndex}>
                 <CardHeader className="pb-2">
@@ -218,17 +221,17 @@ const StudentSupport = () => {
           {/* Contact Form */}
           <div>
             <h2 className="text-xl font-display font-bold text-foreground mb-6">
-              Enviar Mensagem
+              {t("dashboards.student.send_message_title", { defaultValue: "Enviar Mensagem" })}
             </h2>
-            
+
             <Card>
               <CardContent className="p-6">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label className="text-sm font-medium text-foreground">Nome</label>
+                      <label className="text-sm font-medium text-foreground">{t("common.name")}</label>
                       <Input
-                        placeholder="Seu nome completo"
+                        placeholder={t("common.full_name_placeholder", { defaultValue: "Seu nome completo" })}
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                       />
@@ -237,46 +240,46 @@ const StudentSupport = () => {
                       <label className="text-sm font-medium text-foreground">E-mail</label>
                       <Input
                         type="email"
-                        placeholder="seu@email.com"
+                        placeholder={t("common.email_placeholder", { defaultValue: "seu@email.com" })}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-foreground">Assunto</label>
+                    <label className="text-sm font-medium text-foreground">{t("common.subject")}</label>
                     <Input
-                      placeholder="Qual o motivo do seu contato?"
+                      placeholder={t("common.subject_placeholder", { defaultValue: "Qual o motivo do seu contato?" })}
                       value={subject}
                       onChange={(e) => setSubject(e.target.value)}
                     />
                   </div>
-                  
+
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-foreground">Mensagem</label>
+                    <label className="text-sm font-medium text-foreground">{t("common.message")}</label>
                     <Textarea
-                      placeholder="Descreva sua dúvida ou solicitação com detalhes..."
+                      placeholder={t("common.message_placeholder", { defaultValue: "Descreva sua dúvida ou solicitação com detalhes..." })}
                       rows={5}
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                     />
                   </div>
-                  
-                  <Button 
-                    type="submit" 
+
+                  <Button
+                    type="submit"
                     className="w-full"
                     disabled={sending}
                   >
                     {sending ? (
                       <>
                         <div className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin mr-2" />
-                        Enviando...
+                        {t("common.sending", { defaultValue: "Enviando..." })}
                       </>
                     ) : (
                       <>
                         <Send className="mr-2 h-4 w-4" />
-                        Enviar Mensagem
+                        {t("dashboards.student.send_message_button", { defaultValue: "Enviar Mensagem" })}
                       </>
                     )}
                   </Button>
@@ -285,7 +288,7 @@ const StudentSupport = () => {
                 <div className="mt-6 pt-6 border-t border-border">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Clock className="h-4 w-4" />
-                    Tempo médio de resposta: 4 horas úteis
+                    {t("dashboards.student.average_response_time", { defaultValue: "Tempo médio de resposta: 4 horas úteis" })}
                   </div>
                 </div>
               </CardContent>
@@ -294,28 +297,28 @@ const StudentSupport = () => {
             {/* Quick Links */}
             <Card className="mt-6">
               <CardHeader>
-                <CardTitle className="text-base">Links Úteis</CardTitle>
+                <CardTitle className="text-base">{t("common.useful_links", { defaultValue: "Links Úteis" })}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                <a 
-                  href="#" 
+                <a
+                  href="#"
                   className="flex items-center justify-between p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
                 >
-                  <span className="text-sm font-medium">Tutorial da Plataforma</span>
+                  <span className="text-sm font-medium">{t("dashboards.student.platform_tutorial", { defaultValue: "Tutorial da Plataforma" })}</span>
                   <ExternalLink className="h-4 w-4 text-muted-foreground" />
                 </a>
-                <a 
-                  href="#" 
+                <a
+                  href="#"
                   className="flex items-center justify-between p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
                 >
-                  <span className="text-sm font-medium">Regulamento do Curso</span>
+                  <span className="text-sm font-medium">{t("dashboards.student.course_regulation", { defaultValue: "Regulamento do Curso" })}</span>
                   <ExternalLink className="h-4 w-4 text-muted-foreground" />
                 </a>
-                <a 
-                  href="#" 
+                <a
+                  href="#"
                   className="flex items-center justify-between p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
                 >
-                  <span className="text-sm font-medium">Política de Privacidade</span>
+                  <span className="text-sm font-medium">{t("common.privacy_policy", { defaultValue: "Política de Privacidade" })}</span>
                   <ExternalLink className="h-4 w-4 text-muted-foreground" />
                 </a>
               </CardContent>

@@ -5,7 +5,10 @@ import { toast } from "sonner";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import AdminSidebar from "@/components/layout/AdminSidebar";
 
+import { useI18n } from "@/i18n/I18nProvider";
+
 const AdminLayout = () => {
+    const { t } = useI18n();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [profile, setProfile] = useState<any>(null);
@@ -47,7 +50,7 @@ const AdminLayout = () => {
     const handleLogout = async () => {
         await supabase.auth.signOut();
         navigate("/auth");
-        toast.success("Logout realizado com sucesso!");
+        toast.success(t("common.logout_success"));
     };
 
     if (loading) {
@@ -55,7 +58,7 @@ const AdminLayout = () => {
             <div className="min-h-screen flex items-center justify-center bg-gradient-hero">
                 <div className="text-center space-y-4">
                     <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto"></div>
-                    <p className="text-primary-foreground text-lg font-medium">Carregando...</p>
+                    <p className="text-primary-foreground text-lg font-medium">{t("common.loading")}</p>
                 </div>
             </div>
         );

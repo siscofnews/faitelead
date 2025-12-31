@@ -1,12 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useI18n } from '@/i18n/I18nProvider';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
+import {
   ArrowLeft, Trophy, Star, Flame, Zap, Crown, Award, Medal,
   BookOpen, CheckCircle, GraduationCap, TrendingUp, Rocket, Play, Sparkles
 } from 'lucide-react';
@@ -59,6 +60,7 @@ const iconMap: { [key: string]: React.ComponentType<{ className?: string }> } = 
 };
 
 export default function StudentGamification() {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [allBadges, setAllBadges] = useState<BadgeData[]>([]);
@@ -108,7 +110,7 @@ export default function StudentGamification() {
   }, [navigate]);
 
   const getPointsForNextLevel = (level: number) => level * 100;
-  
+
   const getLevelProgress = () => {
     if (!gamification) return 0;
     const pointsForCurrentLevel = (gamification.current_level - 1) * 100;
@@ -131,12 +133,12 @@ export default function StudentGamification() {
 
   const getCategoryLabel = (category: string) => {
     const labels: { [key: string]: string } = {
-      'lesson': 'Aulas',
-      'exam': 'Provas',
-      'streak': 'Sequência',
-      'level': 'Nível',
-      'certificate': 'Certificados',
-      'achievement': 'Conquistas'
+      'lesson': t("common.lessons"),
+      'exam': t("common.exams"),
+      'streak': t("dashboards.student.streak_label", { defaultValue: "Sequência" }),
+      'level': t("dashboards.student.level_label", { defaultValue: "Nível" }),
+      'certificate': t("dashboard.quick_actions.certificates"),
+      'achievement': t("dashboard.gamification.achievements")
     };
     return labels[category] || category;
   };
@@ -175,8 +177,8 @@ export default function StudentGamification() {
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div>
-              <h1 className="text-xl font-bold text-foreground">Conquistas e Badges</h1>
-              <p className="text-sm text-muted-foreground">Acompanhe seu progresso e desbloqueie recompensas</p>
+              <h1 className="text-xl font-bold text-foreground">{t("dashboards.student.gamification_title", { defaultValue: "Conquistas e Badges" })}</h1>
+              <p className="text-sm text-muted-foreground">{t("dashboards.student.gamification_subtitle", { defaultValue: "Acompanhe seu progresso e desbloqueie recompensas" })}</p>
             </div>
           </div>
         </div>
@@ -192,18 +194,18 @@ export default function StudentGamification() {
                   <Crown className="h-8 w-8 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Nível Atual</p>
-                  <p className="text-3xl font-bold text-primary">Nível {stats.current_level}</p>
+                  <p className="text-sm text-muted-foreground">{t("dashboards.student.current_level_label", { defaultValue: "Nível Atual" })}</p>
+                  <p className="text-3xl font-bold text-primary">{t("dashboards.student.level_label", { defaultValue: "Nível" })} {stats.current_level}</p>
                 </div>
               </div>
               <div className="text-right">
                 <p className="text-2xl font-bold text-foreground">{stats.total_points}</p>
-                <p className="text-sm text-muted-foreground">pontos totais</p>
+                <p className="text-sm text-muted-foreground">{t("dashboards.student.total_points", { defaultValue: "pontos totais" })}</p>
               </div>
             </div>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Progresso para o próximo nível</span>
+                <span className="text-muted-foreground">{t("dashboards.student.next_level_progress", { defaultValue: "Progresso para o próximo nível" })}</span>
                 <span className="text-foreground font-medium">
                   {stats.total_points % 100} / {getPointsForNextLevel(stats.current_level)} XP
                 </span>
@@ -219,28 +221,28 @@ export default function StudentGamification() {
             <CardContent className="p-4 text-center">
               <Flame className="h-8 w-8 mx-auto text-orange-500 mb-2" />
               <p className="text-2xl font-bold text-foreground">{stats.current_streak}</p>
-              <p className="text-xs text-muted-foreground">Dias seguidos</p>
+              <p className="text-xs text-muted-foreground">{t("dashboard.gamification.streak")}</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
               <BookOpen className="h-8 w-8 mx-auto text-blue-500 mb-2" />
               <p className="text-2xl font-bold text-foreground">{stats.lessons_completed}</p>
-              <p className="text-xs text-muted-foreground">Aulas concluídas</p>
+              <p className="text-xs text-muted-foreground">{t("dashboards.student.lessons_completed")}</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
               <CheckCircle className="h-8 w-8 mx-auto text-green-500 mb-2" />
               <p className="text-2xl font-bold text-foreground">{stats.exams_passed}</p>
-              <p className="text-xs text-muted-foreground">Provas aprovadas</p>
+              <p className="text-xs text-muted-foreground">{t("dashboards.student.exams_passed_label", { defaultValue: "Provas aprovadas" })}</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
               <Star className="h-8 w-8 mx-auto text-yellow-500 mb-2" />
               <p className="text-2xl font-bold text-foreground">{stats.perfect_scores}</p>
-              <p className="text-xs text-muted-foreground">Notas perfeitas</p>
+              <p className="text-xs text-muted-foreground">{t("dashboards.student.perfect_scores_label", { defaultValue: "Notas perfeitas" })}</p>
             </CardContent>
           </Card>
         </div>
@@ -249,10 +251,10 @@ export default function StudentGamification() {
         <Tabs defaultValue="earned" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="earned">
-              Conquistados ({earnedBadges.length})
+              {t("dashboards.student.earned_badges_tab", { defaultValue: "Conquistados" })} ({earnedBadges.length})
             </TabsTrigger>
             <TabsTrigger value="all">
-              Todos os Badges ({allBadges.length})
+              {t("dashboards.student.all_badges_tab", { defaultValue: "Todos os Badges" })} ({allBadges.length})
             </TabsTrigger>
           </TabsList>
 
@@ -261,8 +263,8 @@ export default function StudentGamification() {
               <Card>
                 <CardContent className="p-8 text-center">
                   <Trophy className="h-16 w-16 mx-auto text-muted-foreground/50 mb-4" />
-                  <h3 className="text-lg font-medium text-foreground mb-2">Nenhum badge conquistado ainda</h3>
-                  <p className="text-muted-foreground">Continue estudando para desbloquear suas primeiras conquistas!</p>
+                  <h3 className="text-lg font-medium text-foreground mb-2">{t("dashboards.student.no_badges_yet", { defaultValue: "Nenhum badge conquistado ainda" })}</h3>
+                  <p className="text-muted-foreground">{t("dashboards.student.no_badges_desc", { defaultValue: "Continue estudando para desbloquear suas primeiras conquistas!" })}</p>
                 </CardContent>
               </Card>
             ) : (
@@ -283,7 +285,7 @@ export default function StudentGamification() {
                           </div>
                           <p className="text-sm text-muted-foreground line-clamp-2">{studentBadge.badges.description}</p>
                           <p className="text-xs text-primary mt-2">
-                            Conquistado em {formatDate(studentBadge.earned_at)}
+                            {t("dashboards.student.earned_on", { defaultValue: "Conquistado em" })} {formatDate(studentBadge.earned_at)}
                           </p>
                         </div>
                       </div>
@@ -309,15 +311,14 @@ export default function StudentGamification() {
                       {categoryBadges.map((badge) => {
                         const earned = isBadgeEarned(badge.id);
                         return (
-                          <Card 
-                            key={badge.id} 
+                          <Card
+                            key={badge.id}
                             className={earned ? 'border-primary/50 bg-primary/5' : 'opacity-60'}
                           >
                             <CardContent className="p-4">
                               <div className="flex items-start gap-4">
-                                <div className={`w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 ${
-                                  earned ? 'bg-primary/20' : 'bg-muted'
-                                }`}>
+                                <div className={`w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 ${earned ? 'bg-primary/20' : 'bg-muted'
+                                  }`}>
                                   {renderIcon(badge.icon, `h-7 w-7 ${earned ? 'text-primary' : 'text-muted-foreground'}`)}
                                 </div>
                                 <div className="flex-1 min-w-0">
@@ -330,7 +331,7 @@ export default function StudentGamification() {
                                   <p className="text-sm text-muted-foreground line-clamp-2">{badge.description}</p>
                                   {earned && (
                                     <p className="text-xs text-primary mt-2 flex items-center gap-1">
-                                      <CheckCircle className="h-3 w-3" /> Conquistado
+                                      <CheckCircle className="h-3 w-3" /> {t("common.completed")}
                                     </p>
                                   )}
                                 </div>
@@ -352,29 +353,29 @@ export default function StudentGamification() {
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <Zap className="h-5 w-5 text-yellow-500" />
-              Dicas para ganhar mais pontos
+              {t("dashboards.student.tips_points_title", { defaultValue: "Dicas para ganhar mais pontos" })}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex items-start gap-3">
               <Flame className="h-5 w-5 text-orange-500 mt-0.5" />
               <div>
-                <p className="font-medium text-foreground">Mantenha sua sequência</p>
-                <p className="text-sm text-muted-foreground">Estude todos os dias para ganhar bônus de sequência</p>
+                <p className="font-medium text-foreground">{t("dashboards.student.tip_streak_title", { defaultValue: "Mantenha sua sequência" })}</p>
+                <p className="text-sm text-muted-foreground">{t("dashboards.student.tip_streak_desc", { defaultValue: "Estude todos os dias para ganhar bônus de sequência" })}</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <Star className="h-5 w-5 text-yellow-500 mt-0.5" />
               <div>
-                <p className="font-medium text-foreground">Busque a perfeição</p>
-                <p className="text-sm text-muted-foreground">Notas máximas em provas dão pontos extras</p>
+                <p className="font-medium text-foreground">{t("dashboards.student.tip_perfection_title", { defaultValue: "Busque a perfeição" })}</p>
+                <p className="text-sm text-muted-foreground">{t("dashboards.student.tip_perfection_desc", { defaultValue: "Notas máximas em provas dão pontos extras" })}</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <GraduationCap className="h-5 w-5 text-blue-500 mt-0.5" />
               <div>
-                <p className="font-medium text-foreground">Complete cursos</p>
-                <p className="text-sm text-muted-foreground">Certificados garantem grandes recompensas</p>
+                <p className="font-medium text-foreground">{t("dashboards.student.tip_complete_courses_title", { defaultValue: "Complete cursos" })}</p>
+                <p className="text-sm text-muted-foreground">{t("dashboards.student.tip_complete_courses_desc", { defaultValue: "Certificados garantem grandes recompensas" })}</p>
               </div>
             </div>
           </CardContent>

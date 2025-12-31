@@ -1,12 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useI18n } from '@/i18n/I18nProvider';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { 
+import {
   ArrowLeft, Trophy, Crown, Medal, Star, Flame, TrendingUp, Users
 } from 'lucide-react';
 
@@ -23,16 +24,13 @@ interface LeaderboardEntry {
 }
 
 export default function StudentLeaderboard() {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [userRank, setUserRank] = useState<LeaderboardEntry | null>(null);
   const [filter, setFilter] = useState<'points' | 'level' | 'streak' | 'lessons'>('points');
-
-  useEffect(() => {
-    loadLeaderboard();
-  }, [loadLeaderboard]);
 
   const loadLeaderboard = useCallback(async () => {
     try {
@@ -82,7 +80,7 @@ export default function StudentLeaderboard() {
         lessons_completed: g.lessons_completed,
         exams_passed: g.exams_passed,
         badges_count: badgesCount[g.student_id] || 0,
-        student_name: profilesMap[g.student_id] || 'Aluno',
+        student_name: profilesMap[g.student_id] || t("common.student", { defaultValue: 'Aluno' }),
         rank: index + 1
       }));
 
@@ -99,6 +97,10 @@ export default function StudentLeaderboard() {
     }
   }, [filter, navigate]);
 
+  useEffect(() => {
+    loadLeaderboard();
+  }, [loadLeaderboard]);
+
   const getOrderColumn = () => {
     switch (filter) {
       case 'level': return 'current_level';
@@ -110,9 +112,9 @@ export default function StudentLeaderboard() {
 
   const getMetricValue = (entry: LeaderboardEntry) => {
     switch (filter) {
-      case 'level': return `Nível ${entry.current_level}`;
-      case 'streak': return `${entry.current_streak} dias`;
-      case 'lessons': return `${entry.lessons_completed} aulas`;
+      case 'level': return `${t("dashboards.student.level_label", { defaultValue: "Nível" })} ${entry.current_level}`;
+      case 'streak': return `${entry.current_streak} ${t("common.days", { defaultValue: "dias" })}`;
+      case 'lessons': return `${entry.lessons_completed} ${t("common.lessons", { defaultValue: "aulas" })}`;
       default: return `${entry.total_points} XP`;
     }
   };
@@ -155,9 +157,9 @@ export default function StudentLeaderboard() {
             <div>
               <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
                 <Trophy className="h-5 w-5 text-primary" />
-                Ranking
+                {t("dashboards.student.ranking_title", { defaultValue: "Ranking" })}
               </h1>
-              <p className="text-sm text-muted-foreground">Veja sua posição entre os alunos</p>
+              <p className="text-sm text-muted-foreground">{t("dashboards.student.ranking_subtitle", { defaultValue: "Veja sua posição entre os alunos" })}</p>
             </div>
           </div>
         </div>
@@ -174,11 +176,11 @@ export default function StudentLeaderboard() {
                     <span className="text-2xl font-bold text-primary">#{userRank.rank}</span>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Sua posição</p>
+                    <p className="text-sm text-muted-foreground">{t("dashboards.student.your_position", { defaultValue: "Sua posição" })}</p>
                     <p className="text-lg font-bold text-foreground">{userRank.student_name}</p>
                     <div className="flex items-center gap-2 mt-1">
                       <Badge variant="secondary">{userRank.total_points} XP</Badge>
-                      <Badge variant="outline">Nível {userRank.current_level}</Badge>
+                      <Badge variant="outline">{t("dashboards.student.level_label", { defaultValue: "Nível" })} {userRank.current_level}</Badge>
                       <Badge variant="outline" className="gap-1">
                         <Trophy className="h-3 w-3" /> {userRank.badges_count}
                       </Badge>
@@ -188,7 +190,7 @@ export default function StudentLeaderboard() {
                 <div className="text-right hidden sm:block">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Flame className="h-4 w-4 text-orange-500" />
-                    <span>{userRank.current_streak} dias de sequência</span>
+                    <span>{userRank.current_streak} {t("dashboards.student.streak_days_suffix", { defaultValue: "dias de sequência" })}</span>
                   </div>
                 </div>
               </div>
@@ -202,7 +204,7 @@ export default function StudentLeaderboard() {
             <CardContent className="p-4 text-center">
               <Users className="h-8 w-8 mx-auto text-primary mb-2" />
               <p className="text-2xl font-bold text-foreground">{leaderboard.length}</p>
-              <p className="text-xs text-muted-foreground">Participantes</p>
+              <p className="text-xs text-muted-foreground">{t("common.participants", { defaultValue: "Participantes" })}</p>
             </CardContent>
           </Card>
           <Card>
@@ -211,7 +213,7 @@ export default function StudentLeaderboard() {
               <p className="text-2xl font-bold text-foreground">
                 {leaderboard[0]?.total_points || 0}
               </p>
-              <p className="text-xs text-muted-foreground">Maior pontuação</p>
+              <p className="text-xs text-muted-foreground">{t("dashboards.student.highest_score", { defaultValue: "Maior pontuação" })}</p>
             </CardContent>
           </Card>
           <Card>
@@ -220,7 +222,7 @@ export default function StudentLeaderboard() {
               <p className="text-2xl font-bold text-foreground">
                 {leaderboard[0]?.current_level || 1}
               </p>
-              <p className="text-xs text-muted-foreground">Maior nível</p>
+              <p className="text-xs text-muted-foreground">{t("dashboards.student.highest_level", { defaultValue: "Maior nível" })}</p>
             </CardContent>
           </Card>
           <Card>
@@ -229,7 +231,7 @@ export default function StudentLeaderboard() {
               <p className="text-2xl font-bold text-foreground">
                 {Math.max(...leaderboard.map(l => l.current_streak), 0)}
               </p>
-              <p className="text-xs text-muted-foreground">Maior sequência</p>
+              <p className="text-xs text-muted-foreground">{t("dashboards.student.highest_streak", { defaultValue: "Maior sequência" })}</p>
             </CardContent>
           </Card>
         </div>
@@ -239,19 +241,19 @@ export default function StudentLeaderboard() {
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="points" className="gap-1">
               <Star className="h-4 w-4" />
-              <span className="hidden sm:inline">Pontos</span>
+              <span className="hidden sm:inline">{t("common.points", { defaultValue: "Pontos" })}</span>
             </TabsTrigger>
             <TabsTrigger value="level" className="gap-1">
               <Crown className="h-4 w-4" />
-              <span className="hidden sm:inline">Nível</span>
+              <span className="hidden sm:inline">{t("dashboards.student.level_label", { defaultValue: "Nível" })}</span>
             </TabsTrigger>
             <TabsTrigger value="streak" className="gap-1">
               <Flame className="h-4 w-4" />
-              <span className="hidden sm:inline">Sequência</span>
+              <span className="hidden sm:inline">{t("dashboards.student.streak_label", { defaultValue: "Sequência" })}</span>
             </TabsTrigger>
             <TabsTrigger value="lessons" className="gap-1">
               <TrendingUp className="h-4 w-4" />
-              <span className="hidden sm:inline">Aulas</span>
+              <span className="hidden sm:inline">{t("common.lessons", { defaultValue: "Aulas" })}</span>
             </TabsTrigger>
           </TabsList>
         </Tabs>
@@ -261,24 +263,23 @@ export default function StudentLeaderboard() {
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <Trophy className="h-5 w-5 text-primary" />
-              Top Alunos
+              {t("dashboards.student.top_students_title", { defaultValue: "Top Alunos" })}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {leaderboard.length === 0 ? (
               <div className="text-center py-8">
                 <Users className="h-12 w-12 mx-auto text-muted-foreground/50 mb-4" />
-                <p className="text-muted-foreground">Nenhum aluno no ranking ainda</p>
+                <p className="text-muted-foreground">{t("dashboards.student.no_students_ranking", { defaultValue: "Nenhum aluno no ranking ainda" })}</p>
               </div>
             ) : (
               leaderboard.map((entry) => (
                 <div
                   key={entry.student_id}
-                  className={`flex items-center gap-4 p-4 rounded-xl border transition-all ${
-                    entry.student_id === currentUserId 
-                      ? 'ring-2 ring-primary bg-primary/5' 
-                      : getRankBg(entry.rank)
-                  }`}
+                  className={`flex items-center gap-4 p-4 rounded-xl border transition-all ${entry.student_id === currentUserId
+                    ? 'ring-2 ring-primary bg-primary/5'
+                    : getRankBg(entry.rank)
+                    }`}
                 >
                   {/* Rank */}
                   <div className="w-10 h-10 flex items-center justify-center">
@@ -297,11 +298,11 @@ export default function StudentLeaderboard() {
                     <p className="font-semibold text-foreground truncate">
                       {entry.student_name}
                       {entry.student_id === currentUserId && (
-                        <Badge variant="secondary" className="ml-2 text-xs">Você</Badge>
+                        <Badge variant="secondary" className="ml-2 text-xs">{t("common.you", { defaultValue: "Você" })}</Badge>
                       )}
                     </p>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <span>Nível {entry.current_level}</span>
+                      <span>{t("dashboards.student.level_label", { defaultValue: "Nível" })} {entry.current_level}</span>
                       <span>•</span>
                       <span className="flex items-center gap-1">
                         <Trophy className="h-3 w-3" /> {entry.badges_count}

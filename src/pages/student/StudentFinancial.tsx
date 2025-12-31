@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useI18n } from "@/i18n/I18nProvider";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import {
@@ -35,6 +36,7 @@ interface Payment {
 }
 
 const StudentFinancial = () => {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [payments, setPayments] = useState<Payment[]>([]);
@@ -83,7 +85,7 @@ const StudentFinancial = () => {
       setLoading(false);
     } catch (error) {
       console.error("Error loading payments:", error);
-      toast.error("Erro ao carregar dados financeiros");
+      toast.error(t("dashboards.student.errors.financial_load", { defaultValue: "Erro ao carregar dados financeiros" }));
       setLoading(false);
     }
   };
@@ -102,11 +104,11 @@ const StudentFinancial = () => {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "paid":
-        return <Badge className="bg-success"><CheckCircle2 className="h-3 w-3 mr-1" />Pago</Badge>;
+        return <Badge className="bg-success"><CheckCircle2 className="h-3 w-3 mr-1" />{t("dashboards.student.payment_status_paid", { defaultValue: "Pago" })}</Badge>;
       case "pending":
-        return <Badge variant="secondary"><Clock className="h-3 w-3 mr-1" />Pendente</Badge>;
+        return <Badge variant="secondary"><Clock className="h-3 w-3 mr-1" />{t("dashboards.student.payment_status_pending", { defaultValue: "Pendente" })}</Badge>;
       case "overdue":
-        return <Badge variant="destructive"><AlertCircle className="h-3 w-3 mr-1" />Atrasado</Badge>;
+        return <Badge variant="destructive"><AlertCircle className="h-3 w-3 mr-1" />{t("dashboards.student.payment_status_overdue", { defaultValue: "Atrasado" })}</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -115,7 +117,7 @@ const StudentFinancial = () => {
   const copyPixCode = () => {
     // Mock PIX code
     navigator.clipboard.writeText("00020126580014BR.GOV.BCB.PIX0136faitel@pix.com520400005303986");
-    toast.success("Código PIX copiado!");
+    toast.success(t("dashboards.student.pix_code_copied", { defaultValue: "Código PIX copiado!" }));
   };
 
   if (loading) {
@@ -140,9 +142,9 @@ const StudentFinancial = () => {
             </Link>
             <Button variant="ghost" size="sm" onClick={() => navigate("/student")}>
               <ChevronLeft className="h-4 w-4 mr-1" />
-              Voltar
+              {t("common.back")}
             </Button>
-            <h1 className="text-xl font-display font-bold">Área Financeira</h1>
+            <h1 className="text-xl font-display font-bold">{t("dashboard.quick_actions.financial")}</h1>
           </div>
         </div>
       </header>
@@ -156,7 +158,7 @@ const StudentFinancial = () => {
                 <CheckCircle2 className="h-6 w-6 text-success" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Total Pago</p>
+                <p className="text-sm text-muted-foreground">{t("dashboards.student.total_paid", { defaultValue: "Total Pago" })}</p>
                 <p className="text-2xl font-display font-bold text-success">{formatCurrency(stats.totalPaid)}</p>
               </div>
             </CardContent>
@@ -167,7 +169,7 @@ const StudentFinancial = () => {
                 <Clock className="h-6 w-6 text-warning" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Pendente</p>
+                <p className="text-sm text-muted-foreground">{t("common.pending")}</p>
                 <p className="text-2xl font-display font-bold text-warning">{formatCurrency(stats.totalPending)}</p>
               </div>
             </CardContent>
@@ -178,7 +180,7 @@ const StudentFinancial = () => {
                 <AlertCircle className="h-6 w-6 text-destructive" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Em Atraso</p>
+                <p className="text-sm text-muted-foreground">{t("dashboards.student.overdue_label", { defaultValue: "Em Atraso" })}</p>
                 <p className="text-2xl font-display font-bold text-destructive">{formatCurrency(stats.totalOverdue)}</p>
               </div>
             </CardContent>
@@ -189,8 +191,8 @@ const StudentFinancial = () => {
         {pendingPayments.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle>Efetuar Pagamento</CardTitle>
-              <CardDescription>Escolha a forma de pagamento</CardDescription>
+              <CardTitle>{t("dashboards.student.make_payment", { defaultValue: "Efetuar Pagamento" })}</CardTitle>
+              <CardDescription>{t("dashboards.student.choose_payment_method", { defaultValue: "Escolha a forma de pagamento" })}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-3 gap-4">
@@ -198,31 +200,31 @@ const StudentFinancial = () => {
                   <CardContent className="p-4 text-center">
                     <QrCode className="h-8 w-8 mx-auto text-primary mb-2" />
                     <p className="font-medium">PIX</p>
-                    <p className="text-sm text-muted-foreground">Pagamento instantâneo</p>
+                    <p className="text-sm text-muted-foreground">{t("dashboards.student.instant_payment", { defaultValue: "Pagamento instantâneo" })}</p>
                     <Button variant="outline" size="sm" className="mt-3 gap-1">
                       <Copy className="h-3 w-3" />
-                      Copiar Código
+                      {t("dashboards.student.copy_code", { defaultValue: "Copiar Código" })}
                     </Button>
                   </CardContent>
                 </Card>
                 <Card className="cursor-pointer hover:border-primary transition-colors">
                   <CardContent className="p-4 text-center">
                     <Receipt className="h-8 w-8 mx-auto text-primary mb-2" />
-                    <p className="font-medium">Boleto</p>
-                    <p className="text-sm text-muted-foreground">Vencimento em 3 dias</p>
+                    <p className="font-medium">{t("dashboards.student.bank_slip", { defaultValue: "Boleto" })}</p>
+                    <p className="text-sm text-muted-foreground">{t("dashboards.student.due_3_days", { defaultValue: "Vencimento em 3 dias" })}</p>
                     <Button variant="outline" size="sm" className="mt-3 gap-1">
                       <Download className="h-3 w-3" />
-                      Gerar Boleto
+                      {t("dashboards.student.generate_slip", { defaultValue: "Gerar Boleto" })}
                     </Button>
                   </CardContent>
                 </Card>
                 <Card className="cursor-pointer hover:border-primary transition-colors">
                   <CardContent className="p-4 text-center">
                     <CreditCard className="h-8 w-8 mx-auto text-primary mb-2" />
-                    <p className="font-medium">Cartão</p>
-                    <p className="text-sm text-muted-foreground">Crédito ou débito</p>
+                    <p className="font-medium">{t("dashboards.student.card_label", { defaultValue: "Cartão" })}</p>
+                    <p className="text-sm text-muted-foreground">{t("dashboards.student.credit_debit", { defaultValue: "Crédito ou débito" })}</p>
                     <Button variant="outline" size="sm" className="mt-3">
-                      Pagar com Cartão
+                      {t("dashboards.student.pay_with_card", { defaultValue: "Pagar com Cartão" })}
                     </Button>
                   </CardContent>
                 </Card>
@@ -235,10 +237,10 @@ const StudentFinancial = () => {
         <Tabs defaultValue="pending">
           <TabsList>
             <TabsTrigger value="pending">
-              Pendentes ({pendingPayments.length})
+              {t("dashboards.student.pending_tab", { defaultValue: "Pendentes" })} ({pendingPayments.length})
             </TabsTrigger>
             <TabsTrigger value="paid">
-              Pagos ({paidPayments.length})
+              {t("dashboards.student.paid_tab", { defaultValue: "Pagos" })} ({paidPayments.length})
             </TabsTrigger>
           </TabsList>
 
@@ -249,11 +251,11 @@ const StudentFinancial = () => {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Curso</TableHead>
-                        <TableHead>Vencimento</TableHead>
-                        <TableHead>Valor</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead className="text-right">Ações</TableHead>
+                        <TableHead>{t("common.course")}</TableHead>
+                        <TableHead>{t("dashboards.student.due_date_label", { defaultValue: "Vencimento" })}</TableHead>
+                        <TableHead>{t("dashboards.student.amount_label", { defaultValue: "Valor" })}</TableHead>
+                        <TableHead>{t("common.status")}</TableHead>
+                        <TableHead className="text-right">{t("dashboards.student.actions_label", { defaultValue: "Ações" })}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -264,7 +266,7 @@ const StudentFinancial = () => {
                           <TableCell>{formatCurrency(Number(payment.amount))}</TableCell>
                           <TableCell>{getStatusBadge(payment.status)}</TableCell>
                           <TableCell className="text-right">
-                            <Button size="sm">Pagar</Button>
+                            <Button size="sm">{t("dashboards.student.pay_button", { defaultValue: "Pagar" })}</Button>
                           </TableCell>
                         </TableRow>
                       ))}
@@ -273,7 +275,7 @@ const StudentFinancial = () => {
                 ) : (
                   <div className="py-12 text-center text-muted-foreground">
                     <CheckCircle2 className="h-12 w-12 mx-auto mb-4 text-success" />
-                    <p>Nenhum pagamento pendente!</p>
+                    <p>{t("dashboards.student.no_pending_payments", { defaultValue: "Nenhum pagamento pendente!" })}</p>
                   </div>
                 )}
               </CardContent>
@@ -287,11 +289,11 @@ const StudentFinancial = () => {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Curso</TableHead>
-                        <TableHead>Data Pagamento</TableHead>
-                        <TableHead>Valor</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead className="text-right">Recibo</TableHead>
+                        <TableHead>{t("common.course")}</TableHead>
+                        <TableHead>{t("dashboards.student.payment_date_label", { defaultValue: "Data Pagamento" })}</TableHead>
+                        <TableHead>{t("dashboards.student.amount_label", { defaultValue: "Valor" })}</TableHead>
+                        <TableHead>{t("common.status")}</TableHead>
+                        <TableHead className="text-right">{t("dashboards.student.receipt_label", { defaultValue: "Recibo" })}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -304,7 +306,7 @@ const StudentFinancial = () => {
                           <TableCell className="text-right">
                             <Button variant="outline" size="sm">
                               <Download className="h-4 w-4 mr-1" />
-                              Recibo
+                              {t("dashboards.student.receipt_button", { defaultValue: "Recibo" })}
                             </Button>
                           </TableCell>
                         </TableRow>
@@ -314,7 +316,7 @@ const StudentFinancial = () => {
                 ) : (
                   <div className="py-12 text-center text-muted-foreground">
                     <Receipt className="h-12 w-12 mx-auto mb-4" />
-                    <p>Nenhum pagamento realizado ainda</p>
+                    <p>{t("dashboards.student.no_paid_payments", { defaultValue: "Nenhum pagamento realizado ainda" })}</p>
                   </div>
                 )}
               </CardContent>

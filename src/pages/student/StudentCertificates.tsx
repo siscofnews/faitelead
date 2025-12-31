@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useI18n } from "@/i18n/I18nProvider";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { QRCodeSVG } from "qrcode.react";
 import {
-  Home, ChevronLeft, Award, Download, Share2, 
+  Home, ChevronLeft, Award, Download, Share2,
   QrCode, Calendar, Clock, ExternalLink, CheckCircle2, X
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -31,6 +32,7 @@ interface Certificate {
 }
 
 const StudentCertificates = () => {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [certificates, setCertificates] = useState<Certificate[]>([]);
@@ -60,7 +62,7 @@ const StudentCertificates = () => {
       setLoading(false);
     } catch (error) {
       console.error("Error loading certificates:", error);
-      toast.error("Erro ao carregar certificados");
+      toast.error(t("dashboards.student.errors.certificates_load", { defaultValue: "Erro ao carregar certificados" }));
       setLoading(false);
     }
   };
@@ -75,9 +77,9 @@ const StudentCertificates = () => {
 
   const getCertificateTypeLabel = (type: string) => {
     const labels: Record<string, string> = {
-      completion: "Conclusão",
-      extension: "Extensão",
-      participation: "Participação"
+      completion: t("common.completion", { defaultValue: "Conclusão" }),
+      extension: t("common.extension", { defaultValue: "Extensão" }),
+      participation: t("common.participation", { defaultValue: "Participação" })
     };
     return labels[type] || type;
   };
@@ -88,7 +90,7 @@ const StudentCertificates = () => {
 
   const shareCertificate = async (cert: Certificate) => {
     const shareUrl = getVerificationUrl(cert.qr_verification_code);
-    
+
     if (navigator.share) {
       try {
         await navigator.share({
@@ -101,7 +103,7 @@ const StudentCertificates = () => {
       }
     } else {
       navigator.clipboard.writeText(shareUrl);
-      toast.success("Link de verificação copiado!");
+      toast.success(t("dashboards.student.verification_link_copied", { defaultValue: "Link de verificação copiado!" }));
     }
   };
 
@@ -129,9 +131,9 @@ const StudentCertificates = () => {
             </Link>
             <Button variant="ghost" size="sm" onClick={() => navigate("/student")}>
               <ChevronLeft className="h-4 w-4 mr-1" />
-              Voltar
+              {t("common.back")}
             </Button>
-            <h1 className="text-xl font-display font-bold">Meus Certificados</h1>
+            <h1 className="text-xl font-display font-bold">{t("dashboard.quick_actions.certificates")}</h1>
           </div>
         </div>
       </header>
@@ -143,7 +145,7 @@ const StudentCertificates = () => {
             <CardContent className="p-4 text-center">
               <Award className="h-8 w-8 mx-auto text-amber-500 mb-2" />
               <p className="text-3xl font-display font-bold">{certificates.length}</p>
-              <p className="text-sm text-muted-foreground">Certificados</p>
+              <p className="text-sm text-muted-foreground">{t("dashboard.quick_actions.certificates")}</p>
             </CardContent>
           </Card>
           <Card>
@@ -152,7 +154,7 @@ const StudentCertificates = () => {
               <p className="text-3xl font-display font-bold">
                 {certificates.reduce((acc, c) => acc + c.total_hours, 0)}h
               </p>
-              <p className="text-sm text-muted-foreground">Horas Totais</p>
+              <p className="text-sm text-muted-foreground">{t("dashboards.student.total_hours", { defaultValue: "Horas Totais" })}</p>
             </CardContent>
           </Card>
           <Card>
@@ -161,7 +163,7 @@ const StudentCertificates = () => {
               <p className="text-3xl font-display font-bold">
                 {certificates.filter(c => c.certificate_type === "completion").length}
               </p>
-              <p className="text-sm text-muted-foreground">Cursos Concluídos</p>
+              <p className="text-sm text-muted-foreground">{t("dashboards.student.courses_completed", { defaultValue: "Cursos Concluídos" })}</p>
             </CardContent>
           </Card>
         </div>
@@ -176,7 +178,7 @@ const StudentCertificates = () => {
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center">
                       <Award className="h-12 w-12 mx-auto text-amber-500 mb-2" />
-                      <p className="font-display font-bold text-lg">CERTIFICADO</p>
+                      <p className="font-display font-bold text-lg">{t("dashboards.student.certificate_label", { defaultValue: "CERTIFICADO" })}</p>
                       <p className="text-sm text-muted-foreground">
                         {getCertificateTypeLabel(cert.certificate_type)}
                       </p>
@@ -199,34 +201,34 @@ const StudentCertificates = () => {
 
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Nº do Certificado:</span>
+                    <span className="text-muted-foreground">{t("dashboards.student.certificate_number", { defaultValue: "Nº do Certificado:" })}</span>
                     <span className="font-mono">{cert.certificate_number}</span>
                   </div>
-                  
+
                   {cert.grade && (
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Nota:</span>
+                      <span className="text-muted-foreground">{t("common.grade", { defaultValue: "Nota" })}:</span>
                       <Badge variant="outline" className="text-green-600">{cert.grade}%</Badge>
                     </div>
                   )}
 
                   <div className="flex gap-2 pt-2">
-                    <Button 
+                    <Button
                       className="flex-1 gap-2"
                       onClick={() => navigate(`/certificate/${cert.id}`)}
                     >
                       <Download className="h-4 w-4" />
-                      Baixar
+                      {t("common.download", { defaultValue: "Baixar" })}
                     </Button>
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       size="icon"
                       onClick={() => shareCertificate(cert)}
                     >
                       <Share2 className="h-4 w-4" />
                     </Button>
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       size="icon"
                       onClick={() => showQRCode(cert)}
                     >
@@ -241,12 +243,12 @@ const StudentCertificates = () => {
           <Card>
             <CardContent className="py-16 text-center">
               <Award className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-              <h3 className="text-xl font-display font-bold mb-2">Nenhum certificado ainda</h3>
+              <h3 className="text-xl font-display font-bold mb-2">{t("dashboards.student.no_certificates", { defaultValue: "Nenhum certificado ainda" })}</h3>
               <p className="text-muted-foreground mb-6">
-                Complete seus cursos para receber certificados digitais com QR Code de verificação.
+                {t("dashboards.student.no_certificates_desc", { defaultValue: "Complete seus cursos para receber certificados digitais com QR Code de verificação." })}
               </p>
               <Button onClick={() => navigate("/student")}>
-                Ver Meus Cursos
+                {t("dashboards.student.view_my_courses", { defaultValue: "Ver Meus Cursos" })}
               </Button>
             </CardContent>
           </Card>
@@ -258,11 +260,9 @@ const StudentCertificates = () => {
             <div className="flex items-start gap-4">
               <QrCode className="h-8 w-8 text-primary flex-shrink-0" />
               <div>
-                <h4 className="font-medium mb-1">Certificados com Verificação Digital</h4>
+                <h4 className="font-medium mb-1">{t("dashboards.student.digital_verification_title", { defaultValue: "Certificados com Verificação Digital" })}</h4>
                 <p className="text-sm text-muted-foreground">
-                  Todos os certificados emitidos pela FAITEL possuem QR Code para verificação 
-                  de autenticidade. Basta escanear o código ou acessar o link de verificação 
-                  para confirmar a validade do documento.
+                  {t("dashboards.student.digital_verification_desc", { defaultValue: "Todos os certificados emitidos pela FAITEL possuem QR Code para verificação de autenticidade. Basta escanear o código ou acessar o link de verificação para confirmar a validade do documento." })}
                 </p>
               </div>
             </div>
@@ -276,7 +276,7 @@ const StudentCertificates = () => {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <QrCode className="h-5 w-5" />
-              QR Code de Verificação
+              {t("dashboards.student.verification_qrcode", { defaultValue: "QR Code de Verificação" })}
             </DialogTitle>
           </DialogHeader>
           {selectedCert && (
@@ -297,28 +297,28 @@ const StudentCertificates = () => {
               </div>
               <p className="text-center font-medium mb-1">{selectedCert.course_name}</p>
               <p className="text-sm text-muted-foreground mb-4">
-                Certificado Nº: {selectedCert.certificate_number}
+                {t("dashboards.student.certificate_short", { defaultValue: "Certificado Nº:" })} {selectedCert.certificate_number}
               </p>
               <p className="text-xs text-muted-foreground text-center mb-4">
-                Escaneie este QR Code para verificar a autenticidade do certificado
+                {t("dashboards.student.scan_qrcode_desc", { defaultValue: "Escaneie este QR Code para verificar a autenticidade do certificado" })}
               </p>
               <div className="flex gap-2 w-full">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="flex-1 gap-2"
                   onClick={() => {
                     navigator.clipboard.writeText(getVerificationUrl(selectedCert.qr_verification_code));
-                    toast.success("Link copiado!");
+                    toast.success(t("dashboards.student.link_copied", { defaultValue: "Link copiado!" }));
                   }}
                 >
-                  Copiar Link
+                  {t("dashboards.student.copy_link", { defaultValue: "Copiar Link" })}
                 </Button>
-                <Button 
+                <Button
                   className="flex-1 gap-2"
                   onClick={() => window.open(getVerificationUrl(selectedCert.qr_verification_code), "_blank")}
                 >
                   <ExternalLink className="h-4 w-4" />
-                  Verificar
+                  {t("dashboards.student.verify_label", { defaultValue: "Verificar" })}
                 </Button>
               </div>
             </div>

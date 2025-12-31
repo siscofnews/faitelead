@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import {
-  Home, ChevronLeft, FileText, Download, Printer, 
+  Home, ChevronLeft, FileText, Download, Printer,
   CheckCircle2, Clock, XCircle, BookOpen
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -45,14 +46,11 @@ interface CourseTranscript {
 }
 
 const StudentTranscript = () => {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [studentName, setStudentName] = useState("");
   const [transcripts, setTranscripts] = useState<CourseTranscript[]>([]);
-
-  useEffect(() => {
-    loadTranscript();
-  }, [loadTranscript]);
 
   const loadTranscript = useCallback(async () => {
     try {
@@ -91,11 +89,14 @@ const StudentTranscript = () => {
       const courseMap = new Map<string, CourseTranscript>();
 
       enrollments?.forEach(e => {
-        if (e.courses) {
+        // Handle courses as potentially an array or single object from Supabase types
+        const course = Array.isArray(e.courses) ? e.courses[0] : e.courses;
+
+        if (course) {
           courseMap.set(e.course_id, {
             course_id: e.course_id,
-            course_title: e.courses.title,
-            total_hours: e.courses.total_hours || 540,
+            course_title: course.title,
+            total_hours: course.total_hours || 540,
             completed_hours: 0,
             items: []
           });
@@ -116,21 +117,25 @@ const StudentTranscript = () => {
       setLoading(false);
     } catch (error) {
       console.error("Error loading transcript:", error);
-      toast.error("Erro ao carregar histórico");
+      toast.error(t("dashboards.student.errors.transcript_load", { defaultValue: "Erro ao carregar histórico" }));
       setLoading(false);
     }
-  }, [navigate]);
+  }, [navigate, t]);
+
+  useEffect(() => {
+    loadTranscript();
+  }, [loadTranscript]);
 
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "approved":
-        return <Badge className="bg-success"><CheckCircle2 className="h-3 w-3 mr-1" />Aprovado</Badge>;
+        return <Badge className="bg-success"><CheckCircle2 className="h-3 w-3 mr-1" />{t("common.approved", { defaultValue: "Aprovado" })}</Badge>;
       case "in_progress":
-        return <Badge variant="secondary"><Clock className="h-3 w-3 mr-1" />Cursando</Badge>;
+        return <Badge variant="secondary"><Clock className="h-3 w-3 mr-1" />{t("common.enrolled_studying", { defaultValue: "Cursando" })}</Badge>;
       case "failed":
-        return <Badge variant="destructive"><XCircle className="h-3 w-3 mr-1" />Reprovado</Badge>;
+        return <Badge variant="destructive"><XCircle className="h-3 w-3 mr-1" />{t("common.failed", { defaultValue: "Reprovado" })}</Badge>;
       case "pending":
-        return <Badge variant="outline"><Clock className="h-3 w-3 mr-1" />Pendente</Badge>;
+        return <Badge variant="outline"><Clock className="h-3 w-3 mr-1" />{t("common.pending", { defaultValue: "Pendente" })}</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -165,18 +170,18 @@ const StudentTranscript = () => {
               </Link>
               <Button variant="ghost" size="sm" onClick={() => navigate("/student")}>
                 <ChevronLeft className="h-4 w-4 mr-1" />
-                Voltar
+                {t("common.back", { defaultValue: "Voltar" })}
               </Button>
-              <h1 className="text-xl font-display font-bold">Histórico Acadêmico</h1>
+              <h1 className="text-xl font-display font-bold">{t("dashboards.student.academic_transcript", { defaultValue: "Histórico Acadêmico" })}</h1>
             </div>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" className="gap-1">
                 <Printer className="h-4 w-4" />
-                <span className="hidden sm:inline">Imprimir</span>
+                <span className="hidden sm:inline">{t("common.print", { defaultValue: "Imprimir" })}</span>
               </Button>
               <Button size="sm" className="gap-1">
                 <Download className="h-4 w-4" />
-                <span className="hidden sm:inline">Baixar PDF</span>
+                <span className="hidden sm:inline">{t("common.download_pdf", { defaultValue: "Baixar PDF" })}</span>
               </Button>
             </div>
           </div>
@@ -190,10 +195,10 @@ const StudentTranscript = () => {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <h2 className="text-2xl font-display font-bold">{studentName}</h2>
-                <p className="text-muted-foreground">FAITEL - Faculdade Internacional Teológica de Líderes</p>
+                <p className="text-muted-foreground">{t("common.institution_name", { defaultValue: "FAITEL - Faculdade Internacional Teológica de Líderes" })}</p>
               </div>
               <div className="text-right">
-                <p className="text-sm text-muted-foreground">Documento gerado em</p>
+                <p className="text-sm text-muted-foreground">{t("dashboards.student.transcript_generated", { defaultValue: "Documento gerado em" })}</p>
                 <p className="font-medium">{new Date().toLocaleDateString("pt-BR")}</p>
               </div>
             </div>
@@ -215,7 +220,7 @@ const StudentTranscript = () => {
                         <div className="text-left">
                           <h3 className="font-display font-semibold">{course.course_title}</h3>
                           <p className="text-sm text-muted-foreground">
-                            {course.completed_hours}h de {course.total_hours}h completadas
+                            {course.completed_hours}{t("common.hours_of", { defaultValue: "h de" })} {course.total_hours}{t("dashboards.student.hours_completed", { defaultValue: "h completadas" })}
                           </p>
                         </div>
                       </div>
@@ -233,11 +238,11 @@ const StudentTranscript = () => {
                         <Table>
                           <TableHeader>
                             <TableRow>
-                              <TableHead>Disciplina</TableHead>
-                              <TableHead className="text-center">Carga Horária</TableHead>
-                              <TableHead className="text-center">Nota</TableHead>
-                              <TableHead className="text-center">Status</TableHead>
-                              <TableHead className="text-center">Conclusão</TableHead>
+                              <TableHead>{t("common.subject", { defaultValue: "Disciplina" })}</TableHead>
+                              <TableHead className="text-center">{t("common.workload", { defaultValue: "Carga Horária" })}</TableHead>
+                              <TableHead className="text-center">{t("common.grade", { defaultValue: "Nota" })}</TableHead>
+                              <TableHead className="text-center">{t("common.status", { defaultValue: "Status" })}</TableHead>
+                              <TableHead className="text-center">{t("common.conclusion", { defaultValue: "Conclusão" })}</TableHead>
                             </TableRow>
                           </TableHeader>
                           <TableBody>
@@ -257,7 +262,7 @@ const StudentTranscript = () => {
                       ) : (
                         <div className="py-8 text-center text-muted-foreground">
                           <Clock className="h-8 w-8 mx-auto mb-2" />
-                          <p>Nenhuma disciplina cursada ainda</p>
+                          <p>{t("dashboards.student.no_subjects_taken", { defaultValue: "Nenhuma disciplina cursada ainda" })}</p>
                         </div>
                       )}
                     </CardContent>
@@ -270,12 +275,12 @@ const StudentTranscript = () => {
           <Card>
             <CardContent className="py-16 text-center">
               <FileText className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-              <h3 className="text-xl font-display font-bold mb-2">Histórico vazio</h3>
+              <h3 className="text-xl font-display font-bold mb-2">{t("dashboards.student.empty_transcript", { defaultValue: "Histórico vazio" })}</h3>
               <p className="text-muted-foreground mb-6">
-                Você ainda não possui disciplinas em seu histórico acadêmico.
+                {t("dashboards.student.empty_transcript_desc", { defaultValue: "Você ainda não possui disciplinas em seu histórico acadêmico." })}
               </p>
               <Button onClick={() => navigate("/student")}>
-                Ver Meus Cursos
+                {t("dashboards.student.view_my_courses", { defaultValue: "Ver Meus Cursos" })}
               </Button>
             </CardContent>
           </Card>
@@ -284,23 +289,23 @@ const StudentTranscript = () => {
         {/* Legend */}
         <Card className="bg-muted/30">
           <CardContent className="p-4">
-            <p className="text-sm font-medium mb-3">Legenda:</p>
+            <p className="text-sm font-medium mb-3">{t("common.legend", { defaultValue: "Legenda:" })}</p>
             <div className="flex flex-wrap gap-4 text-sm">
               <span className="flex items-center gap-2">
-                <Badge className="bg-success">Aprovado</Badge>
-                Nota ≥ 70%
+                <Badge className="bg-success">{t("common.approved", { defaultValue: "Aprovado" })}</Badge>
+                {t("dashboards.student.grade_approved_condition", { defaultValue: "Nota ≥ 70%" })}
               </span>
               <span className="flex items-center gap-2">
-                <Badge variant="secondary">Cursando</Badge>
-                Em andamento
+                <Badge variant="secondary">{t("common.enrolled_studying", { defaultValue: "Cursando" })}</Badge>
+                {t("common.in_progress", { defaultValue: "Em andamento" })}
               </span>
               <span className="flex items-center gap-2">
-                <Badge variant="destructive">Reprovado</Badge>
-                Nota &lt; 70%
+                <Badge variant="destructive">{t("common.failed", { defaultValue: "Reprovado" })}</Badge>
+                {t("dashboards.student.grade_failed_condition", { defaultValue: "Nota < 70%" })}
               </span>
               <span className="flex items-center gap-2">
-                <Badge variant="outline">Pendente</Badge>
-                Não iniciado
+                <Badge variant="outline">{t("common.pending", { defaultValue: "Pendente" })}</Badge>
+                {t("common.not_started", { defaultValue: "Não iniciado" })}
               </span>
             </div>
           </CardContent>

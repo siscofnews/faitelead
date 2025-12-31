@@ -11,385 +11,298 @@
     "completed": "Terminé",
     "watch": "Regarder",
     "download": "Télécharger",
-    "home": "Accueil"
+    "home": "Accueil",
+    "details": "Détails",
+    "go_to_slide": "Aller à la diapositive",
+    "professor": "Professeur",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "unknown_error": "Erreur inconnue",
+    "unknown": "Inconnu",
+    "reply": "Répondre",
+    "view_forum": "Voir le forum",
+    "view_all": "Voir tout",
+    "welcome": "Bienvenue",
+    "settings": "Paramètres",
+    "logout": "Déconnexion",
+    "logout_success": "Déconnexion réussie !",
+    "my_account": "Mon compte",
+    "students": "Étudiants",
+    "classes": "Classes",
+    "items": "éléments",
+    "ead_platform": "Plateforme EAD",
+    "gallery": "Galerie",
+    "exams": "Examens",
+    "of": "de",
+    "months": "mois",
+    "course": "Cours",
+    "continue": "Continuer",
+    "start": "Démarrer",
+    "all": "Tout",
+    "pending": "En attente",
+    "review": "Réviser",
+    "loading_courses": "Chargement des cours...",
+    "loading_lessons": "Chargement des leçons...",
+    "loading_exams": "Chargement des examens...",
+    "pdf_material": "Matériel PDF",
+    "questions": "questions",
+    "minimum": "Minimum",
+    "approved": "Approuvé",
+    "failed": "Échoué",
+    "realized": "Réalisé",
+    "retry": "Réessayer",
+    "retake": "Reprendre",
+    "workload": "Charge de travail",
+    "status": "Statut",
+    "conclusion": "Conclusion",
+    "enrolled_studying": "En cours",
+    "in_progress": "En cours",
+    "not_started": "Pas commencé",
+    "hours_of": "h de",
+    "institution_name": "FAITEL - Faculté Internationale Théologique de Leaders",
+    "legend": "Légende :",
+    "print": "Imprimer",
+    "download_pdf": "Télécharger PDF",
+    "discipline": "Discipline",
+    "grade": "Note",
+    "completion": "Achèvement",
+    "extension": "Extension",
+    "participation": "Participation",
+    "exam": "Examen",
+    "deadline": "Délai",
+    "holiday": "Jour férié",
+    "event": "Événement",
+    "loading_calendar": "Chargement du calendrier...",
+    "enter": "Entrer",
+    "student": "Étudiant",
+    "full_name_placeholder": "Votre nom complet",
+    "email_placeholder": "votre@email.com",
+    "subject": "Sujet",
+    "subject_placeholder": "Quel est le motif de votre contact ?",
+    "message": "Message",
+    "message_placeholder": "Décrivez votre question ou demande en détail...",
+    "sending": "Envoi en cours...",
+    "useful_links": "Liens utiles",
+    "privacy_policy": "Politique de confidentialité",
+    "help_title": "Besoin d'aide ?",
+    "help_desc": "Notre équipe est prête à vous aider",
+    "contact_button": "Contacter le support",
+    "fale_conosco": "Contactez-nous",
+    "zip_code": "Code Postal",
+    "country": "Pays",
+    "number": "Numéro",
+    "complement": "Complément",
+    "neighborhood": "Quartier",
+    "city": "Ville",
+    "state": "État / Province",
+    "phone": "Téléphone / WhatsApp",
+    "birth_date": "Date de Naissance",
+    "gender": "Genre",
+    "address": "Adresse",
+    "name": "Nom Complet",
+    "actions": "Actions",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "view": "Voir",
+    "search_placeholder": "Rechercher...",
+    "no_results": "Aucun résultat trouvé"
   },
-  "home": "Accueil",
-  "enroll": "S'INSCRIRE",
-  "search_placeholder": "Rechercher cours, modules, leçons...",
-  "profile": "Mon Profil",
-  "settings": "Paramètres",
-  "logout": "Se déconnecter",
-  "role_student": "Étudiant",
-  "role_admin": "Administrateur",
-  "role_teacher": "Professeur",
-  "role_director": "Directeur",
-  "role_super_admin": "Super Administrateur",
-  "back": "Retour",
+  "roles": {
+    "student": "Étudiant",
+    "admin": "Administrateur",
+    "super_admin": "Super Administrateur",
+    "teacher": "Professeur",
+    "director": "Directeur"
+  },
   "nav": {
-    "modalities": "Modalités",
+    "start": "Début",
+    "my_progress": "Mes progrès",
+    "achievements": "Réalisations",
+    "ranking": "Classement",
+    "my_courses": "Mes cours",
+    "lessons": "Leçons",
+    "exams": "Examens",
+    "transcript": "Relevé de notes",
+    "certificates": "Certificats",
+    "financial": "Financier",
+    "calendar": "Calendrier",
+    "support": "Support",
+    "dashboard": "Tableau de bord",
+    "students": "Étudiants",
+    "professors": "Professeurs",
     "courses": "Cours",
+    "polos": "Polos",
+    "reports": "Rapports",
+    "approvals": "Approbations",
+    "announcements": "Annonces",
+    "restore": "Restaurer le contenu",
+    "super_admin_portal": "Portail Super Admin",
+    "global_access": "Accès global total",
+    "modalities": "Modalités",
     "certifications": "Certifications",
     "about": "À propos",
     "testimonials": "Témoignages",
-    "student_portal": "Portail Étudiant",
-    "know_modalities": "DÉCOUVRIR LES MODALITÉS"
+    "student_portal": "Portail de l'étudiant",
+    "know_modalities": "CONNAÎTRE LES MODALITÉS"
   },
-  "hero": {
-    "live_class_weekly": "COURS EN DIRECT CHAQUE SEMAINE",
-    "theology_faculty": "FACULTÉ DE THÉOLOGIE",
-    "forming_leaders": "Former des leaders pour le Royaume depuis",
-    "years": "23 ans",
-    "choose_modality": "Choisissez votre modalité : Présentiel, En ligne ou Hybride avec cours en direct",
-    "start_now": "COMMENCER MAINTENANT"
-  },
-  "stats": {
-    "years_history": "Années d'Histoire",
-    "students_graduated": "Étudiants Diplômés",
-    "approval_rate": "Taux de Réussite",
-    "classes_available": "Cours Disponibles"
-  },
-  "modalities": {
-    "choose_journey": "CHOISISSEZ VOTRE PARCOURS",
-    "title_prefix": "MODALITÉS D'",
-    "title_suffix": "ENSEIGNEMENT",
-    "presencial_title": "PRÉSENTIEL",
-    "presencial_subtitle": "100% en Salle de Classe",
-    "presencial_desc": "Cours présentiels avec des professeurs qualifiés, interaction directe et réseautage avec d'autres étudiants.",
-    "ead_title": "EN LIGNE",
-    "ead_subtitle": "100% En Ligne",
-    "ead_desc": "Étudiez à votre rythme avec des cours enregistrés de haute qualité, disponibles 24h/24.",
-    "ead_badge": "LE PLUS POPULAIRE",
-    "semi_title": "HYBRIDE",
-    "semi_subtitle": "Hybride avec Cours en Direct",
-    "semi_desc": "Le meilleur des deux mondes : flexibilité de l'apprentissage en ligne avec un cours en direct par semaine.",
-    "semi_badge": "NOUVEAU",
-    "live": "EN DIRECT",
-    "learn_more": "EN SAVOIR PLUS",
-    "features": {
-      "networking": "Réseautage",
-      "mentorship": "Mentorat",
-      "hd_video": "Vidéo HD",
-      "online_247": "Disponible 24/7",
-      "online_platform": "Plateforme en ligne",
-      "live_class": "Cours en Direct",
-      "hybrid": "Apprentissage Hybride",
-      "interactive": "Interactif"
-    }
-  },
-  "live": {
-    "exclusive": "EXCLUSIF",
-    "title": "COURS EN DIRECT HEBDOMADAIRE",
-    "desc": "Dans la modalité Hybride, vous avez accès à un cours en direct par semaine avec nos professeurs. Posez vos questions en temps réel, interagissez avec d'autres étudiants et vivez une expérience d'apprentissage unique.",
-    "hd_quality": "Qualité HD",
-    "hd_desc": "Diffusion haute définition",
-    "live_chat": "Chat en Direct",
-    "chat_desc": "Interaction en temps réel",
-    "fixed_schedule": "Horaire Fixe",
-    "schedule_desc": "Horaires définis",
-    "recording": "Enregistrement",
-    "recording_desc": "Regardez plus tard si vous manquez",
-    "cta": "JE VEUX DES COURS EN DIRECT",
-    "watching": "visionnent"
-  },
-  "courses": {
-    "complete_formation": "FORMATION COMPLÈTE",
-    "our_courses": "NOS COURS",
-    "info": "Cours de 90 jours • 1 cours par semaine • 3 heures/cours",
-    "price": "R$ 400,00",
-    "payment": "| 1+3x sur carte ou PIX",
-    "days": "90 jours",
-    "hours": "3h/cours",
-    "details": "VOIR DÉTAILS",
-    "see_all": "VOIR TOUS LES COURS",
-    "names": {
-      "juiz_arbitral": "Juge Arbitral",
-      "lideres": "Formation de Leaders de Cellule",
-      "direitos_humanos": "Agents et Défenseurs des Droits de l'Homme",
-      "capelania": "Aumônerie Militaire"
-    }
-  },
-  "about": {
-    "our_history": "NOTRE HISTOIRE",
-    "title": "23 ANS D'EXCELLENCE",
-    "p1": "Fondée par le Pasteur Valdinei, FAITEL est née comme un séminaire théologique avec la vision de former des leaders chrétiens engagés envers la Parole de Dieu.",
-    "p2": "Aujourd'hui, nous sommes une Faculté de Théologie d'excellence, main dans la main avec WST Éditions, produisant nos propres matériels pédagogiques exclusifs.",
-    "own_material": "Matériel Propre",
-    "wst_publisher": "WST Éditions",
-    "certification": "Certification",
-    "recognized": "Reconnue"
-  },
-  "testimonials": {
-    "badge": "TÉMOIGNAGES",
-    "what_they_say": "CE QU'ILS DISENT",
-    "our_students": "NOS ÉTUDIANTS",
-    "t1": {
-      "text": "FAITEL a transformé mon ministère. La profondeur théologique et la praticité des enseignements ont été fondamentales.",
-      "role": "Église Baptiste Centrale"
-    },
-    "t2": {
-      "text": "La modalité hybride m'a permis de continuer mes études même sur le champ missionnaire. Les cours en direct sont incroyables !",
-      "role": "Missionnaire"
-    },
-    "t3": {
-      "text": "Formation complète unissant théorie et pratique. Les matériels pédagogiques de WST Éditions sont de première qualité.",
-      "role": "Séminaire Théologique"
-    }
-  },
-  "cta": {
-    "start_journey": "COMMENCEZ VOTRE PARCOURS AUJOURD'HUI",
-    "desc": "Choisissez la modalité qui s'adapte le mieux à votre routine et transformez votre appel en connaissance.",
-    "enroll_now": "S'INSCRIRE MAINTENANT",
-    "contact_us": "CONTACTEZ-NOUS"
-  },
-  "footer": {
-    "rights": "© 2024 FAITEL - Faculté de Théologie. Tous droits réservés.",
-    "terms": "Conditions d'Utilisation",
-    "privacy": "Confidentialité",
-    "quick_links": "LIENS RAPIDES",
-    "programs": "NOS PROGRAMMES",
-    "courses": "COURS",
-    "modalities": "MODALITÉS",
-    "contact": "CONTACT",
-    "addresses": "ADRESSES",
-    "matriz": "Siège Social",
-    "admin_hq": "Siège Administratif"
-  },
-  "banner": {
-    "slide1_title": "INSCRIPTIONS OUVERTES 2026",
-    "slide1_subtitle": "Garantissez votre place dans la meilleure faculté de théologie du Brésil",
-    "slide2_title": "TRANSFORMEZ VOTRE FOI EN CONNAISSANCE",
-    "slide2_subtitle": "\"La crainte de l'Éternel est le commencement de la sagesse\" - Proverbes 9:10",
-    "slide3_title": "PRÉPAREZ-VOUS À L'APPEL DE DIEU",
-    "slide3_subtitle": "Formez-vous avec excellence et servez avec détermination",
-    "slide4_title": "23 ANS À FORMER DES LEADERS",
-    "slide4_subtitle": "Plus de 65 000 étudiants transformés par la connaissance théologique",
-    "slide5_title": "ÉTUDIEZ À VOTRE RYTHME",
-    "slide5_subtitle": "Présentiel, En ligne ou Hybride - vous choisissez votre parcours",
-    "slide6_title": "\"ALLEZ ET FAITES DES DISCIPLES\"",
-    "slide6_subtitle": "Donnez-vous les moyens d'accomplir la Grande Commission - Matthieu 28:19",
-    "slide7_title": "AMOUR DE LA CONNAISSANCE DIVINE",
-    "slide7_subtitle": "\"Croissez dans la grâce et dans la connaissance\" - 2 Pierre 3:18"
-  },
-  "quicknav": {
-    "institucional": "INSTITUTIONNEL",
-    "mission": "MISSION, VISION ET VALEURS",
-    "regiment": "RÈGLEMENT",
-    "ombudsman": "MÉDIATEUR",
-    "admin": "ADMINISTRATION ACADÉMIQUE",
-    "cpa": "CPA",
-    "teaching": "ENSEIGNEMENT",
-    "graduation": "LICENCE",
-    "graduation_ead": "LICENCE EN LIGNE",
-    "post_grad": "MASTER",
-    "vestibular": "EXAMEN D'ENTRÉE",
-    "vestibular_online": "EXAMEN EN LIGNE 2026",
-    "vestibular_scheduled": "EXAMEN PROGRAMMÉ 2026",
-    "ead": "EAD",
-    "access_room": "ACCÉDEZ À VOTRE SALLE",
-    "faq": "FAQ DU SERVICE",
-    "library": "BIBLIOTHÈQUE",
-    "guide_link": "GUIDE ET LIEN",
-    "abnt_collection": "COLLECTION ABNT",
-    "gallery": "GALERIE"
-  },
-  "course": {
-    "content": "Contenu du Cours",
-    "select_module": "Sélectionnez un module pour commencer à regarder",
-    "module": "Module",
-    "complete_lesson": "Terminer la Leçon",
-    "next_lesson": "Leçon Suivante",
-    "materials_extras": "Matériels et Vidéos Supplémentaires",
-    "download_pdf": "Télécharger le PDF de la leçon",
-    "click_to_watch": "Cliquez pour regarder",
-    "playing": "Lecture en cours",
-    "video_lesson": "Leçon Vidéo",
-    "search_lesson": "Rechercher une leçon...",
-    "congratulations": "Félicitations !",
-    "lesson_completed": "Leçon marquée comme terminée !",
-    "module_locked_msg": "Terminez toutes les leçons et réussissez l'examen du module précédent pour débloquer."
-  },
-  "video": {
-    "loading": "Chargement de la vidéo...",
-    "not_available": "Vidéo non disponible",
-    "not_configured": "La vidéo de cette leçon n'a pas encore été configurée. Veuillez contacter l'administration."
-  },
-  "certifications": {
-    "credibility_badge": "CRÉDIBILITÉ ET EXCELLENCE",
-    "title_prefix": "SCEAUX ET",
-    "title_suffix": "CERTIFICATIONS",
-    "description": "FAITEL est une institution engagée dans l'excellence de l'enseignement théologique, reconnue par d'importants organismes éducatifs et ministériels.",
-    "cec": {
-      "name": "CEC",
-      "full_name": "Conseil de l'Éducation et de la Culture",
-      "org": "de la CEMADEB",
-      "desc": "Organisme responsable de l'évaluation et de la certification des cours théologiques conformément aux normes éducatives évangéliques.",
-      "type": "Certification Éducative"
-    },
-    "cemadeb": {
-      "name": "CEMADEB",
-      "full_name": "Convention Évangélique des Ministres des Assemblées de Dieu",
-      "org": "À l'étranger et au Brésil",
-      "desc": "Convention qui rassemble les ministres et les églises des Assemblées de Dieu, garantissant la légitimité et la reconnaissance ministérielle.",
-      "type": "Reconnaissance Ministérielle"
-    },
-    "seal_100_percent": "100% des Cours",
-    "seal_recognized": "Reconnus par le CEC et la CEMADEB",
-    "differentials_title_prefix": "Nos",
-    "differentials_title_suffix": "Différentiels de Qualité",
-    "diff_quality": {
-      "title": "Enseignement de Qualité",
-      "desc": "Corps professoral qualifié avec des maîtres et des docteurs"
-    },
-    "diff_validity": {
-      "title": "Validité Internationale",
-      "desc": "Certificats reconnus dans divers pays"
-    },
-    "diff_curriculum": {
-      "title": "Programme Complet",
-      "desc": "Programme mis à jour et fondé sur les Écritures"
-    },
-    "diff_community": {
-      "title": "Communauté d'Apprentissage",
-      "desc": "Réseau de milliers d'étudiants et d'anciens élèves"
-    },
-    "diff_legal": {
-      "title": "Documentation Légale",
-      "desc": "Institution enregistrée et en conformité légale"
-    },
-    "diff_tradition": {
-      "title": "23 Ans de Tradition",
-      "desc": "Plus de deux décennies à former des leaders pour le Royaume"
-    },
-    "stats": {
-      "graduated": "Étudiants Diplômés",
-      "history": "Années d'Histoire",
-      "certificates": "Certificats Valides",
-      "polos": "Centres de Soutien"
-    },
-    "trust": {
-      "title": "Institution de Confiance",
-      "subtitle": "Choisie par des milliers de leaders",
-      "desc": "Rejoignez une communauté d'excellence en formation théologique avec une reconnaissance nationale et internationale."
-    }
-  },
-  "chancellors": {
-    "badge": "LEADERSHIP",
-    "title": "NOS CHANCELIERS",
-    "description": "Des leaders engagés dans l'excellence de l'enseignement théologique et le développement de leaders chrétiens",
-    "founders_label": "Fondateurs et Chanceliers de FAITEL",
-    "valdinei": {
-      "name": "Pasteur Valdinei da Conceição Santos",
-      "role": "Directeur Chancelier de FAITEL",
-      "church": "Président de l'Église IADMA",
-      "convention": "Président de la Convention CEMADEB",
-      "publisher": "Fondateur de WST Éditions et Graphisme"
-    },
-    "thelma": {
-      "name": "Pasteure Thelma Santana Menezes Santos",
-      "role": "Vice-Chancellerie de FAITEL",
-      "desc": "Leader engagée dans l'excellence de la gestion éducative et le développement de leaders chrétiens."
-    },
-    "stats": {
-      "ministry": "Années de Ministère",
-      "churches": "Églises Atteintes",
-      "lives": "Vies Impactées"
-    }
-  },
-  "devotional": {
-    "badge": "PAROLE DU JOUR",
-    "title": "☕ CAFÉ DÉVOTIONNEL",
-    "subtitle": "AVEC LE CHANCELIER",
-    "verse": "\"Car je connais les projets que j'ai formés sur vous, dit l'Éternel, projets de paix et non de malheur, afin de vous donner un avenir et de l'espérance.\"",
-    "verse_ref": "Jérémie 29:11",
-    "reflection_title": "Réflexion du Jour",
-    "reflection_p1": "Chers frères et sœurs, aujourd'hui je veux partager une parole d'espoir et de foi. Dieu a des projets merveilleux pour chacun de nous. Peu importe les défis auxquels vous êtes confrontés en ce moment, sachez que le Seigneur contrôle toutes choses.",
-    "reflection_p2": "Il connaît vos rêves, vos besoins et vos douleurs. Et plus que cela, Il a des pensées de paix pour vous ! N'abandonnez pas ! Continuez à faire confiance, à prier et à chercher la présence de Dieu. Le meilleur est à venir !",
-    "blessing": "Que Dieu bénisse richement votre journée ! 🙌",
-    "signature_name": "✍️ Pasteur Valdinei da Conceição Santos",
-    "signature_role": "Chancelier de FAITEL | Président CEMADEB | Président IADMA"
-  },
-  "board": {
-    "badge": "AUTORITÉ ET EXPANSION MONDIALE",
-    "title": "HAUTE DIRECTION INTERNATIONALE",
-    "description": "Un leadership visionnaire et oint, divinement établi pour briser les frontières et gouverner l'expansion de l'enseignement théologique en Europe et dans les nations. Des hommes et des femmes d'autorité, stratégiquement positionnés pour bâtir le Royaume avec excellence et puissance.",
-    "etienne": {
-      "name": "Pr. B.A. Etienne Claude dos Santos de Souza",
-      "role": "Directeur Président International"
-    },
-    "handerson": {
-      "name": "Pr. B.A. José Handerson Costa de Oliveira",
-      "role": "Directeur Vice-Président International"
-    },
-    "leonardo": {
-      "name": "Pr. B.A. José Léonardo Kohpcke",
-      "role": "Directeur Vice-Président International"
-    },
-    "haila": {
-      "name": "Pra. Haila Menezes",
-      "role": "Directrice Secrétaire Internationale"
-    }
-  },
-  "recognition": {
-    "badge": "INSTITUTION RECONNUE",
-    "title_prefix": "COURS",
-    "title_suffix1": "RECONNUS",
-    "title_separator": "ET",
-    "title_suffix2": "CERTIFIÉS",
-    "description": "Tous les cours FAITEL sont officiellement reconnus par le CEC - Conseil de l'Éducation et de la Culture de la CEMADEB et par la CEMADEB - Convention Évangélique des Ministres des Assemblées de Dieu à l'Étranger et au Brésil.",
-    "cec": {
-      "name": "CEC",
-      "desc": "Conseil de l'Éducation et de la Culture",
-      "sub": "de la CEMADEB"
-    },
-    "cemadeb": {
-      "name": "CEMADEB",
-      "desc": "Convention Évangélique des Ministres des Assemblées de Dieu",
-      "sub": "À l'étranger et au Brésil"
-    },
-    "official_cert": "CERTIFICATION OFFICIELLE",
-    "bottom_text": "Certificats valides et reconnus sur tout le territoire national et international"
-  },
-  "secc": {
-    "badge": "MATÉRIEL DIDACTIQUE",
-    "title": "MAGAZINE SECC",
-    "subtitle": "Système d'Éducation Chrétienne Continue",
-    "description": "École du Dimanche - Matériel didactique complet pour tous les âges",
-    "magazines": {
-      "adults": {
-        "title": "Adultes",
-        "subtitle": "Série Lettres de Paul",
-        "desc": "Matériel complet pour des études bibliques approfondies. Couvre la Lettre aux Romains..."
+  "dashboards": {
+    "student": {
+      "continue_watching": "Continuer à regarder",
+      "continue_lesson": "Continuer la leçon",
+      "view_full_grade": "Voir la grille complète",
+      "my_courses": "Mes cours",
+      "no_courses": "Aucun cours inscrit",
+      "no_courses_desc": "Contactez le secrétariat pour vous inscrire à l'un de nos cours",
+      "academic_community": "Communauté académique",
+      "forum_title": "Forum de discussion",
+      "forum_desc": "Participez aux discussions avec les professeurs et les autres étudiants.",
+      "access_forum": "Accéder au forum",
+      "welcome": {
+        "good_morning": "Bonjour",
+        "good_afternoon": "Bon après-midi",
+        "good_evening": "Bonsoir",
+        "continue_learning": "Continuez votre parcours d'apprentissage à la FAITEL. Vous vous en sortez très bien !",
+        "courses_enrolled": "Cours inscrits",
+        "modules_completed": "Modules terminés",
+        "study_hours": "Heures d'étude",
+        "overall_progress": "Progrès global"
       },
-      "youth": {
-        "title": "Jeunes",
-        "subtitle": "Ados & Jeunes",
-        "desc": "Contenu dynamique et pertinent pour la jeunesse chrétienne..."
+      "quick_actions": {
+        "title": "Accès rapide",
+        "continue_lesson": "Continuer la leçon",
+        "continue_desc": "Reprenez là où vous vous êtes arrêté",
+        "history": "Historique",
+        "history_desc": "Bulletin académique",
+        "financial": "Financier",
+        "financial_desc": "Paiements",
+        "support": "Support",
+        "support_desc": "Nous contacter",
+        "courses": "Cours",
+        "courses_desc": "Voir le catalogue",
+        "certificates": "Certificats",
+        "certificates_desc": "Mes diplômes"
       },
-      "teens": {
-        "title": "Adolescents",
-        "subtitle": "École Biblique",
-        "desc": "Matériel adapté pour les adolescents avec un langage accessible..."
-      },
-      "kids": {
-        "title": "Enfants",
-        "subtitle": "École Biblique pour Enfants (7 à 11 ans)",
-        "desc": "Magazine coloré et illustré pour les enfants de 7 à 11 ans..."
+      "gamification": {
+        "achievements": "Réalisations",
+        "see_all": "Voir tout",
+        "level": "Niveau",
+        "streak": "Jours consécutifs",
+        "badges": "Badges",
+        "recent_achievements": "Dernières réalisations",
+        "view_ranking": "Voir le classement"
       }
     },
-    "lessons": "Leçons",
-    "quarterly": "Trimestriel",
-    "details": "Voir Détails",
-    "about": {
-      "title": "À propos des Magazines SECC",
-      "p1": "Les magazines du Système d'Éducation Chrétienne Continue sont produits trimestriellement...",
-      "p2": "Chaque magazine coûte"
-    },
-    "visit_site": "Visiter le Site SECC",
-    "stats": {
-      "ages": "Groupes d'Âge",
-      "lessons_qt": "Leçons/Trimestre",
-      "lessons_year": "Leçons/An",
-      "price_unit": "Euros/Magazine"
+    "admin": {
+      "title": "Tableau de bord",
+      "overview": "Aperçu de la plateforme",
+      "stats": {
+        "total_students": "Total des étudiants",
+        "active_courses": "Cours actifs",
+        "active_enrollments": "Inscriptions actives",
+        "pending_payments": "Paiements en attente",
+        "new_this_month": "Nouveaux ce mois-ci",
+        "inactive_students": "Étudiants inactifs",
+        "total_courses": "Total des cours",
+        "students_enrolled": "Étudiants inscrits"
+      },
+      "management": {
+        "title": "Gestion académique",
+        "desc": "Accès rapide aux principales zones administratives",
+        "students": "Gestion des étudiants",
+        "professors": "Gestion des professeurs",
+        "courses": "Gestion des cours",
+        "enrollments": "Gestion des inscriptions",
+        "reports": "Gestion des rapports",
+        "financial": "Gestion financière"
+      },
+      "courses": {
+        "new": "Nouveau cours",
+        "new_desc": "Remplissez les informations du cours",
+        "search": "Rechercher des cours...",
+        "manage_content": "Gérer le contenu",
+        "enroll_student": "Inscrire l'étudiant",
+        "bulk_enroll": "Inscription en masse",
+        "view_history": "Voir l'historique",
+        "no_found": "Aucun cours trouvé",
+        "create_first": "Créer le premier cours"
+      },
+      "students": {
+        "new": "Nouvel étudiant",
+        "edit": "Modifier l'étudiant",
+        "search": "Rechercher par nom ou email...",
+        "no_found": "Aucun étudiant trouvé"
+      },
+      "professors": {
+        "new": "Nouveau Professeur",
+        "edit": "Modifier le Professeur",
+        "search": "Rechercher par nom ou e-mail...",
+        "no_found": "Aucun professeur trouvé",
+        "created_success": "Professeur créé avec succès !",
+        "updated_success": "Professeur mis à jour avec succès !",
+        "deleted_success": "Professeur supprimé avec succès !",
+        "confirm_delete": "Êtes-vos sûr de vouloir supprimer ce professeur ? Cette action ne peut pas être annulée.",
+        "management_title": "Gestion des Professeurs",
+        "fullname_label": "Nom Complet *",
+        "fullname_placeholder": "Nom complet du professeur",
+        "email_placeholder": "email@exemple.com",
+        "password_placeholder": "Mot de passe d'accès",
+        "cpf_placeholder": "000.000.000-00",
+        "phone_placeholder": "(00) 00000-0000",
+        "education_label": "Formation",
+        "save_changes": "Enregistrer les modifications",
+        "activated_success": "Professeur activé !",
+        "deactivated_success": "Professeur désactivé !",
+        "form_required": "Veuillez remplir tous les champs obligatoires",
+        "create_error": "Erreur lors de la création do professeur",
+        "update_error": "Erreur lors de la mise à jour do professeur",
+        "delete_error": "Erreur lors de la suppression do professeur",
+        "toggle_status_error": "Erreur lors de la mise à jour do statut"
+      },
+      "actions": {
+        "edit": "Modifier",
+        "delete": "Supprimer",
+        "activate": "Activer",
+        "deactivate": "Désactiver",
+        "reset_demo": "Réinitialiser la démo",
+        "wipe_system": "Effacer le système",
+        "delete_all_courses": "Supprimer tous les cours",
+        "confirm_reset_demo": "Êtes-vous sûr de vouloir effacer tous les cours ?",
+        "confirm_wipe_system": "Êtes-vous sûr de vouloir EFFACER TOUT le système ?",
+        "confirm_delete_all_courses": "Supprimer TOUS les cours ?"
+      }
     }
+  },
+  "auth": {
+    "login_tab": "Connexion",
+    "signup_tab": "S'inscrire",
+    "login_title": "Connexion",
+    "login_desc": "Entrez vos identifiants pour accéder à la plateforme",
+    "signup_title": "Créer un compte",
+    "signup_desc": "Remplissez vos données pour vous inscrire",
+    "email_label": "Email",
+    "password_label": "Mot de passe",
+    "forgot_password": "Mot de passe oublié ?",
+    "enter_button": "Entrer",
+    "entering": "Connexion...",
+    "register_button": "S'inscrire",
+    "registering": "Inscription...",
+    "fullname_label": "Nom complet",
+    "cpf_label": "Numéro d'identification",
+    "phone_label": "Téléphone",
+    "education_label": "Niveau d'éducation",
+    "select_placeholder": "Sélectionner",
+    "polo_label": "Centre",
+    "polo_placeholder": "Sélectionnez votre centre",
+    "selfie_label": "Selfie (obligatoire)",
+    "capture_button": "Capturer",
+    "take_selfie_button": "Prendre un selfie",
+    "or_upload": "Ou téléchargez une photo",
+    "terms_text": "En continuant, vous acceptez nos",
+    "terms_link": "Conditions d'utilisation",
+    "and": "et",
+    "privacy_link": "Politique de confidentialité"
   }
 }

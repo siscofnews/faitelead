@@ -1,47 +1,50 @@
 import { Play, CheckCircle, FileText, Award } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
-const activities = [
-  {
-    icon: Play,
-    title: "Aula assistida",
-    description: "Introdução à Hermenêutica",
-    time: "Há 2 horas",
-    color: "text-primary",
-    bgColor: "bg-primary/10",
-  },
-  {
-    icon: CheckCircle,
-    title: "Módulo concluído",
-    description: "Teologia Sistemática I",
-    time: "Ontem",
-    color: "text-success",
-    bgColor: "bg-success/10",
-  },
-  {
-    icon: FileText,
-    title: "Prova realizada",
-    description: "Nota: 9.5",
-    time: "Há 3 dias",
-    color: "text-accent",
-    bgColor: "bg-accent/10",
-  },
-  {
-    icon: Award,
-    title: "Certificado disponível",
-    description: "Módulo de Ética Cristã",
-    time: "Há 1 semana",
-    color: "text-primary",
-    bgColor: "bg-primary/10",
-  },
-];
+import { useI18n } from "@/i18n/I18nProvider";
 
 const RecentActivity = () => {
+  const { t } = useI18n();
+
+  const activities = [
+    {
+      icon: Play,
+      title: t("dashboard.recent_activity.lesson_watched", { defaultValue: "Aula assistida" }),
+      description: "Introdução à Hermenêutica",
+      time: "Há 2 horas",
+      color: "text-primary",
+      bgColor: "bg-primary/10",
+    },
+    {
+      icon: CheckCircle,
+      title: t("dashboard.recent_activity.module_completed", { defaultValue: "Módulo concluído" }),
+      description: "Teologia Sistemática I",
+      time: "Ontem",
+      color: "text-success",
+      bgColor: "bg-success/10",
+    },
+    {
+      icon: FileText,
+      title: t("dashboard.recent_activity.exam_completed", { defaultValue: "Prova realizada" }),
+      description: "Nota: 9.5",
+      time: "Há 3 dias",
+      color: "text-accent",
+      bgColor: "bg-accent/10",
+    },
+    {
+      icon: Award,
+      title: t("dashboard.recent_activity.certificate_available", { defaultValue: "Certificado disponível" }),
+      description: "Módulo de Ética Cristã",
+      time: "Há 1 semana",
+      color: "text-primary",
+      bgColor: "bg-primary/10",
+    },
+  ];
+
   return (
     <Card className="border-border/50">
       <CardHeader className="pb-3">
-        <CardTitle className="text-lg font-display">Atividade Recente</CardTitle>
+        <CardTitle className="text-lg font-display">{t("dashboard.recent_activity.title", { defaultValue: "Atividade Recente" })}</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         <ScrollArea className="h-[280px]">

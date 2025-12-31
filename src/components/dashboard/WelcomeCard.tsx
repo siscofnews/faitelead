@@ -1,6 +1,7 @@
 import { BookOpen, Award, Clock, TrendingUp } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { useI18n } from "@/i18n/I18nProvider";
 
 interface WelcomeCardProps {
   userName: string;
@@ -10,38 +11,39 @@ interface WelcomeCardProps {
 }
 
 const WelcomeCard = ({ userName, coursesCount, modulesCompleted, studyHours }: WelcomeCardProps) => {
+  const { t } = useI18n();
   const firstName = userName.split(" ")[0];
   const currentHour = new Date().getHours();
-  
-  let greeting = "Bom dia";
-  if (currentHour >= 12 && currentHour < 18) greeting = "Boa tarde";
-  else if (currentHour >= 18) greeting = "Boa noite";
+
+  let greeting = t("dashboard.welcome.good_morning", { defaultValue: "Bom dia" });
+  if (currentHour >= 12 && currentHour < 18) greeting = t("dashboard.welcome.good_afternoon", { defaultValue: "Boa tarde" });
+  else if (currentHour >= 18) greeting = t("dashboard.welcome.good_evening", { defaultValue: "Boa noite" });
 
   const stats = [
     {
       icon: BookOpen,
-      label: "Cursos Matriculados",
+      label: t("dashboard.welcome.courses_enrolled", { defaultValue: "Cursos Matriculados" }),
       value: coursesCount,
       color: "text-primary",
       bgColor: "bg-primary/10",
     },
     {
       icon: Award,
-      label: "Módulos Concluídos",
+      label: t("dashboard.welcome.modules_completed", { defaultValue: "Módulos Concluídos" }),
       value: modulesCompleted,
       color: "text-accent",
       bgColor: "bg-accent/10",
     },
     {
       icon: Clock,
-      label: "Horas de Estudo",
+      label: t("dashboard.welcome.study_hours", { defaultValue: "Horas de Estudo" }),
       value: `${studyHours}h`,
       color: "text-success",
       bgColor: "bg-success/10",
     },
     {
       icon: TrendingUp,
-      label: "Progresso Geral",
+      label: t("dashboard.welcome.overall_progress", { defaultValue: "Progresso Geral" }),
       value: "75%",
       color: "text-primary",
       bgColor: "bg-primary/10",
@@ -59,7 +61,7 @@ const WelcomeCard = ({ userName, coursesCount, modulesCompleted, studyHours }: W
               {firstName}! 👋
             </h1>
             <p className="text-primary-foreground/90 text-sm md:text-base max-w-md">
-              Continue sua jornada de aprendizado na FAITEL. Você está indo muito bem!
+              {t("dashboard.welcome.continue_learning", { defaultValue: "Continue sua jornada de aprendizado na FAITEL. Você está indo muito bem!" })}
             </p>
           </div>
           <div className="hidden md:block">
@@ -69,7 +71,7 @@ const WelcomeCard = ({ userName, coursesCount, modulesCompleted, studyHours }: W
           </div>
         </div>
       </div>
-      
+
       <CardContent className="p-0">
         <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-border">
           {stats.map((stat, index) => (

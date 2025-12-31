@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { 
-    Search, Plus, MoreVertical, Eye, Edit, 
-    Download, Mail, UserCheck, UserX, Home, ChevronLeft,
-    User, Phone, FileText, GraduationCap, Calendar, MapPin, Trash2, TrendingUp, BookOpen, Camera, Upload
-  } from "lucide-react";
+import {
+  Search, Plus, MoreVertical, Eye, Edit,
+  Download, Mail, UserCheck, UserX, Home, ChevronLeft,
+  User, Phone, FileText, GraduationCap, Calendar, MapPin, Trash2, TrendingUp, BookOpen, Camera, Upload
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -49,6 +49,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
+import { useI18n } from "@/i18n/I18nProvider";
 
 interface Student {
   id: string;
@@ -71,6 +72,7 @@ interface Course {
 import { EnrollStudentInCourseDialog } from "@/components/admin/EnrollStudentInCourseDialog";
 
 const StudentsManagement = () => {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [students, setStudents] = useState<Student[]>([]);
@@ -81,7 +83,7 @@ const StudentsManagement = () => {
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [isEnrollDialogOpen, setIsEnrollDialogOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
-  const [studentToEnroll, setStudentToEnroll] = useState<{id: string, name: string} | null>(null);
+  const [studentToEnroll, setStudentToEnroll] = useState<{ id: string, name: string } | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
   const [stats, setStats] = useState({
@@ -143,7 +145,7 @@ const StudentsManagement = () => {
       .select("id, title, monthly_price")
       .eq("is_active", true)
       .order("title");
-    
+
     setCourses(data || []);
   };
 
@@ -198,7 +200,7 @@ const StudentsManagement = () => {
 
       const now = new Date();
       const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-      
+
       setStats({
         total: studentsList.length,
         active: studentsList.filter(s => s.is_active).length,
@@ -242,17 +244,18 @@ const StudentsManagement = () => {
       const cleanEmail = formData.email.trim();
       const cleanName = formData.full_name.trim();
       const cleanCpf = formData.cpf.trim(); // Pode estar vazio agora
-      
+
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: cleanEmail,
         password: formData.password,
         options: {
-          emailRedirectTo: undefined, // Importante: Evita envio de email de confirmação se desabilitado no painel
+          emailRedirectTo: undefined,
           data: {
             full_name: cleanName,
-            cpf: cleanCpf, // Opcional
+            cpf: cleanCpf,
             phone: formData.phone,
-            education_level: formData.education_level
+            education_level: formData.education_level,
+            role: "student" // Trigger will handle confirmation
           }
         }
       });
@@ -263,7 +266,7 @@ const StudentsManagement = () => {
         // CORREÇÃO CRÍTICA: Confirmar email manualmente no front (apenas para Admins criando alunos)
         // Isso "engana" o supabase client para achar que o email já foi validado,
         // dependendo da configuração do projeto (Auto Confirm emails deve estar ON no Supabase)
-        
+
         // 1.5 GARANTIA DE PERFIL (Upsert manual para caso o trigger falhe)
         const { error: profileError } = await supabase
           .from("profiles")
@@ -294,15 +297,15 @@ const StudentsManagement = () => {
           .maybeSingle();
 
         if (!existingRole) {
-            // Se não existe, tenta criar
-            const { error: roleError } = await supabase
-              .from("user_roles")
-              .insert({ user_id: authData.user.id, role: "student" });
+          // Se não existe, tenta criar
+          const { error: roleError } = await supabase
+            .from("user_roles")
+            .insert({ user_id: authData.user.id, role: "student" });
 
-            // Se der erro de duplicidade (race condition), ignoramos
-            if (roleError && roleError.code !== '23505') {
-                 console.warn("Aviso ao definir role:", roleError);
-            }
+          // Se der erro de duplicidade (race condition), ignoramos
+          if (roleError && roleError.code !== '23505') {
+            console.warn("Aviso ao definir role:", roleError);
+          }
         }
 
         // 3. Criar matrículas nos cursos selecionados
@@ -422,7 +425,7 @@ const StudentsManagement = () => {
       // Note: If foreign keys are set to CASCADE, this will delete related data.
       // If not, we might need to delete related data first.
       // Assuming CASCADE or that we just want to try deleting the profile row.
-      
+
       const { error } = await supabase
         .from("profiles")
         .delete()
@@ -430,18 +433,18 @@ const StudentsManagement = () => {
 
       if (error) throw error;
 
-      toast.success("Aluno excluído com sucesso!");
+      toast.success(t("dashboards.admin.students.deleted_success"));
       loadStudents();
     } catch (error: any) {
       console.error("Error deleting student:", error);
-      toast.error(`Erro ao excluir aluno: ${error.message || "Erro desconhecido"}`);
+      toast.error(`${t("dashboards.admin.actions.delete_error")}: ${error.message || t("common.unknown_error")}`);
     }
   };
 
   const handleExportCSV = () => {
     let csvContent = "Nome,Email,CPF,Telefone,Escolaridade,Status,Matrículas,Data Cadastro\n";
     filteredStudents.forEach(s => {
-      csvContent += `"${s.full_name}","${s.email}","${s.cpf}","${s.phone}","${getEducationLabel(s.education_level)}","${s.is_active ? "Ativo" : "Inativo"}",${s.enrollments_count},"${formatDate(s.created_at)}"\n`;
+      csvContent += `"${s.full_name}","${s.email}","${s.cpf}","${s.phone}","${getEducationLabel(s.education_level)}","${s.is_active ? t("common.active") : t("common.inactive")}",${s.enrollments_count},"${formatDate(s.created_at)}"\n`;
     });
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
@@ -449,16 +452,16 @@ const StudentsManagement = () => {
     link.href = URL.createObjectURL(blob);
     link.download = "alunos_faitel.csv";
     link.click();
-    toast.success("Lista exportada com sucesso!");
+    toast.success(t("dashboards.admin.actions.export_success"));
   };
 
   const filteredStudents = students.filter(student => {
-    const matchesSearch = 
+    const matchesSearch =
       student.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       student.cpf.includes(searchTerm);
-    
-    const matchesStatus = 
+
+    const matchesStatus =
       statusFilter === "all" ||
       (statusFilter === "active" && student.is_active) ||
       (statusFilter === "inactive" && !student.is_active);
@@ -471,15 +474,7 @@ const StudentsManagement = () => {
   };
 
   const getEducationLabel = (level: string) => {
-    const labels: Record<string, string> = {
-      fundamental: "Ensino Fundamental",
-      medio: "Ensino Médio",
-      superior: "Ensino Superior",
-      pos_graduacao: "Pós-Graduação",
-      mestrado: "Mestrado",
-      doutorado: "Doutorado"
-    };
-    return labels[level] || level;
+    return t(`dashboards.admin.students.education_levels.${level}`, { defaultValue: level });
   };
 
   const formatCurrency = (value: number) => {
@@ -506,13 +501,13 @@ const StudentsManagement = () => {
               </Link>
               <Button variant="ghost" size="sm" onClick={() => navigate("/admin")}>
                 <ChevronLeft className="h-4 w-4 mr-1" />
-                Voltar
+                {t("common.back")}
               </Button>
-              <h1 className="text-xl font-display font-bold">Gestão de Alunos</h1>
+              <h1 className="text-xl font-display font-bold">{t("dashboards.admin.management.students")}</h1>
             </div>
             <Button className="gap-2" onClick={() => setIsDialogOpen(true)}>
               <Plus className="h-4 w-4" />
-              Novo Aluno
+              {t("dashboards.admin.students.new")}
             </Button>
           </div>
         </div>
@@ -523,25 +518,25 @@ const StudentsManagement = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Card>
             <CardContent className="p-4">
-              <p className="text-sm text-muted-foreground">Total de Alunos</p>
+              <p className="text-sm text-muted-foreground">{t("dashboards.admin.stats.total_students")}</p>
               <p className="text-3xl font-display font-bold text-primary">{stats.total}</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4">
-              <p className="text-sm text-muted-foreground">Ativos</p>
+              <p className="text-sm text-muted-foreground">{t("common.active")}s</p>
               <p className="text-3xl font-display font-bold text-green-600">{stats.active}</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4">
-              <p className="text-sm text-muted-foreground">Inativos</p>
+              <p className="text-sm text-muted-foreground">{t("common.inactive")}s</p>
               <p className="text-3xl font-display font-bold text-red-600">{stats.inactive}</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4">
-              <p className="text-sm text-muted-foreground">Novos (Mês)</p>
+              <p className="text-sm text-muted-foreground">{t("dashboards.admin.stats.new_this_month")}</p>
               <p className="text-3xl font-display font-bold text-amber-600">{stats.newThisMonth}</p>
             </CardContent>
           </Card>
@@ -554,10 +549,10 @@ const StudentsManagement = () => {
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Buscar por nome, email ou CPF..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  placeholder="{t(" dashboards.admin.students.search_placeholder")}"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
                 />
               </div>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
@@ -566,13 +561,13 @@ const StudentsManagement = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Todos</SelectItem>
-                  <SelectItem value="active">Ativos</SelectItem>
-                  <SelectItem value="inactive">Inativos</SelectItem>
+                  <SelectItem value="active">{t("common.active")}s</SelectItem>
+                  <SelectItem value="inactive">{t("common.inactive")}s</SelectItem>
                 </SelectContent>
               </Select>
               <Button variant="outline" className="gap-2" onClick={handleExportCSV}>
                 <Download className="h-4 w-4" />
-                Exportar
+                {t("dashboards.admin.actions.export")}
               </Button>
             </div>
           </CardContent>
@@ -581,21 +576,21 @@ const StudentsManagement = () => {
         {/* Students Table */}
         <Card>
           <CardHeader>
-            <CardTitle>Lista de Alunos ({filteredStudents.length})</CardTitle>
+            <CardTitle>{t("dashboards.admin.students.list")} ({filteredStudents.length})</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Nome</TableHead>
+                    <TableHead>{t("common.name")}</TableHead>
                     <TableHead>Email</TableHead>
                     <TableHead className="hidden md:table-cell">CPF</TableHead>
                     <TableHead className="hidden lg:table-cell">Escolaridade</TableHead>
-                    <TableHead className="hidden md:table-cell">Matrículas</TableHead>
-                    <TableHead>Status</TableHead>
+                    <TableHead className="hidden md:table-cell">{t("dashboards.admin.management.enrollments")}</TableHead>
+                    <TableHead>{t("common.status")}</TableHead>
                     <TableHead className="hidden lg:table-cell">Cadastro</TableHead>
-                    <TableHead className="text-right">Ações</TableHead>
+                    <TableHead className="text-right">{t("common.actions")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -610,7 +605,7 @@ const StudentsManagement = () => {
                       <TableCell className="hidden md:table-cell">{student.enrollments_count || 0}</TableCell>
                       <TableCell>
                         <Badge variant={student.is_active ? "default" : "secondary"}>
-                          {student.is_active ? "Ativo" : "Inativo"}
+                          {student.is_active ? t("common.active") : t("common.inactive")}
                         </Badge>
                       </TableCell>
                       <TableCell className="hidden lg:table-cell">{formatDate(student.created_at)}</TableCell>
@@ -624,46 +619,46 @@ const StudentsManagement = () => {
                           <DropdownMenuContent align="end">
                             <DropdownMenuItem onClick={() => { setSelectedStudent(student); setIsViewDialogOpen(true); }}>
                               <Eye className="h-4 w-4 mr-2" />
-                              Ver Detalhes
+                              {t("dashboards.admin.actions.view_details")}
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => {
                               setStudentToEnroll({ id: student.id, name: student.full_name });
                               setIsEnrollDialogOpen(true);
                             }}>
                               <BookOpen className="h-4 w-4 mr-2" />
-                              Matricular em Curso
+                              {t("dashboards.admin.courses.enroll_student")}
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => navigate(`/admin/alunos/${student.id}/desempenho`)}>
                               <TrendingUp className="h-4 w-4 mr-2" />
-                              Desempenho
+                              {t("dashboards.admin.students.performance")}
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                               <Edit className="h-4 w-4 mr-2" />
-                              Editar
+                              {t("dashboards.admin.actions.edit")}
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                               <Mail className="h-4 w-4 mr-2" />
-                              Enviar Email
+                              {t("dashboards.admin.actions.send_email")}
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => toggleStudentStatus(student.id, student.is_active)}>
                               {student.is_active ? (
                                 <>
                                   <UserX className="h-4 w-4 mr-2" />
-                                  Desativar
+                                  {t("dashboards.admin.actions.deactivate")}
                                 </>
                               ) : (
                                 <>
                                   <UserCheck className="h-4 w-4 mr-2" />
-                                  Ativar
+                                  {t("dashboards.admin.actions.activate")}
                                 </>
                               )}
                             </DropdownMenuItem>
-                            <DropdownMenuItem 
+                            <DropdownMenuItem
                               onClick={() => handleDeleteStudent(student.id)}
                               className="text-destructive focus:text-destructive"
                             >
                               <Trash2 className="h-4 w-4 mr-2" />
-                              Excluir
+                              {t("dashboards.admin.actions.delete")}
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -674,7 +669,7 @@ const StudentsManagement = () => {
               </Table>
               {filteredStudents.length === 0 && (
                 <div className="text-center py-8 text-muted-foreground">
-                  Nenhum aluno encontrado
+                  {t("dashboards.admin.students.no_found")}
                 </div>
               )}
             </div>
@@ -688,7 +683,7 @@ const StudentsManagement = () => {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <GraduationCap className="h-6 w-6" />
-              Cadastro de Novo Aluno
+              Cadastro de {t("dashboards.admin.students.new")}
             </DialogTitle>
             <DialogDescription>
               Preencha todos os dados do aluno para realizar o cadastro e matrícula.
@@ -700,11 +695,10 @@ const StudentsManagement = () => {
             {[1, 2, 3, 4].map((step) => (
               <div key={step} className="flex items-center">
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
-                    currentStep >= step
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-muted-foreground"
-                  }`}
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${currentStep >= step
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground"
+                    }`}
                 >
                   {step}
                 </div>
@@ -726,7 +720,7 @@ const StudentsManagement = () => {
             <div className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
-                  <Label>Nome Completo *</Label>
+                  <Label>{t("common.name")}</Label>
                   <Input
                     value={formData.full_name}
                     onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
@@ -743,7 +737,7 @@ const StudentsManagement = () => {
                   />
                 </div>
                 <div>
-                  <Label>Telefone / WhatsApp</Label>
+                  <Label>{t("common.phone")}</Label>
                   <Input
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -751,7 +745,7 @@ const StudentsManagement = () => {
                   />
                 </div>
                 <div>
-                  <Label>Data de Nascimento</Label>
+                  <Label>{t("common.birth_date")}</Label>
                   <Input
                     type="date"
                     value={formData.birth_date}
@@ -759,7 +753,7 @@ const StudentsManagement = () => {
                   />
                 </div>
                 <div>
-                  <Label>Gênero</Label>
+                  <Label>{t("common.gender")}</Label>
                   <Select
                     value={formData.gender}
                     onValueChange={(value) => setFormData({ ...formData, gender: value })}
@@ -782,7 +776,7 @@ const StudentsManagement = () => {
           {/* Step 2: Fotos e Documentos */}
           {currentStep === 2 && (
             <div className="space-y-6">
-              
+
               {/* Seção de Fotos */}
               <div className="grid md:grid-cols-2 gap-6">
                 <Card>
@@ -795,8 +789,8 @@ const StudentsManagement = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-col items-center justify-center border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 hover:bg-muted/50 transition-colors cursor-pointer relative">
-                      <Input 
-                        type="file" 
+                      <Input
+                        type="file"
                         accept="image/*"
                         className="absolute inset-0 opacity-0 cursor-pointer"
                         onChange={(e) => {
@@ -830,8 +824,8 @@ const StudentsManagement = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-col items-center justify-center border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 hover:bg-muted/50 transition-colors cursor-pointer relative">
-                      <Input 
-                        type="file" 
+                      <Input
+                        type="file"
                         accept="image/*"
                         capture="user"
                         className="absolute inset-0 opacity-0 cursor-pointer"
@@ -840,7 +834,7 @@ const StudentsManagement = () => {
                           setFormData({ ...formData, selfie_photo: file });
                         }}
                       />
-                       {formData.selfie_photo ? (
+                      {formData.selfie_photo ? (
                         <div className="text-center">
                           <p className="font-medium text-primary">{formData.selfie_photo.name}</p>
                           <p className="text-xs text-muted-foreground">Clique para alterar</p>
@@ -946,7 +940,7 @@ const StudentsManagement = () => {
                 <CardContent className="space-y-4">
                   <div className="grid md:grid-cols-4 gap-4">
                     <div className="md:col-span-2">
-                      <Label>CEP</Label>
+                      <Label>{t("common.zip_code")}</Label>
                       <Input
                         value={formData.zip_code}
                         onChange={(e) => setFormData({ ...formData, zip_code: e.target.value })}
@@ -954,7 +948,7 @@ const StudentsManagement = () => {
                       />
                     </div>
                     <div className="md:col-span-2">
-                      <Label>País</Label>
+                      <Label>{t("common.country")}</Label>
                       <Input
                         value={formData.country}
                         onChange={(e) => setFormData({ ...formData, country: e.target.value })}
@@ -963,7 +957,7 @@ const StudentsManagement = () => {
                   </div>
                   <div className="grid md:grid-cols-4 gap-4">
                     <div className="md:col-span-2">
-                      <Label>Endereço</Label>
+                      <Label>{t("common.address")}</Label>
                       <Input
                         value={formData.address}
                         onChange={(e) => setFormData({ ...formData, address: e.target.value })}
@@ -971,7 +965,7 @@ const StudentsManagement = () => {
                       />
                     </div>
                     <div>
-                      <Label>Número</Label>
+                      <Label>{t("common.number")}</Label>
                       <Input
                         value={formData.address_number}
                         onChange={(e) => setFormData({ ...formData, address_number: e.target.value })}
@@ -979,7 +973,7 @@ const StudentsManagement = () => {
                       />
                     </div>
                     <div>
-                      <Label>Complemento</Label>
+                      <Label>{t("common.complement")}</Label>
                       <Input
                         value={formData.complement}
                         onChange={(e) => setFormData({ ...formData, complement: e.target.value })}
@@ -989,7 +983,7 @@ const StudentsManagement = () => {
                   </div>
                   <div className="grid md:grid-cols-3 gap-4">
                     <div>
-                      <Label>Bairro</Label>
+                      <Label>{t("common.neighborhood")}</Label>
                       <Input
                         value={formData.neighborhood}
                         onChange={(e) => setFormData({ ...formData, neighborhood: e.target.value })}
@@ -997,7 +991,7 @@ const StudentsManagement = () => {
                       />
                     </div>
                     <div>
-                      <Label>Cidade</Label>
+                      <Label>{t("common.city")}</Label>
                       <Input
                         value={formData.city}
                         onChange={(e) => setFormData({ ...formData, city: e.target.value })}
@@ -1005,7 +999,7 @@ const StudentsManagement = () => {
                       />
                     </div>
                     <div>
-                      <Label>Estado / UF</Label>
+                      <Label>{t("common.state")}</Label>
                       <Input
                         value={formData.state}
                         onChange={(e) => setFormData({ ...formData, state: e.target.value })}
@@ -1026,7 +1020,7 @@ const StudentsManagement = () => {
                 <CardContent>
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <Label>Nível de Escolaridade *</Label>
+                      <Label>{t("dashboards.admin.students.education_level")}</Label>
                       <Select
                         value={formData.education_level}
                         onValueChange={(value) => setFormData({ ...formData, education_level: value })}
@@ -1078,11 +1072,10 @@ const StudentsManagement = () => {
                       {courses.map((course) => (
                         <div
                           key={course.id}
-                          className={`p-4 border rounded-lg cursor-pointer transition-colors ${
-                            selectedCourses.includes(course.id)
-                              ? "border-primary bg-primary/5"
-                              : "border-border hover:border-primary/50"
-                          }`}
+                          className={`p-4 border rounded-lg cursor-pointer transition-colors ${selectedCourses.includes(course.id)
+                            ? "border-primary bg-primary/5"
+                            : "border-border hover:border-primary/50"
+                            }`}
                           onClick={() => {
                             if (selectedCourses.includes(course.id)) {
                               setSelectedCourses(selectedCourses.filter(c => c !== course.id));
@@ -1094,7 +1087,7 @@ const StudentsManagement = () => {
                           <div className="flex items-start gap-3">
                             <Checkbox
                               checked={selectedCourses.includes(course.id)}
-                              onCheckedChange={() => {}}
+                              onCheckedChange={() => { }}
                             />
                             <div className="flex-1">
                               <p className="font-medium">{course.title}</p>
@@ -1131,7 +1124,7 @@ const StudentsManagement = () => {
                 <CardContent className="space-y-4">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <Label>Senha *</Label>
+                      <Label>{t("auth.password")}</Label>
                       <Input
                         type="password"
                         value={formData.password}
@@ -1140,7 +1133,7 @@ const StudentsManagement = () => {
                       />
                     </div>
                     <div>
-                      <Label>Confirmar Senha *</Label>
+                      <Label>{t("auth.confirm_password")}</Label>
                       <Input
                         type="password"
                         value={formData.confirm_password}
@@ -1171,16 +1164,16 @@ const StudentsManagement = () => {
               onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
               disabled={currentStep === 1}
             >
-              Voltar
+              {t("common.back")}
             </Button>
             {currentStep < 4 ? (
               <Button onClick={() => setCurrentStep(currentStep + 1)}>
-                Próximo
+                {t("common.next")}
               </Button>
             ) : (
               <Button onClick={handleCreateStudent} className="bg-primary">
                 <User className="h-4 w-4 mr-2" />
-                Cadastrar Aluno
+                {t("dashboards.admin.students.new")}
               </Button>
             )}
           </div>
@@ -1191,7 +1184,7 @@ const StudentsManagement = () => {
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Detalhes do Aluno</DialogTitle>
+            <DialogTitle>{t("dashboards.admin.actions.view_details")}</DialogTitle>
           </DialogHeader>
           {selectedStudent && (
             <div className="space-y-4">

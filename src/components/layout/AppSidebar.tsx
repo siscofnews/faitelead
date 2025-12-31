@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export interface MenuItem {
   title: string;
@@ -27,6 +28,7 @@ interface AppSidebarProps {
 const AppSidebar = ({ isOpen, onClose, menuItems, isSuperAdmin = false }: AppSidebarProps) => {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
+  const { t } = useI18n();
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -59,10 +61,10 @@ const AppSidebar = ({ isOpen, onClose, menuItems, isSuperAdmin = false }: AppSid
                 <Crown className="h-5 w-5 drop-shadow-md" />
                 <div className="flex-1">
                   <h3 className="text-xs font-bold leading-tight tracking-wide drop-shadow">
-                    SUPER ADMINISTRADOR
+                    {t("nav.super_admin_portal")}
                   </h3>
                   <p className="text-[10px] opacity-90 font-medium">
-                    Acesso Global Total
+                    {t("nav.global_access")}
                   </p>
                 </div>
               </div>
@@ -121,16 +123,17 @@ const AppSidebar = ({ isOpen, onClose, menuItems, isSuperAdmin = false }: AppSid
           {/* Bottom Section */}
           {!collapsed && (
             <div className="mt-8 mx-3 p-4 rounded-xl bg-gradient-hero text-primary-foreground">
-              <h4 className="font-display font-semibold mb-1">Precisa de ajuda?</h4>
+              <h4 className="font-display font-semibold mb-1">{t("common.help_title")}</h4>
               <p className="text-xs opacity-90 mb-3">
-                Nossa equipe está pronta para te auxiliar
+                {t("common.help_desc")}
               </p>
               <Button
                 size="sm"
                 variant="secondary"
                 className="w-full text-xs font-medium"
+                onClick={() => window.location.href = "/student/support"}
               >
-                Falar com Suporte
+                {t("common.contact_button")}
               </Button>
             </div>
           )}

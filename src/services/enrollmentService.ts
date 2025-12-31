@@ -85,16 +85,27 @@ export const enrollmentService = {
         message: string;
         enrollmentId?: string;
     }> {
-        
+
 
         try {
+            if (!params.studentId || !params.courseId || !params.enrolledBy) {
+                return {
+                    success: false,
+                    message: "Dados de matrícula incompletos",
+                };
+            }
+
             // Check if already enrolled
-            const { data: existing } = await supabase
+            const { data: existing, error: checkError } = await supabase
                 .from("student_enrollments")
                 .select("id, is_active")
                 .eq("student_id", params.studentId)
                 .eq("course_id", params.courseId)
-                .single();
+                .maybeSingle();
+
+            if (checkError) {
+                console.error("Error checking existing enrollment:", checkError);
+            }
 
             if (existing?.is_active) {
                 return {
@@ -103,8 +114,8 @@ export const enrollmentService = {
                 };
             }
 
-            // Create enrollment
-            const { data: enrollment, error } = await supabase
+            // Create enrollment with full metadata to match new schema
+            const { data: enrollment, error: insertError } = await supabase
                 .from("student_enrollments")
                 .insert({
                     student_id: params.studentId,
@@ -120,34 +131,41 @@ export const enrollmentService = {
                 .select()
                 .single();
 
-            if (error) throw error;
+            if (insertError) {
+                console.error("❌ Erro detalhado na matrícula:", insertError);
+                throw insertError;
+            }
 
             // Log audit trail
-            await logActionDirect({
-                tableName: "student_enrollments",
-                recordId: enrollment.id,
-                action: "INSERT",
-                newValues: {
-                    student_id: params.studentId,
-                    course_id: params.courseId,
-                    enrolled_by: params.enrolledBy,
-                },
-                metadata: {
-                    enrollment_type: "manual",
-                    notes: params.notes,
-                },
-            });
+            try {
+                await logActionDirect({
+                    tableName: "student_enrollments",
+                    recordId: enrollment.id,
+                    action: "INSERT",
+                    newValues: {
+                        student_id: params.studentId,
+                        course_id: params.courseId,
+                        enrolled_by: params.enrolledBy,
+                    },
+                    metadata: {
+                        enrollment_type: "manual",
+                        notes: params.notes,
+                    },
+                });
+            } catch (auditError) {
+                console.warn("Audit log failed, but enrollment succeeded", auditError);
+            }
 
             return {
                 success: true,
                 message: "Aluno matriculado com sucesso!",
                 enrollmentId: enrollment.id,
             };
-        } catch (error) {
-            console.error("Error enrolling student:", error);
+        } catch (error: any) {
+            console.error("Error in enrollment service:", error);
             return {
                 success: false,
-                message: "Erro ao matricular aluno",
+                message: error.message || "Erro ao matricular aluno. Verifique se as novas tabelas foram criadas.",
             };
         }
     },
@@ -159,7 +177,7 @@ export const enrollmentService = {
         successful: Array<{ studentId: string; enrollmentId: string }>;
         failed: Array<{ studentId: string; reason: string }>;
     }> {
-        
+
         const successful: Array<{ studentId: string; enrollmentId: string }> = [];
         const failed: Array<{ studentId: string; reason: string }> = [];
 
@@ -251,7 +269,7 @@ export const enrollmentService = {
         message: string;
         permissionId?: string;
     }> {
-        
+
 
         try {
             // Get granter's role
@@ -317,7 +335,7 @@ export const enrollmentService = {
         revokedBy: string,
         reason: string
     ): Promise<{ success: boolean; message: string }> {
-        
+
 
         try {
             const { error } = await supabase
@@ -365,7 +383,7 @@ export const enrollmentService = {
         message: string;
         is_approved: boolean;
     }> {
-        
+
 
         try {
             const { data, error } = await supabase.rpc("complete_course_enrollment", {

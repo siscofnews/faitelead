@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { 
-  Clock, Calendar, BookOpen, Users, ArrowRight, Check, 
+import {
+  Clock, Calendar, BookOpen, Users, ArrowRight, Check,
   CreditCard, Smartphone, GraduationCap, Award, Play,
   Menu, ChevronDown, Star, Sparkles, Truck, Package, MessageCircle, Phone
 } from "lucide-react";
@@ -18,6 +18,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useI18n } from "@/i18n/I18nProvider";
 import faitelLogo from "@/assets/faitel-logo.png";
 
 // Import course images
@@ -30,119 +31,70 @@ import direitoCanonico from "@/assets/courses/direito-canonico.png";
 import juizDePazImg from "@/assets/courses/juiz-de-paz.png";
 
 // Course data
-const coursesData = [
+const getCoursesData = (t: any) => [
   {
     id: 1,
-    title: "Juiz Arbitral",
+    title: t("courses.data.c1.title"),
     image: juizArbitralImg,
-    description: "Curso completo de Juiz Arbitral pela FAITEL. Capacitação para atuar como árbitro em mediação e resolução de conflitos, com base em princípios éticos e cristãos. Aprenda sobre legislação arbitral, técnicas de mediação e procedimentos legais.",
-    topics: [
-      "Fundamentos da Arbitragem",
-      "Legislação Arbitral Brasileira",
-      "Técnicas de Mediação de Conflitos",
-      "Ética e Conduta do Árbitro",
-      "Procedimentos e Documentação",
-      "Prática de Arbitragem"
-    ],
+    description: t("courses.data.c1.desc"),
+    topics: t("courses.data.c1.topics", { returnObjects: true }) || [],
     color: "from-[hsl(38_60%_50%)] to-[hsl(220_60%_40%)]",
     borderColor: "border-[hsl(38_60%_50%)]"
   },
   {
     id: 2,
-    title: "Formação de Líderes de Células",
+    title: t("courses.data.c2.title"),
     image: formacaoLideresImg,
-    description: "Curso de Formação de Líderes de Células no formato Grupo Familiar de Crescimento. Desenvolva habilidades essenciais para liderar grupos de crescimento espiritual, multiplicar células e formar novos líderes em sua comunidade.",
-    topics: [
-      "Fundamentos dos Grupos Familiares",
-      "Liderança Servidora",
-      "Multiplicação de Células",
-      "Dinâmicas de Grupo",
-      "Discipulado Eficaz",
-      "Gestão de Conflitos em Células"
-    ],
+    description: t("courses.data.c2.desc"),
+    topics: t("courses.data.c2.topics", { returnObjects: true }) || [],
     color: "from-[hsl(140_40%_35%)] to-[hsl(35_50%_45%)]",
     borderColor: "border-[hsl(140_40%_35%)]"
   },
   {
     id: 3,
-    title: "Agentes, Defensores e Delegado em Direitos Humanos",
+    title: t("courses.data.c3.title"),
     image: direitosHumanosImg,
-    description: "Capacitação completa para atuar como Agente, Defensor e Delegado em Direitos Humanos. Conheça a legislação, os tratados internacionais e as práticas de defesa dos direitos fundamentais da pessoa humana.",
-    topics: [
-      "Declaração Universal dos Direitos Humanos",
-      "Legislação Brasileira de Direitos Humanos",
-      "Tratados Internacionais",
-      "Advocacy e Defesa de Direitos",
-      "Atuação em Casos Práticos",
-      "Ética e Responsabilidade Social"
-    ],
+    description: t("courses.data.c3.desc"),
+    topics: t("courses.data.c3.topics", { returnObjects: true }) || [],
     color: "from-[hsl(0_0%_95%)] to-[hsl(35_40%_50%)]",
     borderColor: "border-[hsl(35_40%_50%)]"
   },
   {
     id: 4,
-    title: "Capelania Geral Militar",
+    title: t("courses.data.c4.title"),
     image: capelaniaImg,
-    description: "Curso de Capelania Geral Militar - Esportiva e Militar. Formação completa para atuar como capelão em ambientes militares, esportivos, hospitalares e corporativos. Aprenda aconselhamento, cuidado pastoral e apoio espiritual.",
-    topics: [
-      "Fundamentos da Capelania",
-      "Capelania Militar e Esportiva",
-      "Aconselhamento Pastoral",
-      "Cuidado em Situações de Crise",
-      "Capelania Hospitalar",
-      "Ética e Conduta do Capelão"
-    ],
+    description: t("courses.data.c4.desc"),
+    topics: t("courses.data.c4.topics", { returnObjects: true }) || [],
     color: "from-[hsl(0_0%_95%)] to-[hsl(0_50%_40%)]",
     borderColor: "border-[hsl(0_50%_40%)]"
   },
   {
     id: 5,
-    title: "Gestão Administrativa de Igreja em Software",
+    title: t("courses.data.c5.title"),
     image: gestaoIgrejaImg,
-    description: "Curso prático de Gestão Administrativa de Igreja utilizando Software especializado. Aprenda a gerenciar finanças, membros, eventos e comunicação da igreja de forma profissional e eficiente com ferramentas tecnológicas.",
-    topics: [
-      "Gestão Financeira Eclesiástica",
-      "Cadastro e Gestão de Membros",
-      "Organização de Eventos e Escalas",
-      "Comunicação Digital na Igreja",
-      "Ferramentas e Softwares de Gestão",
-      "Relatórios e Indicadores"
-    ],
+    description: t("courses.data.c5.desc"),
+    topics: t("courses.data.c5.topics", { returnObjects: true }) || [],
     color: "from-[hsl(0_0%_95%)] to-[hsl(140_40%_35%)]",
     borderColor: "border-[hsl(140_40%_35%)]"
   },
   {
     id: 6,
-    title: "Direito Religioso Canônico",
+    title: t("courses.data.c6.title"),
     image: direitoCanonico,
-    description: "Curso de Direito Religioso Canônico pela FAITEL. Estudo aprofundado do direito canônico, sua história, princípios e aplicação prática nas instituições religiosas. Conheça a legislação eclesiástica e sua relação com o direito civil.",
-    topics: [
-      "História do Direito Canônico",
-      "Princípios do Direito Eclesiástico",
-      "Estrutura Jurídica das Igrejas",
-      "Direito Matrimonial Canônico",
-      "Processos e Procedimentos Canônicos",
-      "Relação Igreja-Estado"
-    ],
+    description: t("courses.data.c6.desc"),
+    topics: t("courses.data.c6.topics", { returnObjects: true }) || [],
     color: "from-[hsl(0_0%_95%)] to-[hsl(35_50%_45%)]",
     borderColor: "border-[hsl(35_50%_45%)]"
   },
   {
     id: 7,
-    title: "Juiz de Paz",
+    title: t("courses.data.c7.title"),
     image: juizDePazImg,
-    description: "Curso de Juiz de Paz pela FAITEL - Faculdade Internacional Teológica de Líderes. Formação para atuar na promoção da paz, reconciliação e resolução pacífica de conflitos em comunidades, igrejas e instituições.",
-    topics: [
-      "Fundamentos da Cultura de Paz",
-      "Técnicas de Reconciliação",
-      "Mediação Comunitária",
-      "Justiça Restaurativa",
-      "Comunicação Não-Violenta",
-      "Prática do Juiz de Paz"
-    ],
+    description: t("courses.data.c7.desc"),
+    topics: t("courses.data.c7.topics", { returnObjects: true }) || [],
     color: "from-[hsl(0_0%_95%)] to-[hsl(220_60%_40%)]",
     borderColor: "border-[hsl(220_60%_40%)]"
-  },
+  }
 ];
 
 // Course info card component
@@ -159,8 +111,10 @@ const CourseInfoCard = ({ icon: Icon, title, value }: { icon: LucideIcon; title:
 );
 
 const Courses = () => {
+  const { t } = useI18n();
+  const coursesData = getCoursesData(t);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState<typeof coursesData[0] | null>(null);
+  const [selectedCourse, setSelectedCourse] = useState<any>(null);
 
   return (
     <div className="min-h-screen bg-[hsl(220_50%_6%)] text-foreground">
@@ -177,15 +131,15 @@ const Courses = () => {
             </Link>
 
             <nav className="hidden lg:flex items-center gap-8">
-              <Link to="/" className="text-sm font-medium text-white/80 hover:text-accent transition-colors">Início</Link>
-              <Link to="/courses" className="text-sm font-medium text-accent transition-colors">Cursos</Link>
-              <Link to="/auth" className="text-sm font-medium text-white/80 hover:text-accent transition-colors">Portal do Aluno</Link>
+              <Link to="/" className="text-sm font-medium text-white/80 hover:text-accent transition-colors">{t("common.home")}</Link>
+              <Link to="/courses" className="text-sm font-medium text-accent transition-colors">{t("nav.courses")}</Link>
+              <Link to="/auth" className="text-sm font-medium text-white/80 hover:text-accent transition-colors">{t("nav.student_portal")}</Link>
             </nav>
 
             <div className="flex items-center gap-4">
               <Link to="/auth" className="hidden md:block">
                 <Button className="bg-accent text-accent-foreground hover:bg-accent/90 font-bold btn-shine px-6">
-                  MATRICULE-SE
+                  {t("courses.details_page.enroll_now_caps")}
                 </Button>
               </Link>
 
@@ -197,11 +151,11 @@ const Courses = () => {
                 </SheetTrigger>
                 <SheetContent side="right" className="w-[300px] bg-[hsl(220_50%_8%)] text-white border-white/10">
                   <nav className="flex flex-col gap-4 mt-8">
-                    <Link to="/" className="text-lg font-medium py-3 border-b border-white/10">Início</Link>
-                    <Link to="/courses" className="text-lg font-medium py-3 border-b border-white/10 text-accent">Cursos</Link>
-                    <Link to="/auth" className="text-lg font-medium py-3">Portal do Aluno</Link>
+                    <Link to="/" className="text-lg font-medium py-3 border-b border-white/10">{t("common.home")}</Link>
+                    <Link to="/courses" className="text-lg font-medium py-3 border-b border-white/10 text-accent">{t("nav.courses")}</Link>
+                    <Link to="/auth" className="text-lg font-medium py-3">{t("nav.student_portal")}</Link>
                     <Link to="/auth" className="mt-4">
-                      <Button className="w-full bg-accent text-accent-foreground font-bold">MATRICULE-SE</Button>
+                      <Button className="w-full bg-yellow-400 text-black hover:bg-yellow-500 font-bold border-none">{t("courses.details_page.enroll_now_caps")}</Button>
                     </Link>
                   </nav>
                 </SheetContent>
@@ -215,42 +169,42 @@ const Courses = () => {
       <section className="pt-32 pb-16 bg-gradient-to-b from-[hsl(220_50%_10%)] to-[hsl(220_50%_6%)] relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-20" />
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[100px]" />
-        
+
         <div className="container mx-auto px-4 relative z-10 text-center">
           <Badge className="bg-accent/20 text-accent border-accent/30 mb-6 font-semibold">
             <BookOpen className="h-3 w-3 mr-1" />
-            NOSSOS CURSOS
+            {t("courses.our_courses")}
           </Badge>
-          
+
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-black text-white mb-4 text-3d-white">
-            CURSOS DA
+            {t("courses.title_prefix", { defaultValue: "CURSOS DA" })}
           </h1>
           <p className="text-3xl md:text-4xl font-display font-bold text-gradient-gold mb-6">
             FAITEL
           </p>
-          
+
           <div className="w-24 h-1 mx-auto mb-8 neon-line" />
-          
+
           <p className="text-lg text-white/70 max-w-2xl mx-auto mb-8">
-            Formação completa com <span className="text-accent font-bold">certificado reconhecido</span>. 
-            Cada curso tem duração de 90 dias, com 1 aula por semana de 3 horas.
+            {t("courses.subtitle", { defaultValue: "Formação completa com " })} <span className="text-accent font-bold">{t("courses.recognized_cert", { defaultValue: "certificado reconhecido" })}</span>.
+            {t("courses.info")}
           </p>
 
           {/* Pricing Highlight */}
           <div className="inline-flex flex-col md:flex-row items-center gap-4 md:gap-8 bg-glass-card border border-accent/30 rounded-2xl p-6 md:p-8">
             <div className="text-center md:text-left">
-              <p className="text-sm text-white/60 mb-1">Investimento por curso</p>
-              <p className="text-4xl md:text-5xl font-display font-black text-accent">R$ 400</p>
+              <p className="text-sm text-white/60 mb-1">{t("courses.investment_label", { defaultValue: "Investimento por curso" })}</p>
+              <p className="text-4xl md:text-5xl font-display font-black text-accent">{t("courses.price")}</p>
             </div>
             <div className="w-px h-12 bg-white/20 hidden md:block" />
             <div className="flex flex-col gap-2 text-left">
               <div className="flex items-center gap-2">
                 <CreditCard className="h-4 w-4 text-accent" />
-                <span className="text-sm text-white">1+3x no cartão de crédito</span>
+                <span className="text-sm text-white">{t("courses.installment_info", { defaultValue: "1+3x no cartão de crédito" })}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Smartphone className="h-4 w-4 text-accent" />
-                <span className="text-sm text-white">À vista no PIX - FAITEL</span>
+                <span className="text-sm text-white">{t("courses.pix_info", { defaultValue: "À vista no PIX - FAITEL" })}</span>
               </div>
             </div>
           </div>
@@ -261,10 +215,10 @@ const Courses = () => {
       <section className="py-8 bg-[hsl(220_50%_8%)]">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <CourseInfoCard icon={Calendar} title="Duração" value="90 dias" />
-            <CourseInfoCard icon={Clock} title="Carga Horária" value="3h por aula" />
-            <CourseInfoCard icon={Play} title="Frequência" value="1 aula/semana" />
-            <CourseInfoCard icon={Award} title="Certificado" value="Reconhecido" />
+            <CourseInfoCard icon={Calendar} title={t("courses.curriculum.duration")} value={t("courses.days")} />
+            <CourseInfoCard icon={Clock} title={t("courses.curriculum.total_hours")} value={t("courses.hours")} />
+            <CourseInfoCard icon={Play} title={t("courses.frequency_label", { defaultValue: "Frequência" })} value={t("courses.frequency_value", { defaultValue: "1 aula/semana" })} />
+            <CourseInfoCard icon={Award} title={t("about.certification")} value={t("about.recognized")} />
           </div>
         </div>
       </section>
@@ -273,12 +227,12 @@ const Courses = () => {
       <section className="py-16 bg-gradient-to-b from-[hsl(220_50%_8%)] to-[hsl(220_50%_6%)] relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-10" />
         <div className="absolute top-1/4 right-0 w-96 h-96 bg-accent/10 rounded-full blur-[100px]" />
-        
+
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-8">
             <Badge className="bg-accent/20 text-accent border-accent/30 mb-4 font-semibold">
               <Star className="h-3 w-3 mr-1" />
-              CURSO EM DESTAQUE
+              {t("courses.featured_badge", { defaultValue: "CURSO EM DESTAQUE" })}
             </Badge>
             <h2 className="text-3xl md:text-4xl font-display font-black text-white">
               GRADUAÇÃO EM <span className="text-gradient-gold">TEOLOGIA</span>
@@ -291,28 +245,27 @@ const Courses = () => {
                 {/* Left - Image/Info */}
                 <div className="bg-gradient-to-br from-primary/20 to-accent/20 p-8 flex flex-col justify-center">
                   <div className="flex items-center gap-2 mb-4">
-                    <Badge className="bg-success text-white">Nota MEC: 5</Badge>
-                    <Badge variant="outline" className="border-accent text-accent">36 meses</Badge>
+                    <Badge className="bg-success text-white">{t("courses.curriculum.mec_rating")}: 5</Badge>
+                    <Badge variant="outline" className="border-yellow-400 text-yellow-400">36 {t("courses.months", { defaultValue: "meses" })}</Badge>
                   </div>
                   <h3 className="text-2xl md:text-3xl font-display font-bold text-white mb-3">
-                    Bacharelado em Teologia
+                    {t("footer.courses_list.bachelor")}
                   </h3>
                   <p className="text-white/70 mb-6">
-                    Formação completa com 2.900 horas, corpo docente de mestres, doutores e pós-doutores. 
-                    Grade curricular abrangente incluindo línguas bíblicas, teologia sistemática e práticas pastorais.
+                    {t("courses.bachelor_desc", { defaultValue: "Formação completa com 2.900 horas, corpo docente de mestres, doutores e pós-doutores. Grade curricular abrangente incluindo línguas bíblicas, teologia sistemática e práticas pastorais." })}
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    <span className="text-xs bg-white/10 text-white/80 px-3 py-1 rounded-full">A Distância</span>
-                    <span className="text-xs bg-white/10 text-white/80 px-3 py-1 rounded-full">Aulas ao Vivo</span>
-                    <span className="text-xs bg-white/10 text-white/80 px-3 py-1 rounded-full">Certificado Nacional</span>
+                    <span className="text-xs bg-white/10 text-white/80 px-3 py-1 rounded-full">{t("modalities.ead_title")}</span>
+                    <span className="text-xs bg-white/10 text-white/80 px-3 py-1 rounded-full">{t("modalities.live_class")}</span>
+                    <span className="text-xs bg-white/10 text-white/80 px-3 py-1 rounded-full">{t("courses.national_cert", { defaultValue: "Certificado Nacional" })}</span>
                   </div>
                 </div>
 
                 {/* Right - CTA */}
                 <div className="p-8 bg-[hsl(220_50%_10%)] flex flex-col justify-center">
-                  <p className="text-sm text-white/60 mb-1">A partir de</p>
-                  <p className="text-4xl font-display font-black text-accent mb-1">R$ 299<span className="text-lg text-white/60">/mês</span></p>
-                  <p className="text-sm text-white/60 mb-6">ou R$ 269 à vista no PIX</p>
+                  <p className="text-sm text-white/60 mb-1">{t("courses.starting_from", { defaultValue: "A partir de" })}</p>
+                  <p className="text-4xl font-display font-black text-accent">R$ 299<span className="text-lg text-white/60">/{t("courses.month_label", { defaultValue: "mês" })}</span></p>
+                  <p className="text-sm text-white/60 mb-6">{t("courses.pix_discount", { defaultValue: "ou R$ 269 à vista no PIX" })}</p>
 
                   <div className="space-y-3 mb-6">
                     <div className="flex items-center gap-2 text-sm text-white/80">
@@ -337,7 +290,7 @@ const Courses = () => {
                       </Button>
                     </Link>
                     <Link to="/auth" className="block">
-                      <Button variant="outline" className="w-full border-white/30 text-white hover:bg-white/10 h-12">
+                      <Button className="w-full bg-yellow-400 text-black hover:bg-yellow-500 font-bold h-12 border-none">
                         MATRICULE-SE AGORA
                       </Button>
                     </Link>
@@ -358,10 +311,10 @@ const Courses = () => {
             </h2>
             <p className="text-white/60">Certificação rápida em 90 dias com material didático exclusivo</p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {coursesData.map((course, index) => (
-              <Card 
+              <Card
                 key={course.id}
                 className={`group bg-glass-card border-white/10 hover:${course.borderColor} overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-accent/10`}
                 style={{ animationDelay: `${index * 0.1}s` }}
@@ -369,16 +322,16 @@ const Courses = () => {
                 <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-white/5 to-white/0">
                   {/* Book Image with 3D Effect */}
                   <div className="absolute inset-0 flex items-center justify-center p-8 transform group-hover:scale-105 transition-transform duration-500">
-                    <img 
-                      src={course.image} 
+                    <img
+                      src={course.image}
                       alt={course.title}
                       className="w-full h-full object-contain drop-shadow-2xl"
                     />
                   </div>
-                  
+
                   {/* Gradient Overlay */}
                   <div className={`absolute inset-0 bg-gradient-to-t ${course.color} opacity-10 group-hover:opacity-20 transition-opacity`} />
-                  
+
                   {/* Badge */}
                   <Badge className="absolute top-4 left-4 bg-accent text-accent-foreground font-bold">
                     R$ 400
@@ -389,7 +342,7 @@ const Courses = () => {
                   <h3 className="text-lg font-display font-bold text-white mb-3 line-clamp-2 group-hover:text-accent transition-colors">
                     {course.title}
                   </h3>
-                  
+
                   <p className="text-sm text-white/60 mb-4 line-clamp-3">
                     {course.description}
                   </p>
@@ -408,9 +361,8 @@ const Courses = () => {
                   <div className="flex gap-2">
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button 
-                          variant="outline" 
-                          className="flex-1 border-white/20 text-white hover:bg-white/10"
+                        <Button
+                          className="flex-1 bg-yellow-400 text-black hover:bg-yellow-500 border-none font-bold"
                           onClick={() => setSelectedCourse(course)}
                         >
                           Ver Detalhes
@@ -422,15 +374,15 @@ const Courses = () => {
                             {course.title}
                           </DialogTitle>
                           <DialogDescription className="text-white/70">
-                            Curso pela FAITEL - Faculdade Internacional Teológica de Líderes
+                            {t("courses.details_page.course_by_faitel", { defaultValue: "Curso pela FAITEL - Faculdade Internacional Teológica de Líderes" })}
                           </DialogDescription>
                         </DialogHeader>
-                        
+
                         <div className="space-y-6 mt-4">
                           {/* Course Image */}
                           <div className="aspect-video relative rounded-xl overflow-hidden bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center p-8">
-                            <img 
-                              src={course.image} 
+                            <img
+                              src={course.image}
                               alt={course.title}
                               className="max-h-full object-contain drop-shadow-xl"
                             />
@@ -438,13 +390,13 @@ const Courses = () => {
 
                           {/* Description */}
                           <div>
-                            <h4 className="font-bold text-white mb-2">Sobre o Curso</h4>
+                            <h4 className="font-bold text-white mb-2">{t("courses.about_label", { defaultValue: "Sobre o Curso" })}</h4>
                             <p className="text-white/70 text-sm leading-relaxed">{course.description}</p>
                           </div>
 
                           {/* Topics */}
                           <div>
-                            <h4 className="font-bold text-white mb-3">O que você vai aprender</h4>
+                            <h4 className="font-bold text-white mb-3">{t("courses.learning_label", { defaultValue: "O que você vai aprender" })}</h4>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               {course.topics.map((topic, i) => (
                                 <div key={i} className="flex items-center gap-2 text-sm text-white/80">
@@ -459,30 +411,30 @@ const Courses = () => {
                           <div className="grid grid-cols-2 gap-4">
                             <div className="bg-white/5 rounded-xl p-4 text-center">
                               <Calendar className="h-6 w-6 text-accent mx-auto mb-2" />
-                              <p className="text-xs text-white/60">Duração</p>
-                              <p className="font-bold text-white">90 dias</p>
+                              <p className="text-xs text-white/60">{t("courses.curriculum.duration")}</p>
+                              <p className="font-bold text-white">{t("courses.days")}</p>
                             </div>
                             <div className="bg-white/5 rounded-xl p-4 text-center">
                               <Clock className="h-6 w-6 text-accent mx-auto mb-2" />
-                              <p className="text-xs text-white/60">Carga Horária</p>
-                              <p className="font-bold text-white">3h por aula</p>
+                              <p className="text-xs text-white/60">{t("courses.curriculum.total_hours")}</p>
+                              <p className="font-bold text-white">{t("courses.hours")}</p>
                             </div>
                           </div>
 
                           {/* Pricing */}
                           <div className="bg-accent/10 border border-accent/30 rounded-xl p-6">
                             <div className="flex items-center justify-between mb-4">
-                              <span className="text-white/70">Investimento</span>
-                              <span className="text-3xl font-display font-black text-accent">R$ 400</span>
+                              <span className="text-white/70">{t("courses.investment_label", { defaultValue: "Investimento" })}</span>
+                              <span className="text-3xl font-display font-black text-accent">{t("courses.price")}</span>
                             </div>
                             <div className="space-y-2 text-sm">
                               <div className="flex items-center gap-2 text-white/80">
                                 <CreditCard className="h-4 w-4 text-accent" />
-                                Parcele em 1+3x no cartão de crédito
+                                {t("courses.installment_info", { defaultValue: "Parcele em 1+3x no cartão de crédito" })}
                               </div>
                               <div className="flex items-center gap-2 text-white/80">
                                 <Smartphone className="h-4 w-4 text-accent" />
-                                À vista no PIX em nome da FAITEL
+                                {t("courses.pix_info", { defaultValue: "À vista no PIX em nome da FAITEL" })}
                               </div>
                             </div>
                           </div>
@@ -490,17 +442,17 @@ const Courses = () => {
                           {/* CTA */}
                           <Link to="/auth">
                             <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 font-bold h-12 btn-shine">
-                              MATRICULAR-SE AGORA
+                              {t("courses.details_page.enroll_now_caps")}
                               <ArrowRight className="ml-2 h-4 w-4" />
                             </Button>
                           </Link>
                         </div>
                       </DialogContent>
                     </Dialog>
-                    
+
                     <Link to="/auth" className="flex-1">
                       <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 font-bold">
-                        Matricular
+                        {t("courses.enroll_button", { defaultValue: "Matricular" })}
                         <ArrowRight className="ml-1 h-4 w-4" />
                       </Button>
                     </Link>
@@ -565,9 +517,9 @@ const Courses = () => {
                 <MessageCircle className="h-7 w-7 text-green-500" />
               </div>
               <h3 className="font-bold text-white mb-2">Dúvidas?</h3>
-              <a 
-                href="https://wa.me/5571959552155" 
-                target="_blank" 
+              <a
+                href="https://wa.me/5571959552155"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-green-500 font-semibold hover:text-green-400 transition-colors"
               >
@@ -583,7 +535,7 @@ const Courses = () => {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-primary via-accent to-primary relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-20" />
-        
+
         <div className="container mx-auto px-4 relative z-10 text-center">
           <Sparkles className="h-12 w-12 text-white/80 mx-auto mb-6" />
           <h2 className="text-3xl md:text-4xl font-display font-black text-white mb-4">
@@ -592,17 +544,17 @@ const Courses = () => {
           <p className="text-lg text-white/90 max-w-xl mx-auto mb-8">
             Invista no seu futuro com a FAITEL. Certificação reconhecida e formação de qualidade.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link to="/auth">
-              <Button size="lg" className="bg-white text-primary hover:bg-white/90 font-bold h-14 px-10">
+              <Button size="lg" className="bg-yellow-400 text-black hover:bg-yellow-500 font-bold h-14 px-10 border-none">
                 <GraduationCap className="mr-2 h-5 w-5" />
-                MATRICULE-SE AGORA
+                {t("courses.details_page.enroll_now_caps")}
               </Button>
             </Link>
             <Link to="/">
-              <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/10 font-bold h-14 px-10">
-                Voltar ao Início
+              <Button size="lg" className="bg-yellow-400 text-black hover:bg-yellow-500 font-bold h-14 px-10 border-none">
+                {t("courses.details_page.back_to_home")}
               </Button>
             </Link>
           </div>
@@ -611,7 +563,7 @@ const Courses = () => {
 
       {/* WhatsApp Float Button */}
       <a
-        href="https://wa.me/5571959552155?text=Olá! Gostaria de mais informações sobre os cursos da FAITEL."
+        href={`https://wa.me/5571959552155?text=${encodeURIComponent(t("cta.whatsapp_message"))}`}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"

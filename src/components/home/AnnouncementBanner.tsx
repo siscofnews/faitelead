@@ -118,8 +118,8 @@ const AnnouncementBanner = () => {
                   <div
                     key={slide.id}
                     className={`absolute inset-0 flex flex-col justify-center transition-all duration-700 ease-in-out ${index === currentSlide
-                        ? "opacity-100 translate-y-0 scale-100"
-                        : "opacity-0 translate-y-8 scale-95"
+                      ? "opacity-100 translate-y-0 scale-100"
+                      : "opacity-0 translate-y-8 scale-95"
                       }`}
                   >
                     <div className="flex items-center gap-2">
@@ -147,30 +147,30 @@ const AnnouncementBanner = () => {
           <div className="flex flex-wrap items-center justify-center gap-3 text-white">
             <a
               href="tel:+557198338488"
-              className="flex items-center gap-2 bg-white/15 hover:bg-white/25 rounded-full px-3 py-2 backdrop-blur-sm transition-all hover:scale-105"
+              className="flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 rounded-full px-3 py-2 backdrop-blur-sm transition-all hover:scale-105 text-black font-bold"
             >
-              <Phone className="h-4 w-4 text-accent" />
-              <span className="text-xs md:text-sm font-medium whitespace-nowrap">
+              <Phone className="h-4 w-4" />
+              <span className="text-xs md:text-sm font-bold whitespace-nowrap">
                 (71) 9 8338-4883
               </span>
             </a>
 
             <a
               href="tel:+5571996822782"
-              className="flex items-center gap-2 bg-white/15 hover:bg-white/25 rounded-full px-3 py-2 backdrop-blur-sm transition-all hover:scale-105"
+              className="flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 rounded-full px-3 py-2 backdrop-blur-sm transition-all hover:scale-105 text-black font-bold"
             >
-              <Phone className="h-4 w-4 text-accent" />
-              <span className="text-xs md:text-sm font-medium whitespace-nowrap">
+              <Phone className="h-4 w-4" />
+              <span className="text-xs md:text-sm font-bold whitespace-nowrap">
                 (71) 9 9682-2782
               </span>
             </a>
 
             <a
               href="mailto:faiteloficial@gmail.com"
-              className="flex items-center gap-2 bg-white/15 hover:bg-white/25 rounded-full px-3 py-2 backdrop-blur-sm transition-all hover:scale-105"
+              className="flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 rounded-full px-3 py-2 backdrop-blur-sm transition-all hover:scale-105 text-black font-bold"
             >
-              <Mail className="h-4 w-4 text-accent" />
-              <span className="text-xs md:text-sm font-medium">
+              <Mail className="h-4 w-4" />
+              <span className="text-xs md:text-sm font-bold">
                 faiteloficial@gmail.com
               </span>
             </a>
@@ -184,8 +184,8 @@ const AnnouncementBanner = () => {
               key={index}
               onClick={() => setCurrentSlide(index)}
               className={`h-1.5 rounded-full transition-all duration-300 ${index === currentSlide
-                  ? "bg-accent w-6 shadow-[0_0_8px_rgba(255,215,0,0.6)]"
-                  : "bg-white/40 w-1.5 hover:bg-white/60"
+                ? "bg-accent w-6 shadow-[0_0_8px_rgba(255,215,0,0.6)]"
+                : "bg-white/40 w-1.5 hover:bg-white/60"
                 }`}
               aria-label={`${t('common.go_to_slide')} ${index + 1}`}
             />

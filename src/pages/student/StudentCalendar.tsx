@@ -1,8 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { useI18n } from "@/i18n/I18nProvider";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { 
+import {
   Calendar as CalendarIcon, ArrowLeft, Clock, Video, FileText,
   MapPin, Users, Bell
 } from "lucide-react";
@@ -35,20 +36,17 @@ interface LiveClass {
 }
 
 const StudentCalendar = () => {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [liveClasses, setLiveClasses] = useState<LiveClass[]>([]);
 
-  useEffect(() => {
-    loadCalendarData();
-  }, [loadCalendarData]);
-
   const loadCalendarData = useCallback(async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      
+
       if (!user) {
         navigate("/auth");
         return;
@@ -94,19 +92,23 @@ const StudentCalendar = () => {
       }
     } catch (error) {
       console.error("Error loading calendar:", error);
-      toast.error("Erro ao carregar calendário");
+      toast.error(t("dashboards.student.errors.calendar_load", { defaultValue: "Erro ao carregar calendário" }));
     } finally {
       setLoading(false);
     }
-  }, [navigate]);
+  }, [navigate, t]);
+
+  useEffect(() => {
+    loadCalendarData();
+  }, [loadCalendarData]);
 
   const getEventsForDate = (date: Date) => {
     return events.filter(event => {
       const startDate = parseISO(event.start_date);
       const endDate = event.end_date ? parseISO(event.end_date) : startDate;
-      return (isSameDay(date, startDate) || 
-              (isAfter(date, startDate) && isBefore(date, endDate)) ||
-              isSameDay(date, endDate));
+      return (isSameDay(date, startDate) ||
+        (isAfter(date, startDate) && isBefore(date, endDate)) ||
+        isSameDay(date, endDate));
     });
   };
 
@@ -140,10 +142,10 @@ const StudentCalendar = () => {
 
   const getEventTypeLabel = (type: string) => {
     switch (type) {
-      case "exam": return "Prova";
-      case "deadline": return "Prazo";
-      case "holiday": return "Feriado";
-      case "event": return "Evento";
+      case "exam": return t("common.exam", { defaultValue: "Prova" });
+      case "deadline": return t("common.deadline", { defaultValue: "Prazo" });
+      case "holiday": return t("common.holiday", { defaultValue: "Feriado" });
+      case "event": return t("common.event", { defaultValue: "Evento" });
       default: return type;
     }
   };
@@ -153,7 +155,7 @@ const StudentCalendar = () => {
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center space-y-4">
           <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="text-foreground text-lg font-medium">Carregando calendário...</p>
+          <p className="text-foreground text-lg font-medium">{t("common.loading_calendar", { defaultValue: "Carregando calendário..." })}</p>
         </div>
       </div>
     );
@@ -169,9 +171,9 @@ const StudentCalendar = () => {
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div>
-              <h1 className="text-2xl font-display font-bold text-foreground">Calendário Acadêmico</h1>
+              <h1 className="text-2xl font-display font-bold text-foreground">{t("dashboard.quick_actions.calendar")}</h1>
               <p className="text-sm text-muted-foreground">
-                Eventos, prazos e aulas ao vivo
+                {t("dashboards.student.calendar_subtitle", { defaultValue: "Eventos, prazos e aulas ao vivo" })}
               </p>
             </div>
           </div>
@@ -186,7 +188,7 @@ const StudentCalendar = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <CalendarIcon className="h-5 w-5 text-primary" />
-                Calendário
+                {t("dashboard.quick_actions.calendar")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -222,13 +224,13 @@ const StudentCalendar = () => {
                 {selectedDateEvents.length === 0 && selectedDateClasses.length === 0 ? (
                   <div className="text-center py-8">
                     <CalendarIcon className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                    <p className="text-muted-foreground">Nenhum evento para esta data</p>
+                    <p className="text-muted-foreground">{t("dashboards.student.no_events_date", { defaultValue: "Nenhum evento para esta data" })}</p>
                   </div>
                 ) : (
                   <div className="space-y-4">
                     {/* Live Classes */}
                     {selectedDateClasses.map((cls) => (
-                      <div 
+                      <div
                         key={cls.id}
                         className="flex items-start gap-4 p-4 rounded-lg bg-primary/5 border border-primary/20"
                       >
@@ -238,7 +240,7 @@ const StudentCalendar = () => {
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
                             <Badge className="bg-primary text-primary-foreground">
-                              Aula ao Vivo
+                              {t("dashboards.student.live_class_label", { defaultValue: "Aula ao Vivo" })}
                             </Badge>
                             <Badge variant="outline">{cls.course_title}</Badge>
                           </div>
@@ -256,14 +258,14 @@ const StudentCalendar = () => {
                           </div>
                         </div>
                         <Button size="sm">
-                          Entrar
+                          {t("common.enter", { defaultValue: "Entrar" })}
                         </Button>
                       </div>
                     ))}
 
                     {/* Calendar Events */}
                     {selectedDateEvents.map((event) => (
-                      <div 
+                      <div
                         key={event.id}
                         className="flex items-start gap-4 p-4 rounded-lg bg-muted/50"
                       >
@@ -297,19 +299,19 @@ const StudentCalendar = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Video className="h-5 w-5 text-primary" />
-                  Próximas Aulas ao Vivo
+                  {t("dashboards.student.upcoming_live_lessons")}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 {liveClasses.length === 0 ? (
                   <div className="text-center py-8">
                     <Video className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                    <p className="text-muted-foreground">Nenhuma aula ao vivo agendada</p>
+                    <p className="text-muted-foreground">{t("dashboards.student.no_live_classes_scheduled", { defaultValue: "Nenhuma aula ao vivo agendada" })}</p>
                   </div>
                 ) : (
                   <div className="space-y-3">
                     {liveClasses.slice(0, 5).map((cls) => (
-                      <div 
+                      <div
                         key={cls.id}
                         className="flex items-center justify-between p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
                       >

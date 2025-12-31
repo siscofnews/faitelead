@@ -101,26 +101,18 @@ const SECCSection = () => {
                   alt={`Revista ${revista.title}`}
                   className="h-full w-auto object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-300"
                 />
-                <Badge className="absolute top-3 right-3 bg-accent text-accent-foreground border-accent text-xs font-bold">
-                  €{revista.preco}
-                </Badge>
               </div>
               <CardContent className="p-5">
                 <h3 className="text-lg font-display font-bold text-white mb-1 group-hover:text-accent transition-colors">
                   {revista.title}
                 </h3>
                 <p className="text-xs text-accent/80 font-medium mb-1">{revista.subtitle}</p>
-                <p className="text-sm text-white/80 font-semibold mb-2">{revista.tema}</p>
                 <p className="text-xs text-white/60 mb-3 line-clamp-3">{revista.descricao}</p>
 
                 <div className="flex items-center gap-4 text-xs text-white/60 mb-4">
                   <span className="flex items-center gap-1">
                     <FileText className="h-3 w-3 text-accent" />
                     {revista.licoes} {t('secc.lessons')}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Calendar className="h-3 w-3 text-accent" />
-                    {t('secc.quarterly')}
                   </span>
                 </div>
 
@@ -134,9 +126,8 @@ const SECCSection = () => {
 
                 <Link to={`/revista/${revista.id}`}>
                   <Button
-                    variant="outline"
                     size="sm"
-                    className="w-full text-xs border-white/20 text-white/80 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                    className="w-full text-xs bg-yellow-400 text-black hover:bg-yellow-500 border-none font-bold"
                   >
                     <Eye className="h-3 w-3 mr-1" />
                     {t('secc.details')}
@@ -152,49 +143,49 @@ const SECCSection = () => {
           <CardContent className="p-8">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
-                <h3 className="text-2xl font-display font-bold text-white mb-4">
-                  {t('secc.about.title')}
+                <h3 className="text-2xl font-display font-bold text-slate-950 mb-4">
+                  {t('common.details')}
                 </h3>
-                <p className="text-white/70 mb-4">
-                  {t('secc.about.p1')} <strong className="text-accent">Carta aos Romanos</strong>.
+                <p className="text-slate-800 mb-6">
+                  {t('secc.about.p1')} <strong className="text-primary font-bold">Carta aos Romanos</strong>.
                 </p>
-                <p className="text-white/70 mb-6">
-                  {t('secc.about.p2')} <strong className="text-accent">€30,00</strong>.
-                </p>
-                <a href="https://secc.org.br/" target="_blank" rel="noopener noreferrer">
-                  <Button className="bg-accent text-accent-foreground hover:bg-accent/90 font-bold btn-shine">
-                    <ExternalLink className="h-4 w-4 mr-2" />
-                    {t('secc.visit_site')}
-                  </Button>
+                <a
+                  href="https://secc.org.br"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-black px-6 py-3 rounded-xl font-bold transition-all hover:scale-105"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  {t('secc.visit_site')}
                 </a>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div className="text-center bg-white/5 border border-white/10 rounded-xl p-4">
-                  <Users className="h-8 w-8 text-accent mx-auto mb-2" />
-                  <p className="text-xl font-display font-bold text-white">4</p>
-                  <p className="text-xs text-white/60">{t('secc.stats.ages')}</p>
+                <div className="text-center bg-black/5 border border-black/10 rounded-xl p-4">
+                  <Users className="h-8 w-8 text-primary mx-auto mb-2" />
+                  <p className="text-xl font-display font-bold text-slate-950">4</p>
+                  <p className="text-xs text-slate-700 font-medium">{t('secc.stats.ages')}</p>
                 </div>
-                <div className="text-center bg-white/5 border border-white/10 rounded-xl p-4">
-                  <BookOpen className="h-8 w-8 text-accent mx-auto mb-2" />
-                  <p className="text-xl font-display font-bold text-white">13</p>
-                  <p className="text-xs text-white/60">{t('secc.stats.lessons_qt')}</p>
+                <div className="text-center bg-black/5 border border-black/10 rounded-xl p-4">
+                  <BookOpen className="h-8 w-8 text-primary mx-auto mb-2" />
+                  <p className="text-xl font-display font-bold text-slate-950">13</p>
+                  <p className="text-xs text-slate-700 font-medium">{t('secc.stats.lessons_qt')}</p>
                 </div>
-                <div className="text-center bg-white/5 border border-white/10 rounded-xl p-4">
-                  <FileText className="h-8 w-8 text-accent mx-auto mb-2" />
-                  <p className="text-xl font-display font-bold text-white">52</p>
-                  <p className="text-xs text-white/60">{t('secc.stats.lessons_year')}</p>
+                <div className="text-center bg-black/5 border border-black/10 rounded-xl p-4">
+                  <FileText className="h-8 w-8 text-primary mx-auto mb-2" />
+                  <p className="text-xl font-display font-bold text-slate-950">52</p>
+                  <p className="text-xs text-slate-700 font-medium">{t('secc.stats.lessons_year')}</p>
                 </div>
-                <div className="text-center bg-white/5 border border-white/10 rounded-xl p-4">
-                  <Euro className="h-8 w-8 text-accent mx-auto mb-2" />
-                  <p className="text-xl font-display font-bold text-white">30</p>
-                  <p className="text-xs text-white/60">{t('secc.stats.price_unit')}</p>
+                <div className="text-center bg-black/5 border border-black/10 rounded-xl p-4">
+                  <Euro className="h-8 w-8 text-primary mx-auto mb-2" />
+                  <p className="text-xl font-display font-bold text-slate-950">30</p>
+                  <p className="text-xs text-slate-700 font-medium">{t('secc.stats.price_unit')}</p>
                 </div>
               </div>
             </div>
           </CardContent>
         </Card>
-      </div>
-    </section>
+      </div >
+    </section >
   );
 };
 

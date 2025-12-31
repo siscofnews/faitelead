@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import {
-  Home, BookOpen, Users, FileText, MessageSquare, 
+  Home, BookOpen, Users, FileText, MessageSquare,
   Calendar, Award, Upload, BarChart3, Settings,
   ChevronRight, Plus, Bell, LogOut
 } from "lucide-react";
@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useI18n } from "@/i18n/I18nProvider";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,6 +23,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const ProfessorDashboard = () => {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState("");
@@ -39,7 +41,7 @@ const ProfessorDashboard = () => {
   const checkAuth = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      
+
       if (!user) {
         navigate("/auth");
         return;
@@ -53,7 +55,7 @@ const ProfessorDashboard = () => {
         .single();
 
       if (!roleData || (roleData.role !== "teacher" && roleData.role !== "admin" && roleData.role !== "super_admin")) {
-        toast.error("Acesso negado. Você não é um professor.");
+        toast.error(t("auth.access_denied_teacher", { defaultValue: "Acesso negado. Você não é um professor." }));
         navigate("/auth");
         return;
       }
@@ -65,8 +67,8 @@ const ProfessorDashboard = () => {
         .eq("id", user.id)
         .single();
 
-      setUserName(profile?.full_name || "Professor");
-      
+      setUserName(profile?.full_name || t("common.professor", { defaultValue: "Professor" }));
+
       // Carregar estatísticas (mock por enquanto)
       setStats({
         totalStudents: 45,
@@ -100,13 +102,13 @@ const ProfessorDashboard = () => {
   }
 
   const menuItems = [
-    { icon: BookOpen, label: "Minhas Turmas", href: "/professor/turmas", badge: stats.coursesTeaching },
-    { icon: Users, label: "Meus Alunos", href: "/professor/alunos", badge: stats.totalStudents },
-    { icon: Upload, label: "Upload de Aulas", href: "/professor/upload" },
-    { icon: FileText, label: "Lançar Notas", href: "/professor/notas", badge: stats.pendingGrades },
-    { icon: MessageSquare, label: "Fórum", href: "/professor/forum", badge: stats.forumPosts },
-    { icon: Calendar, label: "Agenda", href: "/professor/agenda" },
-    { icon: BarChart3, label: "Relatórios", href: "/professor/relatorios" },
+    { icon: BookOpen, label: t("dashboards.professor.my_classes", { defaultValue: "Minhas Turmas" }), href: "/professor/turmas", badge: stats.coursesTeaching },
+    { icon: Users, label: t("dashboards.professor.my_students", { defaultValue: "Meus Alunos" }), href: "/professor/alunos", badge: stats.totalStudents },
+    { icon: Upload, label: t("dashboards.professor.upload_lessons", { defaultValue: "Upload de Aulas" }), href: "/professor/upload" },
+    { icon: FileText, label: t("dashboards.professor.post_grades", { defaultValue: "Lançar Notas" }), href: "/professor/notas", badge: stats.pendingGrades },
+    { icon: MessageSquare, label: t("dashboards.professor.forum", { defaultValue: "Fórum" }), href: "/professor/forum", badge: stats.forumPosts },
+    { icon: Calendar, label: t("dashboards.professor.schedule", { defaultValue: "Agenda" }), href: "/professor/agenda" },
+    { icon: BarChart3, label: t("dashboards.professor.reports", { defaultValue: "Relatórios" }), href: "/professor/relatorios" },
   ];
 
   return (
@@ -119,7 +121,7 @@ const ProfessorDashboard = () => {
               <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors">
                 <Home className="h-5 w-5" />
               </Link>
-              <h1 className="text-xl font-display font-bold">Portal do Professor</h1>
+              <h1 className="text-xl font-display font-bold">{t("dashboards.professor.title", { defaultValue: "Portal do Professor" })}</h1>
             </div>
             <div className="flex items-center gap-4">
               <Button variant="ghost" size="icon" className="relative">
@@ -140,15 +142,15 @@ const ProfessorDashboard = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
+                  <DropdownMenuLabel>{t("common.my_account", { defaultValue: "Minha Conta" })}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
                     <Settings className="h-4 w-4 mr-2" />
-                    Configurações
+                    {t("common.settings", { defaultValue: "Configurações" })}
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleLogout}>
                     <LogOut className="h-4 w-4 mr-2" />
-                    Sair
+                    {t("common.logout", { defaultValue: "Sair" })}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -164,15 +166,15 @@ const ProfessorDashboard = () => {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <h2 className="text-2xl font-display font-bold">
-                  Bem-vindo, {userName.split(" ")[0]}! 👋
+                  {t("common.welcome")}, {userName.split(" ")[0]}! 👋
                 </h2>
                 <p className="text-muted-foreground mt-1">
-                  Você tem {stats.pendingGrades} notas pendentes para lançar
+                  {t("dashboards.professor.pending_grades_msg", { defaultValue: "Você tem {{count}} notas pendentes para lançar", count: stats.pendingGrades })}
                 </p>
               </div>
               <Button className="gap-2">
                 <Plus className="h-4 w-4" />
-                Nova Aula
+                {t("dashboards.professor.new_lesson", { defaultValue: "Nova Aula" })}
               </Button>
             </div>
           </CardContent>
@@ -184,28 +186,28 @@ const ProfessorDashboard = () => {
             <CardContent className="p-4 text-center">
               <Users className="h-8 w-8 mx-auto text-primary mb-2" />
               <p className="text-3xl font-display font-bold">{stats.totalStudents}</p>
-              <p className="text-sm text-muted-foreground">Alunos</p>
+              <p className="text-sm text-muted-foreground">{t("common.students", { defaultValue: "Alunos" })}</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
               <BookOpen className="h-8 w-8 mx-auto text-accent mb-2" />
               <p className="text-3xl font-display font-bold">{stats.coursesTeaching}</p>
-              <p className="text-sm text-muted-foreground">Turmas</p>
+              <p className="text-sm text-muted-foreground">{t("common.classes", { defaultValue: "Turmas" })}</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
               <FileText className="h-8 w-8 mx-auto text-warning mb-2" />
               <p className="text-3xl font-display font-bold">{stats.pendingGrades}</p>
-              <p className="text-sm text-muted-foreground">Notas Pendentes</p>
+              <p className="text-sm text-muted-foreground">{t("dashboards.professor.pending_grades", { defaultValue: "Notas Pendentes" })}</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
               <MessageSquare className="h-8 w-8 mx-auto text-success mb-2" />
               <p className="text-3xl font-display font-bold">{stats.forumPosts}</p>
-              <p className="text-sm text-muted-foreground">Posts no Fórum</p>
+              <p className="text-sm text-muted-foreground">{t("dashboards.professor.forum_posts", { defaultValue: "Posts no Fórum" })}</p>
             </CardContent>
           </Card>
         </div>
@@ -213,7 +215,7 @@ const ProfessorDashboard = () => {
         {/* Quick Actions */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {menuItems.map((item) => (
-            <Card 
+            <Card
               key={item.label}
               className="cursor-pointer hover:border-primary/50 transition-colors"
               onClick={() => toast.info("Funcionalidade em desenvolvimento")}
@@ -226,7 +228,7 @@ const ProfessorDashboard = () => {
                   <div>
                     <p className="font-medium">{item.label}</p>
                     {item.badge !== undefined && (
-                      <p className="text-sm text-muted-foreground">{item.badge} itens</p>
+                      <p className="text-sm text-muted-foreground">{item.badge} {t("common.items", { defaultValue: "itens" })}</p>
                     )}
                   </div>
                 </div>
@@ -240,7 +242,7 @@ const ProfessorDashboard = () => {
         <div className="grid md:grid-cols-2 gap-6">
           <Card>
             <CardHeader>
-              <CardTitle>Próximas Aulas ao Vivo</CardTitle>
+              <CardTitle>{t("dashboards.professor.upcoming_live_lessons", { defaultValue: "Próximas Aulas ao Vivo" })}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {[
@@ -253,16 +255,16 @@ const ProfessorDashboard = () => {
                     <p className="font-medium">{aula.title}</p>
                     <p className="text-sm text-muted-foreground">{aula.time}</p>
                   </div>
-                  <Badge variant="outline">{aula.students} alunos</Badge>
+                  <Badge variant="outline">{aula.students} {t("common.students", { defaultValue: "alunos" })}</Badge>
                 </div>
               ))}
-              <Button variant="outline" className="w-full">Ver Todas</Button>
+              <Button variant="outline" className="w-full">{t("common.view_all", { defaultValue: "Ver Todas" })}</Button>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Últimas Atividades do Fórum</CardTitle>
+              <CardTitle>{t("dashboards.professor.latest_forum_activities", { defaultValue: "Últimas Atividades do Fórum" })}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {[
@@ -275,10 +277,10 @@ const ProfessorDashboard = () => {
                     <p className="font-medium">{post.topic}</p>
                     <p className="text-sm text-muted-foreground">{post.author} • {post.time}</p>
                   </div>
-                  <Button variant="ghost" size="sm">Responder</Button>
+                  <Button variant="ghost" size="sm">{t("common.reply", { defaultValue: "Responder" })}</Button>
                 </div>
               ))}
-              <Button variant="outline" className="w-full">Ver Fórum</Button>
+              <Button variant="outline" className="w-full">{t("common.view_forum", { defaultValue: "Ver Fórum" })}</Button>
             </CardContent>
           </Card>
         </div>

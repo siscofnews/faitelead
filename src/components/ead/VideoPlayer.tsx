@@ -13,9 +13,9 @@ interface VideoPlayerProps {
 const extractYoutubeId = (url: string): string | null => {
   if (!url) return null;
 
-  // Handle various YouTube URL formats
+  // Handle various YouTube URL formats including shorts and live
   const patterns = [
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\s?]+)/,
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/shorts\/)([^&\s?]+)/,
     /^([a-zA-Z0-9_-]{11})$/, // Direct video ID
   ];
 
@@ -180,7 +180,9 @@ const VideoPlayer = ({ youtubeUrl, title, onComplete, startTime = 0, onProgress 
         <div className="relative w-full h-full">
           <div ref={containerRef} className="w-full h-full" />
           {/* Custom overlay to hide YouTube branding in corners */}
-          <div className="absolute top-0 right-0 w-20 h-16 bg-black pointer-events-none z-30" />
+          <div className="absolute top-0 right-0 w-24 h-20 bg-black pointer-events-none z-30" />
+          <div className="absolute top-0 left-0 w-40 h-20 bg-black pointer-events-none z-30" />
+          <div className="absolute bottom-10 right-0 w-20 h-10 bg-black pointer-events-none z-30" />
         </div>
       ) : (
         <video

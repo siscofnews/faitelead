@@ -78,14 +78,14 @@ const Gallery = () => {
 
   const renderMedia = (item: Photo, thumbnail = false) => {
     const youtubeId = getYoutubeId(item.url);
-    
+
     if (youtubeId) {
       if (thumbnail) {
         return (
           <div className="relative w-full h-full bg-black group-hover:scale-105 transition-transform flex items-center justify-center">
-            <img 
-              src={`https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`} 
-              alt={item.title} 
+            <img
+              src={`https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`}
+              alt={item.title}
               className="absolute inset-0 w-full h-full object-cover opacity-80"
             />
             <Play className="relative z-10 h-12 w-12 text-white drop-shadow-lg" />
@@ -105,28 +105,28 @@ const Gallery = () => {
     }
 
     if (item.url.match(/\.(mp4|mov|webm)$/i)) {
-       if (thumbnail) {
+      if (thumbnail) {
         return (
-           <div className="w-full h-full bg-black flex items-center justify-center relative">
-             <video src={item.url} className="w-full h-full object-cover opacity-80" />
-             <Play className="absolute z-10 h-12 w-12 text-white drop-shadow-lg" />
-           </div>
+          <div className="w-full h-full bg-black flex items-center justify-center relative">
+            <video src={item.url} className="w-full h-full object-cover opacity-80" />
+            <Play className="absolute z-10 h-12 w-12 text-white drop-shadow-lg" />
+          </div>
         )
-       }
-       return (
+      }
+      return (
         <video controls className="w-full h-auto rounded-lg" src={item.url}>
           Seu navegador não suporta vídeos HTML5.
         </video>
-       )
+      )
     }
 
     // Imagem normal
     return (
-      <img 
-        src={item.url} 
-        alt={item.title || "Foto"} 
-        className={`w-full ${thumbnail ? 'h-full object-cover group-hover:scale-105 transition-transform' : 'h-auto rounded-lg'}`} 
-        onClick={() => thumbnail && setSelected(item)} 
+      <img
+        src={item.url}
+        alt={item.title || "Foto"}
+        className={`w-full ${thumbnail ? 'h-full object-cover group-hover:scale-105 transition-transform' : 'h-auto rounded-lg'}`}
+        onClick={() => thumbnail && setSelected(item)}
       />
     );
   }
@@ -175,7 +175,7 @@ const Gallery = () => {
                     <Input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="Ex: Formatura 2024" />
                   </div>
                   <div className="flex justify-end gap-2">
-                    <Button variant="outline" onClick={() => setAddOpen(false)}>Cancelar</Button>
+                    <Button className="bg-yellow-400 text-black hover:bg-yellow-500 border-none font-bold" onClick={() => setAddOpen(false)}>Cancelar</Button>
                     <Button onClick={addPhoto}>Salvar</Button>
                   </div>
                 </div>
@@ -203,10 +203,10 @@ const Gallery = () => {
                     <Badge className="absolute bottom-2 left-2 bg-background/80 backdrop-blur text-foreground z-20">{p.title}</Badge>
                   )}
                   {canManage && (
-                    <Button 
-                      variant="destructive" 
-                      size="icon" 
-                      className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-30" 
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-30"
                       onClick={(e) => {
                         e.stopPropagation();
                         deletePhoto(p.id);

@@ -1,57 +1,60 @@
 import { Play, FileText, CreditCard, Award, MessageCircle, BookOpen } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-
-const actions = [
-  {
-    icon: Play,
-    title: "Continuar Aula",
-    description: "Retome de onde parou",
-    color: "bg-primary",
-    href: "/student/lessons",
-  },
-  {
-    icon: FileText,
-    title: "Histórico",
-    description: "Boletim acadêmico",
-    color: "bg-accent",
-    href: "/student/historico",
-  },
-  {
-    icon: CreditCard,
-    title: "Financeiro",
-    description: "Pagamentos",
-    color: "bg-success",
-    href: "/student/financeiro",
-  },
-  {
-    icon: Award,
-    title: "Certificados",
-    description: "Meus diplomas",
-    color: "bg-primary",
-    href: "/student/certificados",
-  },
-  {
-    icon: MessageCircle,
-    title: "Suporte",
-    description: "Falar conosco",
-    color: "bg-accent",
-    href: "/student/support",
-  },
-  {
-    icon: BookOpen,
-    title: "Cursos",
-    description: "Ver catálogo",
-    color: "bg-success",
-    href: "/student/courses",
-  },
-];
+import { useI18n } from "@/i18n/I18nProvider";
 
 const QuickActions = () => {
+  const { t } = useI18n();
+
+  const actions = [
+    {
+      icon: Play,
+      title: t("dashboard.quick_actions.continue_lesson", { defaultValue: "Continuar Aula" }),
+      description: t("dashboard.quick_actions.continue_desc", { defaultValue: "Retome de onde parou" }),
+      color: "bg-primary",
+      href: "/student/lessons",
+    },
+    {
+      icon: FileText,
+      title: t("dashboard.quick_actions.history", { defaultValue: "Histórico" }),
+      description: t("dashboard.quick_actions.history_desc", { defaultValue: "Boletim acadêmico" }),
+      color: "bg-accent",
+      href: "/student/historico",
+    },
+    {
+      icon: CreditCard,
+      title: t("dashboard.quick_actions.financial", { defaultValue: "Financeiro" }),
+      description: t("dashboard.quick_actions.financial_desc", { defaultValue: "Pagamentos" }),
+      color: "bg-success",
+      href: "/student/financeiro",
+    },
+    {
+      icon: Award,
+      title: t("dashboard.quick_actions.certificates", { defaultValue: "Certificados" }),
+      description: t("dashboard.quick_actions.certificates_desc", { defaultValue: "Meus diplomas" }),
+      color: "bg-primary",
+      href: "/student/certificados",
+    },
+    {
+      icon: MessageCircle,
+      title: t("dashboard.quick_actions.support", { defaultValue: "Suporte" }),
+      description: t("dashboard.quick_actions.support_desc", { defaultValue: "Falar conosco" }),
+      color: "bg-accent",
+      href: "/student/support",
+    },
+    {
+      icon: BookOpen,
+      title: t("dashboard.quick_actions.courses", { defaultValue: "Cursos" }),
+      description: t("dashboard.quick_actions.courses_desc", { defaultValue: "Ver catálogo" }),
+      color: "bg-success",
+      href: "/student/courses",
+    },
+  ];
+
   return (
     <section className="space-y-4">
-      <h2 className="text-xl font-display font-bold text-foreground">Acesso Rápido</h2>
-      
+      <h2 className="text-xl font-display font-bold text-foreground">{t("dashboard.quick_actions.title", { defaultValue: "Acesso Rápido" })}</h2>
+
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-4">
         {actions.map((action, index) => (
           <Link key={index} to={action.href}>

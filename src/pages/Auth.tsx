@@ -192,6 +192,7 @@ const Auth = () => {
             cpf: cleanCpf,
             phone: phone.replace(/\D/g, ""),
             education_level: educationLevel,
+            role: "student" // Explicit role for the trigger
           },
         },
       });
@@ -317,10 +318,10 @@ const Auth = () => {
               FAITEL
             </h1>
             <p className="text-xl text-primary-foreground/90 font-light mb-2">
-              Faculdade Internacional
+              {t('auth.faculdade_internacional')}
             </p>
             <p className="text-xl text-primary-foreground/90 font-light mb-8">
-              Teológica de Líderes
+              {t('auth.teologica_lideres')}
             </p>
 
             <div className="max-w-md space-y-6 text-primary-foreground/80">
@@ -328,19 +329,19 @@ const Auth = () => {
                 <div className="w-12 h-12 rounded-full bg-primary-foreground/10 flex items-center justify-center shrink-0">
                   <span className="text-2xl">📚</span>
                 </div>
-                <p className="text-sm">Cursos completos de teologia com material didático exclusivo</p>
+                <p className="text-sm">{t('auth.feature_courses')}</p>
               </div>
               <div className="flex items-center gap-4 text-left">
                 <div className="w-12 h-12 rounded-full bg-primary-foreground/10 flex items-center justify-center shrink-0">
                   <span className="text-2xl">🎓</span>
                 </div>
-                <p className="text-sm">Certificação reconhecida e corpo docente qualificado</p>
+                <p className="text-sm">{t('auth.feature_certification')}</p>
               </div>
               <div className="flex items-center gap-4 text-left">
                 <div className="w-12 h-12 rounded-full bg-primary-foreground/10 flex items-center justify-center shrink-0">
                   <span className="text-2xl">💻</span>
                 </div>
-                <p className="text-sm">Plataforma EAD moderna e intuitiva para estudar de qualquer lugar</p>
+                <p className="text-sm">{t('auth.feature_platform')}</p>
               </div>
             </div>
           </div>
@@ -501,10 +502,10 @@ const Auth = () => {
             FAITEL
           </h1>
           <p className="text-xl text-primary-foreground/90 font-light mb-2">
-            Faculdade Internacional
+            {t('auth.faculdade_internacional')}
           </p>
           <p className="text-xl text-primary-foreground/90 font-light mb-8">
-            Teológica de Líderes
+            {t('auth.teologica_lideres')}
           </p>
 
           <div className="max-w-md space-y-6 text-primary-foreground/80">
@@ -512,19 +513,19 @@ const Auth = () => {
               <div className="w-12 h-12 rounded-full bg-primary-foreground/10 flex items-center justify-center shrink-0">
                 <span className="text-2xl">📚</span>
               </div>
-              <p className="text-sm">Cursos completos de teologia com material didático exclusivo</p>
+              <p className="text-sm">{t('auth.feature_courses')}</p>
             </div>
             <div className="flex items-center gap-4 text-left">
               <div className="w-12 h-12 rounded-full bg-primary-foreground/10 flex items-center justify-center shrink-0">
                 <span className="text-2xl">🎓</span>
               </div>
-              <p className="text-sm">Certificação reconhecida e corpo docente qualificado</p>
+              <p className="text-sm">{t('auth.feature_certification')}</p>
             </div>
             <div className="flex items-center gap-4 text-left">
               <div className="w-12 h-12 rounded-full bg-primary-foreground/10 flex items-center justify-center shrink-0">
                 <span className="text-2xl">💻</span>
               </div>
-              <p className="text-sm">Plataforma EAD moderna e intuitiva para estudar de qualquer lugar</p>
+              <p className="text-sm">{t('auth.feature_platform')}</p>
             </div>
           </div>
         </div>
@@ -605,7 +606,7 @@ const Auth = () => {
                           <Input
                             id="login-email"
                             type="email"
-                            placeholder="seu@email.com"
+                            placeholder={t('auth.email_placeholder')}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
@@ -693,7 +694,7 @@ const Auth = () => {
                           <Input
                             id="fullName"
                             type="text"
-                            placeholder="Seu nome completo"
+                            placeholder={t('auth.fullname_placeholder')}
                             value={fullName}
                             onChange={(e) => setFullName(e.target.value)}
                             required
@@ -711,7 +712,7 @@ const Auth = () => {
                           <Input
                             id="signup-email"
                             type="email"
-                            placeholder="seu@email.com"
+                            placeholder={t('auth.email_placeholder')}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
@@ -728,7 +729,7 @@ const Auth = () => {
                           <Input
                             id="cpf"
                             type="text"
-                            placeholder="000.000.000-00"
+                            placeholder={t('auth.cpf_placeholder')}
                             value={cpf}
                             onChange={(e) => setCpf(formatCPF(e.target.value))}
                             required
@@ -745,7 +746,7 @@ const Auth = () => {
                             <Input
                               id="phone"
                               type="text"
-                              placeholder="(00) 00000-0000"
+                              placeholder={t('auth.phone_placeholder')}
                               value={phone}
                               onChange={(e) => setPhone(formatPhone(e.target.value))}
                               required
@@ -802,11 +803,11 @@ const Auth = () => {
                                 <canvas ref={canvasRef} className="hidden" />
                                 <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
                                   <Button type="button" size="sm" onClick={capturePhoto}><Camera className="h-4 w-4 mr-1" />{t('auth.capture_button')}</Button>
-                                  <Button type="button" size="sm" variant="outline" onClick={stopCamera}>{t('auth.cancel_button')}</Button>
+                                  <Button type="button" size="sm" className="bg-yellow-400 text-black hover:bg-yellow-500 border-none font-bold" onClick={stopCamera}>{t('auth.cancel_button')}</Button>
                                 </div>
                               </div>
                             ) : (
-                              <Button type="button" variant="outline" className="w-full h-20 gap-2" onClick={startCamera}>
+                              <Button type="button" className="w-full h-20 gap-2 bg-yellow-400 text-black hover:bg-yellow-500 border-none font-bold" onClick={startCamera}>
                                 <Camera className="h-5 w-5" />{t('auth.take_selfie_button')}
                               </Button>
                             )}
@@ -814,21 +815,21 @@ const Auth = () => {
                         ) : (
                           <div className="relative">
                             <img src={selfieData} alt="Selfie" className="w-full aspect-[4/3] object-cover rounded-lg" />
-                            <Button type="button" size="sm" variant="outline" className="absolute bottom-2 right-2" onClick={() => setSelfieData(null)}>Tirar outra</Button>
+                            <Button type="button" size="sm" className="absolute bottom-2 right-2 bg-yellow-400 text-black hover:bg-yellow-500 border-none font-bold" onClick={() => setSelfieData(null)}>{t('auth.take_another_photo')}</Button>
                           </div>
                         )}
                       </div>
 
                       <div className="space-y-2">
                         <Label htmlFor="signup-password" className="text-sm font-medium">
-                          Senha
+                          {t('auth.password_label')}
                         </Label>
                         <div className="relative">
                           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                           <Input
                             id="signup-password"
                             type={showPassword ? "text" : "password"}
-                            placeholder="Mínimo 6 caracteres"
+                            placeholder={t('auth.password_min_length')}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
@@ -857,11 +858,11 @@ const Auth = () => {
                         {loading ? (
                           <div className="flex items-center gap-2">
                             <div className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
-                            Criando conta...
+                            {t('auth.creating_account')}
                           </div>
                         ) : (
                           <div className="flex items-center gap-2">
-                            Criar Conta
+                            {t('auth.create_account_button')}
                             <ArrowRight className="h-4 w-4" />
                           </div>
                         )}
@@ -891,7 +892,7 @@ const Auth = () => {
                       <Input
                         id="login-email"
                         type="email"
-                        placeholder="seu@email.com"
+                        placeholder={t('auth.email_placeholder')}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required

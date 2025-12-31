@@ -21,79 +21,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-
-const menuItems = [
-  {
-    title: "Home",
-    icon: Home,
-    href: "/",
-  },
-  {
-    title: "Início",
-    icon: LayoutDashboard,
-    href: "/student",
-  },
-  {
-    title: "Meu Progresso",
-    icon: TrendingUp,
-    href: "/student/progresso",
-  },
-  {
-    title: "Conquistas",
-    icon: Trophy,
-    href: "/student/conquistas",
-  },
-  {
-    title: "Ranking",
-    icon: Award,
-    href: "/student/ranking",
-  },
-  {
-    title: "Meus Cursos",
-    icon: BookOpen,
-    href: "/student/courses",
-  },
-  {
-    title: "Aulas",
-    icon: GraduationCap,
-    href: "/student/lessons",
-  },
-  {
-    title: "Provas",
-    icon: FileText,
-    href: "/student/exams",
-  },
-  {
-    title: "Histórico",
-    icon: ScrollText,
-    href: "/student/historico",
-  },
-  {
-    title: "Certificados",
-    icon: Award,
-    href: "/student/certificados",
-  },
-  {
-    title: "Financeiro",
-    icon: CreditCard,
-    href: "/student/financeiro",
-  },
-  {
-    title: "Calendário",
-    icon: Calendar,
-    href: "/student/calendar",
-  },
-  {
-    title: "Suporte",
-    icon: HelpCircle,
-    href: "/student/support",
-  },
-  {
-    title: "Galeria",
-    icon: Library,
-    href: "/galeria",
-  },
-];
+import { useI18n } from "@/i18n/I18nProvider";
 
 interface DashboardSidebarProps {
   isOpen: boolean;
@@ -101,8 +29,82 @@ interface DashboardSidebarProps {
 }
 
 const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
+  const { t } = useI18n();
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
+
+  const menuItems = [
+    {
+      title: t("common.home", { defaultValue: "Home" }),
+      icon: Home,
+      href: "/",
+    },
+    {
+      title: t("dashboards.student.start", { defaultValue: "Início" }),
+      icon: LayoutDashboard,
+      href: "/student",
+    },
+    {
+      title: t("dashboards.student.my_progress", { defaultValue: "Meu Progresso" }),
+      icon: TrendingUp,
+      href: "/student/progresso",
+    },
+    {
+      title: t("dashboard.gamification.achievements", { defaultValue: "Conquistas" }),
+      icon: Trophy,
+      href: "/student/conquistas",
+    },
+    {
+      title: t("dashboard.gamification.view_ranking", { defaultValue: "Ranking" }),
+      icon: Award,
+      href: "/student/ranking",
+    },
+    {
+      title: t("dashboards.student.my_courses", { defaultValue: "Meus Cursos" }),
+      icon: BookOpen,
+      href: "/student/courses",
+    },
+    {
+      title: t("common.lessons", { defaultValue: "Aulas" }),
+      icon: GraduationCap,
+      href: "/student/lessons",
+    },
+    {
+      title: t("common.exams", { defaultValue: "Provas" }),
+      icon: FileText,
+      href: "/student/exams",
+    },
+    {
+      title: t("dashboard.quick_actions.history", { defaultValue: "Histórico" }),
+      icon: ScrollText,
+      href: "/student/historico",
+    },
+    {
+      title: t("dashboard.quick_actions.certificates", { defaultValue: "Certificados" }),
+      icon: Award,
+      href: "/student/certificados",
+    },
+    {
+      title: t("dashboard.quick_actions.financial", { defaultValue: "Financeiro" }),
+      icon: CreditCard,
+      href: "/student/financeiro",
+    },
+    {
+      title: t("dashboard.quick_actions.calendar", { defaultValue: "Calendário" }),
+      icon: Calendar,
+      href: "/student/calendar",
+    },
+    {
+      title: t("dashboard.quick_actions.support", { defaultValue: "Suporte" }),
+      icon: HelpCircle,
+      href: "/student/support",
+    },
+    {
+      title: t("common.gallery", { defaultValue: "Galeria" }),
+      icon: Library,
+      href: "/galeria",
+    },
+  ];
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -172,16 +174,16 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
           {/* Bottom Section */}
           {!collapsed && (
             <div className="mt-8 mx-3 p-4 rounded-xl bg-gradient-hero text-primary-foreground">
-              <h4 className="font-display font-semibold mb-1">Precisa de ajuda?</h4>
+              <h4 className="font-display font-semibold mb-1">{t("dashboard.support.help_title", { defaultValue: "Precisa de ajuda?" })}</h4>
               <p className="text-xs opacity-90 mb-3">
-                Nossa equipe está pronta para te auxiliar
+                {t("dashboard.support.help_desc", { defaultValue: "Nossa equipe está pronta para te auxiliar" })}
               </p>
               <Button
                 size="sm"
                 variant="secondary"
                 className="w-full text-xs font-medium"
               >
-                Falar com Suporte
+                {t("dashboard.support.contact_button", { defaultValue: "Falar com Suporte" })}
               </Button>
             </div>
           )}

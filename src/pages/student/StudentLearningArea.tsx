@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useI18n } from '@/i18n/I18nProvider';
 import { GraduationCap, Lock, CheckCircle, PlayCircle, FileText, TrendingUp } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,7 @@ import { examService } from '@/services/examService';
 import { supabase } from '@/integrations/supabase/client';
 
 const StudentLearningArea = () => {
+    const { t } = useI18n();
     const navigate = useNavigate();
     const [courses, setCourses] = useState<any[]>([]);
     const [modules, setModules] = useState<any[]>([]);
@@ -53,7 +54,7 @@ const StudentLearningArea = () => {
     const handleStartExam = async (module: any) => {
         try {
             const exam = await examService.getExamByModule(module.id);
-            
+
             if (exam) {
                 setSelectedModule(module);
                 setSelectedExam(exam);
@@ -76,7 +77,7 @@ const StudentLearningArea = () => {
     const getModuleProgress = (module: any) => {
         if (module.status === 'completed') return 100;
         if (module.status === 'locked') return 0;
-        return module.lessons_total > 0 
+        return module.lessons_total > 0
             ? (module.lessons_completed / module.lessons_total) * 100
             : 0;
     };
@@ -90,7 +91,7 @@ const StudentLearningArea = () => {
                     onClick={() => setShowExam(false)}
                     className="mb-4"
                 >
-                    ← Voltar aos Módulos
+                    ← {t("dashboards.student.back_to_modules", { defaultValue: "Voltar aos Módulos" })}
                 </Button>
                 <ExamInterface exam={selectedExam} onComplete={handleExamComplete} />
             </div>
@@ -98,7 +99,7 @@ const StudentLearningArea = () => {
     }
 
     if (loading) {
-        return <div className="p-8 text-center">Carregando seus cursos...</div>;
+        return <div className="p-8 text-center">{t("dashboards.student.loading_courses", { defaultValue: "Carregando seus cursos..." })}</div>;
     }
 
     // Dashboard principal
@@ -106,9 +107,9 @@ const StudentLearningArea = () => {
         <div className="container mx-auto p-6 space-y-6">
             {/* Header */}
             <div>
-                <h1 className="text-3xl font-display font-bold">Meus Cursos</h1>
+                <h1 className="text-3xl font-display font-bold">{t("dashboard.quick_actions.my_courses")}</h1>
                 <p className="text-muted-foreground">
-                    Acompanhe seu progresso e continue seus estudos
+                    {t("dashboards.student.learning_area_subtitle", { defaultValue: "Acompanhe seu progresso e continue seus estudos" })}
                 </p>
             </div>
 
@@ -119,7 +120,7 @@ const StudentLearningArea = () => {
 
                 const completedModules = courseModules.filter(m => m.status === 'completed').length;
                 const totalModules = courseModules.length;
-                const courseProgress = totalModules > 0 
+                const courseProgress = totalModules > 0
                     ? (completedModules / totalModules) * 100
                     : 0;
 
@@ -137,14 +138,14 @@ const StudentLearningArea = () => {
                                     </CardDescription>
                                 </div>
                                 <Badge variant={courseProgress === 100 ? 'default' : 'secondary'} className="text-sm">
-                                    {completedModules} / {totalModules} Módulos
+                                    {completedModules} / {totalModules} {t("common.modules", { defaultValue: "Módulos" })}
                                 </Badge>
                             </div>
 
                             {/* Progresso Geral do Curso */}
                             <div className="space-y-2 mt-4">
                                 <div className="flex items-center justify-between text-sm">
-                                    <span className="text-muted-foreground">Progresso Geral</span>
+                                    <span className="text-muted-foreground">{t("dashboards.student.overall_progress", { defaultValue: "Progresso Geral" })}</span>
                                     <span className="font-medium">{courseProgress.toFixed(0)}%</span>
                                 </div>
                                 <Progress value={courseProgress} className="h-2" />
@@ -176,7 +177,11 @@ const StudentLearningArea = () => {
                                                         {module.description}
                                                     </CardDescription>
                                                 </div>
+                                            </div>
+                                        </CardHeader>
 
+                                        <CardContent className="space-y-4">
+                                            <div className="flex justify-start">
                                                 <Badge
                                                     variant={
                                                         isCompleted ? 'default' :
@@ -184,20 +189,17 @@ const StudentLearningArea = () => {
                                                                 'outline'
                                                     }
                                                 >
-                                                    {isCompleted ? 'Completo' :
-                                                        isLocked ? 'Bloqueado' :
-                                                            'Em Andamento'}
+                                                    {isCompleted ? t("common.completed", { defaultValue: 'Completo' }) :
+                                                        isLocked ? t("common.locked", { defaultValue: 'Bloqueado' }) :
+                                                            t("common.in_progress", { defaultValue: 'Em Andamento' })}
                                                 </Badge>
                                             </div>
-                                        </CardHeader>
-
-                                        <CardContent className="space-y-4">
                                             {/* Progresso do Módulo */}
                                             {!isLocked && (
                                                 <div className="space-y-2">
                                                     <div className="flex items-center justify-between text-sm">
                                                         <span className="text-muted-foreground">
-                                                            Aulas: {module.lessons_completed} / {module.lessons_total}
+                                                            {t("common.lessons", { defaultValue: "Aulas" })}: {module.lessons_completed} / {module.lessons_total}
                                                         </span>
                                                         <span className="font-medium">{progress.toFixed(0)}%</span>
                                                     </div>
@@ -212,7 +214,7 @@ const StudentLearningArea = () => {
                                                         <div className="flex items-center gap-2">
                                                             <TrendingUp className="h-4 w-4 text-success" />
                                                             <span className="text-sm font-medium text-success">
-                                                                Prova Final Aprovada
+                                                                {t("dashboards.student.final_exam_passed", { defaultValue: "Prova Final Aprovada" })}
                                                             </span>
                                                         </div>
                                                         <span className="text-lg font-bold text-success">
@@ -225,7 +227,7 @@ const StudentLearningArea = () => {
                                             {/* Ações */}
                                             {isLocked && (
                                                 <p className="text-sm text-muted-foreground text-center py-2">
-                                                    🔒 Complete o módulo anterior para desbloquear
+                                                    🔒 {t("dashboards.student.complete_previous_to_unlock", { defaultValue: "Complete o módulo anterior para desbloquear" })}
                                                 </p>
                                             )}
 
@@ -233,7 +235,7 @@ const StudentLearningArea = () => {
                                                 <div className="flex gap-2">
                                                     <Button variant="outline" className="flex-1" onClick={() => navigate(`/student/lessons/${module.id}`)}>
                                                         <FileText className="h-4 w-4 mr-2" />
-                                                        Ver Aulas
+                                                        {t("dashboards.student.view_lessons", { defaultValue: "Ver Aulas" })}
                                                     </Button>
                                                     <Button
                                                         className="flex-1"
@@ -241,7 +243,7 @@ const StudentLearningArea = () => {
                                                         disabled={module.lessons_completed < module.lessons_total}
                                                     >
                                                         <GraduationCap className="h-4 w-4 mr-2" />
-                                                        Fazer Prova Final
+                                                        {t("dashboards.student.take_final_exam", { defaultValue: "Fazer Prova Final" })}
                                                     </Button>
                                                 </div>
                                             )}
@@ -249,7 +251,7 @@ const StudentLearningArea = () => {
                                             {isCompleted && (
                                                 <div className="text-center p-3 bg-muted rounded-lg">
                                                     <p className="text-sm text-muted-foreground">
-                                                        ✅ Módulo concluído com sucesso!
+                                                        {t("dashboards.student.module_completed_success", { defaultValue: "✅ Módulo concluído com sucesso!" })}
                                                     </p>
                                                 </div>
                                             )}
@@ -258,25 +260,27 @@ const StudentLearningArea = () => {
                                 );
                             })}
                         </CardContent>
-                    </Card>
+                    </Card >
                 );
             })}
 
             {/* Mensagem se não tem cursos */}
-            {courses.length === 0 && (
-                <Card>
-                    <CardContent className="py-12 text-center">
-                        <GraduationCap className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                        <h3 className="text-lg font-semibold mb-2">
-                            Nenhum curso matriculado
-                        </h3>
-                        <p className="text-muted-foreground mb-4">
-                            Entre em contato com a administração para se matricular em um curso
-                        </p>
-                    </CardContent>
-                </Card>
-            )}
-        </div>
+            {
+                courses.length === 0 && (
+                    <Card>
+                        <CardContent className="py-12 text-center">
+                            <GraduationCap className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                            <h3 className="text-lg font-semibold mb-2">
+                                {t("dashboards.student.no_enrolled_courses", { defaultValue: "Nenhum curso matriculado" })}
+                            </h3>
+                            <p className="text-muted-foreground mb-4">
+                                {t("dashboards.student.contact_admin_enroll", { defaultValue: "Entre em contato com a administração para se matricular em um curso" })}
+                            </p>
+                        </CardContent>
+                    </Card>
+                )
+            }
+        </div >
     );
 };
 

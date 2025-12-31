@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { useI18n } from "@/i18n/I18nProvider";
 
 interface CourseCardProps {
   id: string;
@@ -26,6 +27,7 @@ const CourseCard = ({
   duration = "12 meses",
   professor = "FAITEL",
 }: CourseCardProps) => {
+  const { t } = useI18n();
   const navigate = useNavigate();
 
   const handleOpenCourse = () => {
@@ -46,10 +48,10 @@ const CourseCard = ({
             <GraduationCap className="w-16 h-16 text-primary-foreground/60 group-hover:scale-110 transition-transform" />
           </div>
         )}
-        
+
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-        
+
         {/* Play Button */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
           <Button
@@ -63,7 +65,7 @@ const CourseCard = ({
 
         {/* Status Badge */}
         <Badge className="absolute top-3 right-3 bg-success/90 text-success-foreground border-0">
-          Ativo
+          {t('common.active', { defaultValue: 'Ativo' })}
         </Badge>
       </div>
 
@@ -75,7 +77,7 @@ const CourseCard = ({
         </div>
         <p className="text-xs text-primary font-medium">{professor}</p>
         <p className="text-sm text-muted-foreground line-clamp-2">
-          {description || "Curso completo de teologia com material didático exclusivo"}
+          {description || t('dashboard.course_card.default_desc', { defaultValue: 'Curso completo de teologia com material didático exclusivo' })}
         </p>
       </CardHeader>
 
@@ -84,7 +86,7 @@ const CourseCard = ({
         <div className="flex items-center gap-4 text-xs text-muted-foreground">
           <span className="flex items-center gap-1">
             <BookOpen className="h-3.5 w-3.5" />
-            {lessonsCount} aulas
+            {lessonsCount} {t('common.lessons', { defaultValue: 'aulas' })}
           </span>
           <span className="flex items-center gap-1">
             <Clock className="h-3.5 w-3.5" />
@@ -95,19 +97,19 @@ const CourseCard = ({
         {/* Progress */}
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">Progresso</span>
+            <span className="text-muted-foreground">{t('dashboard.course_card.progress', { defaultValue: 'Progresso' })}</span>
             <span className="font-medium text-primary">{progress}%</span>
           </div>
           <Progress value={progress} className="h-2" />
         </div>
 
         {/* CTA */}
-        <Button 
+        <Button
           className="w-full bg-gradient-primary hover:opacity-90 btn-shine"
           onClick={handleOpenCourse}
         >
           <Play className="mr-2 h-4 w-4" />
-          Continuar Curso
+          {t('dashboard.course_card.continue', { defaultValue: 'Continuar Curso' })}
         </Button>
       </CardContent>
     </Card>

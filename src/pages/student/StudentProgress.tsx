@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { useI18n } from "@/i18n/I18nProvider";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import {
@@ -68,6 +69,7 @@ interface MonthlyProgress {
 }
 
 const StudentProgress = () => {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [studentName, setStudentName] = useState("");
@@ -85,12 +87,8 @@ const StudentProgress = () => {
     averageScore: 0,
     certificates: 0,
     streak: 7,
-    rank: "Iniciante"
+    rank: t("dashboards.student.rank_beginner", { defaultValue: "Iniciante" })
   });
-
-  useEffect(() => {
-    loadProgressData();
-  }, [loadProgressData]);
 
   const loadProgressData = useCallback(async () => {
     try {
@@ -108,7 +106,7 @@ const StudentProgress = () => {
         .maybeSingle();
 
       if (profile) {
-        setStudentName(profile.full_name);
+        setStudentName(profile.full_name || t("common.student", { defaultValue: "Aluno" }));
       }
 
       // Load enrollments
@@ -202,8 +200,8 @@ const StudentProgress = () => {
           title: course.title.length > 25 ? course.title.substring(0, 25) + "..." : course.title,
           totalLessons: courseLessons.length,
           completedLessons: courseCompletedLessons.length,
-          progress: courseLessons.length > 0 
-            ? Math.round((courseCompletedLessons.length / courseLessons.length) * 100) 
+          progress: courseLessons.length > 0
+            ? Math.round((courseCompletedLessons.length / courseLessons.length) * 100)
             : 0,
           totalHours: Math.round(totalMinutes / 60),
           hoursCompleted: Math.round(completedMinutes / 60)
@@ -260,14 +258,14 @@ const StudentProgress = () => {
       setMonthlyProgress(monthlyData);
 
       // Calculate rank
-      const overallProgress = totalLessonsCount > 0 
-        ? (completedLessonsCount / totalLessonsCount) * 100 
+      const overallProgress = totalLessonsCount > 0
+        ? (completedLessonsCount / totalLessonsCount) * 100
         : 0;
-      let rank = "Iniciante";
-      if (overallProgress >= 80) rank = "Mestre";
-      else if (overallProgress >= 60) rank = "Avançado";
-      else if (overallProgress >= 40) rank = "Intermediário";
-      else if (overallProgress >= 20) rank = "Aprendiz";
+      let rank = t("dashboards.student.rank_beginner", { defaultValue: "Iniciante" });
+      if (overallProgress >= 80) rank = t("dashboards.student.rank_master", { defaultValue: "Mestre" });
+      else if (overallProgress >= 60) rank = t("dashboards.student.rank_advanced", { defaultValue: "Avançado" });
+      else if (overallProgress >= 40) rank = t("dashboards.student.rank_intermediate", { defaultValue: "Intermediário" });
+      else if (overallProgress >= 20) rank = t("dashboards.student.rank_apprentice", { defaultValue: "Aprendiz" });
 
       setStats({
         totalCourses: courseProgressData.length,
@@ -285,16 +283,20 @@ const StudentProgress = () => {
       setLoading(false);
     } catch (error) {
       console.error("Error loading progress:", error);
-      toast.error("Erro ao carregar dados de progresso");
+      toast.error(t("dashboards.student.errors.progress_load", { defaultValue: "Erro ao carregar dados de progresso" }));
       setLoading(false);
     }
   }, [navigate]);
 
+  useEffect(() => {
+    loadProgressData();
+  }, [loadProgressData]);
+
   const COLORS = ['hsl(var(--primary))', 'hsl(var(--accent))', 'hsl(var(--success))', 'hsl(var(--warning))'];
 
   const pieData = [
-    { name: 'Concluídas', value: stats.completedLessons },
-    { name: 'Pendentes', value: stats.totalLessons - stats.completedLessons }
+    { name: t("common.completed", { defaultValue: 'Concluídas' }), value: stats.completedLessons },
+    { name: t("common.pending", { defaultValue: 'Pendentes' }), value: stats.totalLessons - stats.completedLessons }
   ];
 
   if (loading) {
@@ -302,7 +304,7 @@ const StudentProgress = () => {
       <div className="min-h-screen flex items-center justify-center bg-gradient-hero">
         <div className="text-center space-y-4">
           <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="text-primary-foreground text-lg">Carregando progresso...</p>
+          <p className="text-primary-foreground text-lg">{t("dashboards.student.loading_progress", { defaultValue: "Carregando progresso..." })}</p>
         </div>
       </div>
     );
@@ -318,8 +320,8 @@ const StudentProgress = () => {
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div>
-              <h1 className="text-2xl md:text-3xl font-display font-bold">Meu Progresso</h1>
-              <p className="text-primary-foreground/80">Olá, {studentName}! Acompanhe sua evolução.</p>
+              <h1 className="text-2xl md:text-3xl font-display font-bold">{t("dashboard.quick_actions.my_progress")}</h1>
+              <p className="text-primary-foreground/80">{t("dashboards.student.progress_welcome", { defaultValue: "Olá, {{name}}! Acompanhe sua evolução.", name: studentName })}</p>
             </div>
           </div>
 
@@ -329,28 +331,28 @@ const StudentProgress = () => {
               <CardContent className="p-4 text-center">
                 <Flame className="h-8 w-8 mx-auto mb-2 text-warning" />
                 <p className="text-3xl font-display font-bold">{stats.streak}</p>
-                <p className="text-xs text-primary-foreground/70">Dias de Sequência</p>
+                <p className="text-xs text-primary-foreground/70">{t("dashboards.student.streak_days_label", { defaultValue: "Dias de Sequência" })}</p>
               </CardContent>
             </Card>
             <Card className="bg-white/10 border-white/20 text-primary-foreground">
               <CardContent className="p-4 text-center">
                 <Trophy className="h-8 w-8 mx-auto mb-2 text-warning" />
                 <p className="text-lg font-display font-bold">{stats.rank}</p>
-                <p className="text-xs text-primary-foreground/70">Seu Nível</p>
+                <p className="text-xs text-primary-foreground/70">{t("dashboards.student.your_level_label", { defaultValue: "Seu Nível" })}</p>
               </CardContent>
             </Card>
             <Card className="bg-white/10 border-white/20 text-primary-foreground">
               <CardContent className="p-4 text-center">
                 <Award className="h-8 w-8 mx-auto mb-2 text-success" />
                 <p className="text-3xl font-display font-bold">{stats.certificates}</p>
-                <p className="text-xs text-primary-foreground/70">Certificados</p>
+                <p className="text-xs text-primary-foreground/70">{t("dashboard.quick_actions.certificates")}</p>
               </CardContent>
             </Card>
             <Card className="bg-white/10 border-white/20 text-primary-foreground">
               <CardContent className="p-4 text-center">
                 <Star className="h-8 w-8 mx-auto mb-2 text-warning" />
                 <p className="text-3xl font-display font-bold">{stats.averageScore}%</p>
-                <p className="text-xs text-primary-foreground/70">Média nas Provas</p>
+                <p className="text-xs text-primary-foreground/70">{t("dashboards.student.exam_average_label", { defaultValue: "Média nas Provas" })}</p>
               </CardContent>
             </Card>
           </div>
@@ -364,7 +366,7 @@ const StudentProgress = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-base flex items-center gap-2">
                 <BookOpen className="h-5 w-5 text-primary" />
-                Aulas
+                {t("common.lessons")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -375,7 +377,7 @@ const StudentProgress = () => {
                 </div>
                 <Progress value={(stats.completedLessons / Math.max(stats.totalLessons, 1)) * 100} className="h-2" />
                 <p className="text-xs text-muted-foreground">
-                  {Math.round((stats.completedLessons / Math.max(stats.totalLessons, 1)) * 100)}% concluído
+                  {Math.round((stats.completedLessons / Math.max(stats.totalLessons, 1)) * 100)}% {t("common.completed").toLowerCase()}
                 </p>
               </div>
             </CardContent>
@@ -385,7 +387,7 @@ const StudentProgress = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-base flex items-center gap-2">
                 <Clock className="h-5 w-5 text-primary" />
-                Horas de Estudo
+                {t("dashboards.student.study_hours_label", { defaultValue: "Horas de Estudo" })}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -396,7 +398,7 @@ const StudentProgress = () => {
                 </div>
                 <Progress value={(stats.hoursStudied / Math.max(stats.totalHours, 1)) * 100} className="h-2" />
                 <p className="text-xs text-muted-foreground">
-                  {Math.round((stats.hoursStudied / Math.max(stats.totalHours, 1)) * 100)}% da carga horária
+                  {Math.round((stats.hoursStudied / Math.max(stats.totalHours, 1)) * 100)}% {t("dashboards.student.workload_label", { defaultValue: "da carga horária" })}
                 </p>
               </div>
             </CardContent>
@@ -406,7 +408,7 @@ const StudentProgress = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-base flex items-center gap-2">
                 <GraduationCap className="h-5 w-5 text-primary" />
-                Cursos
+                {t("common.courses")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -417,7 +419,7 @@ const StudentProgress = () => {
                 </div>
                 <Progress value={(stats.completedCourses / Math.max(stats.totalCourses, 1)) * 100} className="h-2" />
                 <p className="text-xs text-muted-foreground">
-                  {stats.totalCourses - stats.completedCourses} cursos em andamento
+                  {stats.totalCourses - stats.completedCourses} {t("dashboards.student.courses_in_progress", { defaultValue: "cursos em andamento" })}
                 </p>
               </div>
             </CardContent>
@@ -431,9 +433,9 @@ const StudentProgress = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-primary" />
-                Atividade Semanal
+                {t("dashboards.student.weekly_activity_title", { defaultValue: "Atividade Semanal" })}
               </CardTitle>
-              <CardDescription>Aulas concluídas por dia da semana</CardDescription>
+              <CardDescription>{t("dashboards.student.weekly_activity_subtitle", { defaultValue: "Aulas concluídas por dia da semana" })}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="h-[250px]">
@@ -442,9 +444,9 @@ const StudentProgress = () => {
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                     <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" fontSize={12} />
                     <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: 'hsl(var(--card))', 
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--card))',
                         border: '1px solid hsl(var(--border))',
                         borderRadius: '8px'
                       }}
@@ -461,9 +463,9 @@ const StudentProgress = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Target className="h-5 w-5 text-primary" />
-                Distribuição de Progresso
+                {t("dashboards.student.progress_distribution_title", { defaultValue: "Distribuição de Progresso" })}
               </CardTitle>
-              <CardDescription>Aulas concluídas vs pendentes</CardDescription>
+              <CardDescription>{t("dashboards.student.progress_distribution_subtitle", { defaultValue: "Aulas concluídas vs pendentes" })}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="h-[250px] flex items-center justify-center">
@@ -496,9 +498,9 @@ const StudentProgress = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5 text-primary" />
-              Evolução Mensal
+              {t("dashboards.student.monthly_evolution_title", { defaultValue: "Evolução Mensal" })}
             </CardTitle>
-            <CardDescription>Progresso ao longo dos meses</CardDescription>
+            <CardDescription>{t("dashboards.student.monthly_evolution_subtitle", { defaultValue: "Progresso ao longo dos meses" })}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-[300px]">
@@ -506,27 +508,27 @@ const StudentProgress = () => {
                 <AreaChart data={monthlyProgress}>
                   <defs>
                     <linearGradient id="progressGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} />
                   <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} domain={[0, 100]} />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'hsl(var(--card))', 
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: 'hsl(var(--card))',
                       border: '1px solid hsl(var(--border))',
                       borderRadius: '8px'
                     }}
                     formatter={(value: number) => [`${value}%`, 'Progresso']}
                   />
-                  <Area 
-                    type="monotone" 
-                    dataKey="progress" 
-                    stroke="hsl(var(--primary))" 
-                    fillOpacity={1} 
-                    fill="url(#progressGradient)" 
+                  <Area
+                    type="monotone"
+                    dataKey="progress"
+                    stroke="hsl(var(--primary))"
+                    fillOpacity={1}
+                    fill="url(#progressGradient)"
                     strokeWidth={2}
                   />
                 </AreaChart>
@@ -540,17 +542,17 @@ const StudentProgress = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <BookOpen className="h-5 w-5 text-primary" />
-              Progresso por Curso
+              {t("dashboards.student.progress_per_course_title", { defaultValue: "Progresso por Curso" })}
             </CardTitle>
-            <CardDescription>Desempenho em cada curso matriculado</CardDescription>
+            <CardDescription>{t("dashboards.student.progress_per_course_subtitle", { defaultValue: "Desempenho em cada curso matriculado" })}</CardDescription>
           </CardHeader>
           <CardContent>
             {coursesProgress.length === 0 ? (
               <div className="text-center py-8 text-muted-foreground">
                 <BookOpen className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>Nenhum curso matriculado ainda.</p>
+                <p>{t("dashboards.student.no_courses_enrolled_yet", { defaultValue: "Nenhum curso matriculado ainda." })}</p>
                 <Button className="mt-4" onClick={() => navigate("/courses")}>
-                  Ver Cursos Disponíveis
+                  {t("dashboards.student.view_available_courses", { defaultValue: "Ver Cursos Disponíveis" })}
                 </Button>
               </div>
             ) : (
@@ -591,9 +593,9 @@ const StudentProgress = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Award className="h-5 w-5 text-primary" />
-                Últimas Provas Realizadas
+                {t("dashboards.student.recent_exams_title", { defaultValue: "Últimas Provas Realizadas" })}
               </CardTitle>
-              <CardDescription>Histórico de avaliações</CardDescription>
+              <CardDescription>{t("dashboards.student.recent_exams_subtitle", { defaultValue: "Histórico de avaliações" })}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="h-[300px]">
@@ -602,26 +604,26 @@ const StudentProgress = () => {
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                     <XAxis type="number" domain={[0, 100]} stroke="hsl(var(--muted-foreground))" fontSize={12} />
                     <YAxis dataKey="examTitle" type="category" width={150} stroke="hsl(var(--muted-foreground))" fontSize={11} />
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: 'hsl(var(--card))', 
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--card))',
                         border: '1px solid hsl(var(--border))',
                         borderRadius: '8px'
                       }}
                       formatter={(value: number, name: string, item: { payload: { passed: boolean } }) => [
-                        `${value}% ${item.payload.passed ? '✓ Aprovado' : '✗ Reprovado'}`,
-                        'Nota'
+                        `${value}% ${item.payload.passed ? t("common.passed", { defaultValue: '✓ Aprovado' }) : t("common.failed", { defaultValue: '✗ Reprovado' })}`,
+                        t("common.grade", { defaultValue: 'Nota' })
                       ]}
                     />
-                    <Bar 
-                      dataKey="score" 
+                    <Bar
+                      dataKey="score"
                       radius={[0, 4, 4, 0]}
                       fill="hsl(var(--primary))"
                     >
                       {examResults.map((entry, index) => (
-                        <Cell 
-                          key={`cell-${index}`} 
-                          fill={entry.passed ? 'hsl(var(--success))' : 'hsl(var(--destructive))'} 
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={entry.passed ? 'hsl(var(--success))' : 'hsl(var(--destructive))'}
                         />
                       ))}
                     </Bar>

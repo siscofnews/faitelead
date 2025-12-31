@@ -251,7 +251,7 @@ const Home = () => {
               </Button>
             </Link>
             <a href="#modalidades">
-              <Button size="lg" variant="outline" className="border-2 border-white/30 text-white hover:bg-white/10 font-semibold text-lg h-14 px-10 backdrop-blur-sm">
+              <Button size="lg" className="bg-yellow-400 text-black hover:bg-yellow-500 font-bold text-lg h-14 px-10 border-none">
                 <Play className="mr-2 h-5 w-5" />
                 {t('nav.know_modalities')}
               </Button>
@@ -364,7 +364,7 @@ const Home = () => {
                   <Link to="/auth">
                     <Button className={`w-full font-bold ${modality.isLive
                       ? 'bg-accent text-accent-foreground hover:bg-accent/90 glow-gold'
-                      : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
+                      : 'bg-yellow-400 text-black hover:bg-yellow-500 border-none'
                       }`}>
                       {t('modalities.learn_more')}
                       <ArrowRight className="ml-2 h-4 w-4" />
@@ -540,7 +540,7 @@ const Home = () => {
                     </div>
 
                     <Link to="/courses">
-                      <Button className="w-full font-semibold bg-white/10 text-white hover:bg-accent hover:text-accent-foreground text-xs h-9">
+                      <Button className="w-full font-bold bg-yellow-400 text-black hover:bg-yellow-500 text-xs h-9">
                         {t('courses.details')}
                       </Button>
                     </Link>
@@ -716,7 +716,7 @@ const Home = () => {
               </Button>
             </Link>
             <a href="https://wa.me/5500000000000" target="_blank" rel="noopener noreferrer">
-              <Button size="lg" variant="outline" className="border-2 border-white/50 text-white hover:bg-white/10 font-semibold text-lg h-16 px-12">
+              <Button size="lg" className="bg-yellow-400 text-black hover:bg-yellow-500 font-bold text-lg h-16 px-12 border-none">
                 <MessageCircle className="mr-2 h-6 w-6" />
                 {t('cta.contact_us')}
               </Button>

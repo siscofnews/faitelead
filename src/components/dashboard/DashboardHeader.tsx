@@ -57,7 +57,7 @@ const DashboardHeader = ({ userName, userRole = "student", onLogout, onMenuToggl
           >
             <Menu className="h-5 w-5" />
           </Button>
-          
+
           <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <img
               src={faitelLogo}
@@ -66,10 +66,10 @@ const DashboardHeader = ({ userName, userRole = "student", onLogout, onMenuToggl
             />
             <div className="hidden sm:block">
               <h1 className="text-lg font-display font-bold text-primary">FAITELEAD</h1>
-              <p className="text-xs text-muted-foreground">Plataforma EAD</p>
+              <p className="text-xs text-muted-foreground">{t("common.ead_platform", { defaultValue: "Plataforma EAD" })}</p>
             </div>
           </Link>
-          
+
           <Link to="/">
             <Button variant="ghost" size="sm" className="hidden md:flex items-center gap-2">
               <Home className="h-4 w-4" />
@@ -83,7 +83,7 @@ const DashboardHeader = ({ userName, userRole = "student", onLogout, onMenuToggl
           <div className="relative w-full">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder={t("search_placeholder")}
+              placeholder={t("common.search")}
               className="pl-10 bg-secondary/50 border-0 focus-visible:ring-1 focus-visible:ring-primary"
             />
           </div>
