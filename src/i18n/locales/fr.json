@@ -308,6 +308,7 @@
     "terms_text": "En continuant, vous acceptez nos",
     "terms_link": "Conditions d'utilisation",
     "and": "et",
-    "privacy_link": "Politique de confidentialité"
+    "privacy_link": "Politique de confidentialité",
+    "session_expired": "Session expirée. Redirection vers la connexion..."
   }
 }

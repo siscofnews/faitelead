@@ -24,7 +24,12 @@ const SuperAdminDashboard = () => {
 
     const loadStats = async () => {
         try {
-            const response = await fetch('http://localhost:8090/stats/system');
+            const lang = localStorage.getItem("i18nextLng") || "pt";
+            const response = await fetch('http://localhost:8090/stats/system', {
+                headers: {
+                    'Accept-Language': lang
+                }
+            });
             if (response.ok) {
                 const data = await response.json();
                 setStats(data);

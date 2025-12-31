@@ -136,6 +136,21 @@
         "deactivate": "Desactivar",
         "activate": "Activar"
       }
+    },
+    "superadmin": {
+      "title": "Panel de Super Admin",
+      "loading_stats": "Cargando estadísticas...",
+      "total_polos": "Total de Polos",
+      "active_units": "Unidades activas",
+      "total_users": "Total de Usuarios",
+      "active_users_desc": "Usuarios activos en el sistema",
+      "total_courses": "Total de Cursos",
+      "available_courses": "Cursos disponibles",
+      "active_enrollments": "Matrículas Activas",
+      "enrolled_students": "Estudiantes matriculados",
+      "system_status": "Estado del Sistema",
+      "total_nucleos": "Núcleos Totales",
+      "nucleos_desc": "Núcleos distribuidos en los polos"
     }
   },
   "auth": {

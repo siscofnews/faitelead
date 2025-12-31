@@ -104,7 +104,7 @@ const AdminDashboard = () => {
 
   const statCards = [
     {
-      title: t("dashboards.admin.total_students", { defaultValue: "Total de Alunos" }),
+      title: t("dashboards.admin.stats.total_students", { defaultValue: "Total de Alunos" }),
       value: stats.totalStudents,
       icon: Users,
       color: "text-primary",
@@ -113,7 +113,7 @@ const AdminDashboard = () => {
       trendUp: true,
     },
     {
-      title: t("dashboards.admin.active_courses", { defaultValue: "Cursos Ativos" }),
+      title: t("dashboards.admin.stats.active_courses", { defaultValue: "Cursos Ativos" }),
       value: stats.totalCourses,
       icon: BookOpen,
       color: "text-accent",
@@ -122,7 +122,7 @@ const AdminDashboard = () => {
       trendUp: true,
     },
     {
-      title: t("dashboards.admin.active_enrollments", { defaultValue: "Matrículas Ativas" }),
+      title: t("dashboards.admin.stats.active_enrollments", { defaultValue: "Matrículas Ativas" }),
       value: stats.activeEnrollments,
       icon: GraduationCap,
       color: "text-success",
@@ -131,7 +131,7 @@ const AdminDashboard = () => {
       trendUp: true,
     },
     {
-      title: t("dashboards.admin.pending_payments", { defaultValue: "Pagamentos Pendentes" }),
+      title: t("dashboards.admin.stats.pending_payments", { defaultValue: "Pagamentos Pendentes" }),
       value: stats.pendingPayments,
       icon: DollarSign,
       color: "text-warning",

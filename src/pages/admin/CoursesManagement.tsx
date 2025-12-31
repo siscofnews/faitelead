@@ -699,7 +699,7 @@ const CoursesManagement = () => {
         );
       }
 
-      toast.success("Curso criado com sucesso!");
+      toast.success(t("dashboards.admin.courses.create_success", { defaultValue: "Curso criado com sucesso!" }));
       setDialogOpen(false);
       setFormData({
         title: "",
@@ -717,12 +717,12 @@ const CoursesManagement = () => {
 
       // Tratamento específico para erros de autenticação
       if (error.message && (error.message.includes("session") || error.message.includes("auth"))) {
-        toast.error("Sessão expirada. Redirecionando para login...");
+        toast.error(t("auth.session_expired", { defaultValue: "Sessão expirada. Redirecionando para login..." }));
         setTimeout(() => {
           navigate("/auth");
         }, 2000);
       } else {
-        toast.error(`Erro ao criar curso: ${error.message || "Erro desconhecido"}`);
+        toast.error(t("dashboards.admin.courses.create_error", { defaultValue: "Erro ao criar curso" }) + `: ${error.message || t("common.unknown_error")}`);
       }
     } finally {
       setUploading(false);
@@ -733,11 +733,11 @@ const CoursesManagement = () => {
     try {
       await api.updateCourse(courseId, { is_active: !currentStatus });
 
-      toast.success(`Curso ${!currentStatus ? "ativado" : "desativado"} com sucesso`);
+      toast.success(t("dashboards.admin.courses.status_update_success", { defaultValue: "Status do curso atualizado com sucesso" }));
       loadCourses();
     } catch (error: any) {
       console.error("Error toggling status:", error);
-      toast.error(`Erro ao alterar status: ${error.message || "Erro desconhecido"}`);
+      toast.error(t("dashboards.admin.courses.status_update_error", { defaultValue: "Erro ao alterar status" }) + `: ${error.message || t("common.unknown_error")}`);
     }
   };
 

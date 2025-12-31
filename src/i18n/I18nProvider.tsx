@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
+import { supabase } from "@/integrations/supabase/client"
 
 type Lang = "pt" | "en" | "es" | "fr" | "de"
 
@@ -27,26 +28,38 @@ export const I18nProvider = ({ children }: { children: any }) => {
   }, [i18n])
 
   useEffect(() => {
-    const detectIPLanguage = async () => {
-      // If we already have a language set in localStorage or i18next, don't override
+    const initLanguage = async () => {
+      // 1. Check user profile if logged in
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        // Try to get language from profile if column exists (assuming 'language' column or metadata)
+        // For now, let's assume we store it in metadata or local storage is enough, but user asked for DB.
+        // Since we can't easily change schema here without migration, we'll try to use user_metadata first.
+        const userLang = session.user.user_metadata?.language as Lang;
+        if (userLang && ['pt', 'en', 'es', 'fr', 'de'].includes(userLang)) {
+           if (userLang !== lang) {
+             setLang(userLang);
+           }
+           return;
+        }
+      }
+
+      // 2. If not in profile, check localStorage
       const savedLang = localStorage.getItem("i18nextLng");
       if (savedLang) return;
 
+      // 3. IP Detection fallback
       try {
         const response = await fetch("https://ipapi.co/json/");
         const data = await response.json();
-        const countryCode = data.country_code; // e.g., 'BR', 'FR', 'US'
+        const countryCode = data.country_code;
 
         const countryToLang: Record<string, Lang> = {
-          BR: "pt",
-          PT: "pt",
-          FR: "fr",
-          CA: "fr",
-          ES: "es",
-          MX: "es",
+          BR: "pt", PT: "pt",
+          FR: "fr", CA: "fr",
+          ES: "es", MX: "es",
           DE: "de",
-          US: "en",
-          GB: "en"
+          US: "en", GB: "en"
         };
 
         const targetLang = countryToLang[countryCode];
@@ -58,21 +71,22 @@ export const I18nProvider = ({ children }: { children: any }) => {
       }
     };
 
-    detectIPLanguage();
+    initLanguage();
   }, []);
 
-  const setLang = (l: Lang) => {
+  const setLang = async (l: Lang) => {
     i18n.changeLanguage(l)
     setLangState(l)
     localStorage.setItem("i18nextLng", l)
+    
+    // Persist to user metadata if logged in
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.user) {
+      await supabase.auth.updateUser({
+        data: { language: l }
+      });
+    }
   }
-
-  // Wrapper for t function to handle missing keys gracefully if needed, 
-  // but i18next does that too.
-  // The existing app uses keys that might not be in the JSON yet, 
-  // so we might want to fallback to the old dict if we wanted to be super safe,
-  // but I'm replacing the provider, so the old dict is gone.
-  // I added the critical keys to the JSONs.
 
   const value = { lang, setLang, t: (k: string, options?: any) => t(k, options) }
 

@@ -238,6 +238,22 @@
     "superadmin": {
       "title": "Super Admin Dashboard",
       "loading_stats": "Statistiken werden geladen...",
+      "total_polos": "Gesamtzahl der Polos",
+      "active_units": "Aktive Einheiten",
+      "total_users": "Gesamtzahl der Benutzer",
+      "active_users_desc": "Aktive Benutzer im System",
+      "total_courses": "Gesamtzahl der Kurse",
+      "available_courses": "Verfügbare Kurse",
+      "active_enrollments": "Aktive Einschreibungen",
+      "enrolled_students": "Eingeschriebene Studenten",
+      "system_status": "Systemstatus",
+      "total_nucleos": "Gesamtzahl der Kerne",
+      "nucleos_desc": "In den Polos verteilte Kerne"
+    }
+  },
+    "superadmin": {
+      "title": "Super Admin Dashboard",
+      "loading_stats": "Statistiken werden geladen...",
       "total_polos": "Pole insgesamt",
       "active_units": "Aktive Einheiten",
       "total_users": "Benutzer insgesamt",

@@ -232,7 +232,11 @@
         "bulk_enroll": "Bulk Enrollment",
         "view_history": "View History",
         "no_found": "No courses found",
-        "create_first": "Create First Course"
+        "create_first": "Create First Course",
+        "create_success": "Course created successfully!",
+        "create_error": "Error creating course",
+        "status_update_success": "Course status updated successfully",
+        "status_update_error": "Error updating status"
       },
       "students": {
         "new": "New Student",
@@ -282,6 +286,21 @@
         "save_success": "Saved successfully!",
         "update_success": "Updated successfully!"
       }
+    },
+    "superadmin": {
+      "title": "Super Admin Dashboard",
+      "loading_stats": "Loading stats...",
+      "total_polos": "Total Centers",
+      "active_units": "Active units",
+      "total_users": "Total Users",
+      "active_users_desc": "Active users in system",
+      "total_courses": "Total Courses",
+      "available_courses": "Available courses",
+      "active_enrollments": "Active Enrollments",
+      "enrolled_students": "Enrolled students",
+      "system_status": "System Status",
+      "total_nucleos": "Total Nuclei",
+      "nucleos_desc": "Nuclei distributed in centers"
     }
   },
   "auth": {
@@ -312,6 +331,7 @@
     "terms_text": "By continuing, you agree to our",
     "terms_link": "Terms of Use",
     "and": "and",
-    "privacy_link": "Privacy Policy"
+    "privacy_link": "Privacy Policy",
+    "session_expired": "Session expired. Redirecting to login..."
   }
 }
