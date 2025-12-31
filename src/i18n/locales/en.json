@@ -218,6 +218,8 @@
         "reports": "Reports Management",
         "financial": "Financial Management"
       },
+      "courses_management": "Courses Management",
+      "new_course": "New Course",
       "courses": {
         "new": "New Course",
         "new_desc": "Fill in the course information",

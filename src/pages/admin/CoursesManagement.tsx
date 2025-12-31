@@ -772,137 +772,139 @@ const CoursesManagement = () => {
               </Button>
               <h1 className="text-xl font-display font-bold">{t("nav.courses")}</h1>
             </div>
-            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-              <DialogTrigger asChild>
-                <Button className="gap-2">
-                  <Plus className="h-4 w-4" />
-                  {t("dashboards.admin.courses.new")}
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-lg">
-                <DialogHeader>
-                  <DialogTitle>{t("dashboards.admin.courses.new")}</DialogTitle>
-                  <DialogDescription>
-                    {t("dashboards.admin.courses.new_desc")}
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4 py-4 max-h-[60vh] overflow-y-auto">
-                  {/* Upload de Imagem */}
-                  <div className="space-y-2">
-                    <Label>{t("auth.selfie_label")}</Label>
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      onChange={handleThumbnailSelect}
-                      accept="image/*"
-                      className="hidden"
-                    />
-                    <div
-                      onClick={() => fileInputRef.current?.click()}
-                      className="border-2 border-dashed border-border rounded-lg p-4 cursor-pointer hover:border-primary transition-colors"
-                    >
-                      {thumbnailPreview ? (
-                        <div className="relative">
-                          <img
-                            src={thumbnailPreview}
-                            alt="Preview"
-                            className="w-full h-32 object-cover rounded-lg"
-                          />
-                          <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg">
-                            <p className="text-white text-sm">{t("auth.take_selfie_button")}</p>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="flex flex-col items-center gap-2 py-4">
-                          <Upload className="h-8 w-8 text-muted-foreground" />
-                          <p className="text-sm text-muted-foreground">Clique para adicionar imagem</p>
-                          <p className="text-xs text-muted-foreground">PNG, JPG até 5MB</p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label>{t("auth.fullname_label")} *</Label>
-                    <Input
-                      value={formData.title}
-                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                      placeholder="Ex: Bacharelado em Teologia"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>{t("common.message")}</Label>
-                    <Textarea
-                      value={formData.description}
-                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      placeholder="Descrição do curso..."
-                      rows={3}
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label>{t("common.deadline")} ({t("common.months")})</Label>
-                      <Input
-                        type="number"
-                        value={formData.duration_months}
-                        onChange={(e) => setFormData({ ...formData, duration_months: parseInt(e.target.value) })}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Carga Horária (h)</Label>
-                      <Input
-                        type="number"
-                        value={formData.total_hours}
-                        onChange={(e) => setFormData({ ...formData, total_hours: parseInt(e.target.value) })}
-                      />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label>Mensalidade (R$)</Label>
-                      <Input
-                        type="number"
-                        value={formData.monthly_price}
-                        onChange={(e) => setFormData({ ...formData, monthly_price: parseFloat(e.target.value) })}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Nível / Modalidade *</Label>
-                      <Select
-                        value={formData.modality}
-                        onValueChange={(value) => setFormData({ ...formData, modality: value })}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Selecione o nível" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {COURSE_MODALITIES.map((mod) => (
-                            <SelectItem key={mod.value} value={mod.value}>
-                              {mod.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                </div>
-                <DialogFooter>
-                  <Button variant="outline" onClick={() => setDialogOpen(false)} disabled={uploading}>{t("common.back")}</Button>
-                  <Button onClick={handleCreateCourse} disabled={uploading}>
-                    {uploading ? t("common.loading") : t("dashboards.admin.new_course")}
+            <div className="flex items-center gap-2">
+              <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button className="gap-2">
+                    <Plus className="h-4 w-4" />
+                    {t("dashboards.admin.courses.new")}
                   </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-            <Button variant="outline" className="ml-2" onClick={resetDemo} disabled={resetting}>
-              {resetting ? t("common.loading") : t("dashboards.admin.actions.reset_demo")}
-            </Button>
-            <Button variant="destructive" className="ml-2" onClick={wipeSystem} disabled={wiping}>
-              {wiping ? t("common.loading") : t("dashboards.admin.actions.wipe_system")}
-            </Button>
-            <Button variant="destructive" className="ml-2" onClick={deleteAllCourses} disabled={deletingAllCourses}>
-              {deletingAllCourses ? t("common.loading") : t("dashboards.admin.actions.delete_all_courses")}
-            </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-lg">
+                  <DialogHeader>
+                    <DialogTitle>{t("dashboards.admin.courses.new")}</DialogTitle>
+                    <DialogDescription>
+                      {t("dashboards.admin.courses.new_desc")}
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4 py-4 max-h-[60vh] overflow-y-auto">
+                    {/* Upload de Imagem */}
+                    <div className="space-y-2">
+                      <Label>{t("auth.selfie_label")}</Label>
+                      <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleThumbnailSelect}
+                        accept="image/*"
+                        className="hidden"
+                      />
+                      <div
+                        onClick={() => fileInputRef.current?.click()}
+                        className="border-2 border-dashed border-border rounded-lg p-4 cursor-pointer hover:border-primary transition-colors"
+                      >
+                        {thumbnailPreview ? (
+                          <div className="relative">
+                            <img
+                              src={thumbnailPreview}
+                              alt="Preview"
+                              className="w-full h-32 object-cover rounded-lg"
+                            />
+                            <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg">
+                              <p className="text-white text-sm">{t("auth.take_selfie_button")}</p>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center gap-2 py-4">
+                            <Upload className="h-8 w-8 text-muted-foreground" />
+                            <p className="text-sm text-muted-foreground">Clique para adicionar imagem</p>
+                            <p className="text-xs text-muted-foreground">PNG, JPG até 5MB</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>{t("auth.fullname_label")} *</Label>
+                      <Input
+                        value={formData.title}
+                        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                        placeholder="Ex: Bacharelado em Teologia"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>{t("common.message")}</Label>
+                      <Textarea
+                        value={formData.description}
+                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                        placeholder="Descrição do curso..."
+                        rows={3}
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label>{t("common.deadline")} ({t("common.months")})</Label>
+                        <Input
+                          type="number"
+                          value={formData.duration_months}
+                          onChange={(e) => setFormData({ ...formData, duration_months: parseInt(e.target.value) })}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Carga Horária (h)</Label>
+                        <Input
+                          type="number"
+                          value={formData.total_hours}
+                          onChange={(e) => setFormData({ ...formData, total_hours: parseInt(e.target.value) })}
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label>Mensalidade (R$)</Label>
+                        <Input
+                          type="number"
+                          value={formData.monthly_price}
+                          onChange={(e) => setFormData({ ...formData, monthly_price: parseFloat(e.target.value) })}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Nível / Modalidade *</Label>
+                        <Select
+                          value={formData.modality}
+                          onValueChange={(value) => setFormData({ ...formData, modality: value })}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecione o nível" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {COURSE_MODALITIES.map((mod) => (
+                              <SelectItem key={mod.value} value={mod.value}>
+                                {mod.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button variant="outline" onClick={() => setDialogOpen(false)} disabled={uploading}>{t("common.back")}</Button>
+                    <Button onClick={handleCreateCourse} disabled={uploading}>
+                      {uploading ? t("common.loading") : t("dashboards.admin.new_course")}
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+              <Button variant="outline" onClick={resetDemo} disabled={resetting}>
+                {resetting ? t("common.loading") : t("dashboards.admin.actions.reset_demo")}
+              </Button>
+              <Button variant="destructive" onClick={wipeSystem} disabled={wiping}>
+                {wiping ? t("common.loading") : t("dashboards.admin.actions.wipe_system")}
+              </Button>
+              <Button variant="destructive" onClick={deleteAllCourses} disabled={deletingAllCourses}>
+                {deletingAllCourses ? t("common.loading") : t("dashboards.admin.actions.delete_all_courses")}
+              </Button>
+            </div>
           </div>
         </div>
       </header>

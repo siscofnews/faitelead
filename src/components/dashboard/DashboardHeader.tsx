@@ -71,11 +71,11 @@ const DashboardHeader = ({ userName, userRole = "student", onLogout, onMenuToggl
           </Link>
 
           <Link to="/">
-            <Button variant="ghost" size="sm" className="hidden md:flex items-center gap-2">
-              <Home className="h-4 w-4" />
-              <span>{t("home")}</span>
-            </Button>
-          </Link>
+              <Button variant="ghost" size="sm" className="hidden md:flex items-center gap-2">
+                <Home className="h-4 w-4" />
+                <span>{t("common.home")}</span>
+              </Button>
+            </Link>
         </div>
 
         {/* Center - Search (hidden on mobile) */}

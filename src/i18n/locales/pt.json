@@ -218,6 +218,8 @@
         "reports": "Gestão de Relatórios",
         "financial": "Gestão Financeira"
       },
+      "courses_management": "Gestão de Cursos",
+      "new_course": "Novo Curso",
       "courses": {
         "new": "Novo Curso",
         "new_desc": "Preencha as informações do curso",
