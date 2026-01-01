@@ -147,7 +147,7 @@ const SECCSection = () => {
                   {t('common.details')}
                 </h3>
                 <p className="text-slate-800 mb-6">
-                  {t('secc.about.p1')} <strong className="text-primary font-bold">Carta aos Romanos</strong>.
+                  {t('secc.about.p1')} <strong className="text-primary font-bold">{t('secc.themes.romans')}</strong>.
                 </p>
                 <a
                   href="https://secc.org.br"

@@ -77,7 +77,7 @@ const CourseCard = ({
         </div>
         <p className="text-xs text-primary font-medium">{professor}</p>
         <p className="text-sm text-muted-foreground line-clamp-2">
-          {description || t('dashboard.course_card.default_desc', { defaultValue: 'Curso completo de teologia com material didático exclusivo' })}
+          {description || t('dashboards.student.course_card.default_desc', { defaultValue: 'Curso completo de teologia com material didático exclusivo' })}
         </p>
       </CardHeader>
 
@@ -97,7 +97,7 @@ const CourseCard = ({
         {/* Progress */}
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">{t('dashboard.course_card.progress', { defaultValue: 'Progresso' })}</span>
+            <span className="text-muted-foreground">{t('dashboards.student.course_card.progress', { defaultValue: 'Progresso' })}</span>
             <span className="font-medium text-primary">{progress}%</span>
           </div>
           <Progress value={progress} className="h-2" />
@@ -109,7 +109,7 @@ const CourseCard = ({
           onClick={handleOpenCourse}
         >
           <Play className="mr-2 h-4 w-4" />
-          {t('dashboard.course_card.continue', { defaultValue: 'Continuar Curso' })}
+          {t('dashboards.student.course_card.continue', { defaultValue: 'Continuar Curso' })}
         </Button>
       </CardContent>
     </Card>

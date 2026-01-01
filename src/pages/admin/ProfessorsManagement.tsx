@@ -10,9 +10,10 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Plus, Search, Edit, Trash2, GraduationCap, BookOpen, Users } from "lucide-react";
+import { ArrowLeft, Plus, Search, Edit, Trash2, GraduationCap } from "lucide-react";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import type { Database } from "@/integrations/supabase/types";
+import { useTranslation } from "react-i18next";
 
 interface Professor {
   id: string;
@@ -26,6 +27,7 @@ interface Professor {
 }
 
 const ProfessorsManagement = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
@@ -78,7 +80,7 @@ const ProfessorsManagement = () => {
       .eq("role", "teacher");
 
     if (rolesError) {
-      toast({ title: "Erro ao carregar professores", variant: "destructive" });
+      toast({ title: t('common.error_loading', { defaultValue: 'Erro ao carregar' }), variant: "destructive" });
       setLoading(false);
       return;
     }
@@ -97,7 +99,7 @@ const ProfessorsManagement = () => {
       .in("id", teacherIds);
 
     if (profilesError) {
-      toast({ title: "Erro ao carregar professores", variant: "destructive" });
+      toast({ title: t('common.error_loading', { defaultValue: 'Erro ao carregar' }), variant: "destructive" });
     } else {
       setProfessors(profiles || []);
     }
@@ -107,7 +109,7 @@ const ProfessorsManagement = () => {
 
   const handleCreateProfessor = async () => {
     if (!formData.full_name || !formData.email || !formData.password) {
-      toast({ title: "Preencha todos os campos obrigatórios", variant: "destructive" });
+      toast({ title: t('dashboards.admin.professors.form_required'), variant: "destructive" });
       return;
     }
 
@@ -119,9 +121,10 @@ const ProfessorsManagement = () => {
         options: {
           data: {
             full_name: formData.full_name,
-            cpf: formData.cpf,
+            cpf: formData.cpf.replace(/\D/g, ''),
             phone: formData.phone,
-            education_level: formData.education_level
+            education_level: formData.education_level,
+            role: 'teacher'
           }
         }
       });
@@ -137,12 +140,12 @@ const ProfessorsManagement = () => {
         if (roleError) throw roleError;
       }
 
-      toast({ title: "Professor criado com sucesso!" });
+      toast({ title: t('dashboards.admin.professors.created_success') });
       setIsDialogOpen(false);
       resetForm();
       loadProfessors();
     } catch (error: any) {
-      toast({ title: "Erro ao criar professor", description: error.message || "Erro desconhecido", variant: "destructive" });
+      toast({ title: t('dashboards.admin.professors.create_error'), description: error.message || t('common.unknown_error'), variant: "destructive" });
     }
   };
 
@@ -161,12 +164,12 @@ const ProfessorsManagement = () => {
 
       if (error) throw error;
 
-      toast({ title: "Professor atualizado com sucesso!" });
+      toast({ title: t('dashboards.admin.professors.updated_success') });
       setIsDialogOpen(false);
       resetForm();
       loadProfessors();
     } catch (error: any) {
-      toast({ title: "Erro ao atualizar professor", description: error.message || "Erro desconhecido", variant: "destructive" });
+      toast({ title: t('dashboards.admin.professors.update_error'), description: error.message || t('common.unknown_error'), variant: "destructive" });
     }
   };
 
@@ -179,15 +182,15 @@ const ProfessorsManagement = () => {
 
       if (error) throw error;
 
-      toast({ title: `Professor ${professor.is_active ? "desativado" : "ativado"}!` });
+      toast({ title: professor.is_active ? t('dashboards.admin.professors.deactivated_success') : t('dashboards.admin.professors.activated_success') });
       loadProfessors();
     } catch (error: any) {
-      toast({ title: "Erro ao atualizar status", description: error.message || "Erro desconhecido", variant: "destructive" });
+      toast({ title: t('dashboards.admin.professors.toggle_status_error'), description: error.message || t('common.unknown_error'), variant: "destructive" });
     }
   };
 
   const handleDeleteProfessor = async (professorId: string) => {
-    if (!confirm("Tem certeza que deseja excluir este professor? Esta ação não pode ser desfeita.")) {
+    if (!confirm(t('dashboards.admin.professors.confirm_delete'))) {
       return;
     }
 
@@ -199,10 +202,10 @@ const ProfessorsManagement = () => {
 
       if (error) throw error;
 
-      toast({ title: "Professor excluído com sucesso!" });
+      toast({ title: t('dashboards.admin.professors.deleted_success') });
       loadProfessors();
     } catch (error: any) {
-      toast({ title: "Erro ao excluir professor", description: error.message || "Erro desconhecido", variant: "destructive" });
+      toast({ title: t('dashboards.admin.professors.delete_error'), description: error.message || t('common.unknown_error'), variant: "destructive" });
     }
   };
 
@@ -242,14 +245,8 @@ const ProfessorsManagement = () => {
   );
 
   const getEducationLabel = (level: string) => {
-    const labels: Record<string, string> = {
-      medio: "Ensino Médio",
-      superior: "Superior",
-      pos_graduacao: "Pós-Graduação",
-      mestrado: "Mestrado",
-      doutorado: "Doutorado"
-    };
-    return labels[level] || level;
+    // Uses translation keys if available, otherwise fallback
+    return t(`auth.education_levels.${level}`, { defaultValue: level });
   };
 
   return (
@@ -258,88 +255,86 @@ const ProfessorsManagement = () => {
 
       <main className="container mx-auto px-4 py-8">
         <Button variant="ghost" onClick={() => navigate("/admin")} className="mb-6">
-          <ArrowLeft className="mr-2 h-4 w-4" /> Voltar ao Dashboard
+          <ArrowLeft className="mr-2 h-4 w-4" /> {t('common.back')}
         </Button>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="flex items-center gap-2">
               <GraduationCap className="h-6 w-6" />
-              Gestão de Professores
+              {t('dashboards.admin.professors.management_title')}
             </CardTitle>
             <Dialog open={isDialogOpen} onOpenChange={(open) => { setIsDialogOpen(open); if (!open) resetForm(); }}>
               <DialogTrigger asChild>
                 <Button className="bg-primary hover:bg-primary/90">
-                  <Plus className="mr-2 h-4 w-4" /> Novo Professor
+                  <Plus className="mr-2 h-4 w-4" /> {t('dashboards.admin.professors.new')}
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-w-md">
                 <DialogHeader>
                   <DialogTitle>
-                    {editingProfessor ? "Editar Professor" : "Cadastrar Professor"}
+                    {editingProfessor ? t('dashboards.admin.professors.edit') : t('dashboards.admin.professors.new')}
                   </DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4 mt-4">
                   <div>
-                    <Label>Nome Completo *</Label>
+                    <Label>{t('dashboards.admin.professors.fullname_label')}</Label>
                     <Input
                       value={formData.full_name}
                       onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
-                      placeholder="Nome completo do professor"
+                      placeholder={t('dashboards.admin.professors.fullname_placeholder')}
                     />
                   </div>
                   {!editingProfessor && (
                     <>
                       <div>
-                        <Label>Email *</Label>
+                        <Label>{t('auth.email_label')} *</Label>
                         <Input
                           type="email"
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          placeholder="email@exemplo.com"
+                          placeholder={t('dashboards.admin.professors.email_placeholder')}
                         />
                       </div>
                       <div>
-                        <Label>Senha *</Label>
+                        <Label>{t('auth.password_label')} *</Label>
                         <Input
                           type="password"
                           value={formData.password}
                           onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                          placeholder="Senha de acesso"
+                          placeholder={t('dashboards.admin.professors.password_placeholder')}
                         />
                       </div>
                       <div>
-                        <Label>CPF</Label>
+                        <Label>{t('auth.cpf_label')}</Label>
                         <Input
                           value={formData.cpf}
                           onChange={(e) => setFormData({ ...formData, cpf: e.target.value })}
-                          placeholder="000.000.000-00"
+                          placeholder={t('dashboards.admin.professors.cpf_placeholder')}
                         />
                       </div>
                     </>
                   )}
                   <div>
-                    <Label>Telefone</Label>
+                    <Label>{t('auth.phone_label')}</Label>
                     <Input
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="(00) 00000-0000"
+                      placeholder={t('dashboards.admin.professors.phone_placeholder')}
                     />
                   </div>
                   <div>
-                    <Label>Formação</Label>
+                    <Label>{t('dashboards.admin.professors.education_label')}</Label>
                     <Select
                       value={formData.education_level}
-                      onValueChange={(value) => setFormData({ ...formData, education_level: value })}
+                      onValueChange={(value) => setFormData({ ...formData, education_level: value as Database["public"]["Enums"]["education_level"] })}
                     >
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="superior">Superior</SelectItem>
-                        <SelectItem value="pos_graduacao">Pós-Graduação</SelectItem>
-                        <SelectItem value="mestrado">Mestrado</SelectItem>
-                        <SelectItem value="doutorado">Doutorado</SelectItem>
+                        <SelectItem value="superior">{t('auth.education_levels.superior')}</SelectItem>
+                        <SelectItem value="pos_graduacao">{t('auth.education_levels.pos_graduacao')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -347,7 +342,7 @@ const ProfessorsManagement = () => {
                     onClick={editingProfessor ? handleUpdateProfessor : handleCreateProfessor}
                     className="w-full"
                   >
-                    {editingProfessor ? "Salvar Alterações" : "Cadastrar Professor"}
+                    {editingProfessor ? t('common.save') : t('auth.register_button')}
                   </Button>
                 </div>
               </DialogContent>
@@ -358,7 +353,7 @@ const ProfessorsManagement = () => {
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Buscar por nome ou email..."
+                  placeholder={t('dashboards.admin.professors.search')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
@@ -367,21 +362,21 @@ const ProfessorsManagement = () => {
             </div>
 
             {loading ? (
-              <div className="text-center py-8">Carregando...</div>
+              <div className="text-center py-8">{t('common.loading')}</div>
             ) : filteredProfessors.length === 0 ? (
               <div className="text-center py-8 text-muted-foreground">
-                Nenhum professor encontrado
+                {t('dashboards.admin.professors.no_found')}
               </div>
             ) : (
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Nome</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Telefone</TableHead>
-                    <TableHead>Formação</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Ações</TableHead>
+                    <TableHead>{t('auth.fullname_label')}</TableHead>
+                    <TableHead>{t('auth.email_label')}</TableHead>
+                    <TableHead>{t('auth.phone_label')}</TableHead>
+                    <TableHead>{t('dashboards.admin.professors.education_label')}</TableHead>
+                    <TableHead>{t('common.status')}</TableHead>
+                    <TableHead className="text-right">{t('common.actions')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -393,7 +388,7 @@ const ProfessorsManagement = () => {
                       <TableCell>{getEducationLabel(professor.education_level)}</TableCell>
                       <TableCell>
                         <Badge variant={professor.is_active ? "default" : "secondary"}>
-                          {professor.is_active ? "Ativo" : "Inativo"}
+                          {professor.is_active ? t('common.active') : t('common.inactive')}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right">
@@ -410,7 +405,7 @@ const ProfessorsManagement = () => {
                             size="sm"
                             onClick={() => handleToggleActive(professor)}
                           >
-                            {professor.is_active ? "Desativar" : "Ativar"}
+                            {professor.is_active ? t('dashboards.admin.actions.deactivate') : t('dashboards.admin.actions.activate')}
                           </Button>
                           <Button
                             variant="destructive"

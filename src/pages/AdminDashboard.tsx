@@ -13,7 +13,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     totalStudents: 0,
@@ -152,7 +152,9 @@ const AdminDashboard = () => {
         <div className="flex gap-2">
           <Button variant="outline" className="gap-2">
             <Calendar className="h-4 w-4" />
-            <span className="hidden sm:inline">Dezembro 2024</span>
+            <span className="hidden sm:inline capitalize">
+              {new Date().toLocaleDateString(language, { month: 'long', year: 'numeric' })}
+            </span>
           </Button>
           <Button variant="outline" className="gap-2" onClick={testConnection} disabled={testing}>
             {testing ? t("dashboards.admin.testing", { defaultValue: "Testando..." }) : t("dashboards.admin.test_connection", { defaultValue: "Testar Conexão" })}

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Upload, Loader2, User, Calendar, Mail, Lock, FileText, Globe } from 'lucide-react';
+import { useTranslation } from "react-i18next";
 import {
     Dialog,
     DialogContent,
@@ -42,6 +43,7 @@ export const StudentEnrollmentDialog = ({
     onOpenChange,
     onSuccess,
 }: StudentEnrollmentDialogProps) => {
+    const { t } = useTranslation();
     const [saving, setSaving] = useState(false);
     const [photoFile, setPhotoFile] = useState<File | null>(null);
     const [photoPreview, setPhotoPreview] = useState<string | null>(null);
@@ -51,6 +53,7 @@ export const StudentEnrollmentDialog = ({
         full_name: '',
         email: '',
         birth_date: '',
+        phone: '',
         password: '',
         confirmPassword: '',
         country: 'Brasil' as Country,
@@ -84,7 +87,7 @@ export const StudentEnrollmentDialog = ({
             const preview = await createImagePreview(file);
             setPhotoPreview(preview);
         } catch (error) {
-            toast.error('Erro ao carregar preview da foto');
+            toast.error(t("common.unknown_error"));
         }
     };
 
@@ -96,19 +99,19 @@ export const StudentEnrollmentDialog = ({
     const validateForm = (): boolean => {
         // Nome
         if (!formData.full_name.trim()) {
-            toast.error('Nome completo é obrigatório');
+            toast.error(t("auth.fullname_label") + " " + t("common.required", { defaultValue: "é obrigatório" }));
             return false;
         }
 
         // Email
         if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-            toast.error('Email inválido');
+            toast.error(t("auth.invalid_email", { defaultValue: "Email inválido" }));
             return false;
         }
 
         // Data de nascimento
         if (!formData.birth_date) {
-            toast.error('Data de nascimento é obrigatória');
+            toast.error(t("auth.birth_date") + " " + t("common.required", { defaultValue: "é obrigatória" }));
             return false;
         }
 
@@ -117,25 +120,25 @@ export const StudentEnrollmentDialog = ({
         const today = new Date();
         const age = today.getFullYear() - birthDate.getFullYear();
         if (age < 16) {
-            toast.error('Aluno deve ter pelo menos 16 anos');
+            toast.error(t("auth.age_error"));
             return false;
         }
 
         // Documento
         const cleanDoc = formData.document_number.replace(/\D/g, '');
         if (!validateDocument(documentType, cleanDoc)) {
-            toast.error(`${documentType} inválido`);
+            toast.error(`${documentType} ` + t("auth.document_invalid"));
             return false;
         }
 
         // Senha
         if (formData.password.length < 6) {
-            toast.error('Senha deve ter pelo menos 6 caracteres');
+            toast.error(t("auth.password_min_length"));
             return false;
         }
 
         if (formData.password !== formData.confirmPassword) {
-            toast.error('As senhas não coincidem');
+            toast.error(t("auth.passwords_match_error"));
             return false;
         }
 
@@ -160,7 +163,7 @@ export const StudentEnrollmentDialog = ({
             });
 
             if (signUpError) throw signUpError;
-            if (!authData.user) throw new Error('Erro ao criar usuário');
+            if (!authData.user) throw new Error(t("auth.error_enrollment"));
 
             const userId = authData.user.id;
 
@@ -183,6 +186,7 @@ export const StudentEnrollmentDialog = ({
                     id: userId,
                     full_name: formData.full_name,
                     email: formData.email,
+                    phone: formData.phone,
                     birth_date: formData.birth_date,
                     country: formData.country,
                     document_type: documentType,
@@ -190,6 +194,7 @@ export const StudentEnrollmentDialog = ({
                     photo_url: photoUrl,
                     is_active: true,
                     approval_status: 'approved',
+                    role: 'student'
                 });
 
             if (profileError) throw profileError;
@@ -204,15 +209,16 @@ export const StudentEnrollmentDialog = ({
 
             if (roleError) throw roleError;
 
-            toast.success('Aluno matriculado com sucesso!');
+            toast.success(t("auth.success_enrollment"));
             onOpenChange(false);
             onSuccess();
 
-            // Limpar formulário
+            // 2. Limpar formulário
             setFormData({
                 full_name: '',
                 email: '',
                 birth_date: '',
+                phone: '',
                 password: '',
                 confirmPassword: '',
                 country: 'Brasil',
@@ -223,7 +229,7 @@ export const StudentEnrollmentDialog = ({
             
         } catch (error: any) {
             console.error('Error enrolling student:', error);
-            toast.error(error.message || 'Erro ao matricular aluno');
+            toast.error(error.message || t("auth.error_enrollment"));
         } finally {
             setSaving(false);
         }
@@ -233,16 +239,16 @@ export const StudentEnrollmentDialog = ({
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle>Matricular Novo Aluno</DialogTitle>
+                    <DialogTitle>{t("auth.student_enrollment_title")}</DialogTitle>
                     <DialogDescription>
-                        Preencha os dados do aluno para criar a matrícula
+                        {t("auth.student_enrollment_desc")}
                     </DialogDescription>
                 </DialogHeader>
 
                 <div className="space-y-4 py-4">
                     {/* Upload de Foto */}
                     <div className="space-y-2">
-                        <Label>Foto do Aluno</Label>
+                        <Label>{t("auth.photo_label")}</Label>
                         <input
                             type="file"
                             ref={fileInputRef}
@@ -262,9 +268,9 @@ export const StudentEnrollmentDialog = ({
                                         className="w-24 h-24 rounded-full object-cover"
                                     />
                                     <div>
-                                        <p className="text-sm font-medium">Foto selecionada</p>
+                                        <p className="text-sm font-medium">{t("auth.photo_selected")}</p>
                                         <p className="text-xs text-muted-foreground">
-                                            Clique para alterar
+                                            {t("auth.click_to_change")}
                                         </p>
                                     </div>
                                 </div>
@@ -272,7 +278,7 @@ export const StudentEnrollmentDialog = ({
                                 <div className="flex flex-col items-center gap-2 text-center">
                                     <Upload className="h-8 w-8 text-muted-foreground" />
                                     <div>
-                                        <p className="text-sm font-medium">Clique para fazer upload</p>
+                                        <p className="text-sm font-medium">{t("auth.click_to_upload")}</p>
                                         <p className="text-xs text-muted-foreground">
                                             JPG, PNG ou WebP (max 2MB)
                                         </p>
@@ -286,13 +292,13 @@ export const StudentEnrollmentDialog = ({
                     <div className="space-y-2">
                         <Label htmlFor="full_name">
                             <User className="h-4 w-4 inline mr-2" />
-                            Nome Completo *
+                            {t("auth.fullname_label")} *
                         </Label>
                         <Input
                             id="full_name"
                             value={formData.full_name}
                             onChange={(e) => setFormData(prev => ({ ...prev, full_name: e.target.value }))}
-                            placeholder="Nome completo do aluno"
+                            placeholder={t("auth.full_name_placeholder")}
                         />
                     </div>
 
@@ -300,14 +306,14 @@ export const StudentEnrollmentDialog = ({
                     <div className="space-y-2">
                         <Label htmlFor="email">
                             <Mail className="h-4 w-4 inline mr-2" />
-                            Email *
+                            {t("auth.email_label")} *
                         </Label>
                         <Input
                             id="email"
                             type="email"
                             value={formData.email}
                             onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                            placeholder="email@exemplo.com"
+                            placeholder={t("auth.email_placeholder")}
                         />
                     </div>
 
@@ -315,7 +321,7 @@ export const StudentEnrollmentDialog = ({
                     <div className="space-y-2">
                         <Label htmlFor="birth_date">
                             <Calendar className="h-4 w-4 inline mr-2" />
-                            Data de Nascimento *
+                            {t("auth.birth_date")} *
                         </Label>
                         <Input
                             id="birth_date"
@@ -330,7 +336,7 @@ export const StudentEnrollmentDialog = ({
                     <div className="space-y-2">
                         <Label htmlFor="country">
                             <Globe className="h-4 w-4 inline mr-2" />
-                            País *
+                            {t("common.country")} *
                         </Label>
                         <Select
                             value={formData.country}
@@ -367,28 +373,28 @@ export const StudentEnrollmentDialog = ({
                         <div className="space-y-2">
                             <Label htmlFor="password">
                                 <Lock className="h-4 w-4 inline mr-2" />
-                                Senha *
+                                {t("auth.password_label")} *
                             </Label>
                             <Input
                                 id="password"
                                 type="password"
                                 value={formData.password}
                                 onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
-                                placeholder="Mínimo 6 caracteres"
+                                placeholder={t("auth.password_min_length")}
                             />
                         </div>
 
                         <div className="space-y-2">
                             <Label htmlFor="confirmPassword">
                                 <Lock className="h-4 w-4 inline mr-2" />
-                                Confirmar Senha *
+                                {t("auth.confirm_password")} *
                             </Label>
                             <Input
                                 id="confirmPassword"
                                 type="password"
                                 value={formData.confirmPassword}
                                 onChange={(e) => setFormData(prev => ({ ...prev, confirmPassword: e.target.value }))}
-                                placeholder="Repita a senha"
+                                placeholder={t("auth.confirm_password")}
                             />
                         </div>
                     </div>
@@ -396,11 +402,11 @@ export const StudentEnrollmentDialog = ({
 
                 <DialogFooter>
                     <Button variant="outline" onClick={() => onOpenChange(false)}>
-                        Cancelar
+                        {t("common.cancel")}
                     </Button>
                     <Button onClick={handleSave} disabled={saving}>
                         {saving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-                        Matricular Aluno
+                        {t("dashboards.admin.students.new")}
                     </Button>
                 </DialogFooter>
             </DialogContent>

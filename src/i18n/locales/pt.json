@@ -232,7 +232,11 @@
         "bulk_enroll": "Matrícula em Massa",
         "view_history": "Ver Histórico",
         "no_found": "Nenhum curso encontrado",
-        "create_first": "Criar Primeiro Curso"
+        "create_first": "Criar Primeiro Curso",
+        "create_success": "Curso criado com sucesso!",
+        "create_error": "Erro ao criar curso",
+        "status_update_success": "Status do curso atualizado com sucesso",
+        "status_update_error": "Erro ao alterar status"
       },
       "students": {
         "new": "Novo Aluno",
@@ -292,6 +296,21 @@
         "delete_error": "Erro ao excluir",
         "save_success": "Salvo com sucesso!",
         "update_success": "Atualizado com sucesso!"
+      },
+      "approvals": {
+        "title": "Aprovações Pendentes",
+        "waiting": "aguardando aprovação",
+        "empty": "Nenhum cadastro pendente de aprovação",
+        "approve": "Aprovar",
+        "reject": "Rejeitar",
+        "view_details": "Ver Detalhes",
+        "approve_success": "Aluno aprovado com sucesso!",
+        "reject_success": "Cadastro rejeitado",
+        "details_title": "Detalhes do Cadastro",
+        "details_desc": "Revise as informações do aluno antes de aprovar",
+        "reject_title": "Rejeitar Cadastro",
+        "reject_reason_label": "Motivo da Rejeição",
+        "reject_confirm": "Rejeitar Cadastro"
       }
     }
   },
@@ -303,6 +322,7 @@
     "signup_title": "Criar Conta",
     "signup_desc": "Preencha seus dados para se cadastrar",
     "email_label": "Email",
+    "email_placeholder": "seu@email.com",
     "password_label": "Senha",
     "forgot_password": "Esqueceu a senha?",
     "enter_button": "Entrar",
@@ -310,8 +330,11 @@
     "register_button": "Cadastrar",
     "registering": "Cadastrando...",
     "fullname_label": "Nome Completo",
+    "fullname_placeholder": "Seu nome completo",
     "cpf_label": "CPF",
+    "cpf_placeholder": "000.000.000-00",
     "phone_label": "Telefone",
+    "phone_placeholder": "(00) 00000-0000",
     "education_label": "Nível de Escolaridade",
     "select_placeholder": "Selecione",
     "polo_label": "Polo",
@@ -319,10 +342,124 @@
     "selfie_label": "Selfie (obrigatório)",
     "capture_button": "Capturar",
     "take_selfie_button": "Tirar Selfie",
+    "take_another_photo": "Tirar outra foto",
+    "cancel_button": "Cancelar",
     "or_upload": "Ou envie uma foto",
     "terms_text": "Ao continuar, você concorda com nossos",
     "terms_link": "Termos de Uso",
     "and": "e",
-    "privacy_link": "Política de Privacidade"
+    "privacy_link": "Política de Privacidade",
+    "faculdade_internacional": "Faculdade Internacional",
+    "teologica_lideres": "Teológica de Líderes",
+    "feature_courses": "Cursos de alta qualidade",
+    "feature_certification": "Certificação reconhecida",
+    "feature_platform": "Plataforma moderna",
+    "welcome_title": "Bem-vindo à FAITEL",
+    "welcome_subtitle": "Escolha como deseja acessar a plataforma",
+    "student_portal": "Portal do Aluno",
+    "student_access": "Acesso para estudantes matriculados",
+    "admin_portal": "Portal Administrativo",
+    "admin_access": "Acesso para gestores e professores",
+    "admin_types": {
+      "admin": "Administrador",
+      "admin_desc": "Gestão de cursos e alunos",
+      "super_admin": "Super Admin",
+      "super_admin_desc": "Controle total do sistema"
+    },
+    "home": "Início",
+    "back": "Voltar",
+    "admin_select_level": "Selecione seu nível de acesso",
+    "profile_select_prompt": "Selecione seu perfil para continuar",
+    "login_admin_title": "Login Administrativo",
+    "login_admin_desc": "Acesso restrito para {role}",
+    "role_admin": "Administrador",
+    "role_super_admin": "Super Admin",
+    "cpf_invalid": "CPF inválido",
+    "photo_required": "Foto é obrigatória",
+    "polo_required": "Polo é obrigatório",
+    "no_photo": "Nenhuma foto capturada",
+    "signup_success": "Cadastro realizado com sucesso!",
+    "signup_error": "Erro ao realizar cadastro",
+    "camera_error": "Erro ao acessar câmera",
+    "photo_captured": "Foto capturada com sucesso",
+    "access_denied_super_admin": "Acesso negado: Apenas Super Admins",
+    "access_denied_admin": "Acesso negado: Apenas Administradores",
+    "login_success": "Login realizado com sucesso",
+    "login_error": "Erro ao realizar login",
+    "creating_account": "Criando conta...",
+    "create_account_button": "Criar Conta",
+    "password_min_length": "Mínimo de 6 caracteres",
+    "education_levels": {
+      "fundamental": "Ensino Fundamental",
+      "medio": "Ensino Médio",
+      "superior": "Ensino Superior",
+      "pos_graduacao": "Pós-Graduação"
+    }
+  },
+  "translation_team": {
+    "badge": "Equipe de Tradução",
+    "title": "Nossa Equipe Global",
+    "description": "Conheça as pessoas que tornam o conteúdo acessível em múltiplos idiomas.",
+    "elionay": {
+      "name": "Elionay de Souza Leitão",
+      "role": "Coordenação Geral"
+    }
+  },
+  "secc": {
+    "badge": "SECC",
+    "title": "Material Didático",
+    "subtitle": "Excelência em Educação Cristã",
+    "description": "Revistas e materiais de apoio para Escola Bíblica Dominical.",
+    "quarterly": "Trimestre",
+    "lessons": "Lições",
+    "details": "Ver Detalhes",
+    "visit_site": "Visitar Site Oficial",
+    "about": {
+      "p1": "Material completo baseado na"
+    },
+    "stats": {
+      "ages": "Faixas Etárias",
+      "lessons_qt": "Lições/Trimestre",
+      "lessons_year": "Lições/Ano",
+      "price_unit": "Preço Médio"
+    },
+    "themes": {
+      "romans": "Carta aos Romanos",
+      "youth_romans": "Romanos: O Evangelho da Graça"
+    },
+    "magazines": {
+      "adults": {
+        "title": "Adultos",
+        "subtitle": "Teologia Profunda",
+        "desc": "Estudo versículo por versículo para maturidade cristã."
+      },
+      "youth": {
+        "title": "Jovens",
+        "subtitle": "Desafios Atuais",
+        "desc": "Aplicação prática da teologia para a juventude."
+      },
+      "teens": {
+        "title": "Adolescentes",
+        "subtitle": "Fundamentos da Fé",
+        "desc": "Linguagem dinâmica para a nova geração."
+      },
+      "kids": {
+        "title": "Crianças",
+        "subtitle": "Aprendendo a Bíblia",
+        "desc": "Histórias e atividades lúdicas para os pequenos."
+      }
+    }
+  },
+  "whatsapp": {
+    "default_message": "Olá! Preciso de ajuda com a plataforma FAITEL."
+  },
+  "content": {
+    "file_too_large": "Arquivo muito grande. Máximo 100MB.",
+    "youtube_url_required": "URL do YouTube é obrigatória",
+    "external_url_required": "URL externa é obrigatória",
+    "text_content_required": "Conteúdo de texto é obrigatório",
+    "title_placeholder": "Ex: Introdução à Pneumatologia",
+    "text_content_placeholder": "Digite o conteúdo...",
+    "max_size": "Máximo 100MB"
   }
 }

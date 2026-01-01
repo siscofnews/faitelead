@@ -185,6 +185,11 @@
         "certificates": "Certificats",
         "certificates_desc": "Mes diplômes"
       },
+      "course_card": {
+        "default_desc": "Cours complet de théologie avec matériel pédagogique exclusif",
+        "progress": "Progrès",
+        "continue": "Continuer le cours"
+      },
       "gamification": {
         "achievements": "Réalisations",
         "see_all": "Voir tout",
@@ -288,6 +293,7 @@
     "signup_title": "Créer un compte",
     "signup_desc": "Remplissez vos données pour vous inscrire",
     "email_label": "Email",
+    "email_placeholder": "votre@email.com",
     "password_label": "Mot de passe",
     "forgot_password": "Mot de passe oublié ?",
     "enter_button": "Entrer",
@@ -295,8 +301,11 @@
     "register_button": "S'inscrire",
     "registering": "Inscription...",
     "fullname_label": "Nom complet",
+    "fullname_placeholder": "Votre nom complet",
     "cpf_label": "Numéro d'identification",
+    "cpf_placeholder": "000.000.000-00",
     "phone_label": "Téléphone",
+    "phone_placeholder": "(00) 00000-0000",
     "education_label": "Niveau d'éducation",
     "select_placeholder": "Sélectionner",
     "polo_label": "Centre",
@@ -304,11 +313,170 @@
     "selfie_label": "Selfie (obligatoire)",
     "capture_button": "Capturer",
     "take_selfie_button": "Prendre un selfie",
+    "take_another_photo": "Prendre une autre photo",
+    "cancel_button": "Annuler",
     "or_upload": "Ou téléchargez une photo",
     "terms_text": "En continuant, vous acceptez nos",
     "terms_link": "Conditions d'utilisation",
     "and": "et",
     "privacy_link": "Politique de confidentialité",
-    "session_expired": "Session expirée. Redirection vers la connexion..."
+    "faculdade_internacional": "Faculté Internationale",
+    "teologica_lideres": "Théologique des Leaders",
+    "feature_courses": "Cours de haute qualité",
+    "feature_certification": "Certification reconnue",
+    "feature_platform": "Plateforme moderne",
+    "welcome_title": "Bienvenue à FAITEL",
+    "welcome_subtitle": "Choisissez comment vous souhaitez accéder à la plateforme",
+    "student_portal": "Portail Étudiant",
+    "student_access": "Accès pour les étudiants inscrits",
+    "admin_portal": "Portail Administratif",
+    "admin_access": "Accès pour les gestionnaires et professeurs",
+    "admin_types": {
+      "admin": "Administrateur",
+      "admin_desc": "Gestion des cours et étudiants",
+      "super_admin": "Super Admin",
+      "super_admin_desc": "Contrôle total du système"
+    },
+    "home": "Accueil",
+    "back": "Retour",
+    "admin_select_level": "Sélectionnez votre niveau d'accès",
+    "profile_select_prompt": "Sélectionnez votre profil pour continuer",
+    "login_admin_title": "Connexion Administrative",
+    "login_admin_desc": "Accès restreint pour {role}",
+    "role_admin": "Administrateur",
+    "role_super_admin": "Super Admin",
+    "cpf_invalid": "Numéro d'identification invalide",
+    "photo_required": "La photo est obligatoire",
+    "polo_required": "Le centre est obligatoire",
+    "no_photo": "Aucune photo capturée",
+    "signup_success": "Inscription réussie !",
+    "signup_error": "Erreur lors de l'inscription",
+    "camera_error": "Erreur d'accès à la caméra",
+    "photo_captured": "Photo capturée avec succès",
+    "access_denied_super_admin": "Accès refusé : Super Admins uniquement",
+    "access_denied_admin": "Accès refusé : Administrateurs uniquement",
+    "login_success": "Connexion réussie",
+    "login_error": "Erreur lors de la connexion",
+    "creating_account": "Création du compte...",
+    "create_account_button": "Créer un compte",
+    "password_min_length": "Minimum 6 caractères",
+    "education_levels": {
+      "fundamental": "Enseignement Primaire",
+      "medio": "Enseignement Secondaire",
+      "superior": "Enseignement Supérieur",
+      "pos_graduacao": "Troisième Cycle"
+    },
+    "session_expired": "Session expirée. Redirection vers la connexion...",
+    "student_enrollment_title": "Inscrire Nouvel Étudiant",
+    "student_enrollment_desc": "Remplissez les données de l'étudiant pour créer l'inscription",
+    "photo_label": "Photo de l'Étudiant",
+    "photo_selected": "Photo sélectionnée",
+    "click_to_upload": "Cliquez pour télécharger",
+    "click_to_change": "Cliquez pour changer",
+    "success_enrollment": "Étudiant inscrit avec succès !",
+    "error_enrollment": "Erreur lors de l'inscription",
+    "confirm_password": "Confirmer le mot de passe",
+    "passwords_match_error": "Les mots de passe ne correspondent pas",
+    "age_error": "L'étudiant doit avoir au moins 16 ans",
+    "document_invalid": "Document invalide"
+  },
+  "content": {
+    "upload_title": "Ajouter du Contenu",
+    "upload_desc": "Télécharger des fichiers ou ajouter des liens externes",
+    "type_label": "Type de Contenu",
+    "title_label": "Titre",
+    "file_label": "Fichier",
+    "youtube_url_label": "URL YouTube",
+    "external_url_label": "URL Externe",
+    "text_content_label": "Contenu",
+    "duration_label": "Durée (minutes)",
+    "is_required": "Contenu obligatoire",
+    "is_downloadable": "Autoriser le téléchargement",
+    "upload_button": "Ajouter",
+    "uploading": "Envoi en cours...",
+    "success_upload": "Contenu ajouté avec succès !",
+    "error_upload": "Erreur lors de l'ajout",
+    "select_file_error": "Sélectionnez un fichier",
+    "title_required": "Le titre est obligatoire",
+    "types": {
+      "pdf": "PDF",
+      "word": "Word (DOC/DOCX)",
+      "powerpoint": "PowerPoint (PPT/PPTX)",
+      "video": "Vidéo (MP4)",
+      "youtube": "YouTube",
+      "text": "Texte",
+      "external_link": "Lien Externe"
+    },
+    "file_too_large": "Fichier trop volumineux. Max 100 Mo.",
+    "youtube_url_required": "L'URL YouTube est requise",
+    "external_url_required": "L'URL externe est requise",
+    "text_content_required": "Le contenu textuel est requis",
+    "title_placeholder": "Ex : Introduction à la Pneumatologie",
+    "text_content_placeholder": "Entrez le contenu...",
+    "max_size": "Max 100 Mo"
+  },
+  "languages": {
+    "pt": "Portugais",
+    "en": "Anglais",
+    "es": "Espagnol",
+    "fr": "Français",
+    "de": "Allemand"
+  },
+  "translation_team": {
+    "badge": "Équipe de Traduction",
+    "title": "Notre Équipe Mondiale",
+    "description": "Rencontrez les personnes qui rendent le contenu accessible en plusieurs langues.",
+    "elionay": {
+      "name": "Elionay de Souza Leitão",
+      "role": "Coordination Générale"
+    }
+  },
+  "secc": {
+    "badge": "SECC",
+    "title": "Matériel Didactique",
+    "subtitle": "Excellence en Éducation Chrétienne",
+    "description": "Magazines et matériel de soutien pour l'École du Dimanche.",
+    "quarterly": "Trimestre",
+    "lessons": "Leçons",
+    "details": "Voir Détails",
+    "visit_site": "Visiter le Site Officiel",
+    "about": {
+      "p1": "Matériel complet basé sur la"
+    },
+    "stats": {
+      "ages": "Groupes d'Âge",
+      "lessons_qt": "Leçons/Trimestre",
+      "lessons_year": "Leçons/An",
+      "price_unit": "Prix Moyen"
+    },
+    "themes": {
+      "romans": "Épître aux Romains",
+      "youth_romans": "Romains : L'Évangile de la Grâce"
+    },
+    "magazines": {
+      "adults": {
+        "title": "Adultes",
+        "subtitle": "Théologie Profonde",
+        "desc": "Étude verset par verset pour la maturité chrétienne."
+      },
+      "youth": {
+        "title": "Jeunes",
+        "subtitle": "Défis Actuels",
+        "desc": "Application pratique de la théologie pour la jeunesse."
+      },
+      "teens": {
+        "title": "Ados",
+        "subtitle": "Fondements de la Foi",
+        "desc": "Langage dynamique pour la nouvelle génération."
+      },
+      "kids": {
+        "title": "Enfants",
+        "subtitle": "Apprendre la Bible",
+        "desc": "Histoires et activités ludiques pour les petits."
+      }
+    }
+  },
+  "whatsapp": {
+    "default_message": "Bonjour ! J'ai besoin d'aide avec la plateforme FAITEL."
   }
 }

@@ -135,6 +135,13 @@
       "help_desc": "Unser Team ist bereit, Ihnen zu helfen",
       "contact_button": "Mit Support sprechen"
     },
+    "course_card": {
+      "active": "Aktiv",
+      "lessons": "Lektionen",
+      "progress": "Fortschritt",
+      "continue": "Kurs fortsetzen",
+      "default_desc": "Vollständiger Theologiekurs mit exklusivem Lehrmaterial"
+    },
     "gamification": {
       "achievements": "Erfolge",
       "see_all": "Alle ansehen",
@@ -156,13 +163,6 @@
         "recess": "Jahreswechsel-Pause",
         "recess_desc": "Die Plattform ist vom 24. Dez. bis 2. Jan. in der Pause"
       }
-    },
-    "course_card": {
-      "active": "Aktiv",
-      "lessons": "Lektionen",
-      "progress": "Fortschritt",
-      "continue": "Kurs fortsetzen",
-      "default_desc": "Vollständiger Theologiekurs mit exklusivem Lehrmaterial"
     }
   },
   "dashboards": {
@@ -218,6 +218,21 @@
         "reports": "Berichtsverwaltung",
         "financial": "Finanzverwaltung"
       },
+      "courses": {
+        "new": "Neuer Kurs",
+        "new_desc": "Füllen Sie die Kursinformationen aus",
+        "search": "Kurse suchen...",
+        "manage_content": "Inhalt verwalten",
+        "enroll_student": "Student einschreiben",
+        "bulk_enroll": "Masseneinschreibung",
+        "view_history": "Verlauf anzeigen",
+        "no_found": "Keine Kurse gefunden",
+        "create_first": "Ersten Kurs erstellen",
+        "create_success": "Kurs erfolgreich erstellt!",
+        "create_error": "Fehler beim Erstellen des Kurses",
+        "status_update_success": "Kursstatus erfolgreich aktualisiert",
+        "status_update_error": "Fehler beim Aktualisieren des Status"
+      },
       "courses_management": "Kursverwaltung",
       "new_course": "Neuer Kurs",
       "new_enrollment": "Neue Einschreibung",
@@ -235,22 +250,6 @@
         "activate": "Aktivieren"
       }
     },
-    "superadmin": {
-      "title": "Super Admin Dashboard",
-      "loading_stats": "Statistiken werden geladen...",
-      "total_polos": "Gesamtzahl der Polos",
-      "active_units": "Aktive Einheiten",
-      "total_users": "Gesamtzahl der Benutzer",
-      "active_users_desc": "Aktive Benutzer im System",
-      "total_courses": "Gesamtzahl der Kurse",
-      "available_courses": "Verfügbare Kurse",
-      "active_enrollments": "Aktive Einschreibungen",
-      "enrolled_students": "Eingeschriebene Studenten",
-      "system_status": "Systemstatus",
-      "total_nucleos": "Gesamtzahl der Kerne",
-      "nucleos_desc": "In den Polos verteilte Kerne"
-    }
-  },
     "superadmin": {
       "title": "Super Admin Dashboard",
       "loading_stats": "Statistiken werden geladen...",
@@ -478,8 +477,119 @@
     "cpf_placeholder": "000.000.000-00",
     "phone_placeholder": "(00) 00000-0000",
     "take_another_photo": "Anderes Foto machen",
-    "password_min_length": "Mindestens 6 Zeichen",
+    "password_min_length": "Passwort muss mindestens 6 Zeichen lang sein",
     "creating_account": "Konto wird erstellt...",
-    "create_account_button": "Konto erstellen"
+    "create_account_button": "Konto erstellen",
+    "student_enrollment_title": "Neuen Studenten einschreiben",
+    "student_enrollment_desc": "Füllen Sie die Studentendaten aus, um die Einschreibung zu erstellen",
+    "photo_label": "Studentenfoto",
+    "photo_selected": "Foto ausgewählt",
+    "click_to_upload": "Zum Hochladen klicken",
+    "click_to_change": "Zum Ändern klicken",
+    "success_enrollment": "Student erfolgreich eingeschrieben!",
+    "error_enrollment": "Fehler bei der Einschreibung",
+    "confirm_password": "Passwort bestätigen",
+    "passwords_match_error": "Passwörter stimmen nicht überein",
+    "age_error": "Student muss mindestens 16 Jahre alt sein",
+    "document_invalid": "Ungültiges Dokument"
+  },
+  "content": {
+    "upload_title": "Inhalt hinzufügen",
+    "upload_desc": "Dateien hochladen oder externe Links hinzufügen",
+    "type_label": "Inhaltstyp",
+    "title_label": "Titel",
+    "file_label": "Datei",
+    "youtube_url_label": "YouTube-URL",
+    "external_url_label": "Externe URL",
+    "text_content_label": "Inhalt",
+    "duration_label": "Dauer (Minuten)",
+    "is_required": "Erforderlicher Inhalt",
+    "is_downloadable": "Download erlauben",
+    "upload_button": "Hinzufügen",
+    "uploading": "Hochladen...",
+    "success_upload": "Inhalt erfolgreich hinzugefügt!",
+    "error_upload": "Fehler beim Hinzufügen",
+    "select_file_error": "Datei auswählen",
+    "title_required": "Titel ist erforderlich",
+    "types": {
+      "pdf": "PDF",
+      "word": "Word (DOC/DOCX)",
+      "powerpoint": "PowerPoint (PPT/PPTX)",
+      "video": "Video (MP4)",
+      "youtube": "YouTube",
+      "text": "Text",
+      "external_link": "Externer Link"
+    },
+    "file_too_large": "Datei zu groß. Max. 100 MB.",
+    "youtube_url_required": "YouTube-URL ist erforderlich",
+    "external_url_required": "Externe URL ist erforderlich",
+    "text_content_required": "Textinhalt ist erforderlich",
+    "title_placeholder": "Bsp: Einführung in die Pneumatologie",
+    "text_content_placeholder": "Inhalt eingeben...",
+    "max_size": "Max. 100 MB"
+  },
+  "languages": {
+    "pt": "Portugiesisch",
+    "en": "Englisch",
+    "es": "Spanisch",
+    "fr": "Französisch",
+    "de": "Deutsch"
+  },
+  "translation_team": {
+    "badge": "Übersetzungsteam",
+    "title": "Unser Globales Team",
+    "description": "Treffen Sie die Menschen, die Inhalte in mehreren Sprachen zugänglich machen.",
+    "elionay": {
+      "name": "Elionay de Souza Leitão",
+      "role": "Allgemeine Koordination"
+    }
+  },
+  "secc": {
+    "badge": "SECC",
+    "title": "Lehrmaterial",
+    "subtitle": "Exzellenz in christlicher Bildung",
+    "description": "Magazine und Unterstützungsmaterialien für die Sonntagsschule.",
+    "quarterly": "Quartal",
+    "lessons": "Lektionen",
+    "details": "Details ansehen",
+    "visit_site": "Offizielle Seite besuchen",
+    "about": {
+      "p1": "Vollständiges Material basierend auf"
+    },
+    "stats": {
+      "ages": "Altersgruppen",
+      "lessons_qt": "Lektionen/Quartal",
+      "lessons_year": "Lektionen/Jahr",
+      "price_unit": "Durchschn. Preis"
+    },
+    "themes": {
+      "romans": "Römerbrief",
+      "youth_romans": "Römer: Das Evangelium der Gnade"
+    },
+    "magazines": {
+      "adults": {
+        "title": "Erwachsene",
+        "subtitle": "Tiefe Theologie",
+        "desc": "Vers-für-Vers-Studium für christliche Reife."
+      },
+      "youth": {
+        "title": "Jugend",
+        "subtitle": "Aktuelle Herausforderungen",
+        "desc": "Praktische Anwendung der Theologie für die Jugend."
+      },
+      "teens": {
+        "title": "Teenager",
+        "subtitle": "Glaubensgrundlagen",
+        "desc": "Dynamische Sprache für die neue Generation."
+      },
+      "kids": {
+        "title": "Kinder",
+        "subtitle": "Die Bibel lernen",
+        "desc": "Geschichten und spielerische Aktivitäten für die Kleinen."
+      }
+    }
+  },
+  "whatsapp": {
+    "default_message": "Hallo! Ich brauche Hilfe mit der FAITEL-Plattform."
   }
 }

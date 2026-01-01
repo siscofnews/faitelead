@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import {
     CheckCircle2, XCircle, Eye, Mail
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -30,6 +31,7 @@ interface PendingStudent {
 }
 
 export const RegistrationApprovalQueue = () => {
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(true);
     const [students, setStudents] = useState<PendingStudent[]>([]);
     const [selectedStudent, setSelectedStudent] = useState<PendingStudent | null>(null);
@@ -55,7 +57,7 @@ export const RegistrationApprovalQueue = () => {
             setStudents(data || []);
         } catch (error) {
             console.error("Error loading students:", error);
-            toast.error("Erro ao carregar cadastros pendentes");
+            toast.error(t("common.unknown_error"));
         } finally {
             setLoading(false);
         }
@@ -95,13 +97,13 @@ export const RegistrationApprovalQueue = () => {
                 if (roleError) throw roleError;
             }
 
-            toast.success("Aluno aprovado com sucesso!");
+            toast.success(t("dashboards.admin.approvals.approve_success"));
             loadPendingStudents();
             setViewDialogOpen(false);
             setSelectedStudent(null);
         } catch (error) {
             console.error("Error approving student:", error);
-            toast.error("Erro ao aprovar aluno");
+            toast.error(t("common.unknown_error"));
         } finally {
             setProcessing(false);
         }
@@ -116,7 +118,7 @@ export const RegistrationApprovalQueue = () => {
             setProcessing(true);
 
             // Just keep the user inactive - we could also delete
-            toast.success("Cadastro rejeitado");
+            toast.success(t("dashboards.admin.approvals.reject_success"));
             loadPendingStudents();
             setRejectDialogOpen(false);
             setViewDialogOpen(false);
@@ -124,7 +126,7 @@ export const RegistrationApprovalQueue = () => {
             setRejectionReason("");
         } catch (error) {
             console.error("Error rejecting student:", error);
-            toast.error("Erro ao rejeitar cadastro");
+            toast.error(t("common.unknown_error"));
         } finally {
             setProcessing(false);
         }
@@ -141,9 +143,9 @@ export const RegistrationApprovalQueue = () => {
         const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
         const diffDays = Math.floor(diffHours / 24);
 
-        if (diffDays > 0) return `há ${diffDays} dia${diffDays > 1 ? 's' : ''}`;
-        if (diffHours > 0) return `há ${diffHours} hora${diffHours > 1 ? 's' : ''}`;
-        return 'há poucos minutos';
+        if (diffDays > 0) return t("common.time_ago.days", { count: diffDays, defaultValue: `há ${diffDays} dias` });
+        if (diffHours > 0) return t("common.time_ago.hours", { count: diffHours, defaultValue: `há ${diffHours} horas` });
+        return t("common.time_ago.minutes", { defaultValue: 'há poucos minutos' });
     };
 
     if (loading) {
@@ -158,9 +160,9 @@ export const RegistrationApprovalQueue = () => {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-2xl font-bold">Aprovações Pendentes</h2>
+                    <h2 className="text-2xl font-bold">{t("dashboards.admin.approvals.title")}</h2>
                     <p className="text-muted-foreground">
-                        {students.length} cadastro{students.length !== 1 ? 's' : ''} aguardando aprovação
+                        {students.length} {t("dashboards.admin.approvals.waiting", { count: students.length })}
                     </p>
                 </div>
             </div>
@@ -168,7 +170,7 @@ export const RegistrationApprovalQueue = () => {
             {students.length === 0 ? (
                 <Card>
                     <CardContent className="py-12 text-center text-muted-foreground">
-                        Nenhum cadastro pendente de aprovação
+                        {t("dashboards.admin.approvals.empty")}
                     </CardContent>
                 </Card>
             ) : (
@@ -197,7 +199,7 @@ export const RegistrationApprovalQueue = () => {
 
                                             <div className="flex flex-col items-end gap-2">
                                                 <Badge variant="secondary">
-                                                    Cadastrado {getTimeAgo(student.created_at)}
+                                                    {t("common.registered")} {getTimeAgo(student.created_at)}
                                                 </Badge>
                                             </div>
                                         </div>
@@ -212,7 +214,7 @@ export const RegistrationApprovalQueue = () => {
                                                 }}
                                             >
                                                 <Eye className="h-4 w-4 mr-2" />
-                                                Ver Detalhes
+                                                {t("dashboards.admin.approvals.view_details")}
                                             </Button>
                                             <Button
                                                 size="sm"
@@ -220,7 +222,7 @@ export const RegistrationApprovalQueue = () => {
                                                 disabled={processing}
                                             >
                                                 <CheckCircle2 className="h-4 w-4 mr-2" />
-                                                Aprovar
+                                                {t("dashboards.admin.approvals.approve")}
                                             </Button>
                                             <Button
                                                 variant="destructive"
@@ -232,7 +234,7 @@ export const RegistrationApprovalQueue = () => {
                                                 disabled={processing}
                                             >
                                                 <XCircle className="h-4 w-4 mr-2" />
-                                                Rejeitar
+                                                {t("dashboards.admin.approvals.reject")}
                                             </Button>
                                         </div>
                                     </div>
@@ -247,9 +249,9 @@ export const RegistrationApprovalQueue = () => {
             <Dialog open={viewDialogOpen} onOpenChange={setViewDialogOpen}>
                 <DialogContent className="max-w-2xl">
                     <DialogHeader>
-                        <DialogTitle>Detalhes do Cadastro</DialogTitle>
+                        <DialogTitle>{t("dashboards.admin.approvals.details_title")}</DialogTitle>
                         <DialogDescription>
-                            Revise as informações do aluno antes de aprovar
+                            {t("dashboards.admin.approvals.details_desc")}
                         </DialogDescription>
                     </DialogHeader>
 
@@ -269,15 +271,15 @@ export const RegistrationApprovalQueue = () => {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <Label className="text-muted-foreground">CPF</Label>
+                                    <Label className="text-muted-foreground">{t("auth.cpf_label")}</Label>
                                     <p className="font-medium">{selectedStudent.cpf}</p>
                                 </div>
                                 <div>
-                                    <Label className="text-muted-foreground">Telefone</Label>
+                                    <Label className="text-muted-foreground">{t("auth.phone_label")}</Label>
                                     <p className="font-medium">{selectedStudent.phone}</p>
                                 </div>
                                 <div>
-                                    <Label className="text-muted-foreground">Cadastrado em</Label>
+                                    <Label className="text-muted-foreground">{t("common.registered_at", { defaultValue: "Cadastrado em" })}</Label>
                                     <p className="font-medium">{formatDate(selectedStudent.created_at)}</p>
                                 </div>
                             </div>
@@ -286,7 +288,7 @@ export const RegistrationApprovalQueue = () => {
 
                     <DialogFooter>
                         <Button variant="outline" onClick={() => setViewDialogOpen(false)}>
-                            Fechar
+                            {t("common.close", { defaultValue: "Fechar" })}
                         </Button>
                         <Button
                             variant="destructive"
@@ -296,14 +298,14 @@ export const RegistrationApprovalQueue = () => {
                             }}
                         >
                             <XCircle className="h-4 w-4 mr-2" />
-                            Rejeitar
+                            {t("dashboards.admin.approvals.reject")}
                         </Button>
                         <Button
                             onClick={() => selectedStudent && approveStudent(selectedStudent.id)}
                             disabled={processing}
                         >
                             <CheckCircle2 className="h-4 w-4 mr-2" />
-                            Aprovar
+                            {t("dashboards.admin.approvals.approve")}
                         </Button>
                     </DialogFooter>
                 </DialogContent>
@@ -313,20 +315,20 @@ export const RegistrationApprovalQueue = () => {
             <Dialog open={rejectDialogOpen} onOpenChange={setRejectDialogOpen}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Rejeitar Cadastro</DialogTitle>
+                        <DialogTitle>{t("dashboards.admin.approvals.reject_title")}</DialogTitle>
                         <DialogDescription>
-                            Informe o motivo da rejeição (opcional).
+                            {t("dashboards.admin.approvals.reject_desc", { defaultValue: "Informe o motivo da rejeição (opcional)." })}
                         </DialogDescription>
                     </DialogHeader>
 
                     <div className="space-y-4">
                         <div>
-                            <Label htmlFor="rejection_reason">Motivo da Rejeição</Label>
+                            <Label htmlFor="rejection_reason">{t("dashboards.admin.approvals.reject_reason_label")}</Label>
                             <Textarea
                                 id="rejection_reason"
                                 value={rejectionReason}
                                 onChange={(e) => setRejectionReason(e.target.value)}
-                                placeholder="Ex: Documentação incompleta, etc."
+                                placeholder={t("dashboards.admin.approvals.reject_placeholder", { defaultValue: "Ex: Documentação incompleta, etc." })}
                                 rows={4}
                             />
                         </div>
@@ -334,14 +336,14 @@ export const RegistrationApprovalQueue = () => {
 
                     <DialogFooter>
                         <Button variant="outline" onClick={() => setRejectDialogOpen(false)}>
-                            Cancelar
+                            {t("common.cancel")}
                         </Button>
                         <Button
                             variant="destructive"
                             onClick={rejectStudent}
                             disabled={processing}
                         >
-                            Rejeitar Cadastro
+                            {t("dashboards.admin.approvals.reject_confirm")}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

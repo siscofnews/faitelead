@@ -568,7 +568,6 @@ const Home = () => {
       <ChancellorsSection />
       <InternationalBoardSection />
       <TranslationTeamSection />
-      <SECCSection />
       <DevotionalSection />
 
       {/* Certifications Section */}

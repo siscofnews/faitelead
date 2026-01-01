@@ -15,35 +15,35 @@ const WelcomeCard = ({ userName, coursesCount, modulesCompleted, studyHours }: W
   const firstName = userName.split(" ")[0];
   const currentHour = new Date().getHours();
 
-  let greeting = t("dashboard.welcome.good_morning", { defaultValue: "Bom dia" });
-  if (currentHour >= 12 && currentHour < 18) greeting = t("dashboard.welcome.good_afternoon", { defaultValue: "Boa tarde" });
-  else if (currentHour >= 18) greeting = t("dashboard.welcome.good_evening", { defaultValue: "Boa noite" });
+  let greeting = t("dashboards.student.welcome.good_morning", { defaultValue: "Bom dia" });
+  if (currentHour >= 12 && currentHour < 18) greeting = t("dashboards.student.welcome.good_afternoon", { defaultValue: "Boa tarde" });
+  else if (currentHour >= 18) greeting = t("dashboards.student.welcome.good_evening", { defaultValue: "Boa noite" });
 
   const stats = [
     {
       icon: BookOpen,
-      label: t("dashboard.welcome.courses_enrolled", { defaultValue: "Cursos Matriculados" }),
+      label: t("dashboards.student.welcome.courses_enrolled", { defaultValue: "Cursos Matriculados" }),
       value: coursesCount,
       color: "text-primary",
       bgColor: "bg-primary/10",
     },
     {
       icon: Award,
-      label: t("dashboard.welcome.modules_completed", { defaultValue: "Módulos Concluídos" }),
+      label: t("dashboards.student.welcome.modules_completed", { defaultValue: "Módulos Concluídos" }),
       value: modulesCompleted,
       color: "text-accent",
       bgColor: "bg-accent/10",
     },
     {
       icon: Clock,
-      label: t("dashboard.welcome.study_hours", { defaultValue: "Horas de Estudo" }),
+      label: t("dashboards.student.welcome.study_hours", { defaultValue: "Horas de Estudo" }),
       value: `${studyHours}h`,
       color: "text-success",
       bgColor: "bg-success/10",
     },
     {
       icon: TrendingUp,
-      label: t("dashboard.welcome.overall_progress", { defaultValue: "Progresso Geral" }),
+      label: t("dashboards.student.welcome.overall_progress", { defaultValue: "Progresso Geral" }),
       value: "75%",
       color: "text-primary",
       bgColor: "bg-primary/10",
@@ -61,7 +61,7 @@ const WelcomeCard = ({ userName, coursesCount, modulesCompleted, studyHours }: W
               {firstName}! 👋
             </h1>
             <p className="text-primary-foreground/90 text-sm md:text-base max-w-md">
-              {t("dashboard.welcome.continue_learning", { defaultValue: "Continue sua jornada de aprendizado na FAITEL. Você está indo muito bem!" })}
+              {t("dashboards.student.welcome.continue_learning", { defaultValue: "Continue sua jornada de aprendizado na FAITEL. Você está indo muito bem!" })}
             </p>
           </div>
           <div className="hidden md:block">

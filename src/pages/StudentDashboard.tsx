@@ -194,10 +194,10 @@ const StudentDashboard = () => {
                     title={course.title}
                     description={course.description}
                     thumbnailUrl={course.thumbnail_url}
-                    progress={Math.floor(Math.random() * 80)} // Simulação de progresso
+                    progress={0}
                     lessonsCount={24}
                     duration="12 meses"
-                    professor={course.professor || "Prof. Valmir Santos"} // Nome do professor
+                    professor={course.professor || "Prof. Valmir Santos"}
                   />
                 ))}
               </div>

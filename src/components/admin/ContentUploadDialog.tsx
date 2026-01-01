@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { api } from "@/lib/api";
 import { toast } from "sonner";
 import { Upload, FileText, Video, Youtube, Link as LinkIcon, X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -47,6 +48,7 @@ export const ContentUploadDialog = ({
     moduleId,
     onSuccess
 }: ContentUploadDialogProps) => {
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -68,7 +70,7 @@ export const ContentUploadDialog = ({
         // Validate file size (max 100MB)
         const maxSize = 100 * 1024 * 1024;
         if (file.size > maxSize) {
-            toast.error("Arquivo muito grande. Máximo 100MB.");
+            toast.error(t("content.file_too_large"));
             return;
         }
 
@@ -97,28 +99,28 @@ export const ContentUploadDialog = ({
 
     const handleSubmit = async () => {
         if (!formData.title.trim()) {
-            toast.error("Título é obrigatório");
+            toast.error(t("content.title_required"));
             return;
         }
 
         // Validate based on content type
         if (['pdf', 'word', 'powerpoint', 'video'].includes(formData.content_type) && !selectedFile) {
-            toast.error("Selecione um arquivo");
+            toast.error(t("content.select_file_error"));
             return;
         }
 
         if (formData.content_type === 'youtube' && !formData.youtube_url) {
-            toast.error("URL do YouTube é obrigatória");
+            toast.error(t("content.youtube_url_required"));
             return;
         }
 
         if (formData.content_type === 'external_link' && !formData.external_url) {
-            toast.error("URL externa é obrigatória");
+            toast.error(t("content.external_url_required"));
             return;
         }
 
         if (formData.content_type === 'text' && !formData.text_content.trim()) {
-            toast.error("Conteúdo de texto é obrigatório");
+            toast.error(t("content.text_content_required"));
             return;
         }
 
@@ -156,13 +158,13 @@ export const ContentUploadDialog = ({
             await api.createContent(payload)
 
             setUploadProgress(100);
-            toast.success("Conteúdo adicionado com sucesso!");
+            toast.success(t("content.success_upload"));
             onSuccess();
             onOpenChange(false);
             resetForm();
         } catch (error) {
             console.error("Error uploading content:", error);
-            toast.error("Erro ao adicionar conteúdo");
+            toast.error(t("content.error_upload"));
         } finally {
             setLoading(false);
             setUploadProgress(0);
@@ -204,16 +206,16 @@ export const ContentUploadDialog = ({
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="max-w-2xl">
                 <DialogHeader>
-                    <DialogTitle>Adicionar Conteúdo</DialogTitle>
+                    <DialogTitle>{t("content.upload_title")}</DialogTitle>
                     <DialogDescription>
-                        Faça upload de arquivos ou adicione links externos
+                        {t("content.upload_desc")}
                     </DialogDescription>
                 </DialogHeader>
 
                 <div className="space-y-4">
                     {/* Content Type */}
                     <div className="space-y-2">
-                        <Label>Tipo de Conteúdo *</Label>
+                        <Label>{t("content.type_label")} *</Label>
                         <Select
                             value={formData.content_type}
                             onValueChange={(value: ContentType) => setFormData({ ...formData, content_type: value })}
@@ -222,32 +224,32 @@ export const ContentUploadDialog = ({
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="pdf">PDF</SelectItem>
-                                <SelectItem value="word">Word (DOC/DOCX)</SelectItem>
-                                <SelectItem value="powerpoint">PowerPoint (PPT/PPTX)</SelectItem>
-                                <SelectItem value="video">Vídeo (MP4)</SelectItem>
-                                <SelectItem value="youtube">YouTube</SelectItem>
-                                <SelectItem value="text">Texto</SelectItem>
-                                <SelectItem value="external_link">Link Externo</SelectItem>
+                                <SelectItem value="pdf">{t("content.types.pdf")}</SelectItem>
+                                <SelectItem value="word">{t("content.types.word")}</SelectItem>
+                                <SelectItem value="powerpoint">{t("content.types.powerpoint")}</SelectItem>
+                                <SelectItem value="video">{t("content.types.video")}</SelectItem>
+                                <SelectItem value="youtube">{t("content.types.youtube")}</SelectItem>
+                                <SelectItem value="text">{t("content.types.text")}</SelectItem>
+                                <SelectItem value="external_link">{t("content.types.external_link")}</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
 
                     {/* Title */}
                     <div className="space-y-2">
-                        <Label htmlFor="title">Título *</Label>
+                        <Label htmlFor="title">{t("content.title_label")} *</Label>
                         <Input
                             id="title"
                             value={formData.title}
                             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                            placeholder="Ex: Introdução à Pneumatologia"
+                            placeholder={t("content.title_placeholder")}
                         />
                     </div>
 
                     {/* File Upload */}
                     {['pdf', 'word', 'powerpoint', 'video'].includes(formData.content_type) && (
                         <div className="space-y-2">
-                            <Label>Arquivo *</Label>
+                            <Label>{t("content.file_label")} *</Label>
                             <div className="border-2 border-dashed rounded-lg p-6 text-center">
                                 {selectedFile ? (
                                     <div className="space-y-2">
@@ -270,10 +272,10 @@ export const ContentUploadDialog = ({
                                     <>
                                         <Upload className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
                                         <Button variant="outline" onClick={() => document.getElementById('file-upload')?.click()}>
-                                            Selecionar Arquivo
+                                            {t("auth.select_placeholder")}
                                         </Button>
                                         <p className="text-sm text-muted-foreground mt-2">
-                                            Máximo 100MB
+                                            {t("content.max_size")}
                                         </p>
                                     </>
                                 )}
@@ -296,7 +298,7 @@ export const ContentUploadDialog = ({
                     {/* YouTube URL */}
                     {formData.content_type === 'youtube' && (
                         <div className="space-y-2">
-                            <Label htmlFor="youtube_url">URL do YouTube *</Label>
+                            <Label htmlFor="youtube_url">{t("content.youtube_url_label")} *</Label>
                             <Input
                                 id="youtube_url"
                                 value={formData.youtube_url}
@@ -309,7 +311,7 @@ export const ContentUploadDialog = ({
                     {/* External URL */}
                     {formData.content_type === 'external_link' && (
                         <div className="space-y-2">
-                            <Label htmlFor="external_url">URL Externa *</Label>
+                            <Label htmlFor="external_url">{t("content.external_url_label")} *</Label>
                             <Input
                                 id="external_url"
                                 value={formData.external_url}
@@ -322,12 +324,12 @@ export const ContentUploadDialog = ({
                     {/* Text Content */}
                     {formData.content_type === 'text' && (
                         <div className="space-y-2">
-                            <Label htmlFor="text_content">Conteúdo *</Label>
+                            <Label htmlFor="text_content">{t("content.text_content_label")} *</Label>
                             <Textarea
                                 id="text_content"
                                 value={formData.text_content}
                                 onChange={(e) => setFormData({ ...formData, text_content: e.target.value })}
-                                placeholder="Digite o conteúdo..."
+                                placeholder={t("content.text_content_placeholder")}
                                 rows={10}
                             />
                         </div>
@@ -336,7 +338,7 @@ export const ContentUploadDialog = ({
                     {/* Duration */}
                     {['video', 'youtube'].includes(formData.content_type) && (
                         <div className="space-y-2">
-                            <Label htmlFor="duration">Duração (minutos)</Label>
+                            <Label htmlFor="duration">{t("content.duration_label")}</Label>
                             <Input
                                 id="duration"
                                 type="number"
@@ -359,7 +361,7 @@ export const ContentUploadDialog = ({
                                 }
                             />
                             <label htmlFor="is_required" className="text-sm font-medium">
-                                Conteúdo obrigatório
+                                {t("content.is_required")}
                             </label>
                         </div>
 
@@ -373,7 +375,7 @@ export const ContentUploadDialog = ({
                                     }
                                 />
                                 <label htmlFor="is_downloadable" className="text-sm font-medium">
-                                    Permitir download
+                                    {t("content.is_downloadable")}
                                 </label>
                             </div>
                         )}
@@ -383,7 +385,7 @@ export const ContentUploadDialog = ({
                     {loading && uploadProgress > 0 && (
                         <div className="space-y-2">
                             <div className="flex justify-between text-sm">
-                                <span>Enviando...</span>
+                                <span>{t("content.uploading")}</span>
                                 <span>{Math.round(uploadProgress)}%</span>
                             </div>
                             <Progress value={uploadProgress} />
@@ -393,10 +395,10 @@ export const ContentUploadDialog = ({
 
                 <DialogFooter>
                     <Button variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
-                        Cancelar
+                        {t("common.cancel")}
                     </Button>
                     <Button onClick={handleSubmit} disabled={loading}>
-                        {loading ? "Enviando..." : "Adicionar"}
+                        {loading ? t("content.uploading") : t("content.upload_button")}
                     </Button>
                 </DialogFooter>
             </DialogContent>

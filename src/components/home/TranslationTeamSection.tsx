@@ -60,7 +60,7 @@ const TranslationTeamSection = () => {
                             <div className="relative h-64 w-full overflow-hidden">
                                 <img
                                     src="/images/team/translation_team.jpg"
-                                    alt="Translation Correction Team"
+                                    alt={t('translation_team.title')}
                                     className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
@@ -80,7 +80,7 @@ const TranslationTeamSection = () => {
                                     {/* Small indicator for the featured member in the list if needed */}
                                     <div className="flex items-center space-x-3 text-accent/90 bg-accent/10 backdrop-blur-sm p-3 rounded-lg border border-accent/20">
                                         <CheckCircle2 className="h-5 w-5 text-accent shrink-0" />
-                                        <span className="font-bold text-sm">Elionay de Souza Leitão</span>
+                                        <span className="font-bold text-sm">{t('translation_team.elionay.name')}</span>
                                     </div>
                                 </div>
                             </div>

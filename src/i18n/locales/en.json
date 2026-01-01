@@ -185,6 +185,11 @@
         "certificates": "Certificates",
         "certificates_desc": "My diplomas"
       },
+      "course_card": {
+        "default_desc": "Complete theology course with exclusive teaching material",
+        "progress": "Progress",
+        "continue": "Continue Course"
+      },
       "gamification": {
         "achievements": "Achievements",
         "see_all": "See all",
@@ -311,6 +316,7 @@
     "signup_title": "Create Account",
     "signup_desc": "Fill in your details to register",
     "email_label": "Email",
+    "email_placeholder": "your@email.com",
     "password_label": "Password",
     "forgot_password": "Forgot password?",
     "enter_button": "Enter",
@@ -318,8 +324,11 @@
     "register_button": "Register",
     "registering": "Registering...",
     "fullname_label": "Full Name",
+    "fullname_placeholder": "Your full name",
     "cpf_label": "ID Number",
+    "cpf_placeholder": "000.000.000-00",
     "phone_label": "Phone",
+    "phone_placeholder": "(00) 00000-0000",
     "education_label": "Education Level",
     "select_placeholder": "Select",
     "polo_label": "Center",
@@ -327,11 +336,170 @@
     "selfie_label": "Selfie (required)",
     "capture_button": "Capture",
     "take_selfie_button": "Take Selfie",
+    "take_another_photo": "Take another photo",
+    "cancel_button": "Cancel",
     "or_upload": "Or upload a photo",
     "terms_text": "By continuing, you agree to our",
     "terms_link": "Terms of Use",
     "and": "and",
     "privacy_link": "Privacy Policy",
-    "session_expired": "Session expired. Redirecting to login..."
+    "faculdade_internacional": "International Faculty",
+    "teologica_lideres": "Theological of Leaders",
+    "feature_courses": "High quality courses",
+    "feature_certification": "Recognized certification",
+    "feature_platform": "Modern platform",
+    "welcome_title": "Welcome to FAITEL",
+    "welcome_subtitle": "Choose how you want to access the platform",
+    "student_portal": "Student Portal",
+    "student_access": "Access for enrolled students",
+    "admin_portal": "Administrative Portal",
+    "admin_access": "Access for managers and professors",
+    "admin_types": {
+      "admin": "Administrator",
+      "admin_desc": "Course and student management",
+      "super_admin": "Super Admin",
+      "super_admin_desc": "Full system control"
+    },
+    "home": "Home",
+    "back": "Back",
+    "admin_select_level": "Select your access level",
+    "profile_select_prompt": "Select your profile to continue",
+    "login_admin_title": "Administrative Login",
+    "login_admin_desc": "Restricted access for {role}",
+    "role_admin": "Administrator",
+    "role_super_admin": "Super Admin",
+    "cpf_invalid": "Invalid ID number",
+    "photo_required": "Photo is required",
+    "polo_required": "Center is required",
+    "no_photo": "No photo captured",
+    "signup_success": "Registration successful!",
+    "signup_error": "Error during registration",
+    "camera_error": "Error accessing camera",
+    "photo_captured": "Photo captured successfully",
+    "access_denied_super_admin": "Access denied: Super Admins only",
+    "access_denied_admin": "Access denied: Administrators only",
+    "login_success": "Login successful",
+    "login_error": "Error during login",
+    "creating_account": "Creating account...",
+    "create_account_button": "Create Account",
+    "password_min_length": "Minimum 6 characters",
+    "education_levels": {
+      "fundamental": "Elementary School",
+      "medio": "High School",
+      "superior": "Higher Education",
+      "pos_graduacao": "Postgraduate"
+    },
+    "session_expired": "Session expired. Redirecting to login...",
+    "student_enrollment_title": "Enroll New Student",
+    "student_enrollment_desc": "Fill in student details to create enrollment",
+    "photo_label": "Student Photo",
+    "photo_selected": "Photo selected",
+    "click_to_upload": "Click to upload",
+    "click_to_change": "Click to change",
+    "success_enrollment": "Student enrolled successfully!",
+    "error_enrollment": "Error enrolling student",
+    "confirm_password": "Confirm Password",
+    "passwords_match_error": "Passwords do not match",
+    "age_error": "Student must be at least 16 years old",
+    "document_invalid": "Invalid document"
+  },
+  "content": {
+    "upload_title": "Add Content",
+    "upload_desc": "Upload files or add external links",
+    "type_label": "Content Type",
+    "title_label": "Title",
+    "file_label": "File",
+    "youtube_url_label": "YouTube URL",
+    "external_url_label": "External URL",
+    "text_content_label": "Content",
+    "duration_label": "Duration (minutes)",
+    "is_required": "Required content",
+    "is_downloadable": "Allow download",
+    "upload_button": "Add",
+    "uploading": "Uploading...",
+    "success_upload": "Content added successfully!",
+    "error_upload": "Error adding content",
+    "select_file_error": "Select a file",
+    "title_required": "Title is required",
+    "types": {
+      "pdf": "PDF",
+      "word": "Word (DOC/DOCX)",
+      "powerpoint": "PowerPoint (PPT/PPTX)",
+      "video": "Video (MP4)",
+      "youtube": "YouTube",
+      "text": "Text",
+      "external_link": "External Link"
+    },
+    "file_too_large": "File too large. Max 100MB.",
+    "youtube_url_required": "YouTube URL is required",
+    "external_url_required": "External URL is required",
+    "text_content_required": "Text content is required",
+    "title_placeholder": "Ex: Introduction to Pneumatology",
+    "text_content_placeholder": "Enter content...",
+    "max_size": "Max 100MB"
+  },
+  "languages": {
+    "pt": "Portuguese",
+    "en": "English",
+    "es": "Spanish",
+    "fr": "French",
+    "de": "German"
+  },
+  "translation_team": {
+    "badge": "Translation Team",
+    "title": "Our Global Team",
+    "description": "Meet the people who make content accessible in multiple languages.",
+    "elionay": {
+      "name": "Elionay de Souza Leitão",
+      "role": "General Coordination"
+    }
+  },
+  "secc": {
+    "badge": "SECC",
+    "title": "Didactic Material",
+    "subtitle": "Excellence in Christian Education",
+    "description": "Magazines and support materials for Sunday Bible School.",
+    "quarterly": "Quarter",
+    "lessons": "Lessons",
+    "details": "View Details",
+    "visit_site": "Visit Official Site",
+    "about": {
+      "p1": "Complete material based on"
+    },
+    "stats": {
+      "ages": "Age Groups",
+      "lessons_qt": "Lessons/Quarter",
+      "lessons_year": "Lessons/Year",
+      "price_unit": "Avg Price"
+    },
+    "themes": {
+      "romans": "Epistle to the Romans",
+      "youth_romans": "Romans: The Gospel of Grace"
+    },
+    "magazines": {
+      "adults": {
+        "title": "Adults",
+        "subtitle": "Deep Theology",
+        "desc": "Verse-by-verse study for Christian maturity."
+      },
+      "youth": {
+        "title": "Youth",
+        "subtitle": "Current Challenges",
+        "desc": "Practical application of theology for youth."
+      },
+      "teens": {
+        "title": "Teens",
+        "subtitle": "Faith Foundations",
+        "desc": "Dynamic language for the new generation."
+      },
+      "kids": {
+        "title": "Kids",
+        "subtitle": "Learning the Bible",
+        "desc": "Stories and playful activities for little ones."
+      }
+    }
+  },
+  "whatsapp": {
+    "default_message": "Hello! I need help with the FAITEL platform."
   }
 }

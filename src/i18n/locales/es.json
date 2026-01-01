@@ -55,7 +55,12 @@
       "academic_community": "Comunidad Académica",
       "forum_title": "Foro de Discusión",
       "forum_desc": "Participe en discusiones con profesores y otros estudiantes. Aclare dudas, comparta conocimiento e interactúe con el grupo.",
-      "access_forum": "Acceder al Foro"
+      "access_forum": "Acceder al Foro",
+      "course_card": {
+        "default_desc": "Curso completo de teología con material didáctico exclusivo",
+        "progress": "Progreso",
+        "continue": "Continuar Curso"
+      }
     },
     "professor": {
       "title": "Portal del Profesor",
@@ -110,6 +115,20 @@
       "generate_report": "Generar informe",
       "new_transaction": "Nueva transacción",
       "courses": {
+        "new": "Nuevo curso",
+        "new_desc": "Rellene la información del curso",
+        "search": "Buscar cursos...",
+        "manage_content": "Gestionar contenido",
+        "enroll_student": "Matricular estudiante",
+        "bulk_enroll": "Matrícula masiva",
+        "view_history": "Ver historial",
+        "no_found": "No se encontraron cursos",
+        "create_first": "Crear primer curso",
+        "create_success": "¡Curso creado con éxito!",
+        "create_error": "Error al crear el curso",
+        "status_update_success": "Estado del curso actualizado con éxito",
+        "status_update_error": "Error al actualizar el estado"
+      }
     },
     "superadmin": {
       "title": "Panel de Súper Administración",
@@ -136,21 +155,6 @@
         "deactivate": "Desactivar",
         "activate": "Activar"
       }
-    },
-    "superadmin": {
-      "title": "Panel de Super Admin",
-      "loading_stats": "Cargando estadísticas...",
-      "total_polos": "Total de Polos",
-      "active_units": "Unidades activas",
-      "total_users": "Total de Usuarios",
-      "active_users_desc": "Usuarios activos en el sistema",
-      "total_courses": "Total de Cursos",
-      "available_courses": "Cursos disponibles",
-      "active_enrollments": "Matrículas Activas",
-      "enrolled_students": "Estudiantes matriculados",
-      "system_status": "Estado del Sistema",
-      "total_nucleos": "Núcleos Totales",
-      "nucleos_desc": "Núcleos distribuidos en los polos"
     }
   },
   "auth": {
@@ -229,9 +233,63 @@
     "cpf_placeholder": "000.000.000-00",
     "phone_placeholder": "(00) 00000-0000",
     "take_another_photo": "Tomar otra",
-    "password_min_length": "Mínimo 6 caracteres",
     "creating_account": "Creando cuenta...",
-    "create_account_button": "Crear Cuenta"
+    "create_account_button": "Crear Cuenta",
+    "student_enrollment_title": "Matricular Nuevo Estudiante",
+    "student_enrollment_desc": "Rellene los datos del estudiante para crear la matrícula",
+    "photo_label": "Foto del Estudiante",
+    "photo_selected": "Foto seleccionada",
+    "click_to_upload": "Clic para subir",
+    "click_to_change": "Clic para cambiar",
+    "success_enrollment": "¡Estudiante matriculado con éxito!",
+    "error_enrollment": "Error al matricular estudiante",
+    "confirm_password": "Confirmar Contraseña",
+    "passwords_match_error": "Las contraseñas no coinciden",
+    "password_min_length": "La contraseña debe tener al menos 6 caracteres",
+    "age_error": "El estudiante debe tener al menos 16 años",
+    "document_invalid": "Documento inválido"
+  },
+  "content": {
+    "upload_title": "Añadir Contenido",
+    "upload_desc": "Subir archivos o añadir enlaces externos",
+    "type_label": "Tipo de Contenido",
+    "title_label": "Título",
+    "file_label": "Archivo",
+    "youtube_url_label": "URL de YouTube",
+    "external_url_label": "URL Externa",
+    "text_content_label": "Contenido",
+    "duration_label": "Duración (minutos)",
+    "is_required": "Contenido obligatorio",
+    "is_downloadable": "Permitir descarga",
+    "upload_button": "Añadir",
+    "uploading": "Subiendo...",
+    "success_upload": "¡Contenido añadido con éxito!",
+    "error_upload": "Error al añadir contenido",
+    "select_file_error": "Seleccione un archivo",
+    "title_required": "El título es obligatorio",
+    "types": {
+      "pdf": "PDF",
+      "word": "Word (DOC/DOCX)",
+      "powerpoint": "PowerPoint (PPT/PPTX)",
+      "video": "Vídeo (MP4)",
+      "youtube": "YouTube",
+      "text": "Texto",
+      "external_link": "Enlace Externo"
+    },
+    "file_too_large": "Archivo demasiado grande. Máximo 100MB.",
+    "youtube_url_required": "URL de YouTube es obligatoria",
+    "external_url_required": "URL externa es obligatoria",
+    "text_content_required": "Contenido de texto es obligatorio",
+    "title_placeholder": "Ej: Introducción a la Neumatología",
+    "text_content_placeholder": "Ingrese el contenido...",
+    "max_size": "Máximo 100MB"
+  },
+  "languages": {
+    "pt": "Portugués",
+    "en": "Inglés",
+    "es": "Español",
+    "fr": "Francés",
+    "de": "Alemán"
   },
   "course": {
     "content": "Contenido del Curso",
@@ -248,5 +306,62 @@
     "congratulations": "¡Felicitaciones!",
     "lesson_completed": "¡Clase marcada como completada!",
     "module_locked_msg": "Completa todas las clases y aprueba el examen del módulo anterior para desbloquear."
+  },
+  "translation_team": {
+    "badge": "Equipo de Traducción",
+    "title": "Nuestro Equipo Global",
+    "description": "Conozca a las personas que hacen que el contenido sea accesible en múltiples idiomas.",
+    "elionay": {
+      "name": "Elionay de Souza Leitão",
+      "role": "Coordinación General"
+    }
+  },
+  "secc": {
+    "badge": "SECC",
+    "title": "Material Didáctico",
+    "subtitle": "Excelencia en Educación Cristiana",
+    "description": "Revistas y materiales de apoyo para la Escuela Bíblica Dominical.",
+    "quarterly": "Trimestre",
+    "lessons": "Lecciones",
+    "details": "Ver Detalles",
+    "visit_site": "Visitar Sitio Oficial",
+    "about": {
+      "p1": "Material completo basado en la"
+    },
+    "stats": {
+      "ages": "Grupos de Edad",
+      "lessons_qt": "Lecciones/Trimestre",
+      "lessons_year": "Lecciones/Año",
+      "price_unit": "Precio Promedio"
+    },
+    "themes": {
+      "romans": "Epístola a los Romanos",
+      "youth_romans": "Romanos: El Evangelio de la Gracia"
+    },
+    "magazines": {
+      "adults": {
+        "title": "Adultos",
+        "subtitle": "Teología Profunda",
+        "desc": "Estudio versículo por versículo para la madurez cristiana."
+      },
+      "youth": {
+        "title": "Jóvenes",
+        "subtitle": "Desafíos Actuales",
+        "desc": "Aplicación práctica de la teología para la juventud."
+      },
+      "teens": {
+        "title": "Adolescentes",
+        "subtitle": "Fundamentos de la Fe",
+        "desc": "Lenguaje dinámico para la nueva generación."
+      },
+      "kids": {
+        "title": "Niños",
+        "subtitle": "Aprendiendo la Biblia",
+        "desc": "Historias y actividades lúdicas para los pequeños."
+      }
+    }
+  },
+  "whatsapp": {
+    "default_message": "¡Hola! Necesito ayuda con la plataforma FAITEL."
   }
 }

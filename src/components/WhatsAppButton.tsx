@@ -8,10 +8,11 @@ interface WhatsAppButtonProps {
 
 const WhatsAppButton = ({
   phoneNumber = "5575991018395",
-  message = "Olá! Preciso de ajuda com a plataforma FAITEL."
+  message
 }: WhatsAppButtonProps) => {
   const { t } = useI18n();
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  const displayMessage = message || t("whatsapp.default_message");
+  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(displayMessage)}`;
 
   return (
     <a
