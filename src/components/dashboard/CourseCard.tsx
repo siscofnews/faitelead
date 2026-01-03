@@ -24,7 +24,7 @@ const CourseCard = ({
   thumbnailUrl,
   progress = 0,
   lessonsCount = 0,
-  duration = "12 meses",
+  duration,
   professor = "FAITEL",
 }: CourseCardProps) => {
   const { t } = useI18n();
@@ -90,7 +90,7 @@ const CourseCard = ({
           </span>
           <span className="flex items-center gap-1">
             <Clock className="h-3.5 w-3.5" />
-            {duration}
+            {duration || t('common.default_duration', { defaultValue: '12 meses' })}
           </span>
         </div>
 

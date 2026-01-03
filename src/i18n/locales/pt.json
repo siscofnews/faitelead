@@ -108,7 +108,12 @@
     "delete": "Excluir",
     "view": "Visualizar",
     "search_placeholder": "Pesquisar...",
-    "no_results": "Nenhum resultado encontrado"
+    "no_results": "Nenhum resultado encontrado",
+    "hours_ago": "Há {{count}} horas",
+    "yesterday": "Ontem",
+    "days_ago": "Há {{count}} dias",
+    "week_ago": "Há 1 semana",
+    "default_duration": "12 meses"
   },
   "roles": {
     "student": "Aluno",

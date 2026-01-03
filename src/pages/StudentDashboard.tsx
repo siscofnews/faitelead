@@ -196,7 +196,6 @@ const StudentDashboard = () => {
                     thumbnailUrl={course.thumbnail_url}
                     progress={0}
                     lessonsCount={24}
-                    duration="12 meses"
                     professor={course.professor || "Prof. Valmir Santos"}
                   />
                 ))}

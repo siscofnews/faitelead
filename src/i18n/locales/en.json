@@ -108,7 +108,12 @@
     "delete": "Delete",
     "view": "View",
     "search_placeholder": "Search...",
-    "no_results": "No results found"
+    "no_results": "No results found",
+    "hours_ago": "{{count}} hours ago",
+    "yesterday": "Yesterday",
+    "days_ago": "{{count}} days ago",
+    "week_ago": "1 week ago",
+    "default_duration": "12 months"
   },
   "roles": {
     "student": "Student",
