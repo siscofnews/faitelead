@@ -36,7 +36,7 @@ import LessonNotes from "@/components/ead/LessonNotes";
 import LessonResources from "@/components/ead/LessonResources";
 import ModuleExamCard from "@/components/ead/ModuleExamCard";
 
-import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 interface Module {
   id: string;
@@ -831,7 +831,7 @@ const CourseViewer = () => {
                     const isVideoType = mat.material_type === 'video';
                     const isVideoUrl = mat.youtube_url || (mat.file_url && (mat.file_url.includes('youtube') || mat.file_url.includes('youtu.be') || mat.file_url.match(/\.(mp4|webm|ogg|mov)$/i)));
                     const isVideo = isVideoType || isVideoUrl;
-                    
+
                     const videoUrl = mat.youtube_url || mat.file_url;
                     const isActive = isVideo && activeVideoUrl === videoUrl;
 

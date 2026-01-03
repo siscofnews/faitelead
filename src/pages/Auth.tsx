@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { Eye, EyeOff, Mail, Lock, ArrowRight, User, Phone, GraduationCap, Shield, Crown, Users, ArrowLeft, Camera, Building2, Upload } from "lucide-react";
 import faitelLogo from "@/assets/faitel-logo.png";
 import { useTranslation } from "react-i18next";
-import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 type EducationLevel = "fundamental" | "medio" | "superior" | "pos_graduacao";
 type UserType = "student" | "admin" | "super_admin" | null;

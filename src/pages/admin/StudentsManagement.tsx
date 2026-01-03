@@ -880,7 +880,7 @@ const StudentsManagement = () => {
                       </Select>
                     </div>
                     <div>
-                      <Label>Número</Label>
+                      <Label>Número *</Label>
                       <Input
                         value={formData.cpf}
                         onChange={(e) => setFormData({ ...formData, cpf: e.target.value })}
