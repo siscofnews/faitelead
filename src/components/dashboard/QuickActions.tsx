@@ -9,43 +9,43 @@ const QuickActions = () => {
   const actions = [
     {
       icon: Play,
-      title: t("dashboard.quick_actions.continue_lesson", { defaultValue: "Continuar Aula" }),
-      description: t("dashboard.quick_actions.continue_desc", { defaultValue: "Retome de onde parou" }),
+      title: t("dashboards.student.quick_actions.continue_lesson", { defaultValue: "Continuar Aula" }),
+      description: t("dashboards.student.quick_actions.continue_desc", { defaultValue: "Retome de onde parou" }),
       color: "bg-primary",
       href: "/student/lessons",
     },
     {
       icon: FileText,
-      title: t("dashboard.quick_actions.history", { defaultValue: "Histórico" }),
-      description: t("dashboard.quick_actions.history_desc", { defaultValue: "Boletim acadêmico" }),
+      title: t("dashboards.student.quick_actions.history", { defaultValue: "Histórico" }),
+      description: t("dashboards.student.quick_actions.history_desc", { defaultValue: "Boletim acadêmico" }),
       color: "bg-accent",
       href: "/student/historico",
     },
     {
       icon: CreditCard,
-      title: t("dashboard.quick_actions.financial", { defaultValue: "Financeiro" }),
-      description: t("dashboard.quick_actions.financial_desc", { defaultValue: "Pagamentos" }),
+      title: t("dashboards.student.quick_actions.financial", { defaultValue: "Financeiro" }),
+      description: t("dashboards.student.quick_actions.financial_desc", { defaultValue: "Pagamentos" }),
       color: "bg-success",
       href: "/student/financeiro",
     },
     {
       icon: Award,
-      title: t("dashboard.quick_actions.certificates", { defaultValue: "Certificados" }),
-      description: t("dashboard.quick_actions.certificates_desc", { defaultValue: "Meus diplomas" }),
+      title: t("dashboards.student.quick_actions.certificates", { defaultValue: "Certificados" }),
+      description: t("dashboards.student.quick_actions.certificates_desc", { defaultValue: "Meus diplomas" }),
       color: "bg-primary",
       href: "/student/certificados",
     },
     {
       icon: MessageCircle,
-      title: t("dashboard.quick_actions.support", { defaultValue: "Suporte" }),
-      description: t("dashboard.quick_actions.support_desc", { defaultValue: "Falar conosco" }),
+      title: t("dashboards.student.quick_actions.support", { defaultValue: "Suporte" }),
+      description: t("dashboards.student.quick_actions.support_desc", { defaultValue: "Falar conosco" }),
       color: "bg-accent",
       href: "/student/support",
     },
     {
       icon: BookOpen,
-      title: t("dashboard.quick_actions.courses", { defaultValue: "Cursos" }),
-      description: t("dashboard.quick_actions.courses_desc", { defaultValue: "Ver catálogo" }),
+      title: t("dashboards.student.quick_actions.courses", { defaultValue: "Cursos" }),
+      description: t("dashboards.student.quick_actions.courses_desc", { defaultValue: "Ver catálogo" }),
       color: "bg-success",
       href: "/student/courses",
     },
@@ -53,7 +53,7 @@ const QuickActions = () => {
 
   return (
     <section className="space-y-4">
-      <h2 className="text-xl font-display font-bold text-foreground">{t("dashboard.quick_actions.title", { defaultValue: "Acesso Rápido" })}</h2>
+      <h2 className="text-xl font-display font-bold text-foreground">{t("dashboards.student.quick_actions.title", { defaultValue: "Acesso Rápido" })}</h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-4">
         {actions.map((action, index) => (

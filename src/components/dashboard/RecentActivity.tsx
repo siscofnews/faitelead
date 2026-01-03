@@ -9,7 +9,7 @@ const RecentActivity = () => {
   const activities = [
     {
       icon: Play,
-      title: t("dashboard.recent_activity.lesson_watched", { defaultValue: "Aula assistida" }),
+      title: t("dashboards.student.recent_activity.lesson_watched", { defaultValue: "Aula assistida" }),
       description: "Introdução à Hermenêutica",
       time: "Há 2 horas",
       color: "text-primary",
@@ -17,7 +17,7 @@ const RecentActivity = () => {
     },
     {
       icon: CheckCircle,
-      title: t("dashboard.recent_activity.module_completed", { defaultValue: "Módulo concluído" }),
+      title: t("dashboards.student.recent_activity.module_completed", { defaultValue: "Módulo concluído" }),
       description: "Teologia Sistemática I",
       time: "Ontem",
       color: "text-success",
@@ -25,7 +25,7 @@ const RecentActivity = () => {
     },
     {
       icon: FileText,
-      title: t("dashboard.recent_activity.exam_completed", { defaultValue: "Prova realizada" }),
+      title: t("dashboards.student.recent_activity.exam_completed", { defaultValue: "Prova realizada" }),
       description: "Nota: 9.5",
       time: "Há 3 dias",
       color: "text-accent",
@@ -33,7 +33,7 @@ const RecentActivity = () => {
     },
     {
       icon: Award,
-      title: t("dashboard.recent_activity.certificate_available", { defaultValue: "Certificado disponível" }),
+      title: t("dashboards.student.recent_activity.certificate_available", { defaultValue: "Certificado disponível" }),
       description: "Módulo de Ética Cristã",
       time: "Há 1 semana",
       color: "text-primary",
@@ -44,7 +44,7 @@ const RecentActivity = () => {
   return (
     <Card className="border-border/50">
       <CardHeader className="pb-3">
-        <CardTitle className="text-lg font-display">{t("dashboard.recent_activity.title", { defaultValue: "Atividade Recente" })}</CardTitle>
+        <CardTitle className="text-lg font-display">{t("dashboards.student.recent_activity.title", { defaultValue: "Atividade Recente" })}</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         <ScrollArea className="h-[280px]">

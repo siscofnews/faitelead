@@ -22,7 +22,7 @@ interface Badge {
 
 interface StudentBadge {
   id: string;
-  badges: Badge;
+  badges: Badge | Badge[] | any; // Relaxing type to handle Supabase join result which can vary
   earned_at: string;
 }
 
@@ -92,7 +92,7 @@ export default function GamificationCard() {
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg flex items-center gap-2">
             <Trophy className="h-5 w-5 text-primary" />
-            {t("dashboard.gamification.achievements", { defaultValue: "Conquistas" })}
+            {t("dashboards.student.gamification.achievements", { defaultValue: "Conquistas" })}
           </CardTitle>
           <Button
             variant="ghost"
@@ -100,7 +100,7 @@ export default function GamificationCard() {
             onClick={() => navigate('/student/conquistas')}
             className="text-xs gap-1"
           >
-            {t("dashboard.gamification.see_all", { defaultValue: "Ver todas" })} <ChevronRight className="h-3 w-3" />
+            {t("dashboards.student.gamification.see_all", { defaultValue: "Ver todas" })} <ChevronRight className="h-3 w-3" />
           </Button>
         </div>
       </CardHeader>
@@ -112,7 +112,7 @@ export default function GamificationCard() {
           </div>
           <div className="flex-1">
             <div className="flex items-baseline justify-between mb-1">
-              <span className="font-semibold text-foreground">{t("dashboard.gamification.level", { defaultValue: "Nível" })} {currentStats.current_level}</span>
+              <span className="font-semibold text-foreground">{t("dashboards.student.gamification.level", { defaultValue: "Nível" })} {currentStats.current_level}</span>
               <span className="text-sm text-muted-foreground">{currentStats.total_points} XP</span>
             </div>
             <Progress value={getLevelProgress()} className="h-2" />
@@ -125,14 +125,14 @@ export default function GamificationCard() {
             <Flame className="h-5 w-5 text-orange-500" />
             <div>
               <p className="text-lg font-bold text-foreground">{currentStats.current_streak}</p>
-              <p className="text-xs text-muted-foreground">{t("dashboard.gamification.streak", { defaultValue: "Dias seguidos" })}</p>
+              <p className="text-xs text-muted-foreground">{t("dashboards.student.gamification.streak", { defaultValue: "Dias seguidos" })}</p>
             </div>
           </div>
           <div className="flex items-center gap-2 bg-muted/50 rounded-lg p-2">
             <Star className="h-5 w-5 text-yellow-500" />
             <div>
               <p className="text-lg font-bold text-foreground">{recentBadges.length}</p>
-              <p className="text-xs text-muted-foreground">{t("dashboard.gamification.badges", { defaultValue: "Badges" })}</p>
+              <p className="text-xs text-muted-foreground">{t("dashboards.student.gamification.badges", { defaultValue: "Badges" })}</p>
             </div>
           </div>
         </div>
@@ -140,7 +140,7 @@ export default function GamificationCard() {
         {/* Recent Badges */}
         {recentBadges.length > 0 && (
           <div>
-            <p className="text-xs text-muted-foreground mb-2">{t("dashboard.gamification.recent_achievements", { defaultValue: "Últimas conquistas" })}</p>
+            <p className="text-xs text-muted-foreground mb-2">{t("dashboards.student.gamification.recent_achievements", { defaultValue: "Últimas conquistas" })}</p>
             <div className="flex gap-2">
               {recentBadges.map((badge) => (
                 <div
@@ -164,7 +164,7 @@ export default function GamificationCard() {
           onClick={() => navigate('/student/ranking')}
         >
           <Users className="h-4 w-4" />
-          {t("dashboard.gamification.view_ranking", { defaultValue: "Ver Ranking" })}
+          {t("dashboards.student.gamification.view_ranking", { defaultValue: "Ver Ranking" })}
         </Button>
       </CardContent>
     </Card>

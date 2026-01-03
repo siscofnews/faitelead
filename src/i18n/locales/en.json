@@ -198,6 +198,25 @@
         "badges": "Badges",
         "recent_achievements": "Recent achievements",
         "view_ranking": "View Ranking"
+      },
+      "recent_activity": {
+        "title": "Recent Activity",
+        "lesson_watched": "Lesson Watched",
+        "module_completed": "Module Completed",
+        "exam_completed": "Exam Completed",
+        "certificate_available": "Certificate Available"
+      },
+      "announcements": {
+        "title": "Announcements",
+        "new": "New",
+        "items": {
+          "new_module": "New Module Available",
+          "new_module_desc": "The Eschatology module is now available for access",
+          "exams_week": "Exams Week",
+          "exams_week_desc": "2nd semester exams start on December 15th",
+          "recess": "End of Year Recess",
+          "recess_desc": "The platform will be on recess from 12/24 to 01/02"
+        }
       }
     },
     "admin": {

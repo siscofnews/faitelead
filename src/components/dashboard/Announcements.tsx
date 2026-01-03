@@ -8,22 +8,22 @@ const Announcements = () => {
 
   const announcements = [
     {
-      title: t("dashboard.announcements.items.new_module", { defaultValue: "Novo módulo disponível" }),
-      description: t("dashboard.announcements.items.new_module_desc", { defaultValue: "O módulo de Escatologia já está liberado para acesso" }),
+      title: t("dashboards.student.announcements.items.new_module", { defaultValue: "Novo módulo disponível" }),
+      description: t("dashboards.student.announcements.items.new_module_desc", { defaultValue: "O módulo de Escatologia já está liberado para acesso" }),
       date: "28 Nov",
       isNew: true,
       type: "info",
     },
     {
-      title: t("dashboard.announcements.items.exams_week", { defaultValue: "Semana de Provas" }),
-      description: t("dashboard.announcements.items.exams_week_desc", { defaultValue: "As provas do 2º semestre começam dia 15 de dezembro" }),
+      title: t("dashboards.student.announcements.items.exams_week", { defaultValue: "Semana de Provas" }),
+      description: t("dashboards.student.announcements.items.exams_week_desc", { defaultValue: "As provas do 2º semestre começam dia 15 de dezembro" }),
       date: "25 Nov",
       isNew: true,
       type: "warning",
     },
     {
-      title: t("dashboard.announcements.items.recess", { defaultValue: "Recesso de Fim de Ano" }),
-      description: t("dashboard.announcements.items.recess_desc", { defaultValue: "A plataforma estará em recesso de 24/12 a 02/01" }),
+      title: t("dashboards.student.announcements.items.recess", { defaultValue: "Recesso de Fim de Ano" }),
+      description: t("dashboards.student.announcements.items.recess_desc", { defaultValue: "A plataforma estará em recesso de 24/12 a 02/01" }),
       date: "20 Nov",
       isNew: false,
       type: "info",
@@ -36,7 +36,7 @@ const Announcements = () => {
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-display flex items-center gap-2">
             <Megaphone className="h-5 w-5 text-accent" />
-            {t("dashboard.announcements.title", { defaultValue: "Avisos" })}
+            {t("dashboards.student.announcements.title", { defaultValue: "Avisos" })}
           </CardTitle>
           <button className="text-xs text-primary hover:underline flex items-center gap-1">
             {t("common.view_all", { defaultValue: "Ver todos" })} <ChevronRight className="h-3 w-3" />
@@ -55,7 +55,7 @@ const Announcements = () => {
               </h4>
               {announcement.isNew && (
                 <Badge variant="secondary" className="bg-accent/10 text-accent text-xs shrink-0">
-                  {t("dashboard.announcements.new", { defaultValue: "Novo" })}
+                  {t("dashboards.student.announcements.new", { defaultValue: "Novo" })}
                 </Badge>
               )}
             </div>

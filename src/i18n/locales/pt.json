@@ -193,6 +193,25 @@
         "badges": "Medalhas",
         "recent_achievements": "Últimas conquistas",
         "view_ranking": "Ver Ranking"
+      },
+      "recent_activity": {
+        "title": "Atividade Recente",
+        "lesson_watched": "Aula assistida",
+        "module_completed": "Módulo concluído",
+        "exam_completed": "Prova realizada",
+        "certificate_available": "Certificado disponível"
+      },
+      "announcements": {
+        "title": "Avisos",
+        "new": "Novo",
+        "items": {
+          "new_module": "Novo módulo disponível",
+          "new_module_desc": "O módulo de Escatologia já está liberado para acesso",
+          "exams_week": "Semana de Provas",
+          "exams_week_desc": "As provas do 2º semestre começam dia 15 de dezembro",
+          "recess": "Recesso de Fim de Ano",
+          "recess_desc": "A plataforma estará em recesso de 24/12 a 02/01"
+        }
       }
     },
     "admin": {
