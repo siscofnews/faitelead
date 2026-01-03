@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight, BookOpenCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 import book1 from "@/assets/books/book-1.png";
 import book2 from "@/assets/books/book-2.png";
@@ -31,6 +32,7 @@ interface BookGalleryProps {
 }
 
 const BookGallery = ({ className = "" }: BookGalleryProps) => {
+  const { t } = useI18n();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -62,11 +64,11 @@ const BookGallery = ({ className = "" }: BookGalleryProps) => {
             <BookOpenCheck className="h-5 w-5 text-accent-foreground" />
           </div>
           <div>
-            <h2 className="text-xl font-display font-bold text-foreground">Biblioteca Digital</h2>
-            <p className="text-sm text-muted-foreground">Material didático exclusivo FAITEL</p>
+            <h2 className="text-xl font-display font-bold text-foreground">{t("dashboards.student.library.title", { defaultValue: "Biblioteca Digital" })}</h2>
+            <p className="text-sm text-muted-foreground">{t("dashboards.student.library.subtitle", { defaultValue: "Material didático exclusivo FAITEL" })}</p>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <Button
             variant="outline"

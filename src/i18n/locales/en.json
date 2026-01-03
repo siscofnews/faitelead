@@ -183,7 +183,22 @@
         "courses": "Courses",
         "courses_desc": "View catalog",
         "certificates": "Certificates",
-        "certificates_desc": "My diplomas"
+        "certificates_desc": "My diplomas",
+        "calendar": "Calendar"
+      },
+      "menu": {
+        "start": "Home",
+        "my_progress": "My Progress",
+        "gallery": "Digital Library"
+      },
+      "library": {
+        "title": "Digital Library",
+        "subtitle": "Exclusive FAITEL teaching material"
+      },
+      "support_box": {
+        "help_title": "Need help?",
+        "help_desc": "Our team is ready to assist you",
+        "contact_button": "Contact Support"
       },
       "course_card": {
         "default_desc": "Complete theology course with exclusive teaching material",

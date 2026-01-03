@@ -183,7 +183,22 @@
         "courses": "Cursos",
         "courses_desc": "Ver catálogo",
         "certificates": "Certificados",
-        "certificates_desc": "Meus diplomas"
+        "certificates_desc": "Meus diplomas",
+        "calendar": "Calendário"
+      },
+      "menu": {
+        "start": "Início",
+        "my_progress": "Meu Progresso",
+        "gallery": "Galeria"
+      },
+      "library": {
+        "title": "Biblioteca Digital",
+        "subtitle": "Material didático exclusivo FAITEL"
+      },
+      "support_box": {
+        "help_title": "Precisa de ajuda?",
+        "help_desc": "Nossa equipe está pronta para te auxiliar",
+        "contact_button": "Falar com Suporte"
       },
       "gamification": {
         "achievements": "Conquistas",

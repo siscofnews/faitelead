@@ -40,22 +40,22 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
       href: "/",
     },
     {
-      title: t("dashboards.student.start", { defaultValue: "Início" }),
+      title: t("dashboards.student.menu.start", { defaultValue: "Início" }),
       icon: LayoutDashboard,
       href: "/student",
     },
     {
-      title: t("dashboards.student.my_progress", { defaultValue: "Meu Progresso" }),
+      title: t("dashboards.student.menu.my_progress", { defaultValue: "Meu Progresso" }),
       icon: TrendingUp,
       href: "/student/progresso",
     },
     {
-      title: t("dashboard.gamification.achievements", { defaultValue: "Conquistas" }),
+      title: t("dashboards.student.gamification.achievements", { defaultValue: "Conquistas" }),
       icon: Trophy,
       href: "/student/conquistas",
     },
     {
-      title: t("dashboard.gamification.view_ranking", { defaultValue: "Ranking" }),
+      title: t("dashboards.student.gamification.view_ranking", { defaultValue: "Ranking" }),
       icon: Award,
       href: "/student/ranking",
     },
@@ -75,32 +75,32 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
       href: "/student/exams",
     },
     {
-      title: t("dashboard.quick_actions.history", { defaultValue: "Histórico" }),
+      title: t("dashboards.student.quick_actions.history", { defaultValue: "Histórico" }),
       icon: ScrollText,
       href: "/student/historico",
     },
     {
-      title: t("dashboard.quick_actions.certificates", { defaultValue: "Certificados" }),
+      title: t("dashboards.student.quick_actions.certificates", { defaultValue: "Certificados" }),
       icon: Award,
       href: "/student/certificados",
     },
     {
-      title: t("dashboard.quick_actions.financial", { defaultValue: "Financeiro" }),
+      title: t("dashboards.student.quick_actions.financial", { defaultValue: "Financeiro" }),
       icon: CreditCard,
       href: "/student/financeiro",
     },
     {
-      title: t("dashboard.quick_actions.calendar", { defaultValue: "Calendário" }),
+      title: t("dashboards.student.quick_actions.calendar", { defaultValue: "Calendário" }),
       icon: Calendar,
       href: "/student/calendar",
     },
     {
-      title: t("dashboard.quick_actions.support", { defaultValue: "Suporte" }),
+      title: t("dashboards.student.quick_actions.support", { defaultValue: "Suporte" }),
       icon: HelpCircle,
       href: "/student/support",
     },
     {
-      title: t("common.gallery", { defaultValue: "Galeria" }),
+      title: t("dashboards.student.menu.gallery", { defaultValue: "Galeria" }),
       icon: Library,
       href: "/galeria",
     },
@@ -174,16 +174,16 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
           {/* Bottom Section */}
           {!collapsed && (
             <div className="mt-8 mx-3 p-4 rounded-xl bg-gradient-hero text-primary-foreground">
-              <h4 className="font-display font-semibold mb-1">{t("dashboard.support.help_title", { defaultValue: "Precisa de ajuda?" })}</h4>
+              <h4 className="font-display font-semibold mb-1">{t("dashboards.student.support_box.help_title", { defaultValue: "Precisa de ajuda?" })}</h4>
               <p className="text-xs opacity-90 mb-3">
-                {t("dashboard.support.help_desc", { defaultValue: "Nossa equipe está pronta para te auxiliar" })}
+                {t("dashboards.student.support_box.help_desc", { defaultValue: "Nossa equipe está pronta para te auxiliar" })}
               </p>
               <Button
                 size="sm"
                 variant="secondary"
                 className="w-full text-xs font-medium"
               >
-                {t("dashboard.support.contact_button", { defaultValue: "Falar com Suporte" })}
+                {t("dashboards.student.support_box.contact_button", { defaultValue: "Falar com Suporte" })}
               </Button>
             </div>
           )}
