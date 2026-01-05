@@ -2,11 +2,12 @@ import { Play, FileText, CreditCard, Award, MessageCircle, BookOpen } from "luci
 import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { useI18n } from "@/i18n/I18nProvider";
+import { useMemo } from "react";
 
 const QuickActions = () => {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
 
-  const actions = [
+  const actions = useMemo(() => [
     {
       icon: Play,
       title: t("dashboards.student.quick_actions.continue_lesson", { defaultValue: "Continuar Aula" }),
@@ -49,7 +50,7 @@ const QuickActions = () => {
       color: "bg-success",
       href: "/student/courses",
     },
-  ];
+  ], [lang, t]);
 
   return (
     <section className="space-y-4">

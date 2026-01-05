@@ -2,11 +2,12 @@ import { Play, CheckCircle, FileText, Award } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useI18n } from "@/i18n/I18nProvider";
+import { useMemo } from "react";
 
 const RecentActivity = () => {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
 
-  const activities = [
+  const activities = useMemo(() => [
     {
       icon: Play,
       title: t("dashboards.student.recent_activity.lesson_watched", { defaultValue: "Aula assistida" }),
@@ -39,7 +40,7 @@ const RecentActivity = () => {
       color: "text-primary",
       bgColor: "bg-primary/10",
     },
-  ];
+  ], [lang, t]);
 
   return (
     <Card className="border-border/50">

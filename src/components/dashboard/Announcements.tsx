@@ -2,11 +2,12 @@ import { Megaphone, ChevronRight, Calendar } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useI18n } from "@/i18n/I18nProvider";
+import { useMemo } from "react";
 
 const Announcements = () => {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
 
-  const announcements = [
+  const announcements = useMemo(() => [
     {
       title: t("dashboards.student.announcements.items.new_module", { defaultValue: "Novo módulo disponível" }),
       description: t("dashboards.student.announcements.items.new_module_desc", { defaultValue: "O módulo de Escatologia já está liberado para acesso" }),
@@ -28,7 +29,7 @@ const Announcements = () => {
       isNew: false,
       type: "info",
     },
-  ];
+  ], [lang, t]);
 
   return (
     <Card className="border-border/50">
