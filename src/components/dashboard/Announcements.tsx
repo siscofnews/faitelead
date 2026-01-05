@@ -32,7 +32,7 @@ const Announcements = () => {
   ], [lang, t]);
 
   return (
-    <Card className="border-border/50">
+    <Card key={`announcements-${lang}`} className="border-border/50">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-display flex items-center gap-2">

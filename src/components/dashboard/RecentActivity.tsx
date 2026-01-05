@@ -43,7 +43,7 @@ const RecentActivity = () => {
   ], [lang, t]);
 
   return (
-    <Card className="border-border/50">
+    <Card key={`recent-activity-${lang}`} className="border-border/50">
       <CardHeader className="pb-3">
         <CardTitle className="text-lg font-display">{t("dashboards.student.recent_activity.title", { defaultValue: "Atividade Recente" })}</CardTitle>
       </CardHeader>

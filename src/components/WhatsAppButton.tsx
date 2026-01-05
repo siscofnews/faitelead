@@ -10,12 +10,13 @@ const WhatsAppButton = ({
   phoneNumber = "5575991018395",
   message
 }: WhatsAppButtonProps) => {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const displayMessage = message || t("whatsapp.default_message");
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(displayMessage)}`;
 
   return (
     <a
+      key={`whatsapp-${lang}`}
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"

@@ -53,7 +53,7 @@ const QuickActions = () => {
   ], [lang, t]);
 
   return (
-    <section className="space-y-4">
+    <section key={`quick-actions-${lang}`} className="space-y-4">
       <h2 className="text-xl font-display font-bold text-foreground">{t("dashboards.student.quick_actions.title", { defaultValue: "Acesso Rápido" })}</h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-4">
