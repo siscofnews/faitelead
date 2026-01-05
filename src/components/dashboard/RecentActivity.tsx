@@ -11,7 +11,7 @@ const RecentActivity = () => {
     {
       icon: Play,
       title: t("dashboards.student.recent_activity.lesson_watched", { defaultValue: "Aula assistida" }),
-      description: "Introdução à Hermenêutica",
+      description: t("dashboards.student.recent_activity.items.hermeneutics", { defaultValue: "Introdução à Hermenêutica" }),
       time: t("common.hours_ago", { count: 2, defaultValue: "Há 2 horas" }),
       color: "text-primary",
       bgColor: "bg-primary/10",
@@ -19,7 +19,7 @@ const RecentActivity = () => {
     {
       icon: CheckCircle,
       title: t("dashboards.student.recent_activity.module_completed", { defaultValue: "Módulo concluído" }),
-      description: "Teologia Sistemática I",
+      description: t("dashboards.student.recent_activity.items.systematic_theology", { defaultValue: "Teologia Sistemática I" }),
       time: t("common.yesterday", { defaultValue: "Ontem" }),
       color: "text-success",
       bgColor: "bg-success/10",
@@ -27,7 +27,7 @@ const RecentActivity = () => {
     {
       icon: FileText,
       title: t("dashboards.student.recent_activity.exam_completed", { defaultValue: "Prova realizada" }),
-      description: "Nota: 9.5",
+      description: t("dashboards.student.recent_activity.items.grade", { value: "9.5", defaultValue: "Nota: 9.5" }),
       time: t("common.days_ago", { count: 3, defaultValue: "Há 3 dias" }),
       color: "text-accent",
       bgColor: "bg-accent/10",
@@ -35,7 +35,7 @@ const RecentActivity = () => {
     {
       icon: Award,
       title: t("dashboards.student.recent_activity.certificate_available", { defaultValue: "Certificado disponível" }),
-      description: "Módulo de Ética Cristã",
+      description: t("dashboards.student.recent_activity.items.ethics", { defaultValue: "Módulo de Ética Cristã" }),
       time: t("common.week_ago", { defaultValue: "Há 1 semana" }),
       color: "text-primary",
       bgColor: "bg-primary/10",

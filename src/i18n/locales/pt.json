@@ -219,7 +219,13 @@
         "lesson_watched": "Aula assistida",
         "module_completed": "Módulo concluído",
         "exam_completed": "Prova realizada",
-        "certificate_available": "Certificado disponível"
+        "certificate_available": "Certificado disponível",
+        "items": {
+          "hermeneutics": "Introdução à Hermenêutica",
+          "systematic_theology": "Teologia Sistemática I",
+          "grade": "Nota: {{value}}",
+          "ethics": "Módulo de Ética Cristã"
+        }
       },
       "announcements": {
         "title": "Avisos",

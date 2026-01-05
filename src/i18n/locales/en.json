@@ -224,7 +224,13 @@
         "lesson_watched": "Lesson Watched",
         "module_completed": "Module Completed",
         "exam_completed": "Exam Completed",
-        "certificate_available": "Certificate Available"
+        "certificate_available": "Certificate Available",
+        "items": {
+          "hermeneutics": "Introduction to Hermeneutics",
+          "systematic_theology": "Systematic Theology I",
+          "grade": "Grade: {{value}}",
+          "ethics": "Christian Ethics Module"
+        }
       },
       "announcements": {
         "title": "Announcements",
