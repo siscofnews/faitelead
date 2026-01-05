@@ -72,4 +72,5 @@ const RecentActivity = () => {
   );
 };
 
+// Force HMR update
 export default RecentActivity;
