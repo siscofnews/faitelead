@@ -251,6 +251,9 @@ const StudentDashboard = () => {
           <Announcements />
         </div>
       </div>
+      <div className="fixed bottom-20 left-4 bg-red-600 text-white p-2 rounded-lg z-50 shadow-lg font-bold border-2 border-white">
+        DEBUG LANG: {lang.toUpperCase()}
+      </div>
     </div>
   );
 };
