@@ -25,7 +25,7 @@ interface Course {
 }
 
 const StudentDashboard = () => {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   type ProfileMin = { full_name?: string } | null;
@@ -121,7 +121,7 @@ const StudentDashboard = () => {
     <div className="space-y-8 animate-fade-in">
       {/* Hero Section - Estilo EAD Guru / Netflix */}
       {enrolledCourses.length > 0 && (
-        <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
+        <div key={`hero-${lang}`} className="relative rounded-2xl overflow-hidden shadow-2xl group">
           <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent z-10" />
           <img
             src={enrolledCourses[0].thumbnail_url || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=400&fit=crop"}
